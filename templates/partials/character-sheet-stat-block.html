@@ -1,0 +1,50 @@
+<section>
+    <div>
+        <ul class="grid col3">
+            {{#each data.charattribut as |attrobj attrname|}}
+            
+                <li class="attrfeld">
+                    <span class="attrname">{{attrname}}</span>
+                    <span class="attrvalue">
+                        <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}" type="number">
+                        W10
+                    </span>
+                    
+                
+                <ul class="fertfeld">
+                    {{#each this.skill as |fertval fertname|}}
+                    <li>
+                        <span>{{fertname}}</span>
+                        <input class="value_box" name="data.charattribut.{{attrname}}.skill.{{fertname}}" value="{{this}}" type="number">
+                    </li>
+                    {{/each}}
+                </ul>
+                {{#if this.ress.exists}}
+                <ul class="fertfeld">
+                    <li>
+                        <span>{{this.ress.ressname}}</span>
+                        <span class="complexvalue"><input class="value_box" name="data.charattribut.{{attrname}}.ress.value" value="{{this.ress.value}}" type="number"> {{#if this.ress.max}}/ {{this.ress.max}} {{/if}}</span>
+                    </li>
+                </ul>
+                {{/if}}
+                <div>
+                    <span>{{attrname}}-Talente</span>
+                    <section class="talent-box">
+                        {{#each ../Talent as |Talent|}}
+                        
+                        <li class="actor-item" data-item-id="{{id}}">
+                            <p>Talent: {{Talent.name}} / {{data.attribut}}</p>
+                        </li>
+                        
+                        
+                        {{/each}}
+                    </section>
+                </div>
+                </li>
+                
+                  
+            {{/each}}
+            </ul>
+    </div>
+    
+</section>

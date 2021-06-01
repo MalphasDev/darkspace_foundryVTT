@@ -1,0 +1,47 @@
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-gap: 0 1em;
+}
+
+.col2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+.col3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+.col4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+.col5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+.col6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.description_box {
+    background: rgba(255,255,255,0.5);
+}
+.value_box {
+    max-width: 5ch;
+}
+
+.attrfeld {
+    border: 1px solid;
+    margin: 5px 0;
+    padding: 5px;
+}
+.attrfeld input {
+    text-align: center;
+    justify-self: right;
+}
+.fertfeld li {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}

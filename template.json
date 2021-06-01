@@ -1,0 +1,224 @@
+{
+    "Actor": {
+        "types": [
+            "Charakter",
+            "Nebencharakter",
+            "Drohne/Fahrzeug"
+        ],
+        "templates": {
+            "commonStats": {
+                "Reaktionszeit": 0,
+                "Panzerung": {
+                    "Struktur": 0,
+                    "Schutz": 0
+                }
+            }
+        },
+        "Charakter": {
+            "player": "",
+            "description": "",
+            "xp": 0,
+            "xp_social": 0,
+            "xp_ress": 0,
+
+            "feat_origin": "",
+            "feat_genetics": "",
+            "feat_training": "",
+            "feat_merits": "",
+            "feat_flaws": "",
+
+            "bruises": {
+                "value": 0,
+                "max": 0
+            },
+            "wounds": {
+                "value": 0,
+                "max": 0
+            },
+
+
+
+            "charattribut": {
+                "Aufmerksamkeit": {
+                    "attribut": 1,
+                    "skill": {
+                        "Fahrzeuge": 0,
+                        "Menschenkenntnis": 0,
+                        "Schätzen": 0,
+                        "Wahrnehmen": 0
+                    }
+                },
+                "Ausstrahlung": {
+                    "attribut": 1,
+                    "skill": {
+                        "Charisma": 0,
+                        "Einschüchtern": 0,
+                        "Überzeugen": 0
+                    }
+                },
+                "Geschick": {
+                    "attribut": 0,
+                    "skill": {
+                        "Heimlichkeit": 0,
+                        "Motorik": 0,
+                        "Kampftechnik": 0,
+                        "Schusswaffen": 0
+                    }
+                    
+                },
+                "Konstitution": {
+                    "attribut": 0,
+                    "skill": {
+                        "Athletik": 0,
+                        "Fitness": 0,
+                        "Nahkampfwaffen": 0,
+                        "Unterstützungswaffen": 0
+                    }
+                },
+                "Intelligenz": {
+                    "attribut": 0,
+                    "skill": {
+                        "Bildung": 0,
+                        "Logik": 0,
+                        "Medizin": 0,
+                        "Raumfahrt": 0
+                    }
+                },
+                "Intuition": {
+                    "attribut": 0,
+                    "skill": {
+                        "Cortex": 0,
+                        "Kreativität": 0,
+                        "Sprache": 0,
+                        "Polytronik": 0
+                    }
+                },
+                "Anomalie": {
+                    "attribut": 0,
+                    "skill": {
+                        "Glück": 0
+                    },
+                    "ress": {
+                        "exists": true,
+                        "ressname": "Anomaliepunkte",
+                        "value": 0,
+                        "min": 0,
+                        "max": 10
+                    }
+                },
+                "Konzentration": {
+                    "attribut": 0,
+                    "skill": {
+                        "Willenskraft": 0
+                    },
+                    "ress": {
+                        "exists": true,
+                        "ressname": "Traumapunkte",
+                        "value": 0,
+                        "min": 0,
+                        "max": 10
+                    }
+                },
+                "Netzwerk": {
+                    "attribut": 5,
+                    "skill": {
+                        "Kontakte": 0
+                    },
+                    "ress": {
+                        "exists": true,
+                        "ressname": "Bekanntheit",
+                        "value": 0,
+                        "min": 0,
+                        "max": 10
+                    }
+                },
+                "Ressourcen": {
+                    "attribut": 0,
+                    "skill": {
+                        "Finanzen": 0
+                    },
+                    "ress": {
+                        "exists": true,
+                        "ressname": "Ersparnisse",
+                        "value": 0,
+                        "min": 0
+                    }
+                },
+                "Kybernese": {
+                    "attribut": 0
+                }
+            }
+        },
+        "Nebencharaktere": {
+            "Bedrohungsstufe": 0,
+            "Modulklasse": 0,
+            "nscattribut": {
+                "Fernkampf": {
+                    "dice":0,
+                    "fert":0
+                },
+                "Nahkampf": {
+                    "dice":0,
+                    "fert":0
+                },
+                "Körperlich": {
+                    "dice":0,
+                    "fert":0
+                },
+                "Geistig": {
+                    "dice":0,
+                    "fert":0
+                }
+            },
+            "Eigenschaften": [],
+            "templates": ["commonStats"]
+        }
+    },
+    "Item": {
+        "types": [
+            "Waffe",
+            "Artifizierung",
+            "Panzerung",
+            "Gegenstand",
+            "Modul",
+            "Talent"
+        ],
+        "templates": {
+            "itemBase": {
+                "mk": 1,
+                "size:": 1,
+                "modules": "Test Modules",
+                "description": "Test Desc"
+            },
+            "weapons": {
+                "damage":"1V"
+            }
+        },
+        "Waffe": {
+            "attackWith": "Schusswaffen",
+            "range":"0-10/20/100",
+            "templates": ["itemBase","weapons"]
+        },
+        "Artifizierung": {
+            "bodyPart": "Körperteil",
+            "templates": ["itemBase"]
+        },
+        "Panzerung": {
+            "bodyPart": "Körperteil",
+            "templates": ["itemBase"]
+        },
+        "Gegenstand": {
+            "templates": ["itemBase","weapons"]
+        },
+        "Modul":{
+            "description": "Test Desc Module"
+        },
+        "Talent":{
+            "attribut": "",
+            "skill": "",
+            "requirement": "1",
+            "description": ""
+        }
+        
+    }
+}

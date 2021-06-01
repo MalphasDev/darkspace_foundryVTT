@@ -1,0 +1,39 @@
+<section>
+    <div class="grid col2">
+        <div>
+            <div>
+                <p>Spieler</p>
+                <input name="data.player" value="{{data.player}}" type="text">
+            </div>
+            <div class="grid col3">
+                <div>
+                    <p>Allgemeine Erfahrung</p>
+                </div>
+                <div>
+                    <p>Soziele Erfahrung</p>
+                </div>
+                <div>
+                    <p>Ressourcen Erfahrung</p>
+                </div>
+                <div>
+                    <input name="data.xp" value="{{data.xp}}" type="number">
+                </div>
+                <div>
+                    <input name="data.xp_social" value="{{data.xp_social}}" type="number">
+                </div>
+                <div>
+                    <input name="data.xp_ress" value="{{data.xp_ress}}" type="number">
+                </div>
+            </div>
+        </div>
+        <div class="commonInfo textbox">
+            <h2>Beschreibung:</h2>
+            <textarea class="description_box" name="data.description" type="text">{{data.description}}</textarea>
+            <!--
+            <div class="description_box" data-edit="data.description" contenteditable>
+                {{data.description}}
+            </div>
+            -->
+        </div>
+    </div>
+</section>
