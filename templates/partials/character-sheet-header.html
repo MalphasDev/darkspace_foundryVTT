@@ -28,12 +28,25 @@
         </div>
         <div class="commonInfo textbox">
             <h2>Beschreibung:</h2>
-            <textarea class="description_box" name="data.description" type="text">{{data.description}}</textarea>
+            {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
             <!--
             <div class="description_box" data-edit="data.description" contenteditable>
                 {{data.description}}
             </div>
             -->
+        </div>
+    </div>
+    <div class="grid col4">
+        <div>
+            <h3>Betäubungen</h3>
+            <input type="range" min="0" max={{data.data.bruises.max}} value="0" class="slider" id="bruises_slider">
+            <span id="bruises_value">0</span>
+            <span id="bruises_effect"></span>
+            <span> / {{data.data.bruises.value}} / </span>
+            <span>{{data.data.bruises.max}}</span>
+        </div>
+        <div>
+            <h3>Verletzungen</h3>
         </div>
     </div>
 </section>

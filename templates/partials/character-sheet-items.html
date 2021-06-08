@@ -1,0 +1,76 @@
+
+<section class="grid col2-21">
+    
+    <div>
+        <h2>Gegenstände</h2>
+        <div class="grid col4">
+            <span>Bezeichnung</span>
+            <span>GM</span>
+            <span>MK</span>
+            <span></span>
+        </div>
+        <ul>
+            {{#each Gegenstand}}
+            <li class="item grid col4" data-item-id="{{this._id}}">
+                <span class="itemname">{{this.name}}</span>
+                <span>{{this.data.size}}</span>
+                <span>{{this.data.mk}}</span>
+                <span>
+                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                </span>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    
+    <div>
+        <div class="grid col2">
+            <div>
+                <h2>Reputation</h2>
+            </div>
+            <div>
+                <h2>Kontakte</h2>
+            </div>
+        </div>
+        
+    </div>
+
+</section>
+
+<section>
+    <h2>Unterbringung</h2>
+    <ul>
+        <div class="grid col9">
+            <span>Bezeichnung</span>
+            <span>Art</span>
+            <span>Ko</span>
+            <span>Re</span>
+            <span>Kr</span>
+            <span>Ve</span>
+            <span>MK</span>
+            <span>GM</span>
+            <span></span>
+        </div>
+        {{#each Unterbringung}}
+            
+            <li class="">
+                <div class="grid col9 item" data-item-id="{{this._id}}">
+                    <span>{{this.name}}</span>
+                    <span>{{this.data.type}}</span>
+                    <span>{{this.data.comfort}}W10</span>
+                    <span>{{this.data.ressourcen}}W10</span>
+                    <span>{{this.data.crime}}W10</span>
+                    <span>{{this.data.polution}}W10</span>
+                    <span>{{this.data.mk}}</span>
+                    <span>{{this.data.size}}</span>
+                    <div>
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                    
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</section>

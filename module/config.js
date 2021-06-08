@@ -3,10 +3,10 @@ export const darkspace = {};
 
 darkspace.attackTypes = {
     none: "",
-    guns: "Schusswaffen",
-    meleeweapons: "Nahkampffwaffen",
-    handToHand: "Kampftechnik",
-    heavyWeapons: "Unterstützungswaffen",
+    Schusswaffen: "Schusswaffen",
+    Nahkampffwaffen: "Nahkampffwaffen",
+    Kampftechnik: "Kampftechnik",
+    Unterstützungswaffen: "Unterstützungswaffen",
 }
 darkspace.attr = {
     none: "",
@@ -21,4 +21,12 @@ darkspace.attr = {
     Netzwerk: "Netzwerk",
     Ressourcen: "Ressourcen",
     Kybernese: "Kybernese",
+}
+darkspace.korperzonen = {
+    body: "Körper",
+    head: "Kopf",
+    torso: "Torso",
+    arms: "Arme",
+    legs: "Beine",
+    fullbody: "Ganzkörper"
 }

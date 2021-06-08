@@ -1,3 +1,14 @@
+/* ---- Foundry Style Overwrite ---- */
+
+.window-app .window-content, .chat-message, #chat-form textarea {
+    
+}
+.sheet .editor-content {
+    height: 100px;
+    border: 1px solid #000;
+}
+/* ---------- Sheet Style ---------- */
+
 ul {
     list-style: none;
     padding: 0;
@@ -12,6 +23,9 @@ ul {
 .col2 {
     grid-template-columns: repeat(2, 1fr);
 }
+.col2-21 {
+    grid-template-columns: 2fr 1fr;
+}
 .col3 {
     grid-template-columns: repeat(3, 1fr);
 }
@@ -24,7 +38,18 @@ ul {
 .col6 {
     grid-template-columns: repeat(6, 1fr);
 }
-
+.col7 {
+    grid-template-columns: repeat(7, 1fr);
+}
+.col8 {
+    grid-template-columns: repeat(8, 1fr);
+}
+.col9 {
+    grid-template-columns: repeat(9, 1fr);
+}
+.col10 {
+    grid-template-columns: repeat(10, 1fr);
+}
 .description_box {
     background: rgba(255,255,255,0.5);
 }

@@ -1,16 +1,21 @@
 import {darkspace} from './module/config.js';
 import DSItemSheet from './module/sheets/DSItemSheet.js';
+import DSItem from './module/sheets/DSItem.js';
+import DSCharacter from './module/sheets/DSCharacter.js';
 import DSCharacterSheet from './module/sheets/DSCharacterSheet.js';
 
 async function preloadHandlebarsTemplates () {
     const templatePaths = [
         "systems/darkspace/templates/partials/character-sheet-header.html",
         "systems/darkspace/templates/partials/character-sheet-stat-block.html",
+        "systems/darkspace/templates/partials/MKSize.html",
+        "systems/darkspace/templates/partials/character-sheet-items.html",
+        "systems/darkspace/templates/partials/character-sheet-combat.html"
     ];
     console.log("Rufe loadTemplates auf.");
-    return loadTemplates(templatePaths);
     console.log("Funktion loadTemplates geladen.");
     console.log("Geladene Elemente:" + templatePaths)
+    return loadTemplates(templatePaths);
 };
 
 console.log("Hook-Function");
@@ -18,6 +23,9 @@ Hooks.once("init", function() {
     console.log("DS | Initialisierung System");
 
     CONFIG.darkspace = darkspace;
+    
+    CONFIG.Actor.entityClass = DSCharacter;
+    CONFIG.Item.entityClass = DSItem;
 
     console.log("ItemSteet");
     Items.unregisterSheet("core", ItemSheet);

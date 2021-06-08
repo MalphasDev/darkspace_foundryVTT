@@ -29,15 +29,13 @@
 
             "bruises": {
                 "value": 0,
-                "max": 0
+                "max": 5
             },
             "wounds": {
                 "value": 0,
-                "max": 0
+                "max": 5
             },
-
-
-
+            
             "charattribut": {
                 "Aufmerksamkeit": {
                     "attribut": 1,
@@ -147,8 +145,23 @@
                 "Kybernese": {
                     "attribut": 0
                 }
+                
+            },
+            "metadata": {
+        
+                "Fraktionen": {
+                    "Fraktion": "",
+                    "Reputation": 0,
+                    "Macht":0
+                },
+                "vips": {
+                    "Name": "",
+                    "BS": 1,
+                    "Verhältnis": 0
+                }
             }
-        },
+            },
+            
         "Nebencharaktere": {
             "Bedrohungsstufe": 0,
             "Modulklasse": 0,
@@ -180,7 +193,7 @@
             "Artifizierung",
             "Panzerung",
             "Gegenstand",
-            "Modul",
+            "Unterbringung",
             "Talent"
         ],
         "templates": {
@@ -204,14 +217,24 @@
             "templates": ["itemBase"]
         },
         "Panzerung": {
+            "armor": 0,
+            "protection": 0,
             "bodyPart": "Körperteil",
             "templates": ["itemBase"]
         },
         "Gegenstand": {
             "templates": ["itemBase","weapons"]
         },
-        "Modul":{
-            "description": "Test Desc Module"
+        "Unterbringung": {
+            "type": "Unterschicht",
+            "comfort": 0,
+            "ressourcen": 0,
+            "crime": 0,
+            "polution": 0,
+            "mk": 1,
+            "size": 1,
+            "module": "",
+            "description": ""
         },
         "Talent":{
             "attribut": "",

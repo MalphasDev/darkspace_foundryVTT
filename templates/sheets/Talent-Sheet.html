@@ -11,17 +11,17 @@
     <div class="talent-info talent-desc">
         
         <select name="data.attribut">
-            {{#select data.attribut}}
+            {{#select data.data.attribut}}
                 {{#each config.attr as |name attrname|}}
                     <option value="{{attrname}}" type="text">{{name}}</option>
                 {{/each}}
             {{/select}}
         </select>
         <p>Voraussetzung:</p>
-        <input name="data.skill" type="text" value="{{data.skill}}">
-        <input name="data.requirement" type="number" value="{{data.requirement}}">
+        <input name="data.skill" type="text" value="{{data.data.skill}}">
+        <input name="data.requirement" type="number" value="{{data.data.requirement}}">
         <div>
-            <textarea name="data.description" type="text" value="{{data.description}}">{{data.description}}</textarea>
+            {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
         </div>
     </div>
 </div>

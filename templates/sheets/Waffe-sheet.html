@@ -5,36 +5,26 @@
 
     </header>
     
-    
-  <div>
-        <div class="grid col5">
-            
+    <img src={{this.data.img}} height="64" width="64">
+    {{this.data.img}} 
+    <div> <!--Itemsheet-Body-->
+    {{>"systems/darkspace/templates/partials/MKSize.html"}}
+        <div class="grid col3">
             <div>Schaden</div>
             <div>Reichweite</div>
-            <div>Größe</div>
-            <div>MK</div>
             <div>Fertigkeit</div>
             
-
-            <input name="data.damage" type="text" value="{{data.damage}}">
-            <input name="data.range" type="text" value="{{data.range}}">
-            <input name="data.size" type="number" value="{{data.size}}">
-            <input name="data.mk" type="number" value="{{data.mk}}">
-            <select name="data.attackWith">
-                {{#select data.attackWith}}
-                    {{#each config.attackTypes as |name skillname|}}
-                        <option value="{{skillname}}" type="text">{{name}}</option>
+            <input name="data.damage" type="text" value="{{data.data.damage}}">
+            <input name="data.range" type="text" value="{{data.data.range}}">
+            
+            <select name="data.attackWith"> <!--Zeigt auf den Value, der verändert werden soll. Ja das ist verwirrend mit dem Select-Helper-->
+                {{#select data.data.attackWith}} <!--Wählt den Value aus, der Beschrieben werden soll-->
+                    {{#each config.attackTypes}} <!--Stellt die Liste mit Optionen zusammen-->
+                        <option value="{{@key}}" type="text">{{this}}</option>
                     {{/each}}
                 {{/select}}
             </select>
         </div>
-        <div>
-            <textarea name="data.modules" type="text" data-dtype="text">{{data.modules}}</textarea>
-            <textarea name="data.description" type="text" >{{data.description}}</textarea>
-        </div>
-        <a class="item-create" data-stype="module">
-            <i class="fas fa-plus"></i>
-        </a>
-        
+        {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
     </div>
 </form>
