@@ -1,10 +1,4 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <div>
-        <header class="sheet-header">
-            <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="64" width="64"/>
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-        </header>
-    </div>
     
 
     
@@ -18,6 +12,7 @@
         <a class="item" data-tab="stats">Werte</a>
         <a class="item" data-tab="combat">Kampf</a>
         <a class="item" data-tab="items">Items</a>
+        <a class="item" data-tab="notes">Notizen</a>
     </nav>
     
 
@@ -38,6 +33,38 @@
         <!--Items-->
         <section class="tab items" data-group="primary" data-tab="items">
             {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
+        </section>
+
+        <!--Notizen-->
+        
+        <section class="tab notes" data-group="primary" data-tab="notes">
+            <div class="grid col3">
+                <div>
+                    <span>EP</span>
+                    <input name="data.xp" value="{{data.data.xp}}" type="number">
+                </div>
+                <div>
+                    <span>Netz EP</span>
+                    <input name="data.xp_social" value="{{data.data.xp_social}}" type="number">
+                </div>
+                <div>
+                    <span>Ress. EP</span>
+                    <input name="data.xp_ress" value="{{data.data.xp_ress}}" type="number">
+                </div>
+            </div>
+            <div class="grid col2">
+                <div>
+                    <h2>Beschreibung</h2>
+                    {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
+                </div>
+                <div>
+                    <h2>Notizen</h2>
+                    {{editor content=data.data.notes target="data.notes" button=true owner=owner editable=editable rollData=rollData}}
+                </div>
+               
+            </div>
+            
+            
         </section>
     </section>
     

@@ -3,11 +3,28 @@
 .window-app .window-content, .chat-message, #chat-form textarea {
     
 }
+
 .sheet .editor-content {
-    height: 100px;
-    border: 1px solid #000;
+    height: 125px;
 }
 /* ---------- Sheet Style ---------- */
+
+.checkcounter {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #000;
+    display: inline-block;
+    border-radius: 0%;
+    cursor: pointer;
+}
+.checkcounter.active {
+    background: #000;
+}
+
+input[type="number"] {
+    width: 50%;
+    text-align: center;
+}
 
 ul {
     list-style: none;
@@ -15,16 +32,37 @@ ul {
     margin: 0;
 }
 
+.border {
+    border: 1px #000 solid;
+    padding: 5px;
+    margin: 5px;
+}
+
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.column {
+    flex-direction: column;
+}
+
+
 .grid {
     display: grid;
     grid-gap: 0 1em;
 }
+
 
 .col2 {
     grid-template-columns: repeat(2, 1fr);
 }
 .col2-21 {
     grid-template-columns: 2fr 1fr;
+}
+.col2-31 {
+    grid-template-columns: 3fr 1fr;
 }
 .col3 {
     grid-template-columns: repeat(3, 1fr);

@@ -58,23 +58,26 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".item-edit").click(this._onItemEdit.bind(this));
         html.find(".item-delete").click(this._onItemDelete.bind(this));
         html.find(".roleable").click(this._onRollItem.bind(this));
+        html.find(".checkcounter").click(this._onChangeCounter.bind(this));
 
         var slider = document.getElementById("bruises_slider");
         var output = document.getElementById("bruises_value");
 
         
-
+        /*
         slider.oninput = function() {
             output.innerHTML = this.value;
 
             var outputval = output.innerHTML; /**Holt sich den Inhalt des HTML Elements */
-            outputval = parseInt(outputval, 10); /**Konvertiert den Inhalt in einen Int */
+        /*    outputval = parseInt(outputval, 10); /**Konvertiert den Inhalt in einen Int */
                 
-            if (outputval == 5) { /**!!!!!!!   5 durch das bruises-max ersetzem!!!!!!!! */
-                console.log("if statement Erfolgreich"); /**Abfrage für spätere Zustände abhängig von Zustand */
+        /*    if (outputval == 5) { /**!!!!!!!   5 durch das bruises-max ersetzem!!!!!!!! */
+        /*        console.log("if statement Erfolgreich"); /**Abfrage für spätere Zustände abhängig von Zustand */
                 
-            }
+        /*    }
           }
+        */
+
         
     
         
@@ -168,6 +171,24 @@ export default class DSCharakcterSheet extends ActorSheet {
         let itemId = element.closest(".item").dataset.itemId;
         return this.actor.deleteOwnedItem(itemId); /* <-- Wird in Foundry VTT 9.x ersetzt */
     }
+    _onChangeCounter(event) {
+        event.preventDefault();
+        const element = event.currentTarget;
+        const dataset = element.dataset;
 
+        const currentIndex = dataset.index;
+        console.log(currentIndex);
+
+        const newIndex = dataset.index;
+        console.log(newIndex);
+
+        var counter = element.getAttribute("data-index");
+        console.log(counter)
+        counter.classList.add("active");
+
+        
+
+        
+    }
    
 }
