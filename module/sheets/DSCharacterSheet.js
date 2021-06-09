@@ -17,25 +17,13 @@ export default class DSCharakcterSheet extends ActorSheet {
         
         data.config = CONFIG.darkspace;
 
+        //Betäubungen abrufen
 
-
-        //Talent-Sortierung - Eventuell unbrauchbar?
-        let inventarspace = data.items.length; //Inventargröße ermitteln
+        console.log("++++++++++ Betäubung abrufen ++++++++++");
         
-        if (inventarspace > 0) { //IF Statement. Wird dies aufgerufen, wenn keine Items vorhanden sind, gibt Foundry einen Fehler aus
-        for (var i = 0; i < inventarspace; i++) { //Schleife durch Inventar
-            if (data.items[i].data.attribut != undefined) { //Ausfiltern aller Nicht-Talente
-                const talentByName = data.items[i].name; //Talentname speichern
-                const talentByAttr = data.items[i].data.attribut; //Unter Talente > attribut (template.json) abgelegter Wert schreiben
-                console.log(data.items[i].name); //Debug Consolen-Ausgabe
-                
-                data.Talentarray = {talentByName, talentByAttr};
+        data.data.data.bruises.value = 3;
+        console.log("Aktuelle Betaubungen:" + data.data.data.bruises.value);
 
-                console.log(data.Talentarray); //Debug Consolen-Ausgabe
-                console.log(data.Talentlist);
-            }
-        };
-        }
         data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
         data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
         data.Panzerung = data.items.filter(function (item) {return item.type == "Panzerung"});
@@ -44,8 +32,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
         data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
 
-
-        
         return data;
     }
     
@@ -176,19 +162,43 @@ export default class DSCharakcterSheet extends ActorSheet {
         const element = event.currentTarget;
         const dataset = element.dataset;
 
-        const currentIndex = dataset.index;
-        console.log(currentIndex);
+        var current_bruises = event.currentTarget.dataset.index;
+        var shown_bruises;
 
-        const newIndex = dataset.index;
-        console.log(newIndex);
+        current_bruises = parseInt(current_bruises, 10);
+        for (var i = 0; i != current_bruises; i++) { /**Erzeugt die Variable, die dann in die JSON gepackt wird */
+            shown_bruises = i + 1;
+        }
+        this.object.data.data.bruises.value = shown_bruises; // Schreibt die Variable in die JSON
 
-        var counter = element.getAttribute("data-index");
-        console.log(counter)
-        counter.classList.add("active");
+        console.log("-----------------------------");
+        console.log(this.object.data.data.bruises.value + " Betäubungen davor");
+        console.log(shown_bruises + " Betäubungen");
 
+        var changeBoxesArray = [];  // Index der auszufüllenden Boxen
+        var changeBoxes = 0;        // Zur Bestimmung der Schleifendurchläufe der leerenden Boxen
+        var maxBruises = this.object.data.data.bruises.max; // Maximal mögliche Betäubungen
+
+        var cleanBoxesArray = [];
+
+        for (var i = 0; i < shown_bruises ;i++) {           // Füllt alle DOM-Elemente mit der "active"-Klasse, die links vom gewälten Kästchen sind.
+            changeBoxesArray.push(i+1);
+            changeBoxes = changeBoxesArray.length;
+            document.querySelectorAll("span[data-index]")[i].className += " active"; 
+        }
+        for (var i = changeBoxes; i < maxBruises; i++) {    // Entfernen aller nicht mehr notwendigen Boxen
+            cleanBoxesArray.push(i+1);
+            document.querySelectorAll("span[data-index]")[i].className = "checkcounter";
+        }
+        /*
+        console.log("Ausgefüllte Boxen: "+changeBoxesArray)
+        console.log("Geänderte Boxen: "+emptyBoxesArray);
+        console.log("Max. Betäubungen: "+maxBruises);
         
-
-        
+        console.log("-----------------------------");
+        console.log(document.querySelectorAll("span[data-index]")[changeBoxes-1].className)
+        console.log("Geleerte Boxen: "+cleanBoxesArray);
+        */
     }
    
 }
