@@ -1,0 +1,20 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
+        <h1><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+    
+    </header>
+    <div class="talent-sheet">
+        <div class="talent-info talent-name">
+            <p>{{name}}</p>
+        </div>
+        <div class="talent-info talent-desc">
+            
+            <p>Art:</p>
+            <input name="data.type" type="text" value="{{data.data.type}}">
+            <div>
+                {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
+            </div>
+        </div>
+    </div>
+    </form>

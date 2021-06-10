@@ -17,12 +17,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         
         data.config = CONFIG.darkspace;
 
-        //Betäubungen abrufen
-
-        console.log("++++++++++ Betäubung abrufen ++++++++++");
-        
-        data.data.data.bruises.value = 3;
-        console.log("Aktuelle Betaubungen:" + data.data.data.bruises.value);
 
         data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
         data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
@@ -31,6 +25,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         data.Module = data.items.filter(function (item) {return item.type == "Module"});
         data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
         data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
+        data.Besonderheiten = data.items.filter(function (item) {return item.type == 'Besonderheiten'});
 
         return data;
     }
@@ -44,38 +39,15 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".item-edit").click(this._onItemEdit.bind(this));
         html.find(".item-delete").click(this._onItemDelete.bind(this));
         html.find(".roleable").click(this._onRollItem.bind(this));
-        html.find(".checkcounter").click(this._onChangeCounter.bind(this));
-
-        var slider = document.getElementById("bruises_slider");
-        var output = document.getElementById("bruises_value");
-
-        
-        /*
-        slider.oninput = function() {
-            output.innerHTML = this.value;
-
-            var outputval = output.innerHTML; /**Holt sich den Inhalt des HTML Elements */
-        /*    outputval = parseInt(outputval, 10); /**Konvertiert den Inhalt in einen Int */
-                
-        /*    if (outputval == 5) { /**!!!!!!!   5 durch das bruises-max ersetzem!!!!!!!! */
-        /*        console.log("if statement Erfolgreich"); /**Abfrage für spätere Zustände abhängig von Zustand */
-                
-        /*    }
-          }
-        */
-
-        
-    
-        
-    
-
+        html.find(".roll-btn").click(this._onCustomRoll.bind(this));
+        //html.find(".checkcounter").click(this._onChangeCounter.bind(this));
     }
+    
     _onRollItem(event) {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
 
-        console.log(dataset.rolltype);
 
         if (dataset.rolltype) {
             var dynattr;
@@ -91,18 +63,19 @@ export default class DSCharakcterSheet extends ActorSheet {
                 var skillident = dataset.skill;
                 if (["Kampftechnik", "Schusswaffen"].includes(skillident)) {var attrident = "Geschick";}
                 if (["Nahkampfwaffen", "Unterstützungswaffen"].includes(skillident)) {var attrident = "Konstitution";}
-                /*console.log(data.actor.data.data.charattribut[attrident].skill[skillident]);*/
-                console.log(this.object.data.data.charattribut[attrident].skill[skillident]);
                 dynattr = this.object.data.data.charattribut[attrident].attribut;
                 dynskill = this.object.data.data.charattribut[attrident].skill[skillident];
             }
 
-            if (dataset.rolltype == "custom") {
-
+            
+            var rollformular;
+            if (this.object.data.data.customroll.removehighest != true) {
+                rollformular = dynattr + "d10x10kh2+" + dynskill;
+                
+            } else {
+                rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
             }
 
-            console.log(dynattr + "d10kh2+" + dynskill);
-            let rollformular = dynattr + "d10kh2+" + dynskill;
             let roll = new Roll(rollformular, this.actor.data.data);
             let label = dataset.label ? `${dataset.label}` : '';
 
@@ -111,8 +84,13 @@ export default class DSCharakcterSheet extends ActorSheet {
                 height: 400,
                 top: 500,
                 left: 500
-              };
-
+            };
+            
+            roll.roll().toMessage({
+                speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+                flavor: label
+              });    
+            /*
             const myDialog = new Dialog({
                 title: "My Dialog Title",
               content: `My dialog content`,
@@ -128,6 +106,19 @@ export default class DSCharakcterSheet extends ActorSheet {
                     icon: `<i class="fas fa-check"></i>`
                   },
                   button2: {
+                    label: "Modifizierte Probe",
+                    callback: () => {
+                        
+
+                        roll.roll().toMessage({
+                            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+                            flavor: label
+                        });
+
+                    },
+                    icon: `<i class="fas fa-check"></i>`
+                  },
+                  button3: {
                     label: "Button #2",
                     callback: () => {
                         new Dialog({
@@ -140,9 +131,31 @@ export default class DSCharakcterSheet extends ActorSheet {
                   
               }
             }).render(true);
+            */
 
             
         }
+    }
+    _onCustomRoll(event) {
+        event.preventDefault();
+        const element = event.currentTarget;
+        const dataset = element.dataset;
+
+        var dice = this.object.data.data.customroll.dice;
+        var bonus = this.object.data.data.customroll.bonus;
+
+        if (this.object.data.data.customroll.removehighest != true) {
+            var rollformular = dice + "d10x10kh2+" + bonus;
+            
+        } else {
+            var rollformular = dice + "d10x10kh3dh1+" + bonus;
+        }
+
+        var roll = new Roll(rollformular, this.actor.data.data);
+
+        roll.roll().toMessage({
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        });
     }
     _onItemEdit(event) {
         event.preventDefault();
@@ -157,19 +170,24 @@ export default class DSCharakcterSheet extends ActorSheet {
         let itemId = element.closest(".item").dataset.itemId;
         return this.actor.deleteOwnedItem(itemId); /* <-- Wird in Foundry VTT 9.x ersetzt */
     }
+    /*
     _onChangeCounter(event) {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
 
+        const actorData = duplicate(this.actor);    // Duplicat der Actor Data, die weiter unten mit der Update-Funktion geschrieben wird
         var current_bruises = event.currentTarget.dataset.index;
         var shown_bruises;
 
         current_bruises = parseInt(current_bruises, 10);
-        for (var i = 0; i != current_bruises; i++) { /**Erzeugt die Variable, die dann in die JSON gepackt wird */
+        for (var i = 0; i != current_bruises; i++) { //Erzeugt die Variable, die dann in die JSON gepackt wird
             shown_bruises = i + 1;
         }
-        this.object.data.data.bruises.value = shown_bruises; // Schreibt die Variable in die JSON
+        
+        
+        this.actor.update(actorData); // Schreibt die Variable in die JSON
+
 
         console.log("-----------------------------");
         console.log(this.object.data.data.bruises.value + " Betäubungen davor");
@@ -190,7 +208,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             cleanBoxesArray.push(i+1);
             document.querySelectorAll("span[data-index]")[i].className = "checkcounter";
         }
-        /*
+        
         console.log("Ausgefüllte Boxen: "+changeBoxesArray)
         console.log("Geänderte Boxen: "+emptyBoxesArray);
         console.log("Max. Betäubungen: "+maxBruises);
@@ -198,7 +216,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         console.log("-----------------------------");
         console.log(document.querySelectorAll("span[data-index]")[changeBoxes-1].className)
         console.log("Geleerte Boxen: "+cleanBoxesArray);
-        */
+        
     }
-   
+   */
 }

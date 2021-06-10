@@ -1,22 +1,11 @@
 <form class="{{cssClass}}" autocomplete="off">
     
-
+    
     
     <!--Info-Header-->
     {{>"systems/darkspace/templates/partials/character-sheet-header.html"}}
     
-    <!--Tabs-->
 
-
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="stats">Werte</a>
-        <a class="item" data-tab="combat">Kampf</a>
-        <a class="item" data-tab="items">Items</a>
-        <a class="item" data-tab="notes">Notizen</a>
-    </nav>
-    
-
-    <a class="roleable" data-roll="5d10kh2" data-label="Beschreibungstext">Test</a>
     <!--Sheetbody-->
     <section class="sheet-body">
 
@@ -39,17 +28,26 @@
         
         <section class="tab notes" data-group="primary" data-tab="notes">
             <div class="grid col3">
-                <div>
-                    <span>EP</span>
-                    <input name="data.xp" value="{{data.data.xp}}" type="number">
+                <div class="cell_c">
+                    <h3>Erfahrung</h3> 
+                    <div  class="container_center">           
+                    <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
+                    <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
+                    </div>
                 </div>
-                <div>
-                    <span>Netz EP</span>
-                    <input name="data.xp_social" value="{{data.data.xp_social}}" type="number">
+                <div class="cell_c">
+                    <h3>Netzwerk-Erfahrung</h3>
+                    <div class="container_center">
+                    <input name="data.xp_social.value" value="{{data.data.xp_social.value}}" type="number">/
+                    <input name="data.xp_social.max" value="{{data.data.xp_social.max}}" type="number">
+                    </div>
                 </div>
-                <div>
-                    <span>Ress. EP</span>
-                    <input name="data.xp_ress" value="{{data.data.xp_ress}}" type="number">
+                <div class="cell_c">
+                    <h3>Ressourcen-Erfahrung</h3>
+                    <div class="container_center">
+                    <input name="data.xp_ress.value" value="{{data.data.xp_ress.value}}" type="number">/
+                    <input name="data.xp_ress.max" value="{{data.data.xp_ress.max}}" type="number">
+                    </div>
                 </div>
             </div>
             <div class="grid col2">
