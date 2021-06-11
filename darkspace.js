@@ -3,9 +3,9 @@ import DSItemSheet from './module/sheets/DSItemSheet.js';
 import DSItem from './module/sheets/DSItem.js';
 import DSCharacter from './module/sheets/DSCharacter.js';
 import DSCharacterSheet from './module/sheets/DSCharacterSheet.js';
-import DSCombat from './module/DSCombat.js';
-import DSCombatTracker from './module/DSCombatTracker.js';
-import DSCombatant from './module/DSCombatant.js';
+//import DSCombat from './module/DSCombat.js';
+//import DSCombatTracker from './module/DSCombatTracker.js';
+//import DSCombatant from './module/DSCombatant.js';
 
 async function preloadHandlebarsTemplates () {
     const templatePaths = [
@@ -28,9 +28,9 @@ Hooks.once("init", function() {
     CONFIG.darkspace = darkspace;
     CONFIG.Actor.entityClass = DSCharacter;
     CONFIG.Item.entityClass = DSItem;
-    CONFIG.Combat.entityClass = DSCombat;
-    CONFIG.ui.combat = DSCombatTracker;
-    CONFIG.Combatant.entityClass = DSCombatant;
+    //CONFIG.Combat.entityClass = DSCombat;
+    //CONFIG.ui.combat = DSCombatTracker;
+    //CONFIG.Combatant.entityClass = DSCombatant;
 
     console.log("ItemSteet");
     Items.unregisterSheet("core", ItemSheet);
