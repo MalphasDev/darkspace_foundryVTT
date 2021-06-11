@@ -1,4 +1,3 @@
-
 export default class DSCharacter extends Actor {
     prepareData() {
         super.prepareData();
@@ -19,7 +18,7 @@ export default class DSCharacter extends Actor {
         if (this.type == 'Charakter') {
 
             data.reaction = 5 - Math.floor(data.charattribut.Aufmerksamkeit.attribut / 2);
-            
+            data.finalreaction = data.reaction; // + Reaktions-Mod vom Charbogen
         };
 
         if (this.type == 'Nebencharakter') {

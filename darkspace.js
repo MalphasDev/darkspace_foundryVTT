@@ -3,9 +3,10 @@ import DSItemSheet from './module/sheets/DSItemSheet.js';
 import DSItem from './module/sheets/DSItem.js';
 import DSCharacter from './module/sheets/DSCharacter.js';
 import DSCharacterSheet from './module/sheets/DSCharacterSheet.js';
-//import DSCombat from './module/DSCombat.js';
-//import DSCombatTracker from './module/DSCombatTracker.js';
-//import DSCombatant from './module/DSCombatant.js';
+import DSCombat from './module/DSCombat.js';
+import DSCombatTracker from './module/DSCombatTracker.js';
+import DSCombatant from './module/DSCombatant.js';
+
 
 async function preloadHandlebarsTemplates () {
     const templatePaths = [
@@ -13,7 +14,9 @@ async function preloadHandlebarsTemplates () {
         "systems/darkspace/templates/partials/character-sheet-stat-block.html",
         "systems/darkspace/templates/partials/MKSize.html",
         "systems/darkspace/templates/partials/character-sheet-items.html",
-        "systems/darkspace/templates/partials/character-sheet-combat.html"
+        "systems/darkspace/templates/partials/character-sheet-combat.html",
+
+        "systems/darkspace/templates/sidebar/combat-tracker.html"
     ];
     console.log("Rufe loadTemplates auf.");
     console.log("Funktion loadTemplates geladen.");
@@ -25,12 +28,13 @@ console.log("Hook-Function");
 Hooks.once("init", function() {
     console.log("DS | Initialisierung System");
 
+    CONFIG.Combat.entityClass = DSCombat;
+    CONFIG.ui.combat = DSCombatTracker;
+    CONFIG.Combatant.entityClass = DSCombatant;
     CONFIG.darkspace = darkspace;
     CONFIG.Actor.entityClass = DSCharacter;
     CONFIG.Item.entityClass = DSItem;
-    //CONFIG.Combat.entityClass = DSCombat;
-    //CONFIG.ui.combat = DSCombatTracker;
-    //CONFIG.Combatant.entityClass = DSCombatant;
+    
 
     console.log("ItemSteet");
     Items.unregisterSheet("core", ItemSheet);

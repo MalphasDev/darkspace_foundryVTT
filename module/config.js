@@ -22,6 +22,7 @@ darkspace.attr = {
     Ressourcen: "Ressourcen",
     Kybernese: "Kybernese",
 }
+
 darkspace.korperzonen = {
     body: "Körper",
     head: "Kopf",

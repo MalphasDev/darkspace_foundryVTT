@@ -16,6 +16,7 @@
         },
         "Charakter": {
             "description": "",
+            "quote": "",
             "xp": {
                 "value": 0,
                 "max": 0
@@ -37,7 +38,7 @@
                 "value": 0,
                 "max": 5
             },
-
+            "reactionmod": 0,
             "notes": "",
             
             "charattribut": {
