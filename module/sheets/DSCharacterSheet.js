@@ -17,28 +17,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         
         data.config = CONFIG.darkspace;
 
-<<<<<<< HEAD
-=======
 
-
-        //Talent-Sortierung - Eventuell unbrauchbar?
-        let inventarspace = data.items.length; //Inventargröße ermitteln
-        
-        if (inventarspace > 0) { //IF Statement. Wird dies aufgerufen, wenn keine Items vorhanden sind, gibt Foundry einen Fehler aus
-        for (var i = 0; i < inventarspace; i++) { //Schleife durch Inventar
-            if (data.items[i].data.attribut != undefined) { //Ausfiltern aller Nicht-Talente
-                const talentByName = data.items[i].name; //Talentname speichern
-                const talentByAttr = data.items[i].data.attribut; //Unter Talente > attribut (template.json) abgelegter Wert schreiben
-                console.log(data.items[i].name); //Debug Consolen-Ausgabe
-                
-                data.Talentarray = {talentByName, talentByAttr};
->>>>>>> parent of 7987b39 (Stand210609)
-
-                console.log(data.Talentarray); //Debug Consolen-Ausgabe
-                console.log(data.Talentlist);
-            }
-        };
-        }
         data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
         data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
         data.Panzerung = data.items.filter(function (item) {return item.type == "Panzerung"});
@@ -48,8 +27,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
         data.Besonderheiten = data.items.filter(function (item) {return item.type == 'Besonderheiten'});
 
-
-        
         return data;
     }
     
@@ -199,7 +176,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         const element = event.currentTarget;
         const dataset = element.dataset;
 
-<<<<<<< HEAD
         const actorData = duplicate(this.actor);    // Duplicat der Actor Data, die weiter unten mit der Update-Funktion geschrieben wird
         var current_bruises = event.currentTarget.dataset.index;
         var shown_bruises;
@@ -212,21 +188,17 @@ export default class DSCharakcterSheet extends ActorSheet {
         
         this.actor.update(actorData); // Schreibt die Variable in die JSON
 
-=======
-        const currentIndex = dataset.index;
-        console.log(currentIndex);
 
-        const newIndex = dataset.index;
-        console.log(newIndex);
->>>>>>> parent of 7987b39 (Stand210609)
+        console.log("-----------------------------");
+        console.log(this.object.data.data.bruises.value + " Betäubungen davor");
+        console.log(shown_bruises + " Betäubungen");
 
-        var counter = element.getAttribute("data-index");
-        console.log(counter)
-        counter.classList.add("active");
+        var changeBoxesArray = [];  // Index der auszufüllenden Boxen
+        var changeBoxes = 0;        // Zur Bestimmung der Schleifendurchläufe der leerenden Boxen
+        var maxBruises = this.object.data.data.bruises.max; // Maximal mögliche Betäubungen
 
-        
+        var cleanBoxesArray = [];
 
-<<<<<<< HEAD
         for (var i = 0; i < shown_bruises ;i++) {           // Füllt alle DOM-Elemente mit der "active"-Klasse, die links vom gewälten Kästchen sind.
             changeBoxesArray.push(i+1);
             changeBoxes = changeBoxesArray.length;
@@ -245,9 +217,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         console.log(document.querySelectorAll("span[data-index]")[changeBoxes-1].className)
         console.log("Geleerte Boxen: "+cleanBoxesArray);
         
-=======
-        
->>>>>>> parent of 7987b39 (Stand210609)
     }
    */
 }
