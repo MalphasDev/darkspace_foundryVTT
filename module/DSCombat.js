@@ -1,27 +1,25 @@
 export default class DSCombat extends Combat {
     
-    _sortCombatants(a, b) {
-        /*
-        console.log(a);
-        console.log(a._actor.name);
-        console.log("Würfel: "+ a._actor.data.data.customroll.dice+"W10");
-        console.log("Bonus: "+ a._actor.data.data.customroll.bonus);
-        */
+    
 
+    _sortCombatants(a, b) {
         const aeA = parseInt(a.initiative) || 0;
         const aeB = parseInt(b.initiative) || 0;
 
-        var sort = a.parent.getFlag('darkspace', 'combatStarted') ? 1 : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.
-        console.log(sort);
+        var isCombatStarted = a.parent.getFlag('darkspace', 'isCombatStarted') ? 1 : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.
         
-        return ((aeA - aeB)*sort);
+        return (
+            (aeA - aeB)*isCombatStarted
+            );
     }
+
+    
 
     async startCombat() {
         await this.setupTurns();
 
         //Muss unbeding aufgerufen werden bevor die ini gerollt wird
-        this.setFlag('darkspace', 'combatStarted', true);
+        this.setFlag('darkspace', 'isCombatStarted', true);
         
         //console.log(this);
         //console.log(this.combatants.values());
@@ -35,10 +33,12 @@ export default class DSCombat extends Combat {
         */
         this.rollInitiative( Array.from(this.data.combatants.values()).filter( (c) => {
             return c.data.initiative === undefined;
-        }).map( (c) => {  return c.data._id } ), {} )
+        }).map( (c) => { return c.data._id } ), {} ) // Map wird benutzt, um aus dem gefilterten Array die _id mit RETURN auszugeben
 
-        let startAE = 1;
-        this.data.combatants.forEach( (c) => {
+        let preSortetCombatants = this.preSortetCombatants();
+        
+        let startAE = 1; // Setzt erstes "Feld des Initiativ-Boards" 
+        preSortetCombatants.forEach( (c) => {
             this.updateCombatant({
                 _id: c.data._id,
                 initiative: startAE++
@@ -48,13 +48,46 @@ export default class DSCombat extends Combat {
         return this.update({round: 1, turn: 0});
     }
     
+    preSortetCombatants() {
+        return Array.from(this.data.combatants.values()).sort( 
+            (a,b) => {
+                return b.data.initiative - a.data.initiative
+            }
+            );
+    }
+
     rollInitiative(ids, options) {
-        ids.forEach( (id) => {
-            this.updateCombatant({
-                _id: id,
-                initiative: new Roll("2d10",{}).evaluate().total
-            });
-        })
+        
+
+        var isCombatStarted = this.getFlag('darkspace', 'isCombatStarted') ? true : false;
+
+        if (isCombatStarted) {
+            let preSortetCombatants = this.preSortetCombatants().filter(
+                (c) => {
+                    return c.data.initiative != undefined;
+                }
+            );
+            console.log(preSortetCombatants[0].data);
+            ids.forEach( (id) => {
+                this.updateCombatant({
+                    _id: id,
+                    initiative: preSortetCombatants[0].data.initiative + 1
+                });
+            })
+        
+            
+        } else {
+            ids.forEach( (id) => {
+                this.updateCombatant({
+                    _id: id,
+                    initiative: new Roll("2d10",{}).evaluate().total
+                });
+            })
+        }
+        
+
+        
+
         return this;
     }
     
