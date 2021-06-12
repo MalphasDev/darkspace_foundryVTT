@@ -23,6 +23,8 @@ export default class DSCombatTracker extends CombatTracker {
         console.log("+++ _increaseAE +++")
 
         const combat = this.viewed;
+        
+        
 
         console.log("++++++++++")
         var combatantlist_length = document.querySelectorAll(".combatant",".active").length;
@@ -37,6 +39,7 @@ export default class DSCombatTracker extends CombatTracker {
             if(combatantlist[i].className.includes("active")) {
                 activeCombatant = combatantlist[i].dataset.combatantId;
             }
+
         }
         var aeCost;
         console.log(document.getElementById("customAE"))

@@ -78,6 +78,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             }
 
             let roll = new Roll(rollformular, this.actor.data.data);
+            console.log(roll)
             let label = dataset.label ? `${dataset.label}` : '';
 
             const myDialogOptions = {
