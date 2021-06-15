@@ -1,0 +1,29 @@
+<div>
+    <h2>Waffen</h2>
+    <div class="grid col7">
+        <span>Angriff</span>
+        <span>Bezeichnung</span>
+        <span>Schaden</span>
+        <span>Rw</span>
+        <span>GM</span>
+        <span>MK</span>
+        <span></span>
+    </div>
+    <ul>
+        {{#each Waffe}}
+        <li class="item grid col7" data-item-id="{{this._id}}">
+            <img src="{{this.img}}" class="profile-img roleable" data-rolltype="combat" data-skill="{{data.attackWith}}" data-label="{{fertname}}" src="{{item.img}}" title="{{item.name}}" height="32" width="32"/>
+            <span>{{data.attackWith}}</span>
+            <span>{{this.data.damage}}</span>
+            <span>{{this.data.range}}</span>
+            <span>{{this.data.size}}</span>
+            <span>{{this.data.mk}}</span>
+            <div>
+                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+        {{/each}}
+        
+    </ul>
+</div>

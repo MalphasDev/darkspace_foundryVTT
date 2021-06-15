@@ -1,0 +1,12 @@
+<div class="grid col2 gridcenter">
+    <h3 class="cell_r">Betäubungen</h3>
+    <div>
+        <span>{{data.data.bruises.value}} / {{data.data.bruises.max}}</span>
+        <input type="range" min="0" max={{data.data.bruises.max}} value="{{data.data.bruises.value}}" name="data.bruises.value" data-type="Number" class="slider" id="bruises_slider">
+    </div>
+    <h3 class="cell_r">Wunden</h3>
+    <div>
+        <span>{{data.data.wounds.value}} / {{data.data.wounds.max}}</span>
+        <input type="range" min="0" max={{data.data.wounds.max}} value="{{data.data.wounds.value}}" name="data.wounds.value" data-type="Number" class="slider" id="wounds_slider">
+    </div>
+</div>

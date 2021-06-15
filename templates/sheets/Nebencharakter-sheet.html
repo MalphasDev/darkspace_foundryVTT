@@ -1,0 +1,42 @@
+<form class="{{cssClass}}" autocomplete="off">
+    
+    
+    
+    <div class="grid col3">
+        <div>
+            <div class="grid col2-21">
+                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+                <div>
+                    <span>BS</span>
+                    <input class="value-box" name="data.Bedrohungsstufe" value="{{data.data.Bedrohungsstufe}}" type="number">
+                </div>
+                
+            </div>
+            
+            <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+        </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+        {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+    </div>
+
+    
+    <div class="grid col2">
+        {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
+        <div>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
+        </div>
+        
+    </div>
+    
+
+    <div class="grid col2">
+        {{> "systems/darkspace/templates/partials/sub-partials/stat-talent.html"}}
+        {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
+    </div>
+    
+
+    
+    
+    
+</form>

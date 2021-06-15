@@ -21,7 +21,7 @@
             </a>
         </nav>
         {{/if}}
-
+        
         <nav class="encounters flexrow">
             {{#if user.isGM}}
             <a class="combat-control" title="{{localize 'COMBAT.RollAll'}}" data-control="rollAll" {{#unless turns}}disabled{{/unless}}>
@@ -34,7 +34,7 @@
 
             {{#if combatCount}}
             {{#if combat.data.round}}
-            <h3>{{localize 'COMBAT.Round'}} {{combat.data.round}}</h3>
+            <!-- <h3>{{localize 'COMBAT.Round'}} {{combat.data.round}}</h3> -->
             {{else}}
             <h3>{{localize 'COMBAT.NotStarted'}}</h3>
             {{/if}}
@@ -43,10 +43,12 @@
             {{/if}}
 
             {{#if user.isGM}}
-            <a class="combat-control" title="{{localize 'COMBAT.InitiativeReset'}}" data-control="resetAll"
-                {{#unless hasCombat}}disabled{{/unless}}>
+            <!-- <a class="combat-control" title="{{localize 'COMBAT.InitiativeReset'}}" data-control="resetAll"
+                {{#unless hasCombat}}
+                    disabled
+                {{/unless}}>
                 <i class="fas fa-undo"></i>
-            </a>
+            </a> -->
             <a class="combat-settings" title="{{localize 'COMBAT.Settings'}}" data-control="trackerSettings">
                 <i class="fas fa-cog"></i>
             </a>
@@ -96,16 +98,9 @@
     {{#if hasCombat}}
         {{#if user.isGM}}
             {{#if round}}
-            <div>
-                <a class="combat-control center aeCost" title="aeCost2" data-aeCost=2>2 AE</a>
-                <a class="combat-control center aeCost" title="aeCost4" data-aeCost=4>4 AE</a>
-                <a class="combat-control center aeCost" title="aeCost6" data-aeCost=6>6 AE</a>
-                <a class="combat-control center aeCost" title="aeCost8" data-aeCost=8>8 AE</a>
-            </div>
-            <div>
-                <input type="value" name="customAE" value="" id="customAE" type="number">
-                <button class="aeCostCustom aeCost">AE</button>
-            </div>
+
+            {{>"systems/darkspace/templates/sidebar/customAE.html"}}
+
             <div>
                 <a class="combat-control" title="{{localize 'COMBAT.TurnPrev'}}" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
                 <a class="combat-control center" title="{{localize 'COMBAT.End'}}" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
@@ -113,22 +108,12 @@
             </div>
             
             {{else}}
-            <a class="combat-control center" title="{{localize 'COMBAT.Begin'}}" data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>
+            <a class="combat-control center container_center" title="initiative ermitteln" data-control="rollFirstInit">Initiative ermitteln</a>
+            <a class="combat-control center container_center" title="{{localize 'COMBAT.Begin'}}" data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>
             {{/if}}
         {{else if control}}
         
-        <div>
-            <a class="combat-control center aeCost" title="aeCost4" data-aeCost=2>2 AE</a>
-            <a class="combat-control center aeCost" title="aeCost4" data-aeCost=4>4 AE</a>
-            <a class="combat-control center aeCost" title="aeCost4" data-aeCost=6>6 AE</a>
-            <a class="combat-control center aeCost" title="aeCost4" data-aeCost=8>8 AE</a>
-        </div>
-        <div>
-            <input type="value" name="customAE" value="" id="customAE" type="number">
-            <button class="aeCostCustom aeCost">AE</button>
-            
-        </div>
-        
+            {{>"systems/darkspace/templates/sidebar/customAE.html"}}
         
         {{/if}}
     {{/if}}

@@ -4,20 +4,15 @@
 
         <div class="grid">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            
             <div class="cell_d">
                 <h2>Gesundheit</h2>
-                <div class="grid col2 gridcenter">
-                    <h3 class="cell_r">Betäubungen</h3>
-                    <div>
-                        <span>{{data.data.bruises.value}} / {{data.data.bruises.max}}</span>
-                        <input type="range" min="0" max={{data.data.bruises.max}} value="{{data.data.bruises.value}}" name="data.bruises.value" data-type="Number" class="slider" id="bruises_slider">
-                    </div>
-                    <h3 class="cell_r">Wunden</h3>
-                    <div>
-                        <span>{{data.data.wounds.value}} / {{data.data.wounds.max}}</span>
-                        <input type="range" min="0" max={{data.data.wounds.max}} value="{{data.data.wounds.value}}" name="data.wounds.value" data-type="Number" class="slider" id="wounds_slider">
-                    </div>
-                </div>
+                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+                
+            </div>
+            <div>
+                <h2>Initiative</h2>
+                {{> "systems/darkspace/templates/partials/sub-partials/combat-initiative.html"}}
             </div>
         </div>
         
@@ -33,28 +28,8 @@
             </nav>
         </div>
         
-
-        <div class="cell_d">
-            <h2>Freier Wurf / Modifikatoren</h2>
-            <div class="grid col2 gridcenter">
-                
-                <div class="flex span2">
-                    <span><input type="number" value="{{data.data.customroll.dice}}" name="data.customroll.dice" data-type="Number">W10 + </span>
-                
-                    <input type="number" value="{{data.data.customroll.bonus}}" name="data.customroll.bonus" data-type="Number">
-                    
-                </div>
-                
-                <div class="grid gridcenter">
-                    <span>Erschwert</span>
-                    <input type="checkbox" {{checked data.data.customroll.removehighest}} name="data.customroll.removehighest">
-                </div>
-    
-                <div>
-                    <a><img class="roll-btn" src="systems/darkspace/templates/d10.svg"></a>
-                </div>
-            </div>
-        </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+        
 
     </div>
     

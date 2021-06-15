@@ -17,17 +17,16 @@ export default class DSCharacter extends Actor {
 
         if (this.type == 'Charakter') {
 
-            data.reaction = 5 - Math.floor(data.charattribut.Aufmerksamkeit.attribut / 2);
-            data.finalreaction = data.reaction; // + Reaktions-Mod vom Charbogen
+            data.initiative =  Math.ceil((data.charattribut.Aufmerksamkeit.attribut + data.charattribut.Geschick.attribut + data.charattribut.Intuition.attribut)/3);
+            data.finalinitiative = data.initiative + data.initMod; 
         };
 
         if (this.type == 'Nebencharakter') {
-            data.reaction = 5 - Math.floor(data.Bedrohungsstufe / 2);
+            data.halfBs = Math.ceil( (data.Bedrohungsstufe)/2 );
             
         };
 
         if (this.type == 'Drohne/Fahrzeug') {
-            data.reaction = 5 - Math.floor(data.mk / 2);
             
         };
     

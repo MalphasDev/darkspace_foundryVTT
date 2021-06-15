@@ -1,0 +1,22 @@
+<div>
+    <h2>Talente</h2>
+            <section>
+                <ul>
+                {{#each Talent}}
+                    <li>
+                        <div class="item" data-item-id="{{this._id}}">
+                            
+                            <div class="grid col2-21">
+                                <a class="talentname toChat">{{this.name}}</a>
+                                <div class="cell_c">
+                                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </li>
+                {{/each}}
+                </ul>
+            </section>
+</div>

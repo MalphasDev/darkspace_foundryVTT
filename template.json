@@ -56,7 +56,8 @@
                     "skill": {
                         "Charisma": 0,
                         "Einschüchtern": 0,
-                        "Überzeugen": 0
+                        "Überzeugen": 0,
+                        "Verhandeln": 0
                     }
                 },
                 "Geschick": {
@@ -169,31 +170,56 @@
             "customroll": {
                 "dice": null,
                 "bonus": null,
-                "removehighest": false
-              }
+                "removehighest": false,
+                "global": false
+              },
+            "initMod": 0
+            
             },
             
-        "Nebencharaktere": {
-            "Bedrohungsstufe": 0,
+        "Nebencharakter": {
+            "Bedrohungsstufe": 1,
             "Modulklasse": 0,
-            "nscattribut": {
+
+            "bruises": {
+                "value": 0,
+                "max": 5
+            },
+            "wounds": {
+                "value": 0,
+                "max": 5
+            },
+            
+            "charattribut": {
                 "Fernkampf": {
-                    "dice":0,
-                    "fert":0
+                    "attribut": 0,
+                    "skill": {
+                        "Bonus": 0
+                    }
                 },
                 "Nahkampf": {
-                    "dice":0,
-                    "fert":0
-                },
+                    "attribut": 0,
+                    "skill": {
+                        "Bonus": 0
+                    }
+                }
+                ,
                 "Körperlich": {
-                    "dice":0,
-                    "fert":0
+                    "attribut": 0,
+                    "skill": {
+                        "Bonus": 0
+                    }
                 },
                 "Geistig": {
-                    "dice":0,
-                    "fert":0
-                }
+                    "attribut": 0,
+                    "skill": {
+                        "Bonus": 0
+                    }
+                },
+                "empty": ""
             },
+
+            
             "Eigenschaften": [],
             "templates": ["commonStats"]
         }

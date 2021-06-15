@@ -87,6 +87,42 @@ input[type="time"]:focus {
 }
 #combat-controls>* {
     display: flex;
+    justify-content: center;
+}
+.customAE {
+    padding: 5px;
+    border: solid;
+    height: 50px;
+    width: 50%;
+    margin: 0 auto;
+}
+.customAE>* {
+    text-align: center;
+    width: 50px;
+    color: #fff;
+    font-size: 20px;
+}
+.customAE input[type="value"] {
+    background: none;
+    font-size: 25px;
+    border: none;
+}
+.customAE button {
+    background: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+.customAE button:hover {
+    outline: none;
+    box-shadow: 0 0 5px red;
+    background: rgb(255 0 0 / 45%);
+    font-size: 25px;
+    transition: 0.2s linear;
+}
+
+.fa-clock {
+    margin: 5px 0;
 }
 /* ---------- Sheet Style ---------- */
 
@@ -204,6 +240,9 @@ ul {
     margin: 0 auto;
     width: fit-content;
 }
+.text_c {
+    text-align: center;
+}
 
 .description_box {
     background: rgba(255,255,255,0.5);
@@ -224,6 +263,16 @@ ul {
 .attrfeld:last-child {
     display: none;
 }
+.attrvalue {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+}
+.d10-symbol {
+    margin: 5px 2px 5px 5px;
+    padding: 0px;
+    width: 32px;
+}
 .fertfeld li {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -242,4 +291,12 @@ ul {
     width: 90%;
     display: block;
     margin: 0 auto;
+}
+.npcBonus {
+    width: 55px;
+    font-size: 20px;
+}
+.npc-skillbox {
+    width: 70px;
+    justify-self: end;
 }

@@ -1,0 +1,52 @@
+<div>
+    <h2>Attribute und Fertigkeiten</h2>
+    <ul class="grid col2">
+    
+        {{#each data.data.charattribut as |attrobj attrname|}}
+            
+            <li class="attrfeld">
+                <div class="grid col2">
+                    <span class="attrname">{{attrname}}</span>
+                <span class="attrvalue">
+                    {{#if ../data.data.Bedrohungsstufe}}
+                    <span class="npcBonus">{{../data.data.Bedrohungsstufe}} +</span>
+                    {{/if}}
+                    <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}" type="number">
+                    
+                    <img class="d10-symbol" src="systems/darkspace/templates/d10.svg">
+                </span>
+                </div>
+                
+                
+            
+            <ul class="fertfeld">
+                {{#each this.skill as |fertval fertname|}}
+                <li>
+                    <a class="roleable" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}">{{fertname}}</a>
+                    <div class="npc-skillbox">
+                        {{#if ../../data.data.Bedrohungsstufe}}
+                        <span class="npcBonus">{{../../data.data.halfBs}} +</span>
+                        {{/if}}
+                        <input class="value_box" name="data.charattribut.{{attrname}}.skill.{{fertname}}" value="{{this}}" type="number">
+                    </div>
+                    
+                </li>
+                {{/each}}
+            </ul>
+            {{#if this.ress.exists}}
+            <ul class="fertfeld">
+                <li>
+                    <span>{{this.ress.ressname}}</span>
+                    {{this.ress.value}}
+                    <input type="range" min="0" max={{this.ress.max}} value="{{this.ress.value}}" name="data.charattribut.{{attrname}}.ress.value" data-type="Number" class="slider">
+                </li>
+            </ul>
+            {{/if}}
+            </li>
+            
+              
+        {{/each}}
+
+        
+    </ul>
+</div>

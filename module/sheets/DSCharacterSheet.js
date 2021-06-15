@@ -41,6 +41,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".item-delete").click(this._onItemDelete.bind(this));
         html.find(".roleable").click(this._onRollItem.bind(this));
         html.find(".roll-btn").click(this._onCustomRoll.bind(this));
+        html.find(".toChat").click(this._toChat.bind(this));
         //html.find(".checkcounter").click(this._onChangeCounter.bind(this));
     }
     
@@ -53,14 +54,18 @@ export default class DSCharakcterSheet extends ActorSheet {
         if (dataset.rolltype) {
             var dynattr;
             var dynskill;
+
+            var attrMod = this.object.data.data.customroll.dice;
+            var fertMod = this.object.data.data.customroll.bonus
             
             if (dataset.rolltype == "skill") {
                 dynattr = this.object.data.data.charattribut[dataset.attr].attribut;
                 dynskill = this.object.data.data.charattribut[dataset.attr].skill[dataset.skill];
+
+                
             }
 
             if (dataset.rolltype == "combat") {
-                
                 var skillident = dataset.skill;
                 if (["Kampftechnik", "Schusswaffen"].includes(skillident)) {var attrident = "Geschick";}
                 if (["Nahkampfwaffen", "Unterstützungswaffen"].includes(skillident)) {var attrident = "Konstitution";}
@@ -68,72 +73,61 @@ export default class DSCharakcterSheet extends ActorSheet {
                 dynskill = this.object.data.data.charattribut[attrident].skill[skillident];
             }
 
+            if (dataset.rolltype == "protection") {
+                dynattr = dataset.structure;
+                dynskill = dataset.protection;
+            }
+
             
             var rollformular;
-            if (this.object.data.data.customroll.removehighest != true) {
-                rollformular = dynattr + "d10x10kh2+" + dynskill;
-                
+
+            if (this.object.data.type === "Nebencharakter") {
+                dynattr += this.object.data.data.Bedrohungsstufe
+                dynskill += Math.ceil( (this.object.data.data.Bedrohungsstufe)/2 )
+            }
+            if (this.object.data.data.customroll.global == true) {
+                dynattr += attrMod;
+                dynskill += fertMod;
+
+                if (this.object.data.data.customroll.removehighest != true) {
+                    rollformular = dynattr + "d10x10kh2+" + dynskill;
+                    
+                } else {
+                    rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
+                }
             } else {
-                rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
+                rollformular = dynattr + "d10x10kh2+" + dynskill;
             }
 
             let roll = new Roll(rollformular, this.actor.data.data);
-            console.log(roll)
             let label = dataset.label ? `${dataset.label}` : '';
 
-            const myDialogOptions = {
-                width: 200,
-                height: 400,
-                top: 500,
-                left: 500
-            };
+
+            // FOUNDRY HINWEIS: Roll#evaluate is becoming asynchronous. 
+            //  In the short term you may pass async=true or async=false 
+            //  to evaluation options to nominate your preferred behavior.
+
             
-            roll.roll().toMessage({
-                speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                flavor: label
-              });    
-            /*
-            const myDialog = new Dialog({
-                title: "My Dialog Title",
-              content: `My dialog content`,
-              buttons: {
-                button1: {
-                    label: "Normale Probe",
-                    callback: () => {
-                        roll.roll().toMessage({
-                            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                            flavor: label
-                          });    
-                    },
-                    icon: `<i class="fas fa-check"></i>`
-                  },
-                  button2: {
-                    label: "Modifizierte Probe",
-                    callback: () => {
-                        
 
-                        roll.roll().toMessage({
-                            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                            flavor: label
-                        });
+            let clearRollFormular = toString(dynattr+"W10 + dynskill");
+            
+            roll.roll()
 
-                    },
-                    icon: `<i class="fas fa-check"></i>`
-                  },
-                  button3: {
-                    label: "Button #2",
-                    callback: () => {
-                        new Dialog({
-                            title: "My Dialog Title",
-                            content: "My dialog content",
-                            buttons: {}
-                          }, myDialogOptions).render(true);},
-                    icon: `<i class="fas fa-times"></i>`
-                  },
-                  
-              }
-            }).render(true);
-            */
+            let krit = roll.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
+            let resultMessage = "";
+            
+
+            if (krit[2] >= 9) {
+                resultMessage = "Ein kririscher Erfolg!";
+            }
+            if (roll.total <= 9) {
+                resultMessage = "Ein Patzer."
+            }
+            roll.toMessage({                                     
+                speaker: ChatMessage.getSpeaker({ actor: this.actor }), 
+                flavor: resultMessage
+              });
+            
 
             
         }
@@ -155,15 +149,31 @@ export default class DSCharakcterSheet extends ActorSheet {
 
         var roll = new Roll(rollformular, this.actor.data.data);
 
-        roll.roll().toMessage({
-            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        });
+        roll.roll()
+
+            let krit = roll.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
+            let resultMessage = "";
+            
+
+            if (krit[2] >= 9) {
+                resultMessage = "Ein kririscher Erfolg!";
+            }
+            if (roll.total <= 9) {
+                resultMessage = "Ein Patzer."
+            }
+            roll.toMessage({                                     
+                speaker: ChatMessage.getSpeaker({ actor: this.actor }), 
+                flavor: resultMessage
+              });
     }
+
+    
+
     _onItemEdit(event) {
         event.preventDefault();
         let element = event.currentTarget;
         let itemId = element.closest(".item").dataset.itemId;
-        let item = this.actor.getOwnedItem(itemId);
+        let item = this.actor.items.get(itemId);
         item.sheet.render(true);
     }
     _onItemDelete(event) {
@@ -171,6 +181,16 @@ export default class DSCharakcterSheet extends ActorSheet {
         let element = event.currentTarget;
         let itemId = element.closest(".item").dataset.itemId;
         return this.actor.deleteOwnedItem(itemId); /* <-- Wird in Foundry VTT 9.x ersetzt */
+    }
+    _toChat(event) {
+        console.log(event)
+        console.log(this)
+        event.preventDefault();
+        const element = event.currentTarget;
+        const dataset = element.dataset;
+        const itemId = event.currentTarget.closest(".item").dataset.itemId;
+        const item = this.actor.getOwnedItem(itemId);
+        item.roll()
     }
     
 }
