@@ -194,31 +194,36 @@
                 "Fernkampf": {
                     "attribut": 0,
                     "skill": {
-                        "Bonus": 0
+                        "Fernkampfangriff": 0
                     }
                 },
                 "Nahkampf": {
                     "attribut": 0,
                     "skill": {
-                        "Bonus": 0
+                        "Nahkampfangriff": 0
                     }
                 }
                 ,
                 "Körperlich": {
                     "attribut": 0,
                     "skill": {
-                        "Bonus": 0
+                        "Sportlichkeit": 0
                     }
                 },
                 "Geistig": {
                     "attribut": 0,
                     "skill": {
-                        "Bonus": 0
+                        "Intellekt": 0
                     }
                 },
                 "empty": ""
             },
-
+            "customroll": {
+                "dice": null,
+                "bonus": null,
+                "removehighest": false,
+                "global": false
+              },
             
             "Eigenschaften": [],
             "templates": ["commonStats"]
@@ -238,11 +243,12 @@
             "itemBase": {
                 "mk": 1,
                 "size:": 1,
-                "modules": "Test Modules",
-                "description": "Test Desc"
+                "modules": "",
+                "description": ""
             },
             "weapons": {
-                "damage":"1V"
+                "damage":1,
+                "dmgtype": "B"
             }
         },
         "Waffe": {

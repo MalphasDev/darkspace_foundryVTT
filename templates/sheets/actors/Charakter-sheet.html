@@ -26,7 +26,7 @@
 
         <!--Notizen-->
         
-        <section class="tab notes" data-group="primary" data-tab="notes">
+        <section class="tab notes sheet-content" data-group="primary" data-tab="notes">
             <div class="grid col3">
                 <div class="cell_c">
                     <h3>Erfahrung</h3> 
@@ -50,12 +50,12 @@
                     </div>
                 </div>
             </div>
-            <div class="grid col2">
-                <div>
+            <div class="flex flex-col2">
+                <div class="desc-content">
                     <h2>Beschreibung</h2>
                     {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
                 </div>
-                <div>
+                <div class="desc-content">
                     <h2>Notizen</h2>
                     {{editor content=data.data.notes target="data.notes" button=true owner=owner editable=editable rollData=rollData}}
                 </div>

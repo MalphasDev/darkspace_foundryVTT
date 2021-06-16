@@ -1,16 +1,13 @@
 <div>
-    <h2>Talente</h2>
+    <h2>Artifizierungen</h2>
             <section>
                 <ul>
-                {{#each Talent}}
+                {{#each Artifizierung}}
                     <li>
                         <div class="item" data-item-id="{{this._id}}">
                             
                             <div class="grid col2-21">
-                                <div>
-                                    <p class="talentname">{{this.name}}</p>
-                                    <p class="anmerkung">{{this.data.attribut}}</p>
-                                </div>
+                                <a class="talentname toChat">{{this.name}}</a>
                                 <div class="cell_c">
                                     <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                                     <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>

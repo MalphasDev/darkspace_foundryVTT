@@ -4,7 +4,7 @@
     <h1><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
 
 </header>
-<div class="talent-sheet">
+<div class="sheet-content">
     <div class="talent-info talent-name">
         <p>{{name}}</p>
     </div>
@@ -20,9 +20,10 @@
         <p>Voraussetzung:</p>
         <input name="data.skill" type="text" value="{{data.data.skill}}">
         <input name="data.requirement" type="number" value="{{data.data.requirement}}">
-        <div>
-            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
-        </div>
+        
+    </div>
+    <div class="desc-content">
+        {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
     </div>
 </div>
 </form>

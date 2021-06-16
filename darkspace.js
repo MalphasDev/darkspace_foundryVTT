@@ -22,10 +22,10 @@ async function preloadHandlebarsTemplates () {
 
         //Sub-Partials
             //Stats
+            "systems/darkspace/templates/partials/sub-partials/stat-artificals.html",
             "systems/darkspace/templates/partials/sub-partials/stat-block.html",
             "systems/darkspace/templates/partials/sub-partials/stat-feature.html",
             "systems/darkspace/templates/partials/sub-partials/stat-talent.html",
-
             "systems/darkspace/templates/partials/sub-partials/stat-health.html",
 
             //Combat
@@ -34,12 +34,13 @@ async function preloadHandlebarsTemplates () {
             "systems/darkspace/templates/partials/sub-partials/combat-initiative.html",
 
             //Items
+            "systems/darkspace/templates/partials/sub-partials/items-header.html",
             "systems/darkspace/templates/partials/sub-partials/items-item.html",
             "systems/darkspace/templates/partials/sub-partials/items-rep.html",
             "systems/darkspace/templates/partials/sub-partials/items-quarter.html",
 
         //NPCs
-        "systems/darkspace/templates/sheets/Nebencharakter-sheet.html",
+        "systems/darkspace/templates/sheets/actors/Nebencharakter-sheet.html",
         
         //Items
         "systems/darkspace/templates/partials/MKSize.html",

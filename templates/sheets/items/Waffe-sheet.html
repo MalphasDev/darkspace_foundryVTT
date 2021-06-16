@@ -1,0 +1,48 @@
+<form class="{{cssClass}}" autocomplete="off">
+    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+
+    
+    <div class="sheet-content"> <!--Itemsheet-Body-->
+        <div class="grid col3 gridcenter">
+            <div>Schaden</div>
+            <div>Reichweite</div>
+            <div>Fertigkeit</div>
+            
+            <div>
+                <span>{{data.data.mk}} +</span>
+                <input name="data.damage" type="number" value="{{data.data.damage}}">
+                <span>= {{data.data.dmg}}</span>
+
+                <select name="data.dmgtype">
+                    {{#select data.data.dmgtype}}
+                    {{#each config.dmgtype}}
+                    <option name="data.dmgtype" value="{{@key}}" type="text">{{this}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </div>                
+            <input name="data.range" type="text" value="{{data.data.range}}">
+            
+            <select name="data.attackWith"> <!--Zeigt auf den Value, der verändert werden soll. Ja das ist verwirrend mit dem Select-Helper-->
+                {{#select data.data.attackWith}} <!--Wählt den Value aus, der Beschrieben werden soll-->
+                    {{#each config.attackTypes}} <!--Stellt die Liste mit Optionen zusammen-->
+                        <option value="{{@key}}" type="text">{{this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        
+        <div class="flex flex-col2">
+            <div class="desc-content">
+                <h2>Module</h2>
+                {{editor content=data.data.modules target="data.data.modules" button=true owner=owner editable=editable rollData=rollData}}
+            </div>
+            <div class="desc-content">
+                <h2>Beschreibung</h2>
+                {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
+            </div>
+            
+        </div>
+        
+    </div>
+</form>

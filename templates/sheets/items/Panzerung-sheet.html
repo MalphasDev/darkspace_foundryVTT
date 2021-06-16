@@ -1,12 +1,7 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
-        <h1><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-
-    </header>
-    
-    
-    <div>
+    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+        
+    <div class="sheet-content">
         <div class="grid col3">
             <span>Panzerung</span>
             <span>Schutz</span>
@@ -19,13 +14,12 @@
         </div>
 
     </div>
-    {{>"systems/darkspace/templates/partials/MKSize.html"}}
-    <div class="grid col2">
-        <div>
+    <div class="grid col2 ">
+        <div class="desc-content">
             <h2>Module</h2>
             {{editor content=data.data.modules target="data.data.modules" button=true owner=owner editable=editable rollData=rollData}}
         </div>
-        <div>
+        <div class="desc-content">
             <h2>Beschreibung</h2>
             {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
         </div>

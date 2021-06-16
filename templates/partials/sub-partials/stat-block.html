@@ -6,8 +6,12 @@
             
             <li class="attrfeld">
                 <div class="grid col2">
+                    {{#if ../data.data.Bedrohungsstufe}}
+                    <!-- Hier Radio-Button für Gewichtung einfügen -->
+                    {{/if}}
                     <span class="attrname">{{attrname}}</span>
                 <span class="attrvalue">
+
                     {{#if ../data.data.Bedrohungsstufe}}
                     <span class="npcBonus">{{../data.data.Bedrohungsstufe}} +</span>
                     {{/if}}
@@ -21,7 +25,7 @@
             
             <ul class="fertfeld">
                 {{#each this.skill as |fertval fertname|}}
-                <li>
+                <li class="gridleftcenter">
                     <a class="roleable" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}">{{fertname}}</a>
                     <div class="npc-skillbox">
                         {{#if ../../data.data.Bedrohungsstufe}}

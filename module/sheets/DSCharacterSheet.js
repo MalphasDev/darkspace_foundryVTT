@@ -1,20 +1,22 @@
 export default class DSCharakcterSheet extends ActorSheet {
-    
-    
+    get template() {
+        return `systems/darkspace/templates/sheets/actors/${this.actor.data.type}-sheet.html`;
+    }
+
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            template: "systems/darkspace/templates/sheets/Character-sheet.html",
+            template: "systems/darkspace/templates/sheets/actors/Character-sheet.html",
             classes: ["darkspace", "sheet", "Charakter"],
             width: 800,
             height: 600,
             tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "stats"}]
         });
     }
-    
+
 
     getData() {
         let data = super.getData();
-        
+
         data.config = CONFIG.darkspace;
 
         data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
@@ -27,11 +29,11 @@ export default class DSCharakcterSheet extends ActorSheet {
         data.Besonderheiten = data.items.filter(function (item) {return item.type == 'Besonderheiten'});
 
 
-        
+
         return data;
     }
-    
-    
+
+
 
     activateListeners(html) {
         /* html.find(cssSelector).event(this._someCallBack.bind(this)); <---- Template */
@@ -44,7 +46,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".toChat").click(this._toChat.bind(this));
         //html.find(".checkcounter").click(this._onChangeCounter.bind(this));
     }
-    
+
     _onRollItem(event) {
         event.preventDefault();
         const element = event.currentTarget;
@@ -57,18 +59,32 @@ export default class DSCharakcterSheet extends ActorSheet {
 
             var attrMod = this.object.data.data.customroll.dice;
             var fertMod = this.object.data.data.customroll.bonus
-            
+
             if (dataset.rolltype == "skill") {
                 dynattr = this.object.data.data.charattribut[dataset.attr].attribut;
                 dynskill = this.object.data.data.charattribut[dataset.attr].skill[dataset.skill];
 
-                
+
             }
 
             if (dataset.rolltype == "combat") {
                 var skillident = dataset.skill;
-                if (["Kampftechnik", "Schusswaffen"].includes(skillident)) {var attrident = "Geschick";}
-                if (["Nahkampfwaffen", "Unterstützungswaffen"].includes(skillident)) {var attrident = "Konstitution";}
+                var attrident = "";
+                if (this.object.data.type === "Nebencharakter") {
+                    if (["Fernkampfangriff"].includes(skillident)) {attrident = "Fernkampf";}
+                    if (["Nahkampfangriff"].includes(skillident)) {attrident = "Nahkampf";}
+                }
+
+                // SKILLIDENTS FÜR NEBENCHARAKTERE
+
+                if (this.object.data.type === "Charakter") {
+                    if (["Kampftechnik", "Schusswaffen"].includes(skillident)) {attrident = "Geschick";}
+                    if (["Nahkampfwaffen", "Unterstützungswaffen"].includes(skillident)) {attrident = "Konstitution";}
+                    
+                }
+                console.log(attrident)
+                console.log(this.object.data.data.charattribut)
+                debugger;
                 dynattr = this.object.data.data.charattribut[attrident].attribut;
                 dynskill = this.object.data.data.charattribut[attrident].skill[skillident];
             }
@@ -78,7 +94,7 @@ export default class DSCharakcterSheet extends ActorSheet {
                 dynskill = dataset.protection;
             }
 
-            
+
             var rollformular;
 
             if (this.object.data.type === "Nebencharakter") {
@@ -91,7 +107,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
                 if (this.object.data.data.customroll.removehighest != true) {
                     rollformular = dynattr + "d10x10kh2+" + dynskill;
-                    
+
                 } else {
                     rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
                 }
@@ -103,19 +119,19 @@ export default class DSCharakcterSheet extends ActorSheet {
             let label = dataset.label ? `${dataset.label}` : '';
 
 
-            // FOUNDRY HINWEIS: Roll#evaluate is becoming asynchronous. 
-            //  In the short term you may pass async=true or async=false 
+            // FOUNDRY HINWEIS: Roll#evaluate is becoming asynchronous.
+            //  In the short term you may pass async=true or async=false
             //  to evaluation options to nominate your preferred behavior.
 
-            
+
 
             let clearRollFormular = toString(dynattr+"W10 + dynskill");
-            
+
             roll.roll()
 
             let krit = roll.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
             let resultMessage = "";
-            
+
 
             if (krit[2] >= 9) {
                 resultMessage = "Ein kririscher Erfolg!";
@@ -123,13 +139,13 @@ export default class DSCharakcterSheet extends ActorSheet {
             if (roll.total <= 9) {
                 resultMessage = "Ein Patzer."
             }
-            roll.toMessage({                                     
-                speaker: ChatMessage.getSpeaker({ actor: this.actor }), 
+            roll.toMessage({
+                speaker: ChatMessage.getSpeaker({ actor: this.actor }),
                 flavor: resultMessage
               });
-            
 
-            
+
+
         }
     }
     _onCustomRoll(event) {
@@ -142,7 +158,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
         if (this.object.data.data.customroll.removehighest != true) {
             var rollformular = dice + "d10x10kh2+" + bonus;
-            
+
         } else {
             var rollformular = dice + "d10x10kh3dh1+" + bonus;
         }
@@ -153,7 +169,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
             let krit = roll.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
             let resultMessage = "";
-            
+
 
             if (krit[2] >= 9) {
                 resultMessage = "Ein kririscher Erfolg!";
@@ -161,13 +177,13 @@ export default class DSCharakcterSheet extends ActorSheet {
             if (roll.total <= 9) {
                 resultMessage = "Ein Patzer."
             }
-            roll.toMessage({                                     
-                speaker: ChatMessage.getSpeaker({ actor: this.actor }), 
+            roll.toMessage({
+                speaker: ChatMessage.getSpeaker({ actor: this.actor }),
                 flavor: resultMessage
               });
     }
 
-    
+
 
     _onItemEdit(event) {
         event.preventDefault();
@@ -192,5 +208,5 @@ export default class DSCharakcterSheet extends ActorSheet {
         const item = this.actor.getOwnedItem(itemId);
         item.roll()
     }
-    
+
 }

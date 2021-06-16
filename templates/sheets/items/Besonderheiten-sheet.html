@@ -4,17 +4,19 @@
         <h1><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
     
     </header>
-    <div class="talent-sheet">
+    <div class="sheet-content">
         <div class="talent-info talent-name">
             <p>{{name}}</p>
         </div>
-        <div class="talent-info talent-desc">
+        <div class="talent-info talent-desc flex">
             
-            <p>Art:</p>
+            <p>Art: </p>
             <input name="data.type" type="text" value="{{data.data.type}}">
-            <div>
-                {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
-            </div>
+            
+        </div>
+        <div class="desc-content">
+            <h2>Beschreibung</h2>
+            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
         </div>
     </div>
     </form>

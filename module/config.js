@@ -8,6 +8,12 @@ darkspace.attackTypes = {
     Kampftechnik: "Kampftechnik",
     Unterstützungswaffen: "Unterstützungswaffen",
 }
+darkspace.dmgtype = {
+    B: "B",
+    Be: "B(e)",
+    V: "V",
+    Ve: "V(e)"
+}
 darkspace.attr = {
     none: "",
     Aufmerksamkeit: "Aufmerksamkeit",

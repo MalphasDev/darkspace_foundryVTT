@@ -1,0 +1,16 @@
+<form class="{{cssClass}} sheet-content" autocomplete="off">
+
+    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+    
+    <div class="flex flex-col2">
+        <div class="desc-content">
+            <h2>Module</h2>
+            {{editor content=data.data.modules target="data.data.modules" button=true owner=owner editable=editable rollData=rollData}}
+        </div>
+        <div class="desc-content">
+            <h2>Beschreibung</h2>
+            {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
+        </div>
+        
+    </div>
+</form>
