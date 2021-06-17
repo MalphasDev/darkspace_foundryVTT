@@ -7,8 +7,6 @@ export default class DSCombatTracker extends CombatTracker {
         var data = super.getData(html);
         const combat = this.viewed;
 
-        //combat.eliminateDefeated();
-
         return data;
     }
     activateListeners(html) {
@@ -18,6 +16,7 @@ export default class DSCombatTracker extends CombatTracker {
     }
 
     getCurrentTargetId(event) {
+        console.log(Array.from(this.viewed.turns.map( (c) => {return c._id} ))[0]);
         return Array.from(this.viewed.turns.map( (c) => {return c._id} ))[0];
     }
 
@@ -39,9 +38,6 @@ export default class DSCombatTracker extends CombatTracker {
 
     async _preWaitCombat(event) {
         const combat = this.viewed;
-
-        
-
         var currentTargetId = this.getCurrentTargetId();
         combat._waitCombat(currentTargetId, options, event);
     }

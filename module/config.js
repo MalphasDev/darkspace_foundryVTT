@@ -28,12 +28,17 @@ darkspace.attr = {
     Ressourcen: "Ressourcen",
     Kybernese: "Kybernese",
 }
-
-darkspace.korperzonen = {
-    body: "Körper",
-    head: "Kopf",
-    torso: "Torso",
-    arms: "Arme",
-    legs: "Beine",
-    fullbody: "Ganzkörper"
+// darkspace.itemProperties = {
+//     Computer: "Computer",
+//     Energie: "Energie",
+//     Leistung: "Leistung",
+//     Sensor: "Sensor"
+// }
+darkspace.bodyPart = {
+    Körper: "Körper",
+    Kopf: "Kopf",
+    Torso: "Torso",
+    Arme: "Arme",
+    Beine: "Beine",
+    Ganzkörper: "Ganzkörper"
 }

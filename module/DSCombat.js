@@ -20,7 +20,8 @@ export default class DSCombat extends Combat {
     }
     
     rollFirstInitiative () {
-        //const Combatant = this.combatant;
+
+        
         this.rollInitiative( Array.from(this.data.combatants.values()).filter( (c) => {
             return c.data.initiative === undefined;
         }).map( (c) => { return c.data._id } ), {} ) // Map wird benutzt, um aus dem gefilterten Array die _id mit RETURN auszugeben
@@ -45,22 +46,51 @@ export default class DSCombat extends Combat {
     }
 
     rollInitiative(ids, options) {
+
+        var actorData = this.data.combatants;
+        let preSortetCombatants = this.preSortetCombatants().filter( (c) => { return c.data.initiative != undefined; } );
+        console.log(preSortetCombatants)
         var isCombatStarted = this.getFlag('darkspace', 'isCombatStarted') ? true : false;
         
         if (isCombatStarted) {
-            let preSortetCombatants = this.preSortetCombatants().filter( (c) => { return c.data.initiative != undefined; } );
+            
             ids.forEach( (id) => { this.updateCombatant({
-                    _id: id,
-                    initiative: preSortetCombatants[0].data.initiative + 1
-                });
-            })
+                _id: id,
+                initiative: preSortetCombatants[0].data.initiative + 1
+            });
+        })
         } else {
-            ids.forEach( (id) => { this.updateCombatant({
+            // console.log(ids);
+            // 
+            // console.log(actorByCombatantId.data.initiative)
+            // console.log(actorByCombatantId.data.initiative + "d10kh2")
+            
+            ids.forEach( (id) => { 
+                console.log(id)
+                
+                var currentCombatant = Array.from(actorData.filter( (d) => {return d.data._id == id} ))[0];
+                var actorByCombatantId = currentCombatant._actor.data;
+                console.log(currentCombatant)
+                var initRoll = new Roll(actorByCombatantId.data.initiative + "d10kh2",{}).evaluate()
+                this.updateCombatant({
                     _id: id,
-                    initiative: new Roll("2d10",{}).evaluate().total
+                    initiative: initRoll.total
                 });
+                console.log(initRoll)
+
+                let chatdata =  {
+                    user: game.user.id,
+                    speaker: {actor: currentCombatant.data.actorId},
+                    roll: initRoll,
+                    flavor: "würfelt Initiative"
+                }
+                console.log(chatdata)
+                console.log(typeof chatdata)
+                initRoll.toMessage(chatdata, {})
             })
         }
+
+
         return this;
     }
     

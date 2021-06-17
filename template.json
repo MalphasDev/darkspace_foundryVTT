@@ -32,11 +32,11 @@
 
             "bruises": {
                 "value": 0,
-                "max": 5
+                "max": 0
             },
             "wounds": {
                 "value": 0,
-                "max": 5
+                "max": 0
             },
             "reactionmod": 0,
             "notes": "",
@@ -242,13 +242,13 @@
         "templates": {
             "itemBase": {
                 "mk": 1,
-                "size:": 1,
+                "size": 1,
                 "modules": "",
                 "description": ""
             },
             "weapons": {
                 "damage":1,
-                "dmgtype": "B"
+                "dmgtype": ""
             }
         },
         "Waffe": {
@@ -275,10 +275,8 @@
             "ressourcen": 0,
             "crime": 0,
             "polution": 0,
-            "mk": 1,
-            "size": 1,
             "module": "",
-            "description": ""
+            "templates": ["itemBase"]
         },
         "Talent":{
             "attribut": "",

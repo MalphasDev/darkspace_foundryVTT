@@ -4,6 +4,7 @@ h2 {
     border-bottom: 1px solid rgb(124, 124, 124);
     margin-top: 20px;
     text-align: center;
+    width: 100%;
 }
 h3 {
     text-align: center;
@@ -232,8 +233,17 @@ ul {
 .col3 {
     grid-template-columns: repeat(3, 1fr);
 }
+.col3-112 {
+    grid-template-columns: 1fr 1fr 2fr;
+}
+.col3-211 {
+    grid-template-columns: 2fr 1fr 1fr;
+}
 .col4 {
     grid-template-columns: repeat(4, 1fr);
+}
+.col4-4111 {
+    grid-template-columns: 4fr 1fr 1fr 1fr;
 }
 .col5 {
     grid-template-columns: repeat(5, 1fr);
@@ -281,6 +291,13 @@ ul {
     margin: 0 auto;
     width: fit-content;
 }
+.nogap {
+    grid-gap: 0;
+}
+.h_gap {
+    grid-row-gap: 2em;
+}
+
 .text_c {
     text-align: center;
 }
@@ -342,6 +359,10 @@ ul {
     justify-self: right;
 }
 .itemtitle {
+    text-align: center;
+    font-size: 1.2em;
+}
+.derivedValue {
     text-align: center;
     font-size: 1.2em;
 }

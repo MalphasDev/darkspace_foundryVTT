@@ -3,23 +3,21 @@
     <div class="grid col3">
 
         <div class="grid">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
             
             <div class="cell_d">
                 <h2>Gesundheit</h2>
                 {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
                 
             </div>
-            <div>
-                <h2>Initiative</h2>
-                {{> "systems/darkspace/templates/partials/sub-partials/combat-initiative.html"}}
-            </div>
+            
         </div>
         
         
-
+        
         <div>
+            
             <img class="actorimg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
             <nav class="sheet-tabs tabs grid col2 gridcenter" data-group="primary">
                 <a class="item" data-tab="stats">Werte</a>
                 <a class="item" data-tab="combat">Kampf</a>
@@ -27,8 +25,13 @@
                 <a class="item" data-tab="notes">Notizen</a>
             </nav>
         </div>
-        
-        {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+        <div class="cell_d">
+            <div class="grid gridcenter">
+                <h2>Initiative</h2>
+                {{> "systems/darkspace/templates/partials/sub-partials/combat-initiative.html"}}
+            </div>
+            {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+        </div>
         
 
     </div>

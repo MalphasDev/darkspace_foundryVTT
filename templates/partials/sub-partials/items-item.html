@@ -1,6 +1,9 @@
 <div>
-    <h2>Gegenstände</h2>
-    <div class="grid col4">
+    <h2>
+        <span>Gegenstände</span>
+        <span class="anmerkung"> (Unterhalt: {{data.data.keepOfItems}})</span>
+    </h2>
+    <div class="grid col4-4111">
         <span>Bezeichnung</span>
         <span>GM</span>
         <span>MK</span>
@@ -8,7 +11,7 @@
     </div>
     <ul>
         {{#each Gegenstand}}
-        <li class="item grid col4" data-item-id="{{this._id}}">
+        <li class="item grid col4-4111" data-item-id="{{this._id}}">
             <span class="itemname">{{this.name}}</span>
             <span>{{this.data.size}}</span>
             <span>{{this.data.mk}}</span>

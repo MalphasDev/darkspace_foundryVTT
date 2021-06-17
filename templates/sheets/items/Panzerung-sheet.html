@@ -1,20 +1,24 @@
-<form class="{{cssClass}}" autocomplete="off">
+<form class="{{cssClass}} " autocomplete="off">
     {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
         
-    <div class="sheet-content">
-        <div class="grid col3">
-            <span>Panzerung</span>
-            <span>Schutz</span>
+    <div class="">
+        <div class="grid col2 gridcenter">
             <span>Körperzonen</span>
-        </div>
-        <div class="grid col3">
-            <span>{{data.data.armor}}</span>
-            <span>{{data.data.protection}}</span>
-            <span>{{data.data.bodyPart}}</span> 
+            <span>Panzerung und Schutz</span>
+            
+            <select name="data.bodyPart">
+                {{#select data.data.bodyPart}}
+                {{#each config.bodyPart}}
+                <option name="data.bodyPart" value="{{@key}}" type="text">{{this}}</option>
+                {{/each}}
+                {{/select}}
+            </select>
+            <span class="derivedValue">{{data.data.armor}}W + {{data.data.protection}}</span>
         </div>
 
     </div>
-    <div class="grid col2 ">
+
+    <div class="grid col2 sheet-content">
         <div class="desc-content">
             <h2>Module</h2>
             {{editor content=data.data.modules target="data.data.modules" button=true owner=owner editable=editable rollData=rollData}}
