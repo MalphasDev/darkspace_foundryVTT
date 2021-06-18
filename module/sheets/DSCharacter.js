@@ -14,15 +14,16 @@ export default class DSCharacter extends Actor {
         // things organized.
 
         if (this.type != 'Drohne/Fahrzeug') {
+            data.maxBruises = 5 + data.bruises.max;
+            data.maxWounds = 5 + data.wounds.max;
+
+            
         }
 
         if (this.type == 'Charakter') {
-
             data.initiative =  Math.ceil((data.charattribut.Aufmerksamkeit.attribut + data.charattribut.Geschick.attribut + data.charattribut.Intuition.attribut)/3);
             data.finalinitiative = data.initiative + data.initMod; 
-
-            data.maxBruises = 5 + data.bruises.max;
-            data.maxWounds = 5 + data.wounds.max;
+            
 
             let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten")} )
             
@@ -33,28 +34,28 @@ export default class DSCharacter extends Actor {
             let itemModSizes = [];
             let keepAdd = 0;
             for (var i = 0; i < itemSizes.length; i++) {
-                console.log(i)
-                itemModSizes.push(1/ (Math.pow(10,(itemSizes[i]*-1)) ))
-                console.log(">"+(1/ (Math.pow(10,(itemSizes[i]*-1)) )))
-                console.log(">>"+itemModSizes.push(1/ (Math.pow(10,(itemSizes[i]*-1)) )))
-
-                keepAdd += (1/ (Math.pow(10,(itemSizes[i]*-1)) ))
+                keepAdd = 1/(Math.max(itemSizes[i]*-1,1))
+                if (keepAdd == Infinity) { keepAdd = 0}
             }
             data.keepOfItems += keepAdd
             data.keepOfItems = Math.floor(data.keepOfItems)
-            if (data.keepOfItems == -Infinity) { data.keepOfItems = 0;}
+
+            data.wealth = Math.pow(data.charattribut.Ressourcen.attribut,2)
         };
 
         if (this.type == 'Nebencharakter') {
             data.halfBs = Math.ceil( (data.Bedrohungsstufe)/2 );
-            
+
+            data.initiative =  data.Bedrohungsstufe;
+            data.finalinitiative = data.initiative + data.initMod; 
         };
 
         if (this.type == 'Drohne/Fahrzeug') {
             
         };
     
-    
-    
+
+        
+        
     }
 }

@@ -1,5 +1,4 @@
 <div class="dice-roll">
-    <div>Test</div>
     {{#if flavor}}
     <div class="dice-flavor">{{flavor}}</div>
     {{/if}}
@@ -7,5 +6,14 @@
         <div class="dice-formula">{{formula}}</div>
         {{{tooltip}}}
         <h4 class="dice-total">{{total}}</h4>
+
+        <div>
+            <ul>
+                {{#each this}}
+                <li>{{@key}}</li>
+                {{/each}}
+            </ul>
+        </div>
     </div>
+
 </div>

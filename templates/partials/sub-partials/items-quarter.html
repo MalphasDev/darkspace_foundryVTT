@@ -1,35 +1,44 @@
 <section>
     <h2>Unterbringung</h2>
     <ul>
-        <div class="grid col9">
-            <span>Bezeichnung</span>
-            <span>Art</span>
-            <span>Ko</span>
-            <span>Re</span>
-            <span>Kr</span>
-            <span>Ve</span>
-            <span>MK</span>
-            <span>GM</span>
-            <span></span>
-        </div>
         {{#each Unterbringung}}
-            
-            <li class="">
-                <div class="grid col9 item" data-item-id="{{this._id}}">
-                    <span>{{this.name}}</span>
-                    <span>{{this.data.type}}</span>
+            <li class="" data-item-id="{{this._id}}">
+                
+                <div class="flex flex-between">
+                    <h3 style="display: inline-block;">{{this.name}}</h3>
+                    <span class="anmerkung">{{this.data.type}}</span>
+
+                        <span class="anmerkung">MK {{this.data.mk}}</span>
+                        <span class="anmerkung">GM {{this.data.size}}</span>
+                        <div style="display: inline-block;">
+                            <label class="collapsible" for="collapse-cntr-{{this._id}}"><i class="fas fa-info-circle"></i></label>
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+
+                </div>
+
+                <div class="grid col4">
+                    <span>Komfort</span>
+                    <span>Ressourcen</span>
+                    <span>Kriminalität</span>
+                    <span>Verschmutzung</span>
+
                     <span>{{this.data.comfort}}W10</span>
                     <span>{{this.data.ressourcen}}W10</span>
                     <span>{{this.data.crime}}W10</span>
                     <span>{{this.data.polution}}W10</span>
-                    <span>{{this.data.mk}}</span>
-                    <span>{{this.data.size}}</span>
-                    <div>
-                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                    </div>
-                    
                 </div>
+
+                
+                <div>
+                    <input class="collapsible-cntr" type="checkbox" id="collapse-cntr-{{this._id}}">
+                    <div class="collapsible-content">
+                        {{{data.description}}}
+                    </div>
+                
+                </div>
+                    
             </li>
         {{/each}}
     </ul>

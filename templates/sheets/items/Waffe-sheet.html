@@ -3,23 +3,27 @@
 
     
     <div class="sheet-content"> <!--Itemsheet-Body-->
-        <div class="grid col3 gridcenter">
+        <div class="grid col3-211 gridcenter">
             <div>Schaden</div>
             <div>Reichweite</div>
             <div>Fertigkeit</div>
             
             <div>
-                <span>{{data.data.mk}} +</span>
-                <input name="data.damage" type="number" value="{{data.data.damage}}">
-                <span>= {{data.data.dmg}}</span>
-
-                <select name="data.dmgtype">
-                    {{#select data.data.dmgtype}}
-                    {{#each config.dmgtype}}
-                    <option name="data.dmgtype" value="{{@key}}" type="text">{{this}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
+                <div class="container_center">
+                    <span class="derivedValue">{{data.data.dmg}}</span>
+                    <select name="data.dmgtype">
+                        {{#select data.data.dmgtype}}
+                        {{#each config.dmgtype}}
+                        <option name="data.dmgtype" value="{{@key}}" type="text">{{this}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="container_center">
+                    <span> = {{data.data.mkdmg}} [MK] + {{data.data.sizedmg}} [Größe] + </span>
+                    <input name="data.damage" type="number" value="{{data.data.damage}}">
+                </div>
+                
             </div>                
             <input name="data.range" type="text" value="{{data.data.range}}">
             
@@ -32,17 +36,8 @@
             </select>
         </div>
         
-        <div class="flex flex-col2">
-            <div class="desc-content">
-                <h2>Module</h2>
-                {{editor content=data.data.modules target="data.data.modules" button=true owner=owner editable=editable rollData=rollData}}
-            </div>
-            <div class="desc-content">
-                <h2>Beschreibung</h2>
-                {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
-            </div>
-            
-        </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+        
         
     </div>
 </form>

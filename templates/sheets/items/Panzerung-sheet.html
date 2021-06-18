@@ -1,32 +1,10 @@
 <form class="{{cssClass}} " autocomplete="off">
     {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
         
-    <div class="">
-        <div class="grid col2 gridcenter">
-            <span>Körperzonen</span>
-            <span>Panzerung und Schutz</span>
-            
-            <select name="data.bodyPart">
-                {{#select data.data.bodyPart}}
-                {{#each config.bodyPart}}
-                <option name="data.bodyPart" value="{{@key}}" type="text">{{this}}</option>
-                {{/each}}
-                {{/select}}
-            </select>
-            <span class="derivedValue">{{data.data.armor}}W + {{data.data.protection}}</span>
-        </div>
-
+    <div class="container_center">
+        <h3>Panzerung und Schutz</h3>
+        <p style="text-align: center;" class="derivedValue container_center">{{data.data.armor}}W + {{data.data.protection}}</p>
     </div>
 
-    <div class="grid col2 sheet-content">
-        <div class="desc-content">
-            <h2>Module</h2>
-            {{editor content=data.data.modules target="data.data.modules" button=true owner=owner editable=editable rollData=rollData}}
-        </div>
-        <div class="desc-content">
-            <h2>Beschreibung</h2>
-            {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable rollData=rollData}}
-        </div>
-        
-    </div>
+    {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

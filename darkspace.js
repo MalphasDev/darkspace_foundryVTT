@@ -1,4 +1,5 @@
 import {darkspace} from './module/config.js';
+import * as Chat from './module/chatMessages/chat.js';
 import DSItemSheet from './module/sheets/DSItemSheet.js';
 import DSItem from './module/sheets/DSItem.js';
 import DSCharacter from './module/sheets/DSCharacter.js';
@@ -44,6 +45,13 @@ async function preloadHandlebarsTemplates () {
         
         //Items
         "systems/darkspace/templates/partials/MKSize.html",
+        "systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html",
+
+        //Misc
+        "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
+
+        //Chat
+        "systems/darkspace/templates/dice/chatWeapon.html",
 
         //Foundry UI-Overwrite
         "systems/darkspace/templates/sidebar/combat-tracker.html",
@@ -71,7 +79,20 @@ Hooks.once("init", function() {
     Actors.registerSheet("darkspace", DSNebencharakter, {makeDefault: true});
 
     preloadHandlebarsTemplates();
+
+    Handlebars.registerHelper("strToHTML", function (str) {
+
+        var dom = document.createElement('div');
+        console.log(dom);
+        console.log(typeof str);
+        console.log(str);
+        dom.innerHTML = str;
+        console.log(dom);
+        return dom;
+    
+    });
+
 });
 
-//Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListener(html));
 
+//Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

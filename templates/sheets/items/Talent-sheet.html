@@ -5,10 +5,7 @@
 
 </header>
 <div class="sheet-content">
-    <div class="talent-info talent-name">
-        <p>{{name}}</p>
-    </div>
-    <div class="talent-info talent-desc">
+    <div class="grid col2 gridcenter">
         
         <select name="data.attribut">
             {{#select data.data.attribut}}
@@ -17,11 +14,17 @@
                 {{/each}}
             {{/select}}
         </select>
-        <p>Voraussetzung:</p>
-        <input name="data.skill" type="text" value="{{data.data.skill}}">
-        <input name="data.requirement" type="number" value="{{data.data.requirement}}">
+        <div>
+            <h3>Voraussetzung</h3>
+            <input style="width: 20ch" name="data.skill" type="text" value="{{data.data.skill}}">
+            <input name="data.requirement" type="number" value="{{data.data.requirement}}">
+
+        </div>
+
+
         
     </div>
+    <hr>
     <div class="desc-content">
         {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
     </div>

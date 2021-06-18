@@ -168,8 +168,8 @@
                 }
             },
             "customroll": {
-                "dice": null,
-                "bonus": null,
+                "dice": 2,
+                "bonus": 0,
                 "removehighest": false,
                 "global": false
               },
@@ -194,13 +194,15 @@
                 "Fernkampf": {
                     "attribut": 0,
                     "skill": {
-                        "Fernkampfangriff": 0
+                        "Schusswaffen": 0,
+                        "Unterstützungswaffen": 0
                     }
                 },
                 "Nahkampf": {
                     "attribut": 0,
                     "skill": {
-                        "Nahkampfangriff": 0
+                        "Kampftechnik": 0,
+                        "Nahkampfwaffen": 0
                     }
                 }
                 ,
@@ -257,13 +259,13 @@
             "templates": ["itemBase","weapons"]
         },
         "Artifizierung": {
-            "bodyPart": "Körperteil",
+            "bodyPart": "Körper",
             "templates": ["itemBase"]
         },
         "Panzerung": {
             "armor": 0,
             "protection": 0,
-            "bodyPart": "Körperteil",
+            "bodyPart": "Körper",
             "templates": ["itemBase"]
         },
         "Gegenstand": {

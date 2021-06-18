@@ -28,6 +28,12 @@ darkspace.attr = {
     Ressourcen: "Ressourcen",
     Kybernese: "Kybernese",
 }
+darkspace.features = {
+    Herkunft: "Herkunft",
+    Genetik: "Genetik",
+    Ausbildung: "Ausbildung",
+    Sonstige: "Sonstige"
+}
 // darkspace.itemProperties = {
 //     Computer: "Computer",
 //     Energie: "Energie",

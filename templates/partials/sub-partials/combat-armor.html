@@ -1,6 +1,9 @@
 <div>
+    
     <h2>Panzerung</h2>
+        
     <ul>
+        <i class="fas fa-plus createItem" data-type="Panzerung"></i>
         {{#each Panzerung}}
         <li class="item" data-item-id="{{this._id}}">
             <h3><a class="roleable" data-rolltype="protection" data-structure="{{this.data.armor}}" data-protection="{{this.data.protection}}">{{this.name}}</a></h3>
@@ -20,7 +23,7 @@
             </div>
             <hr>
             <div class="text_c">
-                <p>Module</p>
+                {{>"systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html"}}
             </div>
             <hr>
             <div class="grid col3">

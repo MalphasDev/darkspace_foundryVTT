@@ -25,7 +25,9 @@ export default class DSItem extends Item {
 
         
         if (this.type === "Waffe") {
-            data.dmg = data.damage + data.mk;
+            data.mkdmg = Math.ceil(data.mk/1);
+            data.sizedmg = Math.ceil(data.size/2);
+            data.dmg = Math.max(data.damage + data.mkdmg + data.sizedmg,1);
         }
         
         if (this.type === "Panzerung") {
@@ -64,23 +66,53 @@ export default class DSItem extends Item {
             break;
         }
 
-        //data.renderedDesc = TextEditor.previewHTML(this.data.data.description,500);
+        
+    }
+
+    chatTemplate = {
+        "Waffe": "systems/darkspace/templates/dice/chatWeapon.html"
     }
     
-    async roll() {
-        let chatData = {
-            user: game.user._id,
-            speaker: ChatMessage.getSpeaker()
+    async roll(event, rollformular, fullActorData) {
+        const messageTemplate = "systems/darkspace/templates/dice/attackRoll.html"
+        let rollResult = new Roll(rollformular, fullActorData).roll();
+
+        let krit = rollResult.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
+        let resultMessage = "";
+
+            
+        if (krit[2] >= 9) {
+            resultMessage = "Ein kririscher Erfolg!";
         }
+        if (rollResult.total <= 9) {
+            resultMessage = "Ein Patzer."
+        }
+            
+        let messageData = {
+            user: game.user._id,
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+            
+            flavor: resultMessage,
+        };
         let cardData = {
             ...this.data,
+            ...rollResult,
             owner: this.actor.id
         }
 
-        chatData.content = await renderTemplate(this.chatTemplate[this.type], cardData)
-        chatData.roll = true;
-        return ChatMessage.create(chatData);
+        console.log(rollResult.terms[0].results)
+        let dices = [];
+        for (var i = 0; i < rollResult.terms[0].results.length; i++) {
+            dices.push(rollResult.terms[0].results[i].result)
+        }
+        debugger
+        
+        messageData.content = await renderTemplate(this.chatTemplate[this.type], cardData);
+        console.log(cardData)
+        return ChatMessage.create(messageData);
+        //rollResult.toMessage(messageData);
     }
+
 
 
 }

@@ -26,7 +26,7 @@
             <ul class="fertfeld">
                 {{#each this.skill as |fertval fertname|}}
                 <li class="gridleftcenter">
-                    <a class="roleable" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}">{{fertname}}</a>
+                    <a class="rollSkill" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}">{{fertname}}</a>
                     <div class="npc-skillbox">
                         {{#if ../../data.data.Bedrohungsstufe}}
                         <span class="npcBonus">{{../../data.data.halfBs}} +</span>

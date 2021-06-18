@@ -1,19 +1,20 @@
 <form class="{{cssClass}}" autocomplete="off">
     {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
 
-    
-    
-    <div class="sheet-content">
+    <div class="grid col4 gridcenter">
         
-        <div class="desc-content">
-            <h2>Module</h2>
-            {{editor content=data.data.module target="data.module" button=true owner=owner editable=editable rollData=rollData}}
-        </div>
-        <div class="desc-content">
-            <h2>Beschreibung</h2>
-            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
-        </div>
+        <span>Komfort</span>
+        <span>Ressourcen</span>
+        <span>Kriminialität</span>
+        <span>Verschmutzung</span>
+
+        <input class="value_box" type="number" name="data.comfort" value="{{data.data.comfort}}">
+        <input class="value_box" type="number" name="data.ressourcen" value="{{data.data.ressourcen}}">
+        <input class="value_box" type="number" name="data.crime" value="{{data.data.crime}}">
+        <input class="value_box" type="number" name="data.polution" value="{{data.data.polution}}">
     </div>
+
+    {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
         
     
 </form>

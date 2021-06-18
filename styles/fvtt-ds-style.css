@@ -194,6 +194,9 @@ ul {
 .flex-evenly {
     justify-content: space-evenly;
 }
+.flex-between {
+    justify-content: space-between;
+}
 .column {
     flex-direction: column;
 }
@@ -247,6 +250,9 @@ ul {
 }
 .col5 {
     grid-template-columns: repeat(5, 1fr);
+}
+.col5-31111 {
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
 }
 .col6 {
     grid-template-columns: repeat(6, 1fr);
@@ -365,4 +371,19 @@ ul {
 .derivedValue {
     text-align: center;
     font-size: 1.2em;
+}
+.collapsible-cntr {
+    display: none;
+}
+.collapsible-cntr + div {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.5s linear;
+}
+.collapsible-cntr:checked + div {
+    max-height: 150px;
+    overflow: scroll;
+}
+.collapsible {
+    cursor: pointer;
 }

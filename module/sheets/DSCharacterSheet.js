@@ -1,3 +1,4 @@
+
 export default class DSCharakcterSheet extends ActorSheet {
     get template() {
         return `systems/darkspace/templates/sheets/actors/${this.actor.data.type}-sheet.html`;
@@ -39,54 +40,110 @@ export default class DSCharakcterSheet extends ActorSheet {
         /* html.find(cssSelector).event(this._someCallBack.bind(this)); <---- Template */
 
         super.activateListeners(html);
+        html.find(".createItem").click(this._onCreateItem.bind(this))
         html.find(".item-edit").click(this._onItemEdit.bind(this));
         html.find(".item-delete").click(this._onItemDelete.bind(this));
+        html.find(".rollSkill").click(this._onRollSkill.bind(this));
         html.find(".roleable").click(this._onRollItem.bind(this));
         html.find(".roll-btn").click(this._onCustomRoll.bind(this));
-        html.find(".toChat").click(this._toChat.bind(this));
         //html.find(".checkcounter").click(this._onChangeCounter.bind(this));
     }
 
-    _onRollItem(event) {
+
+    async _onRollSkill(event) {
+
+        const element = event.currentTarget;
+        const dataset = element.dataset;
+        var dynattr;
+        var dynskill;
+        var attrMod = this.object.data.data.customroll.dice;
+        var fertMod = this.object.data.data.customroll.bonus
+        var fullActorData = this.actor.data.data // Actor Data zusammenstellen. Wird durch zusätzliche Objekte ergänzt
+        dynattr = this.object.data.data.charattribut[dataset.attr].attribut;
+        dynskill = this.object.data.data.charattribut[dataset.attr].skill[dataset.skill];
+        
+        
+        if (this.object.data.type === "Nebencharakter") {
+            dynattr += this.object.data.data.Bedrohungsstufe
+            dynskill += Math.ceil( (this.object.data.data.Bedrohungsstufe)/2 )
+        }
+        
+        
+
+        var rollformular;
+        if (this.object.data.data.customroll.global == true) {
+            dynattr += attrMod;
+            dynskill += fertMod;
+            
+            if (this.object.data.data.customroll.removehighest != true) {
+                rollformular = dynattr + "d10x10kh2+" + dynskill;
+                
+            } else {
+                rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
+            }
+        } else {
+            rollformular = dynattr + "d10x10kh2+" + dynskill;
+        }
+
+        let rollResult = new Roll(rollformular, fullActorData).roll();
+        let krit = rollResult.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
+        let resultMessage = "";
+        
+        
+            
+        if (krit[2] >= 9) {
+            resultMessage = "Ein kririscher Erfolg!";
+        }
+        if (rollResult.total <= 9) {
+            resultMessage = "Ein Patzer."
+        }
+            
+        let messageData = {
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+            flavor: resultMessage
+        };
+        rollResult.toMessage(messageData);
+    }
+
+
+    async _onRollItem(event) {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
+        var dynattr;
+        var dynskill;
+        var attrMod = this.object.data.data.customroll.dice;
+        var fertMod = this.object.data.data.customroll.bonus
+        
+        var fullActorData = this.actor.data.data // Actor Data zusammenstellen. Wird durch zusätzliche Objekte ergänzt
 
-
+        
         if (dataset.rolltype) {
-            var dynattr;
-            var dynskill;
-
-            var attrMod = this.object.data.data.customroll.dice;
-            var fertMod = this.object.data.data.customroll.bonus
-
-            if (dataset.rolltype == "skill") {
-                dynattr = this.object.data.data.charattribut[dataset.attr].attribut;
-                dynskill = this.object.data.data.charattribut[dataset.attr].skill[dataset.skill];
-
-
-            }
+            
+            const itemId = element.closest(".item").dataset.itemId;
+            const item = this.actor.getOwnedItem(itemId);
 
             if (dataset.rolltype == "combat") {
                 var skillident = dataset.skill;
                 var attrident = "";
+                var weaponData = {weaponDmg: dataset.dmg, weaponRange: dataset.range}
+                fullActorData = {fullActorData, weaponData}
+                
+                // SKILLIDENTS FÜR NEBENCHARAKTERE
                 if (this.object.data.type === "Nebencharakter") {
-                    if (["Fernkampfangriff"].includes(skillident)) {attrident = "Fernkampf";}
-                    if (["Nahkampfangriff"].includes(skillident)) {attrident = "Nahkampf";}
+                    if (["Schusswaffen", "Unterstützungswaffen"].includes(skillident)) {attrident = "Fernkampf";}
+                    if (["Kampftechnik", "Nahkampfwaffen"].includes(skillident)) {attrident = "Nahkampf";}
                 }
 
-                // SKILLIDENTS FÜR NEBENCHARAKTERE
-
+                // SKILLIDENTS FÜR CHARAKTERE
                 if (this.object.data.type === "Charakter") {
                     if (["Kampftechnik", "Schusswaffen"].includes(skillident)) {attrident = "Geschick";}
                     if (["Nahkampfwaffen", "Unterstützungswaffen"].includes(skillident)) {attrident = "Konstitution";}
                     
                 }
-                console.log(attrident)
-                console.log(this.object.data.data.charattribut)
-                debugger;
                 dynattr = this.object.data.data.charattribut[attrident].attribut;
                 dynskill = this.object.data.data.charattribut[attrident].skill[skillident];
+
             }
 
             if (dataset.rolltype == "protection") {
@@ -94,13 +151,9 @@ export default class DSCharakcterSheet extends ActorSheet {
                 dynskill = dataset.protection;
             }
 
-
             var rollformular;
 
-            if (this.object.data.type === "Nebencharakter") {
-                dynattr += this.object.data.data.Bedrohungsstufe
-                dynskill += Math.ceil( (this.object.data.data.Bedrohungsstufe)/2 )
-            }
+            
             if (this.object.data.data.customroll.global == true) {
                 dynattr += attrMod;
                 dynskill += fertMod;
@@ -114,37 +167,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             } else {
                 rollformular = dynattr + "d10x10kh2+" + dynskill;
             }
-
-            let roll = new Roll(rollformular, this.actor.data.data);
-            let label = dataset.label ? `${dataset.label}` : '';
-
-
-            // FOUNDRY HINWEIS: Roll#evaluate is becoming asynchronous.
-            //  In the short term you may pass async=true or async=false
-            //  to evaluation options to nominate your preferred behavior.
-
-
-
-            let clearRollFormular = toString(dynattr+"W10 + dynskill");
-
-            roll.roll()
-
-            let krit = roll.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
-            let resultMessage = "";
-
-
-            if (krit[2] >= 9) {
-                resultMessage = "Ein kririscher Erfolg!";
-            }
-            if (roll.total <= 9) {
-                resultMessage = "Ein Patzer."
-            }
-            roll.toMessage({
-                speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                flavor: resultMessage
-              });
-
-
+            item.roll(event, rollformular, fullActorData);
 
         }
     }
@@ -184,7 +207,17 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
 
 
+    _onCreateItem(event) {
+        event.preventDefault()
+        let element = event.currentTarget;
 
+        let itemData = {
+            name: "Neuer Gegenstand",
+            type: element.dataset.type
+        }
+
+        return this.actor.createOwnedItem(itemData);
+    }
     _onItemEdit(event) {
         event.preventDefault();
         let element = event.currentTarget;
@@ -196,17 +229,18 @@ export default class DSCharakcterSheet extends ActorSheet {
         event.preventDefault();
         let element = event.currentTarget;
         let itemId = element.closest(".item").dataset.itemId;
-        return this.actor.deleteOwnedItem(itemId); /* <-- Wird in Foundry VTT 9.x ersetzt */
-    }
-    _toChat(event) {
-        console.log(event)
-        console.log(this)
-        event.preventDefault();
-        const element = event.currentTarget;
-        const dataset = element.dataset;
-        const itemId = event.currentTarget.closest(".item").dataset.itemId;
-        const item = this.actor.getOwnedItem(itemId);
-        item.roll()
-    }
+        let itemInfo = this.object.data.items.filter( (item) => {return item._id == itemId})[0]
+        
+          Dialog.confirm({
+            title: "Gegenstand entfernen",
+            content: "Möchtest du " + itemInfo.name + " wirklich löschen?",
+            yes: () => {ui.notifications.info(
+                "Gegenstand gelöscht");
+                return this.actor.deleteOwnedItem(itemId); /* <-- Wird in Foundry VTT 9.x ersetzt */},
+            no: () => {},
+            defaultYes: true
+          });
 
+        
+    }
 }
