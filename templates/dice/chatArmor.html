@@ -1,0 +1,21 @@
+<div>
+    <h3>{{name}}</h3>
+    <p class="anmerkung text_c">Struktur {{this.terms.[0].number}}W / Schutzwert +{{this.terms.[2].number}}</p>
+    <hr>
+    <div class="flexDice">
+        {{#each this.sortetDice}}
+        <span>{{this}}</span>
+        {{/each}}
+        <span>( + {{this.terms.[2].number}})</span>
+    </div>
+    <hr>    
+        <div class="flexResult">{{this._total}}</div>
+        {{#if this.msg}}
+        <p class="text_c">{{this.msg}}</p>
+        {{/if}}
+    <hr>
+        <div class="text_c">
+            <p>Körperzone</p>
+            <p class="chatStats">{{this.data.fullItemData.data.bodyPart}}</p>
+        </div>
+</div>

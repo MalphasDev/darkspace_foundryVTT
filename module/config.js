@@ -4,7 +4,7 @@ export const darkspace = {};
 darkspace.attackTypes = {
     none: "",
     Schusswaffen: "Schusswaffen",
-    Nahkampffwaffen: "Nahkampffwaffen",
+    Nahkampfwaffen: "Nahkampfwaffen",
     Kampftechnik: "Kampftechnik",
     Unterstützungswaffen: "Unterstützungswaffen",
 }

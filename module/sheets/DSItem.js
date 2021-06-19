@@ -1,7 +1,4 @@
 export default class DSItem extends Item {
-    chatTemplate = {
-        "Talent": "systems/darkspace/templates/partials/chatMessages/talents.html"
-    }
     
     
     prepareData() {
@@ -70,44 +67,49 @@ export default class DSItem extends Item {
     }
 
     chatTemplate = {
-        "Waffe": "systems/darkspace/templates/dice/chatWeapon.html"
+        "Waffe": "systems/darkspace/templates/dice/chatWeapon.html",
+        "Panzerung": "systems/darkspace/templates/dice/chatArmor.html"
     }
     
     async roll(event, rollformular, fullActorData) {
-        const messageTemplate = "systems/darkspace/templates/dice/attackRoll.html"
-        let rollResult = new Roll(rollformular, fullActorData).roll();
 
+        let fullItemData = this.data;
+
+        let fullData = {fullActorData, fullItemData}
+        
+        let rollResult = new Roll(rollformular, fullData).roll();
         let krit = rollResult.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
+        
         let resultMessage = "";
 
-            
-        if (krit[2] >= 9) {
-            resultMessage = "Ein kririscher Erfolg!";
-        }
-        if (rollResult.total <= 9) {
-            resultMessage = "Ein Patzer."
-        }
+        // --------------------- //
+        // Krit und Patzer Logik //
+        // --------------------- //
+        if (krit[2] >= 9) { resultMessage = {msg: "KRITISCHER ERFOLG"}; }
+        if (rollResult.total <= 9) { resultMessage = {msg: "PATZER"} }
             
         let messageData = {
             user: game.user._id,
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-            
-            flavor: resultMessage,
         };
-        let cardData = {
-            ...this.data,
-            ...rollResult,
-            owner: this.actor.id
-        }
-
-        console.log(rollResult.terms[0].results)
+        
         let dices = [];
         for (var i = 0; i < rollResult.terms[0].results.length; i++) {
             dices.push(rollResult.terms[0].results[i].result)
         }
-        debugger
+        let diceResult = {sortetDice: dices.sort( (a,b) => (b - a) )}
         
-        messageData.content = await renderTemplate(this.chatTemplate[this.type], cardData);
+        let cardData = {
+            ...this.data,
+            ...rollResult,
+            ...diceResult,
+            ...resultMessage,
+            owner: this.actor.id
+        }
+        
+        
+        messageData.content = await renderTemplate(this.chatTemplate[this.type], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
+        console.log("++++++++> cardData:")
         console.log(cardData)
         return ChatMessage.create(messageData);
         //rollResult.toMessage(messageData);

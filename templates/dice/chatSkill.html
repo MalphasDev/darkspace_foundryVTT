@@ -1,0 +1,16 @@
+<div>
+    <h3>{{this.skill}}-Probe</h3>
+    <p class="anmerkung text_c">{{this.attribute}} {{this.terms.[0].number}}W / {{this.skill}} +{{this.terms.[2].number}}</p>
+    <hr>
+    <div class="flexDice">
+        {{#each this.sortetDice}}
+        <span>{{this}}</span>
+        {{/each}}
+        <span>( + {{this.terms.[2].number}})</span>
+    </div>
+    <hr>    
+        <div class="flexResult">{{this._total}}</div>
+        {{#if this.msg}}
+        <p class="text_c">{{this.msg}}</p>
+        {{/if}}
+</div>

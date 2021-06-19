@@ -132,10 +132,6 @@ input[type="time"]:focus {
 }
 /* ---------- Sheet Style ---------- */
 
-form {
-    display: flex;
-    flex-direction: column;
-}
 .sheet-body, 
 .sheet-content, 
 .desc-content, 
@@ -198,9 +194,20 @@ ul {
     justify-content: space-between;
 }
 .column {
-    flex-direction: column;
+   flex-direction: column;
 }
-
+.flexDice {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.flexResult {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
 
 .grid {
     display: grid;
@@ -364,11 +371,9 @@ ul {
     width: 70px;
     justify-self: right;
 }
-.itemtitle {
-    text-align: center;
-    font-size: 1.2em;
-}
-.derivedValue {
+.itemtitle, 
+.derivedValue,
+.chatStats {
     text-align: center;
     font-size: 1.2em;
 }
