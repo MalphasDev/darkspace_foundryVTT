@@ -13,7 +13,7 @@ export default class DSCharacter extends Actor {
         // Make separate methods for each Actor type (character, npc, etc.) to keep
         // things organized.
 
-        if (this.type != 'Drohne/Fahrzeug') {
+        if (this.type != 'DrohneFahrzeug') {
             data.maxBruises = 5 + data.bruises.max;
             data.maxWounds = 5 + data.wounds.max;
 
@@ -30,8 +30,6 @@ export default class DSCharacter extends Actor {
             data.keepOfItems = Math.max(...Array.from(ownedItems.map( (k) => {return k.data.data.keep} )))
             let itemSizes = Array.from(ownedItems.map( (k) => {return k.data.data.size})).sort( (a,b) => (a-b))
             
-
-            let itemModSizes = [];
             let keepAdd = 0;
             for (var i = 0; i < itemSizes.length; i++) {
                 keepAdd = 1/(Math.max(itemSizes[i]*-1,1))
@@ -50,8 +48,17 @@ export default class DSCharacter extends Actor {
             data.finalinitiative = data.initiative + data.initMod; 
         };
 
-        if (this.type == 'Drohne/Fahrzeug') {
-            
+        if (this.type == 'DrohneFahrzeug') {
+            data.structure = Math.max(data.mk + data.size,2);
+            data.damageFailure = data.structure + data.damages.max;
+            data.damageDestruction = data.damageFailure * 2;
+
+            data.halbmk = Math.ceil(data.mk / 2);
+            data.noMk = 0;
+
+            data.initiative =  data.mk;
+            data.finalinitiative = data.initiative + data.initMod;
+            data.initBonus = Math.ceil(data.mk / 2);
         };
     
 

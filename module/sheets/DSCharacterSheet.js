@@ -62,15 +62,34 @@ export default class DSCharakcterSheet extends ActorSheet {
         
         var rollformular;                           // Formular-Variable anlegen
 
-        var dynattr = this.object.data.data.charattribut[dataset.attr].attribut;
-        var dynskill = this.object.data.data.charattribut[dataset.attr].skill[dataset.skill];
+        var dynattr = 0;
+        var dynskill = 0;
 
-        var roleData = {attribute: dataset.attr, skill: dataset.attr};
+        console.log(dataset.attr)
+        console.log(dataset.skill)
+        
+        var roleData = {attribute: dataset.attr, skill: dataset.skill};
+        
+        if (this.actor.type == "DrohneFahrzeug") {
+            dynattr = this.object.data.data[dataset.attr]
+            dynskill = this.object.data.data[dataset.skill];
+            
+            roleData = {attribute: "", skill: "Modulklasse"}
+        } else {
+            dynattr = this.object.data.data.charattribut[dataset.attr].attribut;
+            dynskill = this.object.data.data.charattribut[dataset.attr].skill[dataset.skill];
+        }
+        
+
+        if (this.actor.type == "Nebencharakter") {
+            dynattr += parseInt(this.object.data.data.Bedrohungsstufe);
+            dynskill += Math.ceil(parseInt(this.object.data.data.Bedrohungsstufe)/2);
+        }
+        
         // ------------------------------------- //
         // Custom Roll und globale Modifikatoren //
         // ------------------------------------- //
         
-            
         if (this.object.data.data.customroll.global == true) {
             dynattr += attrMod;
             dynskill += fertMod;

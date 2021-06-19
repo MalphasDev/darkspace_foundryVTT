@@ -392,3 +392,6 @@ ul {
 .collapsible {
     cursor: pointer;
 }
+.einzug_ul {
+    margin-left: 4ch;
+}

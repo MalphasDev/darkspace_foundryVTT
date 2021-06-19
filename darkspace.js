@@ -42,6 +42,8 @@ async function preloadHandlebarsTemplates () {
 
         //NPCs
         "systems/darkspace/templates/sheets/actors/Nebencharakter-sheet.html",
+        "systems/darkspace/templates/sheets/actors/DrohneFahrzeug-sheet.html",
+
         
         //Items
         "systems/darkspace/templates/partials/MKSize.html",

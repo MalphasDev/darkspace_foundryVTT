@@ -3,7 +3,7 @@
         "types": [
             "Charakter",
             "Nebencharakter",
-            "Drohne/Fahrzeug"
+            "DrohneFahrzeug"
         ],
         "templates": {
             "commonStats": {
@@ -179,8 +179,7 @@
             
         "Nebencharakter": {
             "Bedrohungsstufe": 1,
-            "Modulklasse": 0,
-
+            "initMod": 0,
             "bruises": {
                 "value": 0,
                 "max": 5
@@ -228,6 +227,33 @@
               },
             
             "Eigenschaften": [],
+            "templates": ["commonStats"]
+        },
+        "DrohneFahrzeug": {
+            "mk": 1,
+            "size": 1,
+            "initMod": 0,
+
+            "damages": {
+                "value": 0,
+                "max": 0
+            },
+
+            "customroll": {
+                "dice": null,
+                "bonus": null,
+                "removehighest": false,
+                "global": false
+              },
+            
+            "Eigenschaften": {
+                "Computer": false,
+                "Energie": false,
+                "Leistung": false,
+                "Sensoren": false
+
+            },
+
             "templates": ["commonStats"]
         }
     },

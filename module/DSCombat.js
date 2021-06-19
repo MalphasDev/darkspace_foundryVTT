@@ -71,7 +71,9 @@ export default class DSCombat extends Combat {
                 var currentCombatant = Array.from(actorData.filter( (d) => {return d.data._id == id} ))[0];
                 var actorByCombatantId = currentCombatant._actor.data;
                 console.log(currentCombatant)
-                var initRoll = new Roll(actorByCombatantId.data.initiative + "d10kh2",{}).evaluate()
+                var initRoll
+                
+                initRoll = new Roll(actorByCombatantId.data.initiative + "d10kh2",{}).evaluate()
                 this.updateCombatant({
                     _id: id,
                     initiative: initRoll.total

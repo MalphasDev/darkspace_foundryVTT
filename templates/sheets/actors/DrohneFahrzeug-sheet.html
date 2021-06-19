@@ -1,0 +1,133 @@
+<form class="{{cssClass}}" autocomplete="off">
+    
+    
+    
+    <div class="grid col3">
+        <div>
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            
+            <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+
+            <div class="grid col3-112 gridleftcenter">
+                <span>MK</span>
+                <span>GM</span>
+
+                <span>Initiative</span>
+                <input class="value-box" name="data.mk" value="{{data.data.mk}}" type="number">
+                <input class="value-box" name="data.size" value="{{data.data.size}}" type="number">
+                <span>
+                    <span> {{data.data.initiative}} [MK] + </span>
+                    <input type="number" class="value-box" name="data.initMod" value="{{data.data.initMod}}">
+                    <span> + {{data.data.finalinitiative}}W + {{data.data.initBonus}}</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- BESCHÄDIGUNGEN -->
+        <div class="grid col2 gridcenter h_gap">
+            <h3 class="cell_r">Beschädigung</h3>
+            <div class="grid gridcenter">
+                <span class="derivedValue">{{data.data.damages.value}} / {{data.data.damageFailure}} / {{data.data.damageDestruction}}</span>
+                
+                <input type="range" min="0" max={{data.data.damageDestruction}} value="{{data.data.damages.value}}" name="data.damages.value" data-type="Number" class="slider" id="damage_slider">
+                <div class="grid gridcenter">
+                    <p>Max. Beschädigung</p>
+                    <div>
+                        <span>Zusätzliche max. Beschädigung: </span>
+                        <input type="number" name=data.damages.max value={{data.data.damages.max}}>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+    </div>
+
+    <div class="grid col2-12">
+        <div>
+            <h2>Modulklasse</h2>
+            <div class="grid col2">
+                <span class="attrname">Modulklasse</span>
+                    <span class="attrvalue">    
+                        {{data.data.mk}}
+                        <img class="d10-symbol" src="systems/darkspace/templates/d10.svg">
+                    </span>
+                </div>
+                    
+                <ul class="fertfeld">
+                    <li class="gridleftcenter">
+                        <a class="roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk">Volle Modulklasse</a>
+                        <span class="npc-skillbox">{{data.data.mk}}</span>
+                        
+                    </li>
+                    <li class="gridleftcenter">
+                        <a class="roleSkill" data-rolltype="skill" data-attr="mk" data-skill="halbmk">Halbe Modulklasse</a>
+                        <span class="npc-skillbox">{{data.data.halbmk}}</span>
+                        <ul class="einzug_ul">
+                            {{#if data.data.Eigenschaften.Computer}}
+                            <li>Cortex, Logik</li>
+                            {{/if}}
+
+                            {{#if data.data.Eigenschaften.Energie}}
+                            <li>Fitness</li>
+                            {{/if}}
+
+                            {{#if data.data.Eigenschaften.Leistung}}
+                            <li>Leistung</li>
+                            {{/if}}
+                            
+                            {{#if data.data.Eigenschaften.Sensoren}}
+                            <li>Wahrnehmen</li>
+                            {{/if}}
+                        </ul>
+                    </li>
+                    <li class="gridleftcenter">
+                        <a class="roleSkill" data-rolltype="skill" data-attr="mk" data-skill="noMk">Ohne Modulklasse</a>
+                        <span class="npc-skillbox">0</span>
+                        
+                    </li>
+                </ul>
+        </div>
+        <div>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
+        </div>
+    </div>
+    
+    
+
+    <div class="grid col2">
+        <div>
+            <h2>Eigenschaften</h2>
+            <div class="grid col4 gridcenter">
+                <div class="flex column">
+                    <label for="propComputer">Computer</label>
+                    <input type="checkbox" id="propComputer" name="data.Eigenschaften.Computer" {{checked data.data.Eigenschaften.Computer}}>
+                </div>
+                <div class="flex column">
+                    <label for="propEnergie">Energie</label>
+                    <input type="checkbox" id="propEnergie" name="data.Eigenschaften.Energie" {{checked data.data.Eigenschaften.Energie}}>
+                </div>
+                <div class="flex column">
+                    <label for="propLeistung">Leistung</label>
+                    <input type="checkbox" id="propLeistung" name="data.Eigenschaften.Leistung" {{checked data.data.Eigenschaften.Leistung}}>
+                </div>
+                <div class="flex column">
+                    <label for="propSensoren">Sensoren</label>
+                    <input type="checkbox" id="propSensoren" name="data.Eigenschaften.Sensoren" {{checked data.data.Eigenschaften.Sensoren}}>
+                </div>
+            </div>
+        </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
+    </div>
+    
+    <div class="sheet-content">
+        {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+
+    </div>
+
+    
+    
+    
+</form>
