@@ -81,6 +81,22 @@ Hooks.once("init", function() {
     Actors.registerSheet("darkspace", DSNebencharakter, {makeDefault: true});
 
     preloadHandlebarsTemplates();
+    
+    game.settings.register("darkspace", "ae_input", {
+        name: "Eingabemethode für Aktionseinheiten",
+        hint: "Wähle, ob du einen Slider oder Buttons für die Eingabe der AE-Kosten benutzen möchtest. Dieses Fenster muss neu geladen werden, damit die Änderung wirksam wird.",
+        scope: "client",
+        config: true,
+        type: String,
+        choices: {
+            "ae_button": "Buttons",
+            "ae_slider": "Slider"
+        },
+        default: "ae_button",
+        onChange: value => {
+            console.log(value)
+        }
+    })
 
     Handlebars.registerHelper("strToHTML", function (str) {
 
@@ -95,6 +111,4 @@ Hooks.once("init", function() {
     });
 
 });
-
-
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen
