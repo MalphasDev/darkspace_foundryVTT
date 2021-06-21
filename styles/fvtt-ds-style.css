@@ -340,9 +340,17 @@ ul {
     align-items: center;
 }
 .d10-symbol {
-    margin: 5px 2px 5px 5px;
+    margin: 0 2px;
     padding: 0px;
-    width: 32px;
+    width: 28px;
+}
+.roleSkill {
+    border-radius: 50%;
+}
+.roleSkill:hover {
+    cursor: pointer;
+    background-color: rgba(204,0,0,0.3);
+    box-shadow: 0 0 5px rgb(204 0 0);
 }
 .fertfeld li {
     display: grid;
@@ -367,9 +375,11 @@ ul {
     width: 55px;
     font-size: 20px;
 }
-.npc-skillbox {
+.skillbox {
     width: 70px;
     justify-self: right;
+    display: flex;
+    align-items: center;
 }
 .itemtitle, 
 .derivedValue,

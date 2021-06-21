@@ -16,8 +16,8 @@
                     <span class="npcBonus">{{../data.data.Bedrohungsstufe}} +</span>
                     {{/if}}
                     <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}" type="number">
+                    <span>W</span>
                     
-                    <img class="d10-symbol" src="systems/darkspace/templates/d10.svg">
                 </span>
                 </div>
                 
@@ -27,13 +27,13 @@
                 {{#each this.skill as |fertval fertname|}}
                 <li class="gridleftcenter">
                     <a class="roleSkill" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}">{{fertname}}</a>
-                    <div class="npc-skillbox">
+                    <div class="skillbox">
                         {{#if ../../data.data.Bedrohungsstufe}}
                         <span class="npcBonus">{{../../data.data.halfBs}} +</span>
                         {{/if}}
                         <input class="value_box" name="data.charattribut.{{attrname}}.skill.{{fertname}}" value="{{this}}" type="number">
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}" src="systems/darkspace/templates/d10.svg">
                     </div>
-                    
                 </li>
                 {{/each}}
             </ul>
