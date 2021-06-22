@@ -132,14 +132,10 @@ input[type="time"]:focus {
 }
 /* ---------- Sheet Style ---------- */
 
-.sheet-body, 
-.sheet-content, 
-.desc-content, 
-.editor {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-}
+
+.editor .editor-content {
+    min-height: 400px;
+  }
 .checkcounter {
     width: 14px;
     height: 14px;
@@ -160,6 +156,11 @@ input[type="number"] {
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
+}
+.editor ul {
+    list-style: initial;
+    padding-left: 20px;
     margin: 0;
 }
 

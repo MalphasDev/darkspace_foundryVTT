@@ -44,7 +44,7 @@ export default class DSCombatTracker extends CombatTracker {
     }
 
     async _increaseAE(event) {
-        event.preventDefault();
+        //event.preventDefault();
         const combat = this.viewed;
         if (combat.sendAE >= 0) {} else {combat.sendAE = 0};
         var currentTargetId = this.getCurrentTargetId();

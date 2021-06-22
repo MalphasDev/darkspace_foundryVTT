@@ -84,7 +84,7 @@ Hooks.once("init", function() {
     
     game.settings.register("darkspace", "ae_input", {
         name: "Eingabemethode für Aktionseinheiten",
-        hint: "Wähle, ob du einen Slider oder Buttons für die Eingabe der AE-Kosten benutzen möchtest. Dieses Fenster muss neu geladen werden, damit die Änderung wirksam wird.",
+        hint: "Wähle, ob du einen Slider oder Buttons für die Eingabe der AE-Kosten benutzen möchtest. Dieses Fenster muss neu geladen werden, damit die Änderung wirksam",
         scope: "client",
         config: true,
         type: String,
