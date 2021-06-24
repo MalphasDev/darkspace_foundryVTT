@@ -250,6 +250,9 @@ ul {
 .col3-211 {
     grid-template-columns: 2fr 1fr 1fr;
 }
+.col3-212 {
+    grid-template-columns: 2fr 1fr 2fr;
+}
 .col4 {
     grid-template-columns: repeat(4, 1fr);
 }
@@ -302,6 +305,7 @@ ul {
     align-self: flex-end;
 }
 .container_center {
+    display: block;
     margin: 0 auto;
     width: fit-content;
 }
@@ -348,6 +352,8 @@ ul {
 .roleSkill {
     border-radius: 50%;
 }
+.fa-caret-left:hover,
+.fa-caret-right:hover,
 .roleSkill:hover {
     cursor: pointer;
     background-color: rgba(204,0,0,0.3);
@@ -405,4 +411,18 @@ ul {
 }
 .einzug_ul {
     margin-left: 4ch;
+}
+.fa-caret-left,
+.fa-caret-right {
+    margin: 0 10px;
+}
+.displaySkill:hover,
+.itemToChat:hover {
+    cursor: help;
+}
+.evalDice {
+    font-weight: bold;
+}
+.kritDice {
+    color: rgb(144 72 72);
 }

@@ -5,7 +5,8 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
     chatTemplate = {
         "Skill": "systems/darkspace/templates/dice/chatSkill.html",
-        "Custom": "systems/darkspace/templates/dice/chatCustom.html"
+        "Custom": "systems/darkspace/templates/dice/chatCustom.html",
+        "Item": "systems/darkspace/templates/dice/chatItem.html"
     }
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -46,9 +47,13 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".createItem").click(this._onCreateItem.bind(this))
         html.find(".item-edit").click(this._onItemEdit.bind(this));
         html.find(".item-delete").click(this._onItemDelete.bind(this));
+        html.find(".itemToChat").click(this._itemToChat.bind(this));
         html.find(".roleSkill").click(this._onRollSkill.bind(this));
         html.find(".roleable").click(this._onRollItem.bind(this));
         html.find(".roll-btn").click(this._onCustomRoll.bind(this));
+        html.find(".incRess, .decRess").click(this._onModRess.bind(this));
+        html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
+        //html.find(".decRess").click(this._onModRess.bind(this));
         //html.find(".checkcounter").click(this._onChangeCounter.bind(this));
     }
 
@@ -103,9 +108,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         } else {
             rollformular = dynattr + "d10x10kh2+" + dynskill;
         }
-
-        console.log(rollformular)
-
         var rollResult = new Roll(rollformular, this.actor.data.data).roll();
         
         // --------------------- //
@@ -126,7 +128,21 @@ export default class DSCharakcterSheet extends ActorSheet {
         for (var i = 0; i < rollResult.terms[0].results.length; i++) {
             dices.push(rollResult.terms[0].results[i].result)
         }
-        let diceResult = {sortetDice: dices.sort( (a,b) => (b - a) )}
+        let fullDice = dices.sort( (a,b) => (b - a) )
+        console.log(fullDice)
+        let evalDice = [fullDice[0], fullDice[1]]
+        console.log(evalDice)
+        let kritDice = [fullDice[2]]
+        console.log(kritDice)
+        let unEvalDice = fullDice.splice(3,100)
+        console.log(unEvalDice)
+        
+        
+        let diceResult = {
+            evalDice: evalDice,
+            kritDice: kritDice,
+            unEvalDice: unEvalDice
+        }
         
         let cardData = {
             ...this.data,
@@ -137,11 +153,11 @@ export default class DSCharakcterSheet extends ActorSheet {
             owner: this.actor.id
         }
         messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
-        console.log("++++++++> cardData:")
-        console.log(cardData)
         return ChatMessage.create(messageData);
         
     }
+
+    
 
     async _onRollItem(event) {
         event.preventDefault();
@@ -200,7 +216,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         // Custom Roll und globale Modifikatoren //
         // ------------------------------------- //
         
-            
         if (this.object.data.data.customroll.global == true) {
             dynattr += attrMod;
             dynskill += fertMod;
@@ -262,7 +277,20 @@ export default class DSCharakcterSheet extends ActorSheet {
         for (var i = 0; i < rollResult.terms[0].results.length; i++) {
             dices.push(rollResult.terms[0].results[i].result)
         }
-        let diceResult = {sortetDice: dices.sort( (a,b) => (b - a) )}
+        let fullDice = dices.sort( (a,b) => (b - a) )
+        console.log(fullDice)
+        let evalDice = [fullDice[0], fullDice[1]]
+        console.log(evalDice)
+        let kritDice = [fullDice[2]]
+        console.log(kritDice)
+        let unEvalDice = fullDice.splice(3,100)
+        console.log(unEvalDice)
+        
+        let diceResult = {
+            evalDice: evalDice,
+            kritDice: kritDice,
+            unEvalDice: unEvalDice
+        }
         
         let cardData = {
             ...this.data,
@@ -280,7 +308,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
     _onCreateItem(event) {
         event.preventDefault()
-        let element = event.currentTarget;
+        const element = event.currentTarget;
 
         let itemData = {
             name: "Neuer Gegenstand",
@@ -291,14 +319,14 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
     _onItemEdit(event) {
         event.preventDefault();
-        let element = event.currentTarget;
+        const element = event.currentTarget;
         let itemId = element.closest(".item").dataset.itemId;
         let item = this.actor.items.get(itemId);
         item.sheet.render(true);
     }
     _onItemDelete(event) {
         event.preventDefault();
-        let element = event.currentTarget;
+        const element = event.currentTarget;
         let itemId = element.closest(".item").dataset.itemId;
         let itemInfo = this.object.data.items.filter( (item) => {return item._id == itemId})[0]
         
@@ -311,6 +339,94 @@ export default class DSCharakcterSheet extends ActorSheet {
             no: () => {},
             defaultYes: true
           });
+    }
+    async _itemToChat(event) {
+        const element = event.currentTarget;
+        let itemId = element.closest(".item").dataset.itemId;
+        let itemList = this.object.data.items;
+        let itemClicked = itemList.filter( (i) => {return i.data._id == itemId } )
+
+        let itemType = String(itemClicked.map( (i) => {return i.data.type}))
+        let itemDefaultData = {
+            "itemName": itemClicked.map( (i) => {return i.data.name}),
+            "itemType": itemType,
+            "itemImg": itemClicked.map( (i) => {return i.data.img}),
+            "itemDesc": itemClicked.map( (i) => {return i.data.data.description})
+        }
+        let itemChatData = itemDefaultData;
+        if (itemType === "Besonderheiten") {
+            itemChatData = {
+                ...itemDefaultData,
+                "type": itemClicked.map( (i) => {return i.data.data.type})
+            }
+        }
+        if (itemType === "Talent") {
+            itemChatData = {
+                ...itemDefaultData,
+                "attribut": itemClicked.map( (i) => {return i.data.data.attribut}),
+                "skill": itemClicked.map( (i) => {return i.data.data.skill}),
+                "requirement": itemClicked.map( (i) => {return i.data.data.requirement})
+            }
+        }
+        if (itemType === "Gegenstand" || "Artifizierung") {
+            itemChatData = {
+                ...itemDefaultData,
+                "itemModules": itemClicked.map( (i) => {return i.data.data.modules}),
+                "itemMk": itemClicked.map( (i) => {return i.data.data.mk}),
+                "itemSize": itemClicked.map( (i) => {return i.data.data.size}),
+            }
+        }
+        if (itemType === "Unterbringung" ) {
+            itemChatData = {
+                ...itemDefaultData,
+                "comfort": itemClicked.map( (i) => {return i.data.data.comfort}),
+                "ressourcen": itemClicked.map( (i) => {return i.data.data.ressourcen}),
+                "crime": itemClicked.map( (i) => {return i.data.data.crime}),
+                "polution": itemClicked.map( (i) => {return i.data.data.polution}),
+            }
+        }
+        let messageData = {
+            user: game.user._id,
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        };
+        let cardData = {
+            ...this.data,
+            ...itemChatData,
+            owner: this.actor.id
+        }
+        messageData.content = await renderTemplate(this.chatTemplate["Item"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
+        return ChatMessage.create(messageData);
+    }
+
+    async _onModRess(event) {
+        let ressAttr = event.currentTarget.dataset.attr
+        let attrKey = "data.charattribut." + ressAttr + ".ress.value"
+        let ressMod = 0;
+        if (event.currentTarget.className.includes("decRess")) {ressMod = -1}
+        if (event.currentTarget.className.includes("incRess")) {ressMod = 1}
+        let newInc = this.actor.data.data.charattribut[ressAttr].ress.value + ressMod
+
+        this.actor.update({
+            "id": this.actor.id,
+            [attrKey]: newInc
+        })
+        
+    }
+    async _onModHealth(event) {
+        let currHealth = {"bruises": this.actor.data.data.bruises.value, "wounds": this.actor.data.data.wounds.value};
+        let modBruises;
+        let modWounds;
+
+        if (event.currentTarget.className.includes("decBruises")) { modBruises = -1; modWounds = 0 }
+        if (event.currentTarget.className.includes("incBruises")) { modBruises = 1; modWounds = 0 }
+        if (event.currentTarget.className.includes("decWounds")) { modBruises = 0; modWounds = -1 }
+        if (event.currentTarget.className.includes("incWounds")) { modBruises = 0; modWounds = 1 }
+        
+        this.actor.update({
+            "id": this.actor.id,
+            "data.bruises.value": currHealth.bruises + modBruises,
+            "data.wounds.value": currHealth.wounds + modWounds
+        })
 
         
     }

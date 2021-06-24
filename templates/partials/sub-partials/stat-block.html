@@ -26,7 +26,7 @@
             <ul class="fertfeld">
                 {{#each this.skill as |fertval fertname|}}
                 <li class="gridleftcenter">
-                    <a class="roleSkill" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}">{{fertname}}</a>
+                    <p>{{fertname}}</p>
                     <div class="skillbox">
                         {{#if ../../data.data.Bedrohungsstufe}}
                         <span class="npcBonus">{{../../data.data.halfBs}} +</span>
@@ -42,7 +42,11 @@
                 <li>
                     <span>{{this.ress.ressname}}</span>
                     {{this.ress.value}}
-                    <input type="range" min="0" max={{this.ress.max}} value="{{this.ress.value}}" name="data.charattribut.{{attrname}}.ress.value" data-type="Number" class="slider">
+                    <div class="flex">
+                        <i class="fas fa-caret-left decRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
+                        <input type="range" min="0" max={{this.ress.max}} value="{{this.ress.value}}" name="data.charattribut.{{attrname}}.ress.value" data-type="Number" class="slider">
+                        <i class="fas fa-caret-right incRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
+                    </div>
                 </li>
             </ul>
             {{/if}}

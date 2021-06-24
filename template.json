@@ -273,16 +273,13 @@
                 "size": 1,
                 "modules": "",
                 "description": ""
-            },
-            "weapons": {
-                "damage":1,
-                "dmgtype": ""
             }
         },
         "Waffe": {
             "attackWith": "Schusswaffen",
             "range":"0-10/20/100",
-            "templates": ["itemBase","weapons"]
+            "dmgtype": "",
+            "templates": ["itemBase"]
         },
         "Artifizierung": {
             "bodyPart": "Körper",

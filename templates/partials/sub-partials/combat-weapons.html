@@ -7,7 +7,13 @@
         <li class="item" data-item-id="{{this._id}}">
             <div>
                 <div class="grid col4-4111 gridcenter">
-                    <a class="itemtitle roleable" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}">{{this.name}}</a>
+                    <span>
+                        <a class="itemtitle flex flex-start roleable" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}">
+                            <img class="d10-symbol" src="systems/darkspace/templates/d10.svg">
+                            {{this.name}}
+                        </a>
+
+                    </span>
                     <span>GM {{this.data.size}}</span>
                     <span>MK {{this.data.mk}}</span>
                     <div>

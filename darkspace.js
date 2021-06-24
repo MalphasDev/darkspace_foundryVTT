@@ -47,14 +47,16 @@ async function preloadHandlebarsTemplates () {
         
         //Items
         "systems/darkspace/templates/partials/MKSize.html",
-        "systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html",
+        "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html",
 
         //Misc
         "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
+        "systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html",
 
         //Chat
         "systems/darkspace/templates/dice/chatWeapon.html",
-
+        "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html",
+        
         //Foundry UI-Overwrite
         "systems/darkspace/templates/sidebar/combat-tracker.html",
         "systems/darkspace/templates/sidebar/customAE.html"

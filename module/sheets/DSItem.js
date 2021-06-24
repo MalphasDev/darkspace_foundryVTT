@@ -21,11 +21,10 @@ export default class DSItem extends Item {
         
 
         
-        if (this.type === "Waffe") {
-            data.mkdmg = Math.ceil(data.mk/1);
-            data.sizedmg = Math.ceil(data.size/2);
-            data.dmg = Math.max(data.damage + data.mkdmg + data.sizedmg,1);
-        }
+        data.mkdmg = Math.ceil(data.mk/1);
+        data.sizedmg = Math.ceil(data.size/2);
+        data.dmg = Math.max(data.damage + data.mkdmg + data.sizedmg,1);
+        
         
         if (this.type === "Panzerung") {
             data.armor = data.structure;

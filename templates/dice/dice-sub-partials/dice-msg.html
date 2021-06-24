@@ -1,0 +1,22 @@
+<div class="flexDice">
+    {{#each this.evalDice}}
+    <span class="evalDice">{{this}}</span>
+    {{/each}}
+    
+    {{#each this.kritDice}}
+    <span class="kritDice">{{this}}</span>
+    {{/each}}
+    
+    {{#each this.unEvalDice}}
+    <span style="color: rgb(204, 204, 204)">{{this}}</span>
+    {{/each}}
+
+    <span>( + {{this.terms.[2].number}})</span>
+</div>
+
+<hr>    
+
+<div class="flexResult">{{this._total}}</div>
+{{#if this.msg}}
+<p class="text_c">{{this.msg}}</p>
+{{/if}}

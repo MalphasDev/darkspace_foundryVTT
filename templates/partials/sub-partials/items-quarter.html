@@ -2,10 +2,9 @@
     <h2>Unterbringung</h2>
     <ul>
         {{#each Unterbringung}}
-            <li class="" data-item-id="{{this._id}}">
-                
-                <div class="flex flex-between">
-                    <h3 style="display: inline-block;">{{this.name}}</h3>
+            <li class="item" data-item-id="{{this._id}}">
+                <div class="flex flex-between ">
+                    <h3 class="itemToChat" style="display: inline-block;">{{this.name}}</h3>
                     <span class="anmerkung">{{this.data.type}}</span>
 
                         <span class="anmerkung">MK {{this.data.mk}}</span>

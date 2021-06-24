@@ -1,9 +1,12 @@
-<div class="grid col2 gridcenter h_gap">
+<div class="grid col2-12 gridcenter h_gap">
     <h3 class="cell_r">Betäubungen</h3>
     <div class="grid gridcenter">
         <span class="derivedValue">{{data.data.bruises.value}} / {{data.data.maxBruises}}</span>
-        
-        <input type="range" min="0" max={{data.data.maxBruises}} value="{{data.data.bruises.value}}" name="data.bruises.value" data-type="Number" class="slider" id="bruises_slider">
+        <div class="flex">
+            <i class="fas fa-caret-left decBruises"></i>
+            <input type="range" min="0" max={{data.data.maxBruises}} value="{{data.data.bruises.value}}" name="data.bruises.value" data-type="Number" class="slider" id="bruises_slider">
+            <i class="fas fa-caret-right incBruises"></i>
+        </div>
         <div class="grid gridcenter">
             <p>Max. Betäubungen</p>
             <div>
@@ -16,7 +19,11 @@
     <h3 class="cell_r">Wunden</h3>
     <div class="grid gridcenter">
         <span class="derivedValue">{{data.data.wounds.value}} / {{data.data.maxWounds}}</span>
-        <input type="range" min="0" max={{data.data.maxWounds}} value="{{data.data.wounds.value}}" name="data.wounds.value" data-type="Number" class="slider" id="wounds_slider">
+        <div class="flex">
+            <i class="fas fa-caret-left decWounds"></i>
+            <input type="range" min="0" max={{data.data.maxWounds}} value="{{data.data.wounds.value}}" name="data.wounds.value" data-type="Number" class="slider" id="wounds_slider">
+            <i class="fas fa-caret-right incWounds"></i>
+        </div>
         <div class="grid gridcenter">
             <p>Max. Wunden</p>
             <div>
