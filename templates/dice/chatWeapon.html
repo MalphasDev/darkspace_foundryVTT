@@ -2,17 +2,7 @@
     <h3>{{name}}</h3>
     <p class="anmerkung text_c">{{this.terms.[0].number}}W / {{this.data.fullItemData.data.attackWith}} +{{this.terms.[2].number}}</p>
     <hr>
-    <div class="flexDice">
-        {{#each this.sortetDice}}
-        <span>{{this}}</span>
-        {{/each}}
-        <span>( + {{this.terms.[2].number}})</span>
-    </div>
-    <hr>    
-        <div class="flexResult">{{this._total}}</div>
-        {{#if this.msg}}
-        <p class="text_c">{{this.msg}}</p>
-        {{/if}}
+    {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
     <hr>
     <div class="grid col2 gridcenter">
         <span>Schaden</span>

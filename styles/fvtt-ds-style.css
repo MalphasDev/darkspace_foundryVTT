@@ -76,11 +76,13 @@ input[type="time"]:focus {
 }
 .tabs .item.active {
     text-shadow: 0 0 10px #fff;
+    background-color: #a259594f;
 }
 
 .window-content a.item {
     border: 1px solid #782e22;
     width: 80%;
+    min-width: 10ch;
     padding: 5px 0;
 }
 .window-content a.item:hover {
@@ -256,9 +258,6 @@ ul {
 .col4 {
     grid-template-columns: repeat(4, 1fr);
 }
-.col4-4111 {
-    grid-template-columns: 4fr 1fr 1fr 1fr;
-}
 .col5 {
     grid-template-columns: repeat(5, 1fr);
 }
@@ -267,18 +266,6 @@ ul {
 }
 .col6 {
     grid-template-columns: repeat(6, 1fr);
-}
-.col7 {
-    grid-template-columns: repeat(7, 1fr);
-}
-.col8 {
-    grid-template-columns: repeat(8, 1fr);
-}
-.col9 {
-    grid-template-columns: repeat(9, 1fr);
-}
-.col10 {
-    grid-template-columns: repeat(10, 1fr);
 }
 
 .span2 {
@@ -336,13 +323,13 @@ ul {
     text-align: center;
     justify-self: right;
 }
-.attrfeld:last-child {
-    display: none;
-}
 .attrvalue {
     justify-self: end;
     display: flex;
     align-items: center;
+}
+.attrname {
+    text-transform: uppercase;
 }
 .d10-symbol {
     margin: 0 2px;
@@ -425,4 +412,10 @@ ul {
 }
 .kritDice {
     color: rgb(144 72 72);
+}
+.tab.combat li.item, .tab.items li.item {
+    border: solid 2px #948686;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #6b6b6b1a;
 }

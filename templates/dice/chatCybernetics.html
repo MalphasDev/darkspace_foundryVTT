@@ -1,0 +1,13 @@
+<div>
+    <h3>{{name}}</h3>
+    <p class="anmerkung text_c">Kybernese {{this.terms.[0].number}}W / MK {{this.data.fullItemData.data.attackWith}} +{{this.terms.[2].number}}</p>
+    <hr>
+    {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
+    <hr>
+    <div class="grid col2 gridcenter">
+        <span>GM</span>
+        <span>MK</span>
+        <span class="chatStats">{{this.data.fullItemData.data.size}}</span>
+        <span class="chatStats">{{this.data.fullItemData.data.mk}}</span>
+    </div>
+</div>

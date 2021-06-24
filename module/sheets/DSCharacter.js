@@ -61,7 +61,6 @@ export default class DSCharacter extends Actor {
             data.initBonus = Math.ceil(data.mk / 2);
         };
     
-
         
         
     }

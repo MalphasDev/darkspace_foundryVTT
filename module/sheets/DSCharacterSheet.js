@@ -14,7 +14,8 @@ export default class DSCharakcterSheet extends ActorSheet {
             classes: ["darkspace", "sheet", "Charakter"],
             width: 800,
             height: 600,
-            tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "stats"}]
+            tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "stats"}],
+            dragDrop: [{dragSelector: ".item-list .item", dropSelector: null}]
         });
     }
 
@@ -22,7 +23,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     getData() {
         let data = super.getData();
 
-        data.config = CONFIG.darkspace;
+        //data.config = CONFIG.darkspace;
 
         data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
         data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
@@ -32,7 +33,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
         data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
         data.Besonderheiten = data.items.filter(function (item) {return item.type == 'Besonderheiten'});
-
 
 
         return data;
@@ -55,6 +55,21 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
         //html.find(".decRess").click(this._onModRess.bind(this));
         //html.find(".checkcounter").click(this._onChangeCounter.bind(this));
+
+
+        // Add draggable for Macro creation
+        html.find(".item").each((i, a) => {
+        a.setAttribute("draggable", true);
+        a.addEventListener("dragstart", ev => {
+          let dragData = ev.currentTarget.dataset;
+          ev.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+          console.log(ev.currentTarget)
+          console.log( JSON.stringify(dragData))
+        }, false);
+      });
+
+
+        this.afterHTMLLoad()
     }
 
     async _onRollSkill (event) {
@@ -129,14 +144,9 @@ export default class DSCharakcterSheet extends ActorSheet {
             dices.push(rollResult.terms[0].results[i].result)
         }
         let fullDice = dices.sort( (a,b) => (b - a) )
-        console.log(fullDice)
         let evalDice = [fullDice[0], fullDice[1]]
-        console.log(evalDice)
         let kritDice = [fullDice[2]]
-        console.log(kritDice)
         let unEvalDice = fullDice.splice(3,100)
-        console.log(unEvalDice)
-        
         
         let diceResult = {
             evalDice: evalDice,
@@ -153,6 +163,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             owner: this.actor.id
         }
         messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
+        AudioHelper.play({src: CONFIG.sounds.dice});
         return ChatMessage.create(messageData);
         
     }
@@ -211,7 +222,15 @@ export default class DSCharakcterSheet extends ActorSheet {
             dynattr = parseInt(dataset.structure);
             dynskill = parseInt(dataset.protection);
         }
+        // ------------------------ //
+        // Daten für Kybernesewürfe //
+        // ------------------------ //
 
+        if (dataset.rolltype == "cybernetic") {
+            dynattr = this.actor.data.data.charattribut.Kybernese.attribut;
+            dynskill = parseInt(dataset.skill);
+        }
+        
         // ------------------------------------- //
         // Custom Roll und globale Modifikatoren //
         // ------------------------------------- //
@@ -233,7 +252,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         // --------------------------------------------- //
         // Übergabe an die Roll-Logic in der Item-Klasse //
         // --------------------------------------------- //
-
+        
         item.roll(event, rollformular, fullActorData);
     }
 
@@ -278,13 +297,9 @@ export default class DSCharakcterSheet extends ActorSheet {
             dices.push(rollResult.terms[0].results[i].result)
         }
         let fullDice = dices.sort( (a,b) => (b - a) )
-        console.log(fullDice)
         let evalDice = [fullDice[0], fullDice[1]]
-        console.log(evalDice)
         let kritDice = [fullDice[2]]
-        console.log(kritDice)
         let unEvalDice = fullDice.splice(3,100)
-        console.log(unEvalDice)
         
         let diceResult = {
             evalDice: evalDice,
@@ -300,8 +315,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             owner: this.actor.id
         }
         messageData.content = await renderTemplate(this.chatTemplate["Custom"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
-        console.log("++++++++> cardData:")
-        console.log(cardData)
+        AudioHelper.play({src: CONFIG.sounds.dice});
         return ChatMessage.create(messageData);
     }
 
@@ -429,5 +443,11 @@ export default class DSCharakcterSheet extends ActorSheet {
         })
 
         
+    }
+    afterHTMLLoad() {
+        // Kybernese aus der normalen Attributsliste entfernen,
+        // um es in der rechten Sitebar darzustellen.
+        let attrList = document.getElementById("statFeld")
+        attrList.removeChild(attrList.lastElementChild);
     }
 }

@@ -1,5 +1,10 @@
 <div>
     <h2>Artifizierungen</h2>
+    <div class="flex flex-between">
+        <span class="attrname">Kybernese</span>
+        <input class="value_box" name="data.charattribut.Kybernese.attribut" value="{{data.data.charattribut.Kybernese.attribut}}" type="number">
+    </div>
+    <hr>
     <i class="fas fa-plus createItem" data-type="Artifizierung"></i>
             <section>
                 <ul>
@@ -9,7 +14,11 @@
                             
                             <div class="grid col2-21">
                                 <div>
-                                    <a class="talentname toChat itemToChat">{{this.name}}</a>
+                                    <div class="talentname flex flex-start">
+                                        <img class="d10-symbol roleable" data-rolltype="cybernetic" data-skill="{{this.data.mk}}" src="systems/darkspace/templates/d10.svg">
+                                        <a class="itemToChat">{{this.name}}</a>
+                                    </div>
+                                    
                                     <p class="anmerkung">{{this.data.bodyPart}}</p>
                                 </div>
                                 <div class="cell_c">

@@ -8,7 +8,7 @@ import DSCombat from './module/DSCombat.js';
 import DSCombatTracker from './module/DSCombatTracker.js';
 import DSCombatant from './module/DSCombatant.js';
 import DSNebencharakter from './module/sheets/DSNebencharakter.js';
-
+import DSChatMessage from './module/DSChatMessage.js'
 
 async function preloadHandlebarsTemplates () {
     const templatePaths = [
@@ -74,6 +74,7 @@ Hooks.once("init", function() {
     CONFIG.darkspace = darkspace;
     CONFIG.Actor.entityClass = DSCharacter;
     CONFIG.Item.entityClass = DSItem;
+    CONFIG.ChatMessage.entityClass = DSChatMessage;
     
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("darkspace", DSItemSheet, {makeDefault: true});

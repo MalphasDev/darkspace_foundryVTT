@@ -1,21 +1,27 @@
 <div>
-    
-    <h2>Panzerung</h2>
+    <h2 class="flex flex-between"> Panzerung <i class="fas fa-plus createItem" data-type="Panzerung"></i> </h2>
         
     <ul>
-        <i class="fas fa-plus createItem" data-type="Panzerung"></i>
+        
         {{#each Panzerung}}
         <li class="item" data-item-id="{{this._id}}">
-            <h3><a class="roleable" data-rolltype="protection" data-structure="{{this.data.armor}}" data-protection="{{this.data.protection}}">{{this.name}}</a></h3>
-            <div class="grid col3">
-                <div class="flex column">
-                    <span>Panzerung</span>
-                    <span>{{this.data.armor}}</span><!--Panzerung-->
+            <div class="flex flex-between">
+                <h3>
+                    <a class="roleable flex" data-rolltype="protection" data-structure="{{this.data.armor}}" data-protection="{{this.data.protection}}">
+                        <img class="d10-symbol" src="systems/darkspace/templates/d10.svg">
+                        {{this.name}}
+                    </a>
+                </h3>
+                <div>
+                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                 </div>
-                <div class="flex column">
-                    <p>Schutz</p>
-                    <span>{{this.data.protection}}</span><!--Schutz-->
-                </div>
+            </div>
+            
+            <div class="flex flex-between">
+                <span class="derivedValue"><i class="fas fa-shield-alt"></i> {{this.data.armor}}W + {{this.data.protection}}</span>
+                <span class="text_c">GM {{this.data.size}}</span>
+                <span class="text_c">MK {{this.data.mk}}</span>
                 <div class="text_c">
                     <p>Körperzonen</p>
                     <span>{{this.data.bodyPart}}</span><!--Zonen-->
@@ -27,12 +33,8 @@
             </div>
             <hr>
             <div class="grid col3">
-                <span class="text_c">GM {{this.data.size}}</span>
-                <span class="text_c">MK {{this.data.mk}}</span>
-                <div class="container_center">
-                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                </div>
+                
+                
             </div>
         </li>
         {{/each}}
