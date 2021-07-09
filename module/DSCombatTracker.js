@@ -9,7 +9,7 @@ export default class DSCombatTracker extends CombatTracker {
         
         if (combat != null) {
             if (combat.sendAE == undefined) {
-                combat.sendAE = 1;
+                combat.sendAE = 0;
             }
             if (game.settings.get("darkspace", "ae_input") == "ae_button" ) {
                 combat.uiButton = true;
@@ -53,7 +53,6 @@ export default class DSCombatTracker extends CombatTracker {
         
         //combat.sendAE = parseInt(event.currentTarget.dataset.aeCost);
         //combat.update({sendAE: combat.sendAE})
-        
         if (game.settings.get("darkspace", "ae_input") == "ae_button" ) {
             if(event.currentTarget.className.includes("aeCostCustom")) {
                 aeCost = parseInt(document.getElementById("customAE").value);
@@ -62,7 +61,7 @@ export default class DSCombatTracker extends CombatTracker {
             }
             
             
-            if (aeCost == 0) {
+            if (aeCost === 0) {
                 combat.sendAE = 0;
             } else {
                 combat.sendAE += parseInt(aeCost);
@@ -71,9 +70,7 @@ export default class DSCombatTracker extends CombatTracker {
         if (game.settings.get("darkspace", "ae_input") == "ae_slider" ) {
             combat.sendAE = parseInt(event.currentTarget.value);
         }
-        
-        document.getElementById("sendAeBtn_text").innerHTML = "AE ausgeben: "+combat.sendAE+" AE"
-        
+        this.render();     
         
     }
 

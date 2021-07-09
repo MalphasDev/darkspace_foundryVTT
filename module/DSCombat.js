@@ -72,7 +72,7 @@ export default class DSCombat extends Combat {
                 var actorByCombatantId = currentCombatant._actor.data;
                 var initRoll
                 
-                initRoll = new Roll(actorByCombatantId.data.initiative + "d10kh2",{}).evaluate()
+                initRoll = new Roll(actorByCombatantId.data.initiative + "d10xkh2",{}).evaluate()
                 this.updateCombatant({
                     _id: id,
                     initiative: initRoll.total

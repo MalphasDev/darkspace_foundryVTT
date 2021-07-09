@@ -447,7 +447,10 @@ export default class DSCharakcterSheet extends ActorSheet {
     afterHTMLLoad() {
         // Kybernese aus der normalen Attributsliste entfernen,
         // um es in der rechten Sitebar darzustellen.
-        let attrList = document.getElementById("statFeld")
-        attrList.removeChild(attrList.lastElementChild);
+
+        if(String(this.actor.type) === "Charakter") {
+            let attrList = document.getElementById("statFeld")
+            attrList.removeChild(attrList.lastElementChild);
+        }
     }
 }

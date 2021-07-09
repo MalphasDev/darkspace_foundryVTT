@@ -14,8 +14,8 @@ export default class DSCharacter extends Actor {
         // things organized.
 
         if (this.type != 'DrohneFahrzeug') {
-            data.maxBruises = 5 + data.bruises.max;
-            data.maxWounds = 5 + data.wounds.max;
+            data.bruises.max = 5 + data.bruises.bonus;
+            data.wounds.max = 5 + data.wounds.bonus;
 
             
         }
@@ -24,7 +24,7 @@ export default class DSCharacter extends Actor {
             data.initiative =  Math.ceil((data.charattribut.Aufmerksamkeit.attribut + data.charattribut.Geschick.attribut + data.charattribut.Intuition.attribut)/3);
             data.finalinitiative = data.initiative + data.initMod; 
             
-
+            // Unterhalt und Wohlstand
             let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten")} )
             
             data.keepOfItems = Math.max(...Array.from(ownedItems.map( (k) => {return k.data.data.keep} )))

@@ -32,11 +32,13 @@
 
             "bruises": {
                 "value": 0,
-                "max": 0
+                "max": 5,
+                "bonus": 0
             },
             "wounds": {
                 "value": 0,
-                "max": 0
+                "max": 5,
+                "bonus": 0
             },
             "reactionmod": 0,
             "notes": "",
@@ -182,11 +184,13 @@
             "initMod": 0,
             "bruises": {
                 "value": 0,
-                "max": 5
+                "max": 5,
+                "bonus": 0
             },
             "wounds": {
                 "value": 0,
-                "max": 5
+                "max": 5,
+                "bonus": 0
             },
             
             "charattribut": {
@@ -216,8 +220,7 @@
                     "skill": {
                         "Intellekt": 0
                     }
-                },
-                "empty": ""
+                }
             },
             "customroll": {
                 "dice": null,
@@ -251,7 +254,6 @@
                 "Energie": false,
                 "Leistung": false,
                 "Sensoren": false
-
             },
 
             "templates": ["commonStats"]
@@ -272,7 +274,13 @@
                 "mk": 1,
                 "size": 1,
                 "modules": "",
-                "description": ""
+                "description": "",
+                "Eigenschaften": {
+                    "Computer": false,
+                    "Energie": false,
+                    "Leistung": false,
+                    "Sensoren": false
+                }
             }
         },
         "Waffe": {
@@ -283,7 +291,12 @@
         },
         "Artifizierung": {
             "bodyPart": "Körper",
-            "templates": ["itemBase"]
+            "templates": ["itemBase"],
+            "Eigenschaften": {
+                "Computer": true,
+                "Energie": true,
+                "Leistung": true
+            }
         },
         "Panzerung": {
             "armor": 0,

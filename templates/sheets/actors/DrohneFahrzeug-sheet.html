@@ -98,27 +98,7 @@
     
 
     <div class="grid col2">
-        <div>
-            <h2>Eigenschaften</h2>
-            <div class="grid col4 gridcenter">
-                <div class="flex column">
-                    <label for="propComputer">Computer</label>
-                    <input type="checkbox" id="propComputer" name="data.Eigenschaften.Computer" {{checked data.data.Eigenschaften.Computer}}>
-                </div>
-                <div class="flex column">
-                    <label for="propEnergie">Energie</label>
-                    <input type="checkbox" id="propEnergie" name="data.Eigenschaften.Energie" {{checked data.data.Eigenschaften.Energie}}>
-                </div>
-                <div class="flex column">
-                    <label for="propLeistung">Leistung</label>
-                    <input type="checkbox" id="propLeistung" name="data.Eigenschaften.Leistung" {{checked data.data.Eigenschaften.Leistung}}>
-                </div>
-                <div class="flex column">
-                    <label for="propSensoren">Sensoren</label>
-                    <input type="checkbox" id="propSensoren" name="data.Eigenschaften.Sensoren" {{checked data.data.Eigenschaften.Sensoren}}>
-                </div>
-            </div>
-        </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
         {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
     </div>
     

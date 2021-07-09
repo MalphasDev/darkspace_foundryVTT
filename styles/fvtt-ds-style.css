@@ -196,6 +196,9 @@ ul {
 .flex-between {
     justify-content: space-between;
 }
+.flex-center {
+    justify-content: center;
+}
 .column {
    flex-direction: column;
 }
@@ -366,11 +369,10 @@ ul {
     margin: 0 auto;
 }
 .npcBonus {
-    width: 55px;
-    font-size: 20px;
+    width: 5ch;
+    margin-left: 2ch;
 }
 .skillbox {
-    width: 70px;
     justify-self: right;
     display: flex;
     align-items: center;

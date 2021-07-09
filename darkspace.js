@@ -1,5 +1,4 @@
 import {darkspace} from './module/config.js';
-import * as Chat from './module/chatMessages/chat.js';
 import DSItemSheet from './module/sheets/DSItemSheet.js';
 import DSItem from './module/sheets/DSItem.js';
 import DSCharacter from './module/sheets/DSCharacter.js';
@@ -8,7 +7,6 @@ import DSCombat from './module/DSCombat.js';
 import DSCombatTracker from './module/DSCombatTracker.js';
 import DSCombatant from './module/DSCombatant.js';
 import DSNebencharakter from './module/sheets/DSNebencharakter.js';
-import DSChatMessage from './module/DSChatMessage.js'
 
 async function preloadHandlebarsTemplates () {
     const templatePaths = [
@@ -52,6 +50,7 @@ async function preloadHandlebarsTemplates () {
         //Misc
         "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
         "systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html",
+        "systems/darkspace/templates/partials/sub-partials/misc-properties.html",
 
         //Chat
         "systems/darkspace/templates/dice/chatWeapon.html",
@@ -74,7 +73,6 @@ Hooks.once("init", function() {
     CONFIG.darkspace = darkspace;
     CONFIG.Actor.entityClass = DSCharacter;
     CONFIG.Item.entityClass = DSItem;
-    CONFIG.ChatMessage.entityClass = DSChatMessage;
     
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("darkspace", DSItemSheet, {makeDefault: true});

@@ -48,3 +48,4 @@ darkspace.bodyPart = {
     Beine: "Beine",
     Ganzkörper: "Ganzkörper"
 }
+darkspace.iniSend = 0;
