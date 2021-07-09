@@ -22,16 +22,6 @@
         </select>
         {{/if}}
 
-        {{#if this.data.data.attackWith}}
-        <select name="data.attackWith"> <!--Zeigt auf den Value, der verändert werden soll. Ja das ist verwirrend mit dem Select-Helper-->
-            {{#select data.data.attackWith}} <!--Wählt den Value aus, der Beschrieben werden soll-->
-                {{#each config.attackTypes}} <!--Stellt die Liste mit Optionen zusammen-->
-                    <option value="{{@key}}" type="text">{{this}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-        {{/if}}
-
     </div>
     
 

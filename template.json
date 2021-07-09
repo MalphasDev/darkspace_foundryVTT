@@ -243,8 +243,8 @@
             },
 
             "customroll": {
-                "dice": null,
-                "bonus": null,
+                "dice": 0,
+                "bonus": 0,
                 "removehighest": false,
                 "global": false
               },
