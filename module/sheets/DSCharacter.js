@@ -26,19 +26,30 @@ export default class DSCharacter extends Actor {
             
             // Unterhalt und Wohlstand
             let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten")} )
-            
-            data.keepOfItems = Math.max(...Array.from(ownedItems.map( (k) => {return k.data.data.keep} )))
+            console.log(ownedItems)
+            //data.keepOfItems = Math.max(...Array.from(ownedItems.map( (k) => {return k.data.data.keep} )))
             let itemSizes = Array.from(ownedItems.map( (k) => {return k.data.data.size})).sort( (a,b) => (a-b))
+            let itemMk = Array.from(ownedItems.map( (k) => {return k.data.data.mk})).sort( (a,b) => (a-b))
+            console.log("keepOfItems: " + data.keepOfItems)
+            console.log(itemSizes)
+            console.log(itemMk)
+            console.log(Math.max(...itemSizes))
+            console.log(Math.max(...itemMk))
             
-            let keepAdd = 0;
-            for (var i = 0; i < itemSizes.length; i++) {
-                keepAdd = 1/(Math.max(itemSizes[i]*-1,1))
-                if (keepAdd == Infinity) { keepAdd = 0}
-            }
-            data.keepOfItems += keepAdd
-            data.keepOfItems = Math.floor(data.keepOfItems)
+            // let keepAdd = 0;
+            // for (var i = 0; i < itemSizes.length; i++) {
+            //     keepAdd = 1/(Math.max(itemSizes[i]*-1,1))
+            //     console.log(keepAdd)
+            // }
+            
+            //data.keepOfItems += keepAdd
+            //data.keepOfItems = Math.floor(data.keepOfItems)
+            
+            data.keepOfItems = Math.max(...itemSizes) + Math.max(...itemMk);
 
-            data.wealth = Math.pow(data.charattribut.Ressourcen.attribut,2)
+            console.log(data.keepOfItems)
+            //data.wealth = Math.pow(data.charattribut.Ressourcen.attribut,2)
+            data.wealth = data.charattribut.Ressourcen.attribut;
         };
 
         if (this.type == 'Nebencharakter') {

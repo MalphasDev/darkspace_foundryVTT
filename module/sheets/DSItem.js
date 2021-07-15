@@ -17,7 +17,7 @@ export default class DSItem extends Item {
 
         data.sensorRange = (data.mk + data.size) * (data.mk + data.size)
 
-        data.keep = Math.max(data.mk,data.size,1);
+        data.keep = Math.max(data.mk,data.size,0);
         
 
         
