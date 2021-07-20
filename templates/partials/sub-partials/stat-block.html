@@ -3,21 +3,16 @@
     <ul class="grid col2" id="statFeld">
     
         {{#each data.data.charattribut as |attrobj attrname|}}
-            
-            <li class="attrfeld">
+        <li class="attrfeld">
+                {{#if ../data.data.Bedrohungsstufe}}
+                <input type="checkbox" class="checkbox" id="{{attrname}}_field" data-field="{{attrname}}" name="data.charattribut.{{attrname}}.prio" {{checked this.prio}}>
+                <label for="{{attrname}}_field">
+                {{/if}}
                 <div class="grid col2">
-                    {{#if ../data.data.Bedrohungsstufe}}
-                    <!-- Hier Radio-Button für Gewichtung einfügen -->
-                    {{/if}}
                     <span class="attrname">{{attrname}}</span>
-                <span class="attrvalue">
-
-                    {{#if ../data.data.Bedrohungsstufe}}
-                    <span class="npcBonus">{{../data.data.Bedrohungsstufe}} +</span>
-                    {{/if}}
-                    <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}" type="number">
+                    <span class="attrvalue">                    
+                    <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}" type="number" {{disabled ../data.data.Bedrohungsstufe}}>
                     <span>W</span>
-                    
                 </span>
                 </div>
                 
@@ -25,16 +20,18 @@
             
             <ul class="fertfeld">
                 {{#each this.skill as |fertval fertname|}}
+                
                 <li class="gridleftcenter">
                     <p>{{fertname}}</p>
+                    
                     <div class="skillbox">
-                        {{#if ../../data.data.Bedrohungsstufe}}
-                        <span class="npcBonus">{{../../data.data.halfBs}} +</span>
-                        {{/if}}
-                        <input class="value_box" name="data.charattribut.{{attrname}}.skill.{{fertname}}" value="{{this}}" type="number">
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}" src="systems/darkspace/templates/d10.svg">
+                        
+                        <input class="value_box" name="data.charattribut.{{attrname}}.skill.{{fertname}}" value="{{this}}" type="number" {{disabled ../../data.data.Bedrohungsstufe}}>
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}" data-modroll="false" src="systems/darkspace/templates/d10.svg">
+                        <!-- <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="{{attrname}}" data-skill="{{fertname}}" data-modroll="true" src="systems/darkspace/templates/d10.svg"> -->
                     </div>
                 </li>
+                
                 {{/each}}
             </ul>
             {{#if this.ress.exists}}
@@ -50,9 +47,11 @@
                 </li>
             </ul>
             {{/if}}
+
+            {{#if ../data.data.Bedrohungsstufe}}
+            </label>
+            {{/if}}
             </li>
-            
-              
         {{/each}}
 
         

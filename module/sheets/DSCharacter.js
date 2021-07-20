@@ -3,7 +3,9 @@
 export default class DSCharacter extends Actor {
     prepareData() {
         super.prepareData();
-    
+        
+        const event = new Event("click")
+
         const actorData = this.data;
         const data = actorData.data;
         const flags = actorData.flags;
@@ -26,15 +28,16 @@ export default class DSCharacter extends Actor {
             
             // Unterhalt und Wohlstand
             let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten")} )
-            console.log(ownedItems)
+            //console.log(ownedItems)
             //data.keepOfItems = Math.max(...Array.from(ownedItems.map( (k) => {return k.data.data.keep} )))
             let itemSizes = Array.from(ownedItems.map( (k) => {return k.data.data.size})).sort( (a,b) => (a-b))
             let itemMk = Array.from(ownedItems.map( (k) => {return k.data.data.mk})).sort( (a,b) => (a-b))
-            console.log("keepOfItems: " + data.keepOfItems)
-            console.log(itemSizes)
-            console.log(itemMk)
-            console.log(Math.max(...itemSizes))
-            console.log(Math.max(...itemMk))
+            
+            // console.log("keepOfItems: " + data.keepOfItems)
+            // console.log(itemSizes)
+            // console.log("Item MK: "+itemMk)
+            // console.log("Größtes Item: "+Math.max(...itemSizes))
+            // console.log("Max. MK Item: "+Math.max(...itemMk))
             
             // let keepAdd = 0;
             // for (var i = 0; i < itemSizes.length; i++) {
@@ -45,18 +48,25 @@ export default class DSCharacter extends Actor {
             //data.keepOfItems += keepAdd
             //data.keepOfItems = Math.floor(data.keepOfItems)
             
+            //console.log("Unterhalt: "+data.keepOfItems)
+            
             data.keepOfItems = Math.max(...itemSizes) + Math.max(...itemMk);
-
-            console.log(data.keepOfItems)
-            //data.wealth = Math.pow(data.charattribut.Ressourcen.attribut,2)
-            data.wealth = data.charattribut.Ressourcen.attribut;
+            data.wealth = data.charattribut.Ressourcen.attribut*2;
         };
 
         if (this.type == 'Nebencharakter') {
-            data.halfBs = Math.ceil( (data.Bedrohungsstufe)/2 );
-
             data.initiative =  data.Bedrohungsstufe;
-            data.finalinitiative = data.initiative + data.initMod; 
+
+            for (var prop in data.charattribut) {
+                let prioBonus
+                if (data.charattribut[prop].prio) { prioBonus = 1 } else { prioBonus = 0 }
+
+                data.charattribut[prop].attribut = data.Bedrohungsstufe + prioBonus
+                
+                for (var skill in data.charattribut[prop].skill) {
+                    data.charattribut[prop].skill[skill] = Math.ceil(data.Bedrohungsstufe/2) + prioBonus
+                }
+            }
         };
 
         if (this.type == 'DrohneFahrzeug') {

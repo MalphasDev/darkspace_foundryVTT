@@ -51,6 +51,7 @@ async function preloadHandlebarsTemplates () {
         "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
         "systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html",
         "systems/darkspace/templates/partials/sub-partials/misc-properties.html",
+        "systems/darkspace/templates/dice/dialogModRolls.html",
 
         //Chat
         "systems/darkspace/templates/dice/chatWeapon.html",
@@ -110,6 +111,11 @@ Hooks.once("init", function() {
         return dom;
     
     });
+    Handlebars.registerHelper("disabled", function (condition) {
+        let d = "";
+        if (condition != null || undefined) {d = "disabled"} else {d = "enabled"}
+        return d
+    })
 
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

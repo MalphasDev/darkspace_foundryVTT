@@ -7,7 +7,6 @@
         ],
         "templates": {
             "commonStats": {
-                "Reaktionszeit": 0,
                 "Panzerung": {
                     "Struktur": 0,
                     "Schutz": 0
@@ -181,7 +180,6 @@
             
         "Nebencharakter": {
             "Bedrohungsstufe": 1,
-            "initMod": 0,
             "bruises": {
                 "value": 0,
                 "max": 5,
@@ -223,8 +221,8 @@
                 }
             },
             "customroll": {
-                "dice": null,
-                "bonus": null,
+                "dice": 0,
+                "bonus": 0,
                 "removehighest": false,
                 "global": false
               },

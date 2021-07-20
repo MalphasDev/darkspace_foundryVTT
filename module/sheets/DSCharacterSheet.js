@@ -1,3 +1,4 @@
+import * as DSMechanics from "../DSMechanics.js";
 
 export default class DSCharakcterSheet extends ActorSheet {
     get template() {
@@ -6,7 +7,8 @@ export default class DSCharakcterSheet extends ActorSheet {
     chatTemplate = {
         "Skill": "systems/darkspace/templates/dice/chatSkill.html",
         "Custom": "systems/darkspace/templates/dice/chatCustom.html",
-        "Item": "systems/darkspace/templates/dice/chatItem.html"
+        "Item": "systems/darkspace/templates/dice/chatItem.html",
+        
     }
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -33,7 +35,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
         data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
         data.Besonderheiten = data.items.filter(function (item) {return item.type == 'Besonderheiten'});
-
+        
 
         return data;
     }
@@ -49,12 +51,10 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".item-delete").click(this._onItemDelete.bind(this));
         html.find(".itemToChat").click(this._itemToChat.bind(this));
         html.find(".roleSkill").click(this._onRollSkill.bind(this));
-        html.find(".roleable").click(this._onRollItem.bind(this));
+        html.find(".rollItem").click(this._onRollItem.bind(this));
         html.find(".roll-btn").click(this._onCustomRoll.bind(this));
         html.find(".incRess, .decRess").click(this._onModRess.bind(this));
         html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
-        //html.find(".decRess").click(this._onModRess.bind(this));
-        //html.find(".checkcounter").click(this._onChangeCounter.bind(this));
 
 
         // Add draggable for Macro creation
@@ -76,92 +76,60 @@ export default class DSCharakcterSheet extends ActorSheet {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
-
-        var attrMod = this.object.data.data.customroll.dice;
-        var fertMod = this.object.data.data.customroll.bonus
+        const actorData = this.object.data.data;
+        var attrMod = actorData.customroll.dice;
+        var fertMod = actorData.customroll.bonus
         
-        var rollformular;                           // Formular-Variable anlegen
-
         var dynattr = 0;
         var dynskill = 0;
 
-        console.log(dataset.attr)
-        console.log(dataset.skill)
-        
         var roleData = {attribute: dataset.attr, skill: dataset.skill};
         
         if (this.actor.type == "DrohneFahrzeug") {
-            dynattr = this.object.data.data[dataset.attr]
-            dynskill = this.object.data.data[dataset.skill];
+            dynattr = actorData[dataset.attr]
+            dynskill = actorData[dataset.skill];
             
             roleData = {attribute: "", skill: "Modulklasse"}
         } else {
-            dynattr = this.object.data.data.charattribut[dataset.attr].attribut;
-            dynskill = this.object.data.data.charattribut[dataset.attr].skill[dataset.skill];
+            dynattr = actorData.charattribut[dataset.attr].attribut;
+            dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
         }
-        
-
-        if (this.actor.type == "Nebencharakter") {
-            dynattr += parseInt(this.object.data.data.Bedrohungsstufe);
-            dynskill += Math.ceil(parseInt(this.object.data.data.Bedrohungsstufe)/2);
-        }
-        
-        // ------------------------------------- //
-        // Custom Roll und globale Modifikatoren //
-        // ------------------------------------- //
-        
-        if (this.object.data.data.customroll.global == true) {
-            dynattr += attrMod;
-            dynskill += fertMod;
-
-            if (this.object.data.data.customroll.removehighest != true) {
-                rollformular = dynattr + "d10x10kh2+" + dynskill;
-
-            } else {
-                rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
-            }
-        } else {
-            rollformular = dynattr + "d10x10kh2+" + dynskill;
-        }
-        var rollResult = new Roll(rollformular, this.actor.data.data).roll();
-        
-        // --------------------- //
-        // Krit und Patzer Logik //
-        // --------------------- //
-        let krit = rollResult.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
-        let resultMessage = "";
-        if (krit[2] >= 9) { resultMessage = {msg: "KRITISCHER ERFOLG"}; }
-        if (rollResult.total <= 9) { resultMessage = {msg: "PATZER"} }
-
-
-        let messageData = {
-            user: game.user._id,
-            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        let inputData = {
+            actorData: actorData,
+            dynattr: dynattr,
+            dynskill: dynskill,
+            attrMod: attrMod,
+            fertMod: fertMod,
+            roleData: roleData,
+            actorId: this.actor.id,
+            rollglobal: actorData.customroll.global,
+            removehighest: actorData.customroll.removehighest
         };
-        
-        let dices = [];
-        for (var i = 0; i < rollResult.terms[0].results.length; i++) {
-            dices.push(rollResult.terms[0].results[i].result)
+
+        let outputData = {};
+        const myContent = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
+
+
+        if (element.dataset.modroll === "true") {
+            new Dialog({
+                title: "My Custom Dialog Title",
+                content: myContent,
+                buttons: {
+                    button1: {
+                        label: "Button #1",
+                        callback: () => {
+                            
+                        },
+                        icon: `<i class="fas fa-check"></i>`
+                    },
+                }
+            }).render(true);
         }
-        let fullDice = dices.sort( (a,b) => (b - a) )
-        let evalDice = [fullDice[0], fullDice[1]]
-        let kritDice = [fullDice[2]]
-        let unEvalDice = fullDice.splice(3,100)
+        outputData = DSMechanics.rollDice(inputData);
         
-        let diceResult = {
-            evalDice: evalDice,
-            kritDice: kritDice,
-            unEvalDice: unEvalDice
-        }
-        
-        let cardData = {
-            ...this.data,
-            ...roleData,
-            ...rollResult,
-            ...diceResult,
-            ...resultMessage,
-            owner: this.actor.id
-        }
+        let messageData = outputData.messageData
+        let cardData = outputData.cardData
+
         messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
         AudioHelper.play({src: CONFIG.sounds.dice});
         return ChatMessage.create(messageData);
@@ -176,10 +144,11 @@ export default class DSCharakcterSheet extends ActorSheet {
         const dataset = element.dataset;
         var dynattr = 0;
         var dynskill = 0;
+        const actorData = this.object.data.data;
 
         // Daten für Custom Roll und globale Modifikatoren sammeln //
-        var attrMod = parseInt(this.object.data.data.customroll.dice);
-        var fertMod = parseInt(this.object.data.data.customroll.bonus);
+        var attrMod = parseInt(actorData.customroll.dice);
+        var fertMod = parseInt(actorData.customroll.bonus);
         
 
         var fullActorData = this.actor.data.data    // Actor Data zusammenstellen. Wird durch zusätzliche Objekte ergänzt
@@ -188,6 +157,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         const itemId = element.closest(".item").dataset.itemId;
         const item = this.actor.getOwnedItem(itemId);
 
+        
 
         // -------------------------------- //
         // Charakterdaten für Angriffswürfe //
@@ -210,8 +180,8 @@ export default class DSCharakcterSheet extends ActorSheet {
 
             console.log(attrident)
             console.log(skillident)
-            dynattr = this.object.data.data.charattribut[attrident].attribut;
-            dynskill = this.object.data.data.charattribut[attrident].skill[skillident];
+            dynattr = actorData.charattribut[attrident].attribut;
+            dynskill = actorData.charattribut[attrident].skill[skillident];
         }
 
         // --------------------- //
@@ -227,7 +197,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         // ------------------------ //
 
         if (dataset.rolltype == "cybernetic") {
-            dynattr = this.actor.data.data.charattribut.Kybernese.attribut;
+            dynattr = actorData.charattribut.Kybernese.attribut;
             dynskill = parseInt(dataset.skill);
         }
         
@@ -235,11 +205,12 @@ export default class DSCharakcterSheet extends ActorSheet {
         // Custom Roll und globale Modifikatoren //
         // ------------------------------------- //
         
-        if (this.object.data.data.customroll.global == true) {
+        
+        if (actorData.customroll.global == true) {
             dynattr += attrMod;
             dynskill += fertMod;
 
-            if (this.object.data.data.customroll.removehighest != true) {
+            if (CONFIG.removehighest != true) {
                 rollformular = dynattr + "d10x10kh2+" + dynskill;
 
             } else {
@@ -261,59 +232,27 @@ export default class DSCharakcterSheet extends ActorSheet {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
-
-        var dynattr = this.object.data.data.customroll.dice;
-        var dynskill = this.object.data.data.customroll.bonus;
+        const actorData = this.object.data.data;
         
-        var rollformular;                           // Formular-Variable anlegen
-
-            
-        if (this.object.data.data.customroll.removehighest != true) {
-            rollformular = dynattr + "d10x10kh2+" + dynskill;
-
-        } else {
-            rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
-        }
-
-
-        var rollResult = new Roll(rollformular, this.actor.data.data).roll();
+        var dynattr = actorData.customroll.dice;
+        var dynskill = actorData.customroll.bonus;
         
-        // --------------------- //
-        // Krit und Patzer Logik //
-        // --------------------- //
-        let krit = rollResult.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
-        let resultMessage = "";
-        if (krit[2] >= 9) { resultMessage = {msg: "KRITISCHER ERFOLG"}; }
-        if (rollResult.total <= 9) { resultMessage = {msg: "PATZER"} }
+        
 
+        let outputData = DSMechanics.rollDice({
+            actorData: actorData,
+            dynattr: dynattr,
+            dynskill: dynskill,
+            attrMod: 0,
+            fertMod: 0,
+            roleData: {},
+            actorId: this.actor.id,
+            rollglobal: actorData.customroll.global,
+            removehighest: actorData.customroll.removehighest
+        });
 
-        let messageData = {
-            user: game.user._id,
-            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        };
-        
-        let dices = [];
-        for (var i = 0; i < rollResult.terms[0].results.length; i++) {
-            dices.push(rollResult.terms[0].results[i].result)
-        }
-        let fullDice = dices.sort( (a,b) => (b - a) )
-        let evalDice = [fullDice[0], fullDice[1]]
-        let kritDice = [fullDice[2]]
-        let unEvalDice = fullDice.splice(3,100)
-        
-        let diceResult = {
-            evalDice: evalDice,
-            kritDice: kritDice,
-            unEvalDice: unEvalDice
-        }
-        
-        let cardData = {
-            ...this.data,
-            ...rollResult,
-            ...diceResult,
-            ...resultMessage,
-            owner: this.actor.id
-        }
+        let messageData = outputData.messageData
+        let cardData = outputData.cardData
         messageData.content = await renderTemplate(this.chatTemplate["Custom"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
         AudioHelper.play({src: CONFIG.sounds.dice});
         return ChatMessage.create(messageData);
@@ -444,6 +383,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
         
     }
+ 
     afterHTMLLoad() {
         // Kybernese aus der normalen Attributsliste entfernen,
         // um es in der rechten Sitebar darzustellen.

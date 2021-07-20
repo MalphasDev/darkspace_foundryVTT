@@ -1,3 +1,4 @@
+import * as DSMechanics from "../DSMechanics.js";
 export default class DSItem extends Item {
     
     
@@ -77,9 +78,9 @@ export default class DSItem extends Item {
         let fullData = {fullActorData, fullItemData}
         
         let rollResult = new Roll(rollformular, fullData).roll();
-        let krit = rollResult.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
         
         let resultMessage = "";
+        let krit = rollResult.terms[0].results.map( (c) => { return c.result; }).sort((a,b) => b - a);
         
         // --------------------- //
         // Krit und Patzer Logik //
