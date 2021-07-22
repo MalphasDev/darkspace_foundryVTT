@@ -68,7 +68,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         }, false);
       });
 
-
         this.afterHTMLLoad()
     }
 
@@ -85,7 +84,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
         var roleData = {attribute: dataset.attr, skill: dataset.skill};
         
-        if (this.actor.type == "DrohneFahrzeug") {
+        if (this.actor.type === "DrohneFahrzeug") {
             dynattr = actorData[dataset.attr]
             dynskill = actorData[dataset.skill];
             
@@ -94,7 +93,10 @@ export default class DSCharakcterSheet extends ActorSheet {
             dynattr = actorData.charattribut[dataset.attr].attribut;
             dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
         }
-        let inputData = {
+
+        
+        var inputData = {
+            eventData: element,
             actorData: actorData,
             dynattr: dynattr,
             dynskill: dynskill,
@@ -105,38 +107,81 @@ export default class DSCharakcterSheet extends ActorSheet {
             rollglobal: actorData.customroll.global,
             removehighest: actorData.customroll.removehighest
         };
-
-        let outputData = {};
-        const myContent = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
-
-
+     
+        const dialogModRolls = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
         if (element.dataset.modroll === "true") {
             new Dialog({
                 title: "My Custom Dialog Title",
-                content: myContent,
+                content: dialogModRolls,
                 buttons: {
                     button1: {
                         label: "Button #1",
-                        callback: () => {
+                        callback: (html) => {
+                            attrMod += parseInt(html.find("[name=attrmod]")[0].value)
+                            fertMod += parseInt(html.find("[name=fertmod]")[0].value)
+                            let ifRemoveHighest = html.find("#removeHighestCheck")[0].checked
                             
+                            inputData = {
+                                ...inputData,
+                                attrMod: attrMod,
+                                fertMod: fertMod,
+                                removehighest: ifRemoveHighest
+                            }
+                            this._resolveDice(inputData)
                         },
                         icon: `<i class="fas fa-check"></i>`
                     },
+                },
+                close: () => {
                 }
+                
             }).render(true);
+        } else {
+            this._resolveDice(inputData)
         }
-        outputData = DSMechanics.rollDice(inputData);
-        
-        let messageData = outputData.messageData
-        let cardData = outputData.cardData
-
-        messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
-        AudioHelper.play({src: CONFIG.sounds.dice});
-        return ChatMessage.create(messageData);
         
     }
 
-    
+    async _onCustomRoll(event) {
+        event.preventDefault();
+        const element = event.currentTarget;
+        const actorData = this.object.data.data;
+        
+        var dynattr = actorData.customroll.dice;
+        var dynskill = actorData.customroll.bonus;
+        
+        let inputData = DSMechanics.rollDice({
+            eventData: element,
+            actorData: actorData,
+            dynattr: dynattr,
+            dynskill: dynskill,
+            attrMod: 0,
+            fertMod: 0,
+            roleData: {},
+            actorId: this.actor.id,
+            rollglobal: actorData.customroll.global,
+            removehighest: actorData.customroll.removehighest
+        });
+
+        this._resolveDice(inputData)
+    }
+
+    async _resolveDice(inputData) {
+        let outputData = DSMechanics.rollDice(inputData); 
+        let messageData = outputData.messageData
+        let cardData = outputData.cardData
+        
+        messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
+        AudioHelper.play({src: CONFIG.sounds.dice});
+        return ChatMessage.create(messageData);
+    }
+
+
+
+
+    // ----------------------- //
+    // -------- ITEMS -------- //
+    // ----------------------- //
 
     async _onRollItem(event) {
         event.preventDefault();
@@ -192,6 +237,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             dynattr = parseInt(dataset.structure);
             dynskill = parseInt(dataset.protection);
         }
+        
         // ------------------------ //
         // Daten für Kybernesewürfe //
         // ------------------------ //
@@ -227,49 +273,102 @@ export default class DSCharakcterSheet extends ActorSheet {
         item.roll(event, rollformular, fullActorData);
     }
 
-
-    async _onCustomRoll(event) {
-        event.preventDefault();
-        const element = event.currentTarget;
-        const dataset = element.dataset;
-        const actorData = this.object.data.data;
-        
-        var dynattr = actorData.customroll.dice;
-        var dynskill = actorData.customroll.bonus;
-        
-        
-
-        let outputData = DSMechanics.rollDice({
-            actorData: actorData,
-            dynattr: dynattr,
-            dynskill: dynskill,
-            attrMod: 0,
-            fertMod: 0,
-            roleData: {},
-            actorId: this.actor.id,
-            rollglobal: actorData.customroll.global,
-            removehighest: actorData.customroll.removehighest
-        });
-
-        let messageData = outputData.messageData
-        let cardData = outputData.cardData
-        messageData.content = await renderTemplate(this.chatTemplate["Custom"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
-        AudioHelper.play({src: CONFIG.sounds.dice});
-        return ChatMessage.create(messageData);
-    }
-
-
-    _onCreateItem(event) {
+    async _onCreateItem(event) {
         event.preventDefault()
         const element = event.currentTarget;
+        var dialogNewItem = await renderTemplate("systems/darkspace/templates/dice/dialogNew"+element.dataset.type+".html");
+        
+        new Dialog ({
+            title: "Neuer Gegenstand",
+            content: dialogNewItem,
+            buttons: {
+                ok: {
+                    icon: '<i class="fas fa-check"></i>',
+                    label: "OK",
+                    callback: (html) => {
+                        var newItemData = {
+                            name: html.find("[name=newName]")[0].value,
+                            type: element.dataset.type,
+                            description: html.find("[name=newDesc]")[0].value,
+                        }
 
-        let itemData = {
-            name: "Neuer Gegenstand",
-            type: element.dataset.type
-        }
+                        if (element.dataset.type != "Talent" || "Besonderheiten") {
+                            newItemData = {
+                                ...newItemData,
+                                mk: html.find("[name=newMK]")[0].value,
+                                size: html.find("[name=newSize]")[0].value,                  
+                                modules: html.find("[name=newMods]")[0].value,
+                            }
+                        }
+                        if (element.dataset.type != "Unterbringung") {
+                            newItemData = {
+                                ...newItemData,
+                                Eigenschaften: {
+                                    Computer: html.find("[name=propComputer]")[0].checked,
+                                    Energie: html.find("[name=propEnergie]")[0].checked,
+                                    Leistung: html.find("[name=propLeistung]")[0].checked,
+                                    Sensoren: html.find("[name=propSensoren]")[0].checked,
+                                    Kybernetik: html.find("[name=propKybernetik]")[0].checked
+                                },
+                            }
+                        }
+                        if (element.dataset.type === "Waffe") {
+                            newItemData = {
+                                ...newItemData,
+                                dmgtype: html.find("[name=newDamageType]")[0].selectedOptions[0].innerHTML,
+                                range: html.find("[name=newRange]")[0].value,
+                            }
+                        }
+                        if (element.dataset.type === "Artifizierung") {
+                            newItemData = {
+                                ...newItemData
+                            }
+                        }
+                        if (element.dataset.type === "Panzerung") {
+                            newItemData = {
+                                bodyPart: html.find("[name=newBodyPart]")[0].selectedOptions[0].innerHTML
+                            }
+                        }
+                        if (element.dataset.type === "Unterbringung") {
+                            newItemData = {
+                                ...newItemData,
+                                comfort: html.find("[name=newKomfort]")[0].value,
+                                ressourcen: html.find("[name=newRess]")[0].value,
+                                crime: html.find("[name=newVerbrechen]")[0].value,
+                                polution: html.find("[name=newVerschmutzung]")[0].value,
+                            }
+                        }
+                        if (element.dataset.type === "Talent") {
+                            newItemData = {
+                                ...newItemData,
+                                skill: html.find("[name=newSkillReq]")[0].value,
+                                requirement: html.find("[name=newReqVal]")[0].value,
+                            }
+                        }
+                        if (element.dataset.type === "Besonderheiten") {
+                            newItemData = {
+                                ...newItemData
+                            }
+                        }
 
-        return this.actor.createOwnedItem(itemData);
+
+                        let itemData = {
+                            name: html.find("[name=newName]")[0].value,
+                            type: element.dataset.type,
+                            data: newItemData,
+                        }
+                        console.log(itemData)
+                
+                        return this.actor.createOwnedItem(itemData);
+                    }
+                },
+            }
+                
+        }).render(true)
+
+        
     }
+    
     _onItemEdit(event) {
         event.preventDefault();
         const element = event.currentTarget;

@@ -13,7 +13,7 @@ export default class DSItem extends Item {
         
 
         data.baseStructure = data.mk + data.size;
-        data.structure = data.baseStructure <2 ? 2 : data.baseStructure;
+        data.structure = data.baseStructure < 1 ? 1 : data.baseStructure;
         data.protection = Math.floor(data.mk / 2);
 
         data.sensorRange = (data.mk + data.size) * (data.mk + data.size)
@@ -122,7 +122,6 @@ export default class DSItem extends Item {
         return ChatMessage.create(messageData);
         //rollResult.toMessage(messageData);
     }
-
 
 
 }

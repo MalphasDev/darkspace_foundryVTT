@@ -277,7 +277,8 @@
                     "Computer": false,
                     "Energie": false,
                     "Leistung": false,
-                    "Sensoren": false
+                    "Sensoren": false,
+                    "Kybernetik": false
                 }
             }
         },

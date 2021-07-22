@@ -3,6 +3,7 @@ export function rollDice(rollDiceData) {
 
     const actorData = rollDiceData.actorData
     const actorId = rollDiceData.actorId
+    const element = rollDiceData.eventData
     let dynattr = rollDiceData.dynattr
     let dynskill = rollDiceData.dynskill
     let attrMod = rollDiceData.attrMod
@@ -17,8 +18,10 @@ export function rollDice(rollDiceData) {
         // ------------------------------------- //
         // Custom Roll und globale Modifikatoren //
         // ------------------------------------- //
-        
-        if (rollglobal === true) {
+        console.log(attrMod)
+            console.log(fertMod)
+        if (rollglobal === true || element.dataset.modroll === "true") {
+            
             dynattr += attrMod;
             dynskill += fertMod;
             
@@ -32,7 +35,8 @@ export function rollDice(rollDiceData) {
             rollformular = dynattr + "d10x10kh2+" + dynskill;
         }
         var rollResult = new Roll(rollformular, actorData).roll();
-
+        console.log(dynattr)
+        console.log(dynskill)
 
     // --------------------- //
     // Krit und Patzer Logik //

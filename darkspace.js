@@ -53,6 +53,16 @@ async function preloadHandlebarsTemplates () {
         "systems/darkspace/templates/partials/sub-partials/misc-properties.html",
         "systems/darkspace/templates/dice/dialogModRolls.html",
 
+        //Dialog
+        "systems/darkspace/templates/dice/dialog-sub-partials/dialogMkSize.html",
+        "systems/darkspace/templates/dice/dialog-sub-partials/dialogProperties.html",
+        "systems/darkspace/templates/dice/dialog-sub-partials/dialogName.html",
+        "systems/darkspace/templates/dice/dialog-sub-partials/dialogDescMod.html",
+        
+        "systems/darkspace/templates/dice/dialog-sub-partials/dialogWeapon.html",
+        "systems/darkspace/templates/dice/dialog-sub-partials/dialogArmor.html",
+        "systems/darkspace/templates/dice/dialog-sub-partials/dialogHomeProperties.html",
+        
         //Chat
         "systems/darkspace/templates/dice/chatWeapon.html",
         "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html",
