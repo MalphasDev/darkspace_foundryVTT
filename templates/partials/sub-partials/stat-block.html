@@ -5,8 +5,17 @@
         {{#each data.data.charattribut as |attrobj attrname|}}
         <li class="attrfeld">
                 {{#if ../data.data.Bedrohungsstufe}}
-                <input type="checkbox" class="checkbox" id="{{attrname}}_field" data-field="{{attrname}}" name="data.charattribut.{{attrname}}.prio" {{checked this.prio}}>
-                <label for="{{attrname}}_field">
+                <div class="grid col2 ">
+                    <div class="container_center">
+                        <input type="checkbox" class="checkbox" id="{{attrname}}_prio" data-field="{{attrname}}" name="data.charattribut.{{attrname}}.prio" {{checked this.prio}}>
+                        <label for="{{attrname}}_prio">Verstärkt</label>
+                    </div>
+                    <div class="container_center">
+                        <input type="checkbox" class="checkbox" id="{{attrname}}_deprio" data-field="{{attrname}}" name="data.charattribut.{{attrname}}.dePrio" {{checked this.dePrio}}>
+                        <label for="{{attrname}}_deprio">Abgeschwächt</label>
+                    </div>
+                </div>
+                
                 {{/if}}
                 <div class="grid col2">
                     <span class="attrname">{{attrname}}</span>

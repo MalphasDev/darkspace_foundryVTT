@@ -36,9 +36,9 @@ export default class DSCharakcterSheet extends ActorSheet {
         data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
         data.Besonderheiten = data.items.filter(function (item) {return item.type == 'Besonderheiten'});
         
-
         return data;
     }
+
 
 
 
@@ -111,11 +111,11 @@ export default class DSCharakcterSheet extends ActorSheet {
         const dialogModRolls = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
         if (element.dataset.modroll === "true") {
             new Dialog({
-                title: "My Custom Dialog Title",
+                title: "Modifizierte Probe",
                 content: dialogModRolls,
                 buttons: {
                     button1: {
-                        label: "Button #1",
+                        label: "OK",
                         callback: (html) => {
                             attrMod += parseInt(html.find("[name=attrmod]")[0].value)
                             fertMod += parseInt(html.find("[name=fertmod]")[0].value)

@@ -127,5 +127,6 @@ Hooks.once("init", function() {
         return d
     })
 
+
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

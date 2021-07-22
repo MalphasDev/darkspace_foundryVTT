@@ -28,27 +28,8 @@ export default class DSCharacter extends Actor {
             
             // Unterhalt und Wohlstand
             let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten")} )
-            //console.log(ownedItems)
-            //data.keepOfItems = Math.max(...Array.from(ownedItems.map( (k) => {return k.data.data.keep} )))
             let itemSizes = Array.from(ownedItems.map( (k) => {return k.data.data.size})).sort( (a,b) => (a-b))
             let itemMk = Array.from(ownedItems.map( (k) => {return k.data.data.mk})).sort( (a,b) => (a-b))
-            
-            // console.log("keepOfItems: " + data.keepOfItems)
-            // console.log(itemSizes)
-            // console.log("Item MK: "+itemMk)
-            // console.log("Größtes Item: "+Math.max(...itemSizes))
-            // console.log("Max. MK Item: "+Math.max(...itemMk))
-            
-            // let keepAdd = 0;
-            // for (var i = 0; i < itemSizes.length; i++) {
-            //     keepAdd = 1/(Math.max(itemSizes[i]*-1,1))
-            //     console.log(keepAdd)
-            // }
-            
-            //data.keepOfItems += keepAdd
-            //data.keepOfItems = Math.floor(data.keepOfItems)
-            
-            //console.log("Unterhalt: "+data.keepOfItems)
             
             data.keepOfItems = Math.max(...itemSizes) + Math.max(...itemMk);
             data.wealth = data.charattribut.Ressourcen.attribut*2;
@@ -59,14 +40,29 @@ export default class DSCharacter extends Actor {
 
             for (var prop in data.charattribut) {
                 let prioBonus
-                if (data.charattribut[prop].prio) { prioBonus = 1 } else { prioBonus = 0 }
+                if (data.charattribut[prop].prio) { prioBonus = 1 } else {
+                    if (data.charattribut[prop].dePrio) { prioBonus = -1 } else {
+                        prioBonus = 0
+                    }
+                }
+                
 
                 data.charattribut[prop].attribut = data.Bedrohungsstufe + prioBonus
                 
-                for (var skill in data.charattribut[prop].skill) {
-                    data.charattribut[prop].skill[skill] = Math.ceil(data.Bedrohungsstufe/2) + prioBonus
+                if (data.charattribut[prop].dePrio) {
+                    for (var skill in data.charattribut[prop].skill) {
+                        data.charattribut[prop].skill[skill] = 0
+                    }
+                } else {
+                    for (var skill in data.charattribut[prop].skill) {
+                        data.charattribut[prop].skill[skill] = Math.ceil(data.Bedrohungsstufe/2) + prioBonus
+                    }
                 }
+                
             }
+
+            
+            
         };
 
         if (this.type == 'DrohneFahrzeug') {

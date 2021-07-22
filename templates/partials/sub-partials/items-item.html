@@ -1,12 +1,12 @@
 <div>
-    <h2 class="flex flex-between">
+    <h2 class="flex between">
         <span>Gegenstände</span>
         <i class="fas fa-plus createItem" data-type="Gegenstand"></i>
     </h2>
     <ul>
         {{#each Gegenstand}}
         <li class="item" data-item-id="{{this._id}}">
-            <div class="flex flex-between">
+            <div class="flex between">
                 <span class="itemname itemToChat" draggable="true">{{this.name}}</span>
                 <span>GM {{this.data.size}}</span>
                 <span>MK {{this.data.mk}}</span>

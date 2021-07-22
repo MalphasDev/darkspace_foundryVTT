@@ -1,14 +1,14 @@
 <div>
-    <h2 class="flex flex-between">Waffen <i class="fas fa-plus createItem" data-type="Waffe"></i></h2>
+    <h2 class="flex between">Waffen <i class="fas fa-plus createItem" data-type="Waffe"></i></h2>
 
     <ul>
         
         {{#each Waffe}}
         <li class="item" data-item-id="{{this._id}}">
             <div>
-                <div class="flex flex-between">
+                <div class="flex between">
                     <span>
-                        <a class="itemtitle flex flex-start rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}">
+                        <a class="itemtitle flex start rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}">
                             <img class="d10-symbol" src="systems/darkspace/icons/d10.svg">
                             {{this.name}}
                         </a>
@@ -23,7 +23,7 @@
                 </div>
             </div>    
             <hr>
-            <div class="flex flex-between">
+            <div class="flex between">
                 <span class="derivedValue"><i class="fas fa-bolt"></i> {{this.data.dmg}}{{this.data.dmgtype}}</span>
                 <span class="derivedValue"><i class="fas fa-arrows-alt-h"></i> {{this.data.range}}</span>
                 <span>GM {{this.data.size}}</span>

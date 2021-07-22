@@ -8,18 +8,13 @@
             
             <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
 
-            <div class="grid col3-112 gridleftcenter">
+            <div class="grid col3 gridcenter">
                 <span>MK</span>
                 <span>GM</span>
-
                 <span>Initiative</span>
                 <input class="value-box" name="data.mk" value="{{data.data.mk}}" type="number">
                 <input class="value-box" name="data.size" value="{{data.data.size}}" type="number">
-                <span>
-                    <span> {{data.data.initiative}} [MK] + </span>
-                    <input type="number" class="value-box" name="data.initMod" value="{{data.data.initMod}}">
-                    <span> + {{data.data.finalinitiative}}W + {{data.data.initBonus}}</span>
-                </span>
+                <span> {{data.data.initiative}}W + {{data.data.initBonus}}</span>
             </div>
         </div>
 
@@ -44,29 +39,47 @@
         {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
     </div>
 
-    <div class="grid col2-12">
+    <div class="grid col2">
         <div>
             <h2>Modulklasse</h2>
             <div class="grid col2">
                 <span class="attrname">Modulklasse</span>
                     <span class="attrvalue">    
-                        {{data.data.mk}}
-                        <img class="d10-symbol" src="systems/darkspace/icons/d10.svg">
+                        <input class="value_box" name="{{data.data.mk}}" value="{{data.data.mk}}" type="number" disabled>
+                        <span>W</span>
+                        
                     </span>
+
                 </div>
                     
                 <ul class="fertfeld">
                     <li class="gridleftcenter">
-                        <a class="roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk">Volle Modulklasse</a>
-                        <span class="npc-skillbox">{{data.data.mk}}</span>
+                        <p>Volle Modulklasse</p>
                         
+                        <div class="skillbox">
+                            
+                            <input class="value_box" name="{{data.data.mk}}" value="{{data.data.mk}}" type="number" disabled>
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="false" src="systems/darkspace/icons/d10.svg">
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
+                        </div>
+                        <ul class="einzug_ul">
+                            <li>Fahrzeuge</li>
+                        </ul>
                     </li>
+
                     <li class="gridleftcenter">
-                        <a class="roleSkill" data-rolltype="skill" data-attr="mk" data-skill="halbmk">Halbe Modulklasse</a>
-                        <span class="npc-skillbox">{{data.data.halbmk}}</span>
+                        <p>Halbe Modulklasse</p>
+                        
+                        <div class="skillbox">
+                            
+                            <input class="value_box" name="{{data.data.halbmk}}" value="{{data.data.halbmk}}" type="number" disabled>
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="false" src="systems/darkspace/icons/d10.svg">
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
+                        </div>
                         <ul class="einzug_ul">
                             {{#if data.data.Eigenschaften.Computer}}
-                            <li>Cortex, Logik</li>
+                            <li>Cortex</li>
+                            <li>Logik</li>
                             {{/if}}
 
                             {{#if data.data.Eigenschaften.Energie}}
@@ -83,9 +96,32 @@
                         </ul>
                     </li>
                     <li class="gridleftcenter">
-                        <a class="roleSkill" data-rolltype="skill" data-attr="mk" data-skill="noMk">Ohne Modulklasse</a>
-                        <span class="npc-skillbox">0</span>
+                        <p>Ohne Modulklasse</p>
                         
+                        <div class="skillbox">
+                            
+                            <input class="value_box" name="noMK" value="0" type="number" disabled>
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="noMk" data-modroll="false" src="systems/darkspace/icons/d10.svg">
+                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="noMk" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
+                        </div>
+                        <ul class="einzug_ul">
+                            {{#unless data.data.Eigenschaften.Computer}}
+                            <li>Cortex</li>
+                            <li>Logik</li>
+                            {{/unless}}
+
+                            {{#unless data.data.Eigenschaften.Energie}}
+                            <li>Fitness</li>
+                            {{/unless}}
+
+                            {{#unless data.data.Eigenschaften.Leistung}}
+                            <li>Leistung</li>
+                            {{/unless}}
+                            
+                            {{#unless data.data.Eigenschaften.Sensoren}}
+                            <li>Wahrnehmen</li>
+                            {{/unless}}
+                        </ul>
                     </li>
                 </ul>
         </div>

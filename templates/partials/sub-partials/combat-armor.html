@@ -1,11 +1,11 @@
 <div>
-    <h2 class="flex flex-between"> Panzerung <i class="fas fa-plus createItem" data-type="Panzerung"></i> </h2>
+    <h2 class="flex between"> Panzerung <i class="fas fa-plus createItem" data-type="Panzerung"></i> </h2>
         
     <ul>
         
         {{#each Panzerung}}
         <li class="item" data-item-id="{{this._id}}">
-            <div class="flex flex-between">
+            <div class="flex between">
                 <h3>
                     <a class="rollItem flex" data-rolltype="protection" data-structure="{{this.data.armor}}" data-protection="{{this.data.protection}}">
                         <img class="d10-symbol" src="systems/darkspace/icons/d10.svg">
@@ -18,7 +18,7 @@
                 </div>
             </div>
             
-            <div class="flex flex-between">
+            <div class="flex between">
                 <span class="derivedValue"><i class="fas fa-shield-alt"></i> {{this.data.armor}}W + {{this.data.protection}}</span>
                 <span class="text_c">GM {{this.data.size}}</span>
                 <span class="text_c">MK {{this.data.mk}}</span>

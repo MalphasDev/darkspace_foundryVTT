@@ -132,6 +132,10 @@ input[type="time"]:focus {
 .fa-clock {
     margin: 5px 0;
 }
+
+input[type="checkbox"]{
+    margin: auto;
+}
 /* ---------- Sheet Style ---------- */
 
 
@@ -178,26 +182,23 @@ ul {
     justify-content: center;
     align-items: center;
 }
-.flex-col2 {
+.fcol2 {
     flex-direction: row;
     height: inherit;
     justify-content: space-around;
 }
-.flex-col2 .desc-content {
+.fcol2 .desc-content {
     width: 47%;
     height: 100%;
 }
-.flex-start {
+.flex.start {
     justify-content: start;
 }
-.flex-evenly {
+.flex.evenly {
     justify-content: space-evenly;
 }
-.flex-between {
+.flex.between {
     justify-content: space-between;
-}
-.flex-center {
-    justify-content: center;
 }
 .column {
    flex-direction: column;
@@ -298,6 +299,7 @@ ul {
     display: block;
     margin: 0 auto;
     width: fit-content;
+    text-align: center;
 }
 .nogap {
     grid-gap: 0;
@@ -338,6 +340,7 @@ ul {
     margin: 0 2px;
     padding: 0px;
     width: 28px;
+    opacity: 0.4;
 }
 .roleSkill {
     border-radius: 50%;
@@ -348,6 +351,8 @@ ul {
     cursor: pointer;
     background-color: rgba(204,0,0,0.3);
     box-shadow: 0 0 5px rgb(204 0 0);
+    opacity: 1;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
 }
 .fertfeld li {
     display: grid;

@@ -4,35 +4,27 @@
     
     <div class="grid col3">
         <div>
-            <div class="grid col2-21">
-                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+            <div class="grid col2 gridcenter">
                 <div>
                     <span>BS</span>
                     <input class="value-box" name="data.Bedrohungsstufe" value="{{data.data.Bedrohungsstufe}}" type="number">
                 </div>
-                
+                <span>Initiative: {{data.data.initiative}}W</span>
             </div>
-            
-            <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-            <span>Initiative: {{data.data.initiative}}W</span>
         </div>
+
         {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
         
         {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
     </div>
 
-    
-    <div class="grid col2">
-        {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
-        <div>
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
-        </div>
-        
-    </div>
-    
+    {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
 
     <div class="grid col2">
+        {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
+        {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
         {{> "systems/darkspace/templates/partials/sub-partials/stat-talent.html"}}
         {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
     </div>
