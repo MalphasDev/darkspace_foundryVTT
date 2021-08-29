@@ -57,16 +57,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
 
 
-        // Add draggable for Macro creation
-        html.find(".item").each((i, a) => {
-        a.setAttribute("draggable", true);
-        a.addEventListener("dragstart", ev => {
-          let dragData = ev.currentTarget.dataset;
-          ev.dataTransfer.setData('text/plain', JSON.stringify(dragData));
-          console.log(ev.currentTarget)
-          console.log( JSON.stringify(dragData))
-        }, false);
-      });
+        
 
         this.afterHTMLLoad()
     }
