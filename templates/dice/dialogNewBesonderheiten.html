@@ -1,7 +1,18 @@
 <div>
     {{> "systems/darkspace/templates/dice/dialog-sub-partials/dialogName.html"}}
+    
+    <span class="text_c">
+        <p>Typ</p>
+        <select name="newType" class="container_center">
+            <option value="Herkunft" type="text">Herkunft</option>
+            <option value="Genetik" type="text">Genetik</option>
+            <option value="Ausbildung" type="text">Ausbildung</option>
+            <option value="Sonstige" type="text">Sonstige</option>
+        </select>
+    </span>
     <div>
         <span>Beschreibung</span>
         <textarea name="newDesc"></textarea>
     </div>
 </div>
+

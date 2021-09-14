@@ -67,9 +67,17 @@ export default class DSCharakcterSheet extends ActorSheet {
         const element = event.currentTarget;
         const dataset = element.dataset;
         const actorData = this.object.data.data;
-        var attrMod = actorData.customroll.dice;
-        var fertMod = actorData.customroll.bonus
+        let attrModLocal;
+        let fertModLocal;
         
+        if(actorData.customroll.global) {
+            var attrMod = actorData.customroll.dice;
+            var fertMod = actorData.customroll.bonus;
+        } else {
+            var attrMod = 0;
+            var fertMod = 0;
+        }
+
         var dynattr = 0;
         var dynskill = 0;
 
@@ -85,6 +93,10 @@ export default class DSCharakcterSheet extends ActorSheet {
             dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
         }
 
+
+        // ------------------------- //
+        // Bau des Übergabe-Objektes //
+        // ------------------------- //
         
         var inputData = {
             eventData: element,
@@ -93,6 +105,8 @@ export default class DSCharakcterSheet extends ActorSheet {
             dynskill: dynskill,
             attrMod: attrMod,
             fertMod: fertMod,
+            attrModLocal: 0,
+            fertModLocal: 0,
             roleData: roleData,
             actorId: this.actor.id,
             rollglobal: actorData.customroll.global,
@@ -108,16 +122,17 @@ export default class DSCharakcterSheet extends ActorSheet {
                     button1: {
                         label: "OK",
                         callback: (html) => {
-                            attrMod += parseInt(html.find("[name=attrmod]")[0].value)
-                            fertMod += parseInt(html.find("[name=fertmod]")[0].value)
+                            attrModLocal = parseInt(html.find("[name=attrmod]")[0].value)
+                            fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
                             let ifRemoveHighest = html.find("#removeHighestCheck")[0].checked
                             
                             inputData = {
                                 ...inputData,
-                                attrMod: attrMod,
-                                fertMod: fertMod,
+                                attrModLocal: attrModLocal,
+                                fertModLocal: fertModLocal,
                                 removehighest: ifRemoveHighest
                             }
+                            
                             this._resolveDice(inputData)
                         },
                         icon: `<i class="fas fa-check"></i>`
@@ -140,15 +155,18 @@ export default class DSCharakcterSheet extends ActorSheet {
         
         var dynattr = actorData.customroll.dice;
         var dynskill = actorData.customroll.bonus;
-        
-        let inputData = DSMechanics.rollDice({
+        var roleData = {attribute: "", skill: "Bonus"};
+
+        let inputData = ({
             eventData: element,
             actorData: actorData,
             dynattr: dynattr,
             dynskill: dynskill,
             attrMod: 0,
             fertMod: 0,
-            roleData: {},
+            attrModLocal: 0,
+            fertModLocal: 0,
+            roleData: roleData,
             actorId: this.actor.id,
             rollglobal: actorData.customroll.global,
             removehighest: actorData.customroll.removehighest
@@ -158,9 +176,10 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
 
     async _resolveDice(inputData) {
-        let outputData = DSMechanics.rollDice(inputData); 
+        let outputData = DSMechanics.rollDice(inputData);
         let messageData = outputData.messageData
         let cardData = outputData.cardData
+        
         
         messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
         AudioHelper.play({src: CONFIG.sounds.dice});
@@ -214,8 +233,6 @@ export default class DSCharakcterSheet extends ActorSheet {
                 if (["Kampftechnik", "Nahkampfwaffen"].includes(skillident)) {attrident = "Nahkampf";}
             }
 
-            console.log(attrident)
-            console.log(skillident)
             dynattr = actorData.charattribut[attrident].attribut;
             dynskill = actorData.charattribut[attrident].skill[skillident];
         }
@@ -277,13 +294,15 @@ export default class DSCharakcterSheet extends ActorSheet {
                     icon: '<i class="fas fa-check"></i>',
                     label: "OK",
                     callback: (html) => {
+                        console.log(html.find("[name=newName]")[0].value)
+                        console.log(element.dataset.type)
+                        console.log(html.find("[name=newDesc]")[0].value)
                         var newItemData = {
                             name: html.find("[name=newName]")[0].value,
                             type: element.dataset.type,
                             description: html.find("[name=newDesc]")[0].value,
                         }
-
-                        if (element.dataset.type != "Talent" || "Besonderheiten") {
+                        if (element.dataset.type != "Talent" && element.dataset.type != "Besonderheiten") {
                             newItemData = {
                                 ...newItemData,
                                 mk: html.find("[name=newMK]")[0].value,
@@ -291,7 +310,7 @@ export default class DSCharakcterSheet extends ActorSheet {
                                 modules: html.find("[name=newMods]")[0].value,
                             }
                         }
-                        if (element.dataset.type != "Unterbringung") {
+                        if (element.dataset.type != "Unterbringung" && element.dataset.type != "Talent" && element.dataset.type != "Besonderheiten") {
                             newItemData = {
                                 ...newItemData,
                                 Eigenschaften: {
@@ -336,27 +355,29 @@ export default class DSCharakcterSheet extends ActorSheet {
                                 requirement: html.find("[name=newReqVal]")[0].value,
                             }
                         }
+                        
                         if (element.dataset.type === "Besonderheiten") {
                             newItemData = {
-                                ...newItemData
+                                ...newItemData,
+                                type: html.find("[name=newType]")[0].value,
+                                
                             }
                         }
-
-
+                        
+                        
                         let itemData = {
                             name: html.find("[name=newName]")[0].value,
                             type: element.dataset.type,
                             data: newItemData,
                         }
-                        console.log(itemData)
-                
+                        
                         return this.actor.createOwnedItem(itemData);
                     }
                 },
             }
-                
+            
         }).render(true)
-
+        
         
     }
     

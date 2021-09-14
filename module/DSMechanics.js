@@ -8,6 +8,8 @@ export function rollDice(rollDiceData) {
     let dynskill = rollDiceData.dynskill
     let attrMod = rollDiceData.attrMod
     let fertMod = rollDiceData.fertMod
+    let attrModLocal = rollDiceData.fertModLocal
+    let fertModLocal = rollDiceData.fertModLocal
     let roleData = rollDiceData.roleData
     let rollglobal = rollDiceData.rollglobal
     let removehighest = rollDiceData.removehighest
@@ -15,29 +17,30 @@ export function rollDice(rollDiceData) {
 
     let rollformular
 
-        // ------------------------------------- //
-        // Custom Roll und globale Modifikatoren //
-        // ------------------------------------- //
-        console.log(attrMod)
-            console.log(fertMod)
-        if (rollglobal === true || element.dataset.modroll === "true") {
-            
-            dynattr += attrMod;
-            dynskill += fertMod;
-            
-            if (removehighest != true) {
-                rollformular = dynattr + "d10x10kh2+" + dynskill;
+    // ------------------------------------- //
+    // Custom Roll und globale Modifikatoren //
+    // ------------------------------------- //
+        
+    let localMod = element.dataset.modroll;
+    
+    if (rollglobal === true || localMod === "true") {
+        dynattr += attrMod + attrModLocal;
+        dynskill += fertMod + fertModLocal;
+        
+
+        if (removehighest != true) {
+            rollformular = dynattr + "d10x10kh2+" + dynskill;
                 
-            } else {
-                rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
-            }
+        } else {
+            rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
+        }
+
+    
         } else {
             rollformular = dynattr + "d10x10kh2+" + dynskill;
         }
-        var rollResult = new Roll(rollformular, actorData).roll();
-        console.log(dynattr)
-        console.log(dynskill)
-
+    var rollResult = new Roll(rollformular, actorData).roll();
+    
     // --------------------- //
     // Krit und Patzer Logik //
     // --------------------- //
