@@ -1,10 +1,29 @@
 <form class="{{cssClass}} item" autocomplete="off">
     {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-        
-    <div class="container_center">
-        <h3>Panzerung und Schutz</h3>
-        <p style="text-align: center;" class="derivedValue container_center">{{data.data.armor}}W + {{data.data.protection}}</p>
+    
+    <div class="grid col2-21">
+        <div class="container_center">
+            <h3>Panzerung und Schutz</h3>
+            <p style="text-align: center;" class="derivedValue container_center">{{data.data.armor}}W + {{data.data.protection}}</p>
+        </div>
+    
+        <div class="cell_c">
+            
+            {{#if this.data.data.bodyPart}}
+                
+            <select name="data.bodyPart">
+                {{#select data.data.bodyPart}}
+                    {{#each config.bodyPart as |name attrname|}}
+                        <option value="{{attrname}}" type="text">{{name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+            {{/if}}
+    
+        </div>
     </div>
+    
+
     {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
     <div class="sheet-content">
         {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}

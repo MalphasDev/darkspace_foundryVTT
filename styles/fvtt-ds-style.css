@@ -136,6 +136,10 @@ input[type="time"]:focus {
 input[type="checkbox"]{
     margin: auto;
 }
+
+input[type="text"], input[type="number"], input[type="password"], input[type="date"], input[type="time"] {
+    width: auto;
+}
 /* ---------- Sheet Style ---------- */
 
 

@@ -1,4 +1,4 @@
-<div class="grid col3-212">
+<div class="grid col2-21">
             
     <div class="cell_l">
         <span>GM</span>
@@ -9,20 +9,7 @@
         <span >MK</span>
         <input name="data.mk" type="number" value="{{data.data.mk}}">
     </div>
-    <div class="cell_r">
-        
-        {{#if this.data.data.bodyPart}}
-            
-        <select name="data.bodyPart">
-            {{#select data.data.bodyPart}}
-                {{#each config.bodyPart as |name attrname|}}
-                    <option value="{{attrname}}" type="text">{{name}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-        {{/if}}
-
-    </div>
+    
     
 
 </div>

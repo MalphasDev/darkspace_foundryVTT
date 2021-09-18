@@ -18,14 +18,16 @@
                     </select>
                 </div>
                 <div class="container_center">
-                    <span class="anmerkung">{{data.data.mkdmg}} [MK] + {{data.data.sizedmg}} [Größe] + <input name="data.damage" type="number" value="{{data.data.damage}}"></span>
+                    <span class="anmerkung">{{data.data.mkdmg}} [MK] + {{data.data.sizedmg}} [Größe] {{#if data.data.dmgBonus}} + {{data.data.dmgBonus}} [Schock]{{/if}} + <input name="data.damage" type="number" value="{{data.data.damage}}"></span>
                     
                 </div>
                 
             </div>
             <div>
                 <span class="flex"><i class="fas fa-arrows-alt-h"></i>Reichweite</span>
-                <input name="data.range" type="text" value="{{data.data.range}}">
+                <p><input name="data.range" type="text" value="{{data.data.range}}" disabled></p>
+                <p class="flex cell_c">Rw-Bonus: <input name="data.rangeBonus" type="number" value="{{data.data.rangeBonus}}"></p>
+                
             </div>            
             
             

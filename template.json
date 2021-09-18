@@ -283,9 +283,12 @@
             }
         },
         "Waffe": {
+            "dmg": 1,
+            "size": -3,
             "attackWith": "Schusswaffen",
             "range":"0-10/20/100",
-            "dmgtype": "",
+            "rangeBonus": 0,
+            "dmgtype": "B",
             "templates": ["itemBase"]
         },
         "Artifizierung": {
