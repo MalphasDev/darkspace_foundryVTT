@@ -56,10 +56,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".incRess, .decRess").click(this._onModRess.bind(this));
         html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
 
-
-        
-
-        this.afterHTMLLoad()
     }
 
     async _onRollSkill (event) {
@@ -89,8 +85,14 @@ export default class DSCharakcterSheet extends ActorSheet {
             
             roleData = {attribute: "", skill: "Modulklasse"}
         } else {
-            dynattr = actorData.charattribut[dataset.attr].attribut;
-            dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
+            if (dataset.rolltype != "cybernetic") {
+                dynattr = actorData.charattribut[dataset.attr].attribut;
+                dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
+            } else {
+                dynattr = actorData.miscData.Kybernese.attribut;
+                dynskill = actorData.miscData.Kybernese.bonus;
+                roleData = {attribute: "Kybernese", skill: "Artfizierung"}
+            }
         }
 
 
@@ -125,13 +127,13 @@ export default class DSCharakcterSheet extends ActorSheet {
                             attrModLocal = parseInt(html.find("[name=attrmod]")[0].value)
                             fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
                             let ifRemoveHighest = html.find("#removeHighestCheck")[0].checked
-                            
                             inputData = {
                                 ...inputData,
                                 attrModLocal: attrModLocal,
                                 fertModLocal: fertModLocal,
                                 removehighest: ifRemoveHighest
                             }
+                            
                             
                             this._resolveDice(inputData)
                         },
@@ -181,6 +183,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         let cardData = outputData.cardData
         
         
+        
         messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
         AudioHelper.play({src: CONFIG.sounds.dice});
         return ChatMessage.create(messageData);
@@ -209,8 +212,11 @@ export default class DSCharakcterSheet extends ActorSheet {
         var fullActorData = this.actor.data.data    // Actor Data zusammenstellen. Wird durch zusätzliche Objekte ergänzt
         var rollformular;                           // Formular-Variable anlegen
         
+        
         const itemId = element.closest(".item").dataset.itemId;
         const item = this.actor.getOwnedItem(itemId);
+        
+        
 
         
 
@@ -251,8 +257,9 @@ export default class DSCharakcterSheet extends ActorSheet {
         // ------------------------ //
 
         if (dataset.rolltype == "cybernetic") {
-            dynattr = actorData.charattribut.Kybernese.attribut;
+            dynattr = actorData.miscData.Kybernese.attribut;
             dynskill = parseInt(dataset.skill);
+
         }
         
         // ------------------------------------- //
@@ -273,6 +280,8 @@ export default class DSCharakcterSheet extends ActorSheet {
         } else {
             rollformular = dynattr + "d10x10kh2+" + dynskill;
         }
+
+        
         
         // --------------------------------------------- //
         // Übergabe an die Roll-Logic in der Item-Klasse //
@@ -294,9 +303,6 @@ export default class DSCharakcterSheet extends ActorSheet {
                     icon: '<i class="fas fa-check"></i>',
                     label: "OK",
                     callback: (html) => {
-                        console.log(html.find("[name=newName]")[0].value)
-                        console.log(element.dataset.type)
-                        console.log(html.find("[name=newDesc]")[0].value)
                         var newItemData = {
                             name: html.find("[name=newName]")[0].value,
                             type: element.dataset.type,
@@ -495,13 +501,5 @@ export default class DSCharakcterSheet extends ActorSheet {
         
     }
  
-    afterHTMLLoad() {
-        // Kybernese aus der normalen Attributsliste entfernen,
-        // um es in der rechten Sitebar darzustellen.
 
-        if(String(this.actor.type) === "Charakter") {
-            let attrList = document.getElementById("statFeld")
-            attrList.removeChild(attrList.lastElementChild);
-        }
-    }
 }

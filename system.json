@@ -1,9 +1,9 @@
 {
-    "name": "darkspace",
+    "name": "darkspaceInstable",
     "title": "Dark Space",
     "description": "Ein Hard-Sci-Fi Rollenspiel von André Busch.",
     "author": "André Busch",
-    "version": 0.23,
+    "version": 0.3,
     "minimumCoreVersion": "0.8.6",
     "compatibleCoreVersion": "0.8.7",
     "esmodules": ["darkspace.js"],

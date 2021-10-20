@@ -18,8 +18,6 @@ export default class DSCharacter extends Actor {
         if (this.type != 'DrohneFahrzeug') {
             data.bruises.max = 5 + data.bruises.bonus;
             data.wounds.max = 5 + data.wounds.bonus;
-
-            
         }
 
         if (this.type == 'Charakter') {
@@ -33,6 +31,11 @@ export default class DSCharacter extends Actor {
             
             data.keepOfItems = Math.max(...itemSizes) + Math.max(...itemMk);
             data.wealth = data.charattribut.Ressourcen.attribut*2;
+
+            data.miscData.Kybernese.mk = this.data.items.filter( (i) => {return (i.type === "Artifizierung")}).map( (j) => {return j.data.data.mk}) 
+            data.miscData.Kybernese.bonus = Math.min(...data.miscData.Kybernese.mk)
+            
+            
         };
 
         if (this.type == 'Nebencharakter') {
@@ -81,4 +84,5 @@ export default class DSCharacter extends Actor {
         
         
     }
+
 }

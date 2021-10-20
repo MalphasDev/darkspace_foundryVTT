@@ -1,8 +1,15 @@
 <div>
     <h2 class="flex between"><span>Artifizierungen</span><i class="fas fa-plus createItem" data-type="Artifizierung"></i></h2>
     <div class="flex between">
-        <span class="attrname">Kybernese</span>
-        <input class="value_box" name="data.charattribut.Kybernese.attribut" value="{{data.data.charattribut.Kybernese.attribut}}" type="number">
+        <span class="attrname">
+            <img class="d10-symbol roleSkill" data-rolltype="cybernetic" data-modroll="false" src="systems/darkspace/icons/d10.svg">
+            Kybernese
+        </span>
+        <span>
+            <input class="value_box" name="data.miscData.Kybernese.attribut" value="{{data.data.miscData.Kybernese.attribut}}" type="number">
+            +{{data.data.miscData.Kybernese.bonus}}
+        </span>
+
     </div>
     <hr>
     
@@ -16,10 +23,11 @@
                                 <div>
                                     <div class="talentname flex start">
                                         <img class="d10-symbol rollItem" data-rolltype="cybernetic" data-skill="{{this.data.mk}}" src="systems/darkspace/icons/d10.svg">
+                                        
                                         <a class="itemToChat">{{this.name}}</a>
                                     </div>
                                     
-                                    <p class="anmerkung">{{this.data.bodyPart}}</p>
+                                    <p class="anmerkung">GM {{this.data.size}} | MK {{this.data.mk}} | {{this.data.bodyPart}}</p>
                                 </div>
                                 <div class="cell_c">
                                     <label class="collapsible" for="collapse-cntr-{{this._id}}"><i class="fas fa-info-circle"></i></label>

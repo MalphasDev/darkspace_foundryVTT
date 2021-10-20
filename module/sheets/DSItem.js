@@ -26,7 +26,6 @@ export default class DSItem extends Item {
         // Waffen //
         data.mkdmg = Math.ceil(data.mk*1,5);
         data.sizedmg = Math.ceil(data.size/2);
-        data.dmgtype.includes("e") ? data.dmgBonus = 1 : data.dmgBonus = 0;
         data.dmg = Math.max(data.mkdmg + data.sizedmg + data.dmgBonus,1);
         
         data.sizeRange = Math.max(data.size, -3)+4;
