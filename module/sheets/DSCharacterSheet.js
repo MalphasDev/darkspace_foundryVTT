@@ -8,6 +8,10 @@ export default class DSCharakcterSheet extends ActorSheet {
         "Skill": "systems/darkspace/templates/dice/chatSkill.html",
         "Custom": "systems/darkspace/templates/dice/chatCustom.html",
         "Item": "systems/darkspace/templates/dice/chatItem.html",
+        "Unarmed": "systems/darkspace/templates/dice/chatUnarmed.html",
+        "Waffe": "systems/darkspace/templates/dice/chatWeapon.html",
+        "Panzerung": "systems/darkspace/templates/dice/chatArmor.html",
+        "Artifizierung": "systems/darkspace/templates/dice/chatCybernetics.html"
         
     }
     static get defaultOptions() {
@@ -55,6 +59,9 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".roll-btn").click(this._onCustomRoll.bind(this));
         html.find(".incRess, .decRess").click(this._onModRess.bind(this));
         html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
+        html.find(".changeProp").click(this._onChangeProp.bind(this));
+        html.find(".unarmedCombat").click(this._onUnarmedCombat.bind(this));
+        html.find(".item-quick-edit").change(this._onItemQuickEdit.bind(this));
 
     }
 
@@ -63,8 +70,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         const element = event.currentTarget;
         const dataset = element.dataset;
         const actorData = this.object.data.data;
-        let attrModLocal;
-        let fertModLocal;
+        
         
         if(actorData.customroll.global) {
             var attrMod = actorData.customroll.dice;
@@ -115,38 +121,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             removehighest: actorData.customroll.removehighest
         };
      
-        const dialogModRolls = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
-        if (element.dataset.modroll === "true") {
-            new Dialog({
-                title: "Modifizierte Probe",
-                content: dialogModRolls,
-                buttons: {
-                    button1: {
-                        label: "OK",
-                        callback: (html) => {
-                            attrModLocal = parseInt(html.find("[name=attrmod]")[0].value)
-                            fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
-                            let ifRemoveHighest = html.find("#removeHighestCheck")[0].checked
-                            inputData = {
-                                ...inputData,
-                                attrModLocal: attrModLocal,
-                                fertModLocal: fertModLocal,
-                                removehighest: ifRemoveHighest
-                            }
-                            
-                            
-                            this._resolveDice(inputData)
-                        },
-                        icon: `<i class="fas fa-check"></i>`
-                    },
-                },
-                close: () => {
-                }
-                
-            }).render(true);
-        } else {
-            this._resolveDice(inputData)
-        }
+        this.modRolls(inputData, event)
         
     }
 
@@ -174,17 +149,99 @@ export default class DSCharakcterSheet extends ActorSheet {
             removehighest: actorData.customroll.removehighest
         });
 
-        this._resolveDice(inputData)
+        this._resolveDice(inputData, event)
     }
 
-    async _resolveDice(inputData) {
+    async _onUnarmedCombat(event) {
+        event.preventDefault();
+        const element = event.currentTarget;
+        const actorData = this.object.data.data;
+        
+        var dynattr = actorData.charattribut.Geschick.attribut;
+        var dynskill = actorData.charattribut.Geschick.skill.Kampftechnik;
+        var roleData = {attribute: "", skill: "Bonus"};
+
+        let inputData = ({
+            eventData: element,
+            actorData: actorData,
+            dynattr: dynattr,
+            dynskill: dynskill,
+            attrMod: 0,
+            fertMod: 0,
+            attrModLocal: 0,
+            fertModLocal: 0,
+
+            roleData: roleData,
+            actorId: this.actor.id,
+            rollglobal: actorData.customroll.global,
+            removehighest: actorData.customroll.removehighest
+        });
+
+        this.modRolls(inputData, event)
+        
+    }
+
+    async modRolls(inputData, event) {
+        event.preventDefault();
+        const element = event.currentTarget;
+        const dataset = element.dataset;
+        const actorData = this.object.data.data;
+
+        let attrModLocal;
+        let fertModLocal;
+
+        const dialogModRolls = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
+        if (element.dataset.modroll === "true") {
+            new Dialog({
+                title: "Modifizierte Probe",
+                content: dialogModRolls,
+                buttons: {
+                    button1: {
+                        label: "OK",
+                        callback: (html) => {
+                            attrModLocal = parseInt(html.find("[name=attrmod]")[0].value)
+                            fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
+                            let ifRemoveHighest = html.find("#removeHighestCheck")[0].checked
+                            inputData = {
+                                ...inputData,
+                                attrModLocal: attrModLocal,
+                                fertModLocal: fertModLocal,
+                                removehighest: ifRemoveHighest
+                            }
+                            
+                            
+                            this._resolveDice(inputData, event)
+                        },
+                        icon: `<i class="fas fa-check"></i>`
+                    },
+                },
+                close: () => {
+                }
+                
+            }).render(true);
+        } else {
+            this._resolveDice(inputData, event)
+        }
+    }
+
+
+    async _resolveDice(inputData, event) {
         let outputData = DSMechanics.rollDice(inputData);
         let messageData = outputData.messageData
         let cardData = outputData.cardData
+        let currentRollClass = event.currentTarget.className;
+        let currentRoll;
+
         
+        currentRollClass.includes("roleSkill") ? currentRoll = "Skill" : ""
+        currentRollClass.includes("roll-btn") ? currentRoll = "Custom" : ""
+        currentRollClass.includes("unarmedCombat") ? currentRoll = "Unarmed" : ""
+        currentRollClass.includes("rollItem") ? currentRoll = inputData.item.data.type : ""
+
+        messageData.content = await renderTemplate(this.chatTemplate[currentRoll], cardData);
         
-        
-        messageData.content = await renderTemplate(this.chatTemplate["Skill"], cardData); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
+        console.log(outputData);
+
         AudioHelper.play({src: CONFIG.sounds.dice});
         return ChatMessage.create(messageData);
     }
@@ -203,22 +260,10 @@ export default class DSCharakcterSheet extends ActorSheet {
         var dynattr = 0;
         var dynskill = 0;
         const actorData = this.object.data.data;
-
-        // Daten für Custom Roll und globale Modifikatoren sammeln //
-        var attrMod = parseInt(actorData.customroll.dice);
-        var fertMod = parseInt(actorData.customroll.bonus);
-        
-
-        var fullActorData = this.actor.data.data    // Actor Data zusammenstellen. Wird durch zusätzliche Objekte ergänzt
-        var rollformular;                           // Formular-Variable anlegen
         
         
         const itemId = element.closest(".item").dataset.itemId;
         const item = this.actor.getOwnedItem(itemId);
-        
-        
-
-        
 
         // -------------------------------- //
         // Charakterdaten für Angriffswürfe //
@@ -259,36 +304,37 @@ export default class DSCharakcterSheet extends ActorSheet {
         if (dataset.rolltype == "cybernetic") {
             dynattr = actorData.miscData.Kybernese.attribut;
             dynskill = parseInt(dataset.skill);
-
         }
+        var roleData = {attribute: attrident, skill: skillident};
         
-        // ------------------------------------- //
-        // Custom Roll und globale Modifikatoren //
-        // ------------------------------------- //
-        
-        
-        if (actorData.customroll.global == true) {
-            dynattr += attrMod;
-            dynskill += fertMod;
+        let inputData = ({
+            eventData: element,
+            actorData: actorData,
+            dynattr: dynattr,
+            dynskill: dynskill,
+            attrMod: 0,
+            fertMod: 0,
+            attrModLocal: 0,
+            fertModLocal: 0,
+            roleData: roleData,
+            actorId: this.actor.id,
+            rollglobal: actorData.customroll.global,
+            removehighest: actorData.customroll.removehighest,
+            item: item
+        });
 
-            if (CONFIG.removehighest != true) {
-                rollformular = dynattr + "d10x10kh2+" + dynskill;
-
-            } else {
-                rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
-            }
-        } else {
-            rollformular = dynattr + "d10x10kh2+" + dynskill;
-        }
-
-        
         
         // --------------------------------------------- //
         // Übergabe an die Roll-Logic in der Item-Klasse //
         // --------------------------------------------- //
         
-        item.roll(event, rollformular, fullActorData);
+        this.modRolls(inputData, event);
+
     }
+
+
+
+
 
     async _onCreateItem(event) {
         event.preventDefault()
@@ -500,6 +546,58 @@ export default class DSCharakcterSheet extends ActorSheet {
 
         
     }
- 
+    async _onChangeProp(event) {
+        const data = this.actor.data.data;
+
+        const healthMod = await renderTemplate("systems/darkspace/templates/dice/dialogHeathMod.html");
+
+        // Testet welcher Property-Button gedrückt wurde //
+        if (event.currentTarget.innerHTML.includes("Gesundheit")) {
+
+            let bruisesBonus
+            let woundsBonus
+            new Dialog({
+                title: "Gesundheit modifizieren",
+                content: healthMod,
+                buttons: {
+                    button1: {
+                        label: "OK",
+                        callback: (html) => {
+                            bruisesBonus = parseInt(html.find("[name=bruisesBonusInput]")[0].value)
+                            woundsBonus = parseInt(html.find("[name=woundsBonusInput]")[0].value)
+
+                        },
+                        icon: `<i class="fas fa-check"></i>`
+                    },
+                },
+                close: () => {
+                    this.actor.update({
+                        "id": this.actor.id,
+                        "data.bruises.bonus": bruisesBonus,
+                        "data.wounds.bonus": woundsBonus
+                    })
+                }
+                
+            }).render(true);
+        }
+    }
+
+    async _onItemQuickEdit(event) {
+        const id = $(event.currentTarget).parents(".item").attr("data-item-id");
+        const target = $(event.currentTarget).attr("data-target");
+        const item = duplicate(this.actor.getEmbeddedDocument("Item", id));
+        let targetValue
+
+        if (event.target.type === "checkbox") {
+            targetValue = event.target.checked
+            
+        } else {
+            targetValue = event.target.value;
+        }
+
+        console.log(item);
+        setProperty(item, target, targetValue);
+        this.actor.updateEmbeddedDocuments("Item", [item]);
+      }
 
 }

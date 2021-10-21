@@ -1,0 +1,13 @@
+<div>
+    <h3>Waffenloser Angriff</h3>
+    <p class="anmerkung text_c">{{this.terms.[0].number}}W / Kampftechnik +{{this.terms.[2].number}}</p>
+    <hr>
+    {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
+    <hr>
+    <div class="grid col2 gridcenter">
+        <span>Schaden</span>
+        <span>Reichweite</span>
+        <span class="chatStats">{{this.data.unarmedDmg}}{{this.data.unarmedDmgType}}</span>
+        <span class="chatStats">Nahkampf</span>
+    </div>
+</div>

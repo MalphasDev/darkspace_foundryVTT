@@ -130,7 +130,7 @@
                     },
                     "ress": {
                         "exists": true,
-                        "ressname": "Bekanntheit",
+                        "ressname": "Reputation",
                         "value": 0,
                         "min": 0,
                         "max": 10
@@ -282,12 +282,15 @@
                     "Leistung": false,
                     "Sensoren": false,
                     "Kybernetik": false
-                }
+                },
+                "equipped": true
+                
             }
         },
         "Waffe": {
             "dmg": 1,
             "size": -3,
+            "ranged": true,
             "attackWith": "Schusswaffen",
             "range":"0-10/20/100",
             "rangeBonus": 0,

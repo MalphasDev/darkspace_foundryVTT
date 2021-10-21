@@ -24,7 +24,21 @@
                 
             </div>
             <div>
-                <span class="flex"><i class="fas fa-arrows-alt-h"></i>Reichweite</span>
+                
+                
+                <input type="checkbox" class="symbol" id="ranged" {{checked data.data.ranged}} name="data.ranged">
+                <label for="ranged">
+                    <span class="flex between">
+                    {{#if data.data.ranged}}
+                    <i class="fas fa-arrows-alt-h"></i>
+                    {{/if}}
+                    {{#unless data.data.ranged}}
+                    <i class="fas fa-fist-raised"></i>
+                    {{/unless}}
+                    <span>Reichweite</span>
+                    </span>
+                </label>
+
                 <p><input name="data.range" type="text" value="{{data.data.range}}" disabled></p>
                 <p class="flex cell_c">Rw-Bonus: <input name="data.rangeBonus" type="number" value="{{data.data.rangeBonus}}"></p>
                 

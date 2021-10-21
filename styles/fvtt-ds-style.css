@@ -276,6 +276,12 @@ ul {
     grid-template-columns: repeat(6, 1fr);
 }
 
+.col-weapons {
+    grid-template-columns: 45px 1fr 50px 140px 35px 35px 60px;
+    gap: 0;
+    align-items: center;
+}
+
 .span2 {
     grid-column: 1 / span2;
 }
@@ -341,17 +347,17 @@ ul {
     text-transform: uppercase;
 }
 .d10-symbol {
-    margin: 0 2px;
+    margin: 0px;
     padding: 0px;
-    width: 28px;
+    width: 20px;
     opacity: 0.4;
-}
-.roleSkill {
     border-radius: 50%;
 }
 .fa-caret-left:hover,
 .fa-caret-right:hover,
-.roleSkill:hover {
+.d10-symbol:hover,
+label:hover, 
+label>*:hover {
     cursor: pointer;
     background-color: rgba(204,0,0,0.3);
     box-shadow: 0 0 5px rgb(204 0 0);
@@ -429,4 +435,11 @@ ul {
     padding: 10px;
     margin: 10px 0;
     background-color: #6b6b6b1a;
+}
+.item-list {
+    font-size: 9pt;
+}
+input[type=checkbox].item-quick-edit,
+input[type=checkbox].symbol {
+    display: none;
 }

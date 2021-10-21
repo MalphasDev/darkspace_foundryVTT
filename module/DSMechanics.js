@@ -13,6 +13,8 @@ export function rollDice(rollDiceData) {
     let roleData = rollDiceData.roleData
     let rollglobal = rollDiceData.rollglobal
     let removehighest = rollDiceData.removehighest
+    let item
+    
 
     let rollformular
 
@@ -22,6 +24,8 @@ export function rollDice(rollDiceData) {
         
     let localMod = element.dataset.modroll;
     
+
+
     if (rollglobal === true || localMod === "true") {
         dynattr += attrMod + attrModLocal;
         dynskill += fertMod + fertModLocal;
@@ -69,7 +73,6 @@ export function rollDice(rollDiceData) {
         kritDice: kritDice,
         unEvalDice: unEvalDice
     }
-        
     let cardData = {
         ...this.data,
         ...roleData,
@@ -79,9 +82,26 @@ export function rollDice(rollDiceData) {
         ...disadvMessage,
         owner: actorId
     }
+    if (rollDiceData.item != undefined) {
+        item = rollDiceData.item.data
+        cardData = {
+            ...this.data,
+            ...roleData,
+            ...rollResult,
+            ...diceResult,
+            ...resultMessage,
+            ...disadvMessage,
+            owner: actorId,
+            ...item
+        }
+    }
+
     let outputData = {
         messageData: messageData,
         cardData: cardData
     }
+
+    
+
     return outputData;
 }
