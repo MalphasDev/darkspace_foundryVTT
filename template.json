@@ -172,9 +172,7 @@
             },
             "customroll": {
                 "dice": 2,
-                "bonus": 0,
-                "removehighest": false,
-                "global": false
+                "bonus": 0
               },
             "initMod": 0
             
@@ -225,9 +223,7 @@
             },
             "customroll": {
                 "dice": 0,
-                "bonus": 0,
-                "removehighest": false,
-                "global": false
+                "bonus": 0
               },
             
             "Eigenschaften": [],
@@ -245,9 +241,7 @@
 
             "customroll": {
                 "dice": 0,
-                "bonus": 0,
-                "removehighest": false,
-                "global": false
+                "bonus": 0
               },
             
             "Eigenschaften": {

@@ -1,57 +1,42 @@
 <div>
-<h2 class="flex between changeProp">Gesundheit <i class="fas fa-cog"></i></h2>
+<h2 class="flex between">Gesundheit <i class="fas fa-cog changeProp"></i></h2>
 <div class="grid col2 gridcenter h_gap">
     
     <div class="grid gridcenter">
-        <span class="derivedValue"><i class="fas fa-band-aid"></i> {{data.data.bruises.value}} / {{data.data.bruises.max}}</span>
-        <div class="flex">
-            <i class="fas fa-caret-left decBruises"></i>
-            <input type="range" min="0" max={{data.data.bruises.max}} value="{{data.data.bruises.value}}" name="data.bruises.value" data-type="Number" class="slider" id="bruises_slider">
-            <i class="fas fa-caret-right incBruises"></i>
+        <h4>Betäubung</h4>
+        <div class="flex between">
+            <i class="fas fa-minus-square decBruises"></i>
+            <span class="derivedValue">{{data.data.bruises.value}} / {{data.data.bruises.max}}</span>
+            <i class="fas fa-plus-square incBruises"></i>
         </div>
+        <span>
+            {{#times data.data.bruises.value}}<i class="fas fa-band-aid"></i>{{/times}}
+            {{#times data.data.bruises.remaining}}<i class="fas fa-band-aid opacity50"></i></i>{{/times}}
+        </span>
+
     </div>
     
     <div class="grid gridcenter">
-        <span class="derivedValue"><i class="fas fa-heartbeat"></i> {{data.data.wounds.value}} / {{data.data.wounds.max}}</span>
-        <div class="flex">
-            <i class="fas fa-caret-left decWounds"></i>
-            <input type="range" min="0" max={{data.data.wounds.max}} value="{{data.data.wounds.value}}" name="data.wounds.value" data-type="Number" class="slider" id="wounds_slider">
-            <i class="fas fa-caret-right incWounds"></i>
+        <h4>Verletzung</h4>
+        <div class="flex between">
+            <i class="fas fa-minus-square decWounds"></i>
+            <span class="derivedValue"> {{data.data.wounds.value}} / {{data.data.wounds.max}}</span>
+            <i class="fas fa-plus-square incWounds"></i>
         </div>
+        <span>
+            {{#times data.data.wounds.value}}<i class="fas fa-heartbeat"></i></i>{{/times}}
+            {{#times data.data.wounds.remaining}}<i class="fas fa-heartbeat opacity50"></i></i>{{/times}}
+        </span>
+        
+        
     </div>
+    
 </div>
 {{#if data.data.conditions}}
 <hr>
 <div>
-    <h3>Aktive Zustände</h3>
     {{data.data.conditions}}
 </div>
 {{/if}}
 </div>
 
-<div>
-    <h2>Angriff Schnellwahl</h2>
-    <ul class="item-list">
-        <li>
-            <span>
-                <img class="d10-symbol unarmedCombat" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                <img class="d10-symbol unarmedCombat" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                Waffenlos ({{data.data.unarmedDmg}}{{data.data.unarmedDmgType}})
-            </span>
-        </li>
-        {{#each Waffe}}
-        {{#if data.equipped}}
-        <li class="item" data-item-id="{{this._id}}">
-
-            <img class="d10-symbol rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-            <img class="d10-symbol rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-
-            {{this.name}} ({{this.data.dmg}}{{this.data.dmgtype}} | {{this.data.range}})
-            
-            
-        </li>
-        {{/if}}
-        {{/each}}
-        
-    </ul>
-</div>

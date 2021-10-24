@@ -17,6 +17,9 @@ export default class DSCharacter extends Actor {
 
         if (this.type != 'DrohneFahrzeug') {
 
+            let weaponList = this.data.items.filter( (f) => {return f.type === "Waffe"})
+            let armorList = this.data.items.filter( (i) => {return (i.data.type === "Panzerung")})
+
             data.conditions = []
 
             if (data.bruises.value === data.bruises.max) {
@@ -29,17 +32,38 @@ export default class DSCharacter extends Actor {
                 data.conditions.push("Tod")
             }
             
+            let armorListEquipped = armorList.filter((e) => {return e.data.data.equipped === true})
+            let StrukturArray = Array.from(armorListEquipped.map( (a) => {return (a.data.data.structure)} ))
+            StrukturArray.push(0);
 
+            let SchutzArray = Array.from(armorList.map( (a) => {return (a.data.data.protection)} ))
+            SchutzArray.push(0);
+            
+            let addedArmors = Math.min(Math.max(StrukturArray.length-2,0),2)
+
+            data.Struktur = Math.max(...StrukturArray);
+            data.Schutz = Math.max(...SchutzArray) + addedArmors;
+
+            
+            
             
         }
 
         if (this.type == 'Charakter') {
 
-            let weaponList = this.data.items.filter( (f) => {return f.type === "Waffe"})
-            let armorList = this.data.items.filter( (i) => {return (i.data.type === "Panzerung")})
+
+            data.bruises.value < 0 ? data.bruises.value = 0 : data.bruises.value;
+            data.wounds.value < 0 ? data.wounds.value = 0 : data.wounds.value;
+            
+            data.bruises.value > data.bruises.max ? data.bruises.value = data.bruises.max : data.bruises.value;
+            data.wounds.value > 10  ? data.wounds.value = 10 : data.wounds.value;
 
             data.bruises.max = 5 + data.bruises.bonus + Math.floor(data.charattribut.Konzentration.attribut/6);
             data.wounds.max = 5 + data.wounds.bonus + Math.floor(data.charattribut.Konstitution.attribut/6);
+            
+            data.bruises.remaining = Math.max(data.bruises.max - data.bruises.value,0)
+            data.wounds.remaining = Math.max(data.wounds.max - data.wounds.value,0)
+
 
             data.initiative =  Math.ceil((data.charattribut.Aufmerksamkeit.attribut + data.charattribut.Geschick.attribut + data.charattribut.Intuition.attribut)/3);
             data.finalinitiative = data.initiative + data.initMod; 
@@ -54,23 +78,12 @@ export default class DSCharacter extends Actor {
 
             data.miscData.Kybernese.mk = this.data.items.filter( (i) => {return (i.type === "Artifizierung")}).map( (j) => {return j.data.data.mk});
             data.miscData.Kybernese.bonus = Math.min(...data.miscData.Kybernese.mk);
-            
-            
-
-            console.log(armorList.map( (a) => {return (a.data.data.structure)} ));
-
-            
-            console.log(weaponList.map( (w) => {return (w.data.data.equipped) }) );
-
-            data.Struktur = 0;
-            data.Schutz = 1;
 
             // Waffenloser Schaden
             data.unarmedDmg = 2 + Math.floor(data.charattribut.Konstitution.attribut/6);
             data.unarmedDmgType = "B"
 
-            // ItemUpdate
-            console.log(weaponList.map( (w) => {return (w) }) );
+            
             
         };
 

@@ -1,9 +1,5 @@
 <div>
-    <h2 class="flex between"> 
-        <a class="rollItem flex" data-rolltype="protection" data-structure="{{this.data.armor}}" data-protection="{{this.data.protection}}">
-            <img class="d10-symbol" src="systems/darkspace/icons/d10.svg">
-        </a>
-        Panzerung {{data.data.Struktur}}W +{{data.data.Schutz}}
+    <h2 class="flex between"> Panzerung
         <i class="fas fa-plus createItem" data-type="Panzerung"></i> 
     </h2>
         
@@ -16,6 +12,16 @@
                     
                 </h3>
                 <div>
+                    <label for="equippedGear{{this._id}}">
+                        {{#if data.equipped}}
+                        <i class="fas fa-fist-raised"></i>
+                        {{/if}}
+                        {{#unless data.equipped}}
+                        <i class="fas fa-hand-paper"></i>
+                        {{/unless}}
+
+                    </i></label>
+                    <input type="checkbox" invisible {{checked data.equipped}} class="item-quick-edit" id="equippedGear{{this._id}}" data-target="data.equipped">
                     <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                     <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                 </div>

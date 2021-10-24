@@ -6,39 +6,30 @@ export function rollDice(rollDiceData) {
     const element = rollDiceData.eventData
     let dynattr = rollDiceData.dynattr
     let dynskill = rollDiceData.dynskill
-    let attrMod = rollDiceData.attrMod
-    let fertMod = rollDiceData.fertMod
     let attrModLocal = rollDiceData.attrModLocal
     let fertModLocal = rollDiceData.fertModLocal
     let roleData = rollDiceData.roleData
-    let rollglobal = rollDiceData.rollglobal
     let removehighest = rollDiceData.removehighest
     let item
     
-
     let rollformular
 
     // ------------------------------------- //
     // Custom Roll und globale Modifikatoren //
     // ------------------------------------- //
         
-    let localMod = element.dataset.modroll;
     
+    attrModLocal === undefined ? attrModLocal = 0 : attrModLocal;
+    fertModLocal === undefined ? fertModLocal = 0 : fertModLocal;
 
 
-    if (rollglobal === true || localMod === "true") {
-        dynattr += attrMod + attrModLocal;
-        dynskill += fertMod + fertModLocal;
-        
+    dynattr += attrModLocal;
+        dynskill += fertModLocal;
         if (removehighest != true) {
             rollformular = dynattr + "d10x10kh2+" + dynskill;
                 
         } else {
             rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
-        }
-    
-        } else {
-            rollformular = dynattr + "d10x10kh2+" + dynskill;
         }
     var rollResult = new Roll(rollformular, actorData).roll();
     
@@ -104,4 +95,106 @@ export function rollDice(rollDiceData) {
     
 
     return outputData;
+}
+
+export async function modRolls(inputData, event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+
+    let attrModLocal;
+    let fertModLocal;
+    
+    const dialogModRolls = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
+    if (element.dataset.modroll === "true") {
+        new Dialog({
+            title: "Modifizierte Probe",
+            content: dialogModRolls,
+            buttons: {
+                button1: {
+                    label: "Normal",
+                    callback: (html) => {
+                        attrModLocal = parseInt(html.find("[name=attrmod]")[0].value)
+                        fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
+                        let ifRemoveHighest = false;
+
+                        inputData = {
+                            ...inputData,
+                            attrModLocal: attrModLocal,
+                            fertModLocal: fertModLocal,
+                            removehighest: ifRemoveHighest
+                        }
+                        
+                        
+                        this._resolveDice(inputData, event)
+                    },
+                    icon: `<i class="fas fa-check"></i>`
+                },
+                button2: {
+                    label: "Erschwert",
+                    callback: (html) => {
+                        attrModLocal = parseInt(html.find("[name=attrmod]")[0].value)
+                        fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
+                        let ifRemoveHighest = true;
+                        
+                        console.log(html.find(".disadv")[0]);
+                        inputData = {
+                            ...inputData,
+                            attrModLocal: attrModLocal,
+                            fertModLocal: fertModLocal,
+                            removehighest: ifRemoveHighest
+                        }
+                        
+                        
+                        this._resolveDice(inputData, event)
+                    },
+                    icon: `<i class="fas fa-exclamation-triangle"></i>`
+                },
+            },
+            close: () => {
+            }
+            
+        }).render(true);
+    } else {
+        inputData = {
+            ...inputData,
+            attrModLocal: 0,
+            fertModLocal: 0
+        }
+        this._resolveDice(inputData, event)
+    }
+}
+
+
+export async function _resolveDice(inputData, event) {
+    let outputData = this.rollDice(inputData);
+    let messageData = outputData.messageData
+    let cardData = outputData.cardData
+    let currentRollClass = event.currentTarget.className;
+    let currentRoll;
+
+    currentRollClass.includes("roleSkill") ? currentRoll = "Skill" : ""
+    currentRollClass.includes("roll-btn") ? currentRoll = "Custom" : ""
+    currentRollClass.includes("unarmedCombat") ? currentRoll = "Unarmed" : ""
+    currentRollClass.includes("rollItem") ? currentRoll = inputData.item.data.type : ""
+    currentRollClass.includes("protection") ? currentRoll = "Skill" : ""
+
+
+    if (currentRoll === undefined) {
+        currentRoll = "Skill"
+    }
+
+    let chatTempPath = {
+        "Skill": "systems/darkspace/templates/dice/chatSkill.html",
+        "Custom": "systems/darkspace/templates/dice/chatCustom.html",
+        "Item": "systems/darkspace/templates/dice/chatItem.html",
+        "Unarmed": "systems/darkspace/templates/dice/chatUnarmed.html",
+        "Waffe": "systems/darkspace/templates/dice/chatWeapon.html",
+        "Panzerung": "systems/darkspace/templates/dice/chatArmor.html",
+        "Artifizierung": "systems/darkspace/templates/dice/chatCybernetics.html"
+    }
+    
+    messageData.content = await renderTemplate(chatTempPath[currentRoll], cardData);
+  
+    AudioHelper.play({src: CONFIG.sounds.dice});
+    return ChatMessage.create(messageData);
 }

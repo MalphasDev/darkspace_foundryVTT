@@ -26,11 +26,13 @@ async function preloadHandlebarsTemplates () {
             "systems/darkspace/templates/partials/sub-partials/stat-feature.html",
             "systems/darkspace/templates/partials/sub-partials/stat-talent.html",
             "systems/darkspace/templates/partials/sub-partials/stat-health.html",
-
+            
             //Combat
             "systems/darkspace/templates/partials/sub-partials/combat-armor.html",
             "systems/darkspace/templates/partials/sub-partials/combat-weapons.html",
             "systems/darkspace/templates/partials/sub-partials/combat-initiative.html",
+            "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html",
+            "systems/darkspace/templates/partials/sub-partials/combat-protection.html",
 
             //Items
             "systems/darkspace/templates/partials/sub-partials/items-header.html",
@@ -110,22 +112,20 @@ Hooks.once("init", function() {
         }
     })
 
-    Handlebars.registerHelper("strToHTML", function (str) {
 
-        var dom = document.createElement('div');
-        console.log(dom);
-        console.log(typeof str);
-        console.log(str);
-        dom.innerHTML = str;
-        console.log(dom);
-        return dom;
-    
-    });
     Handlebars.registerHelper("disabled", function (condition) {
         let d = "";
         if (condition != null || undefined) {d = "disabled"} else {d = "enabled"}
         return d
     })
+    Handlebars.registerHelper("times", function (n, content) {
+        let result = "";
+        
+        for (let i = 0; i < n; ++i) {
+            result += content.fn(n)
+        }
+        return result
+    });
 
 
 });

@@ -1,26 +1,11 @@
 <div class="cell_d">
-    <h2>Freier Wurf / Modifikatoren</h2>
-    <div class="grid col3 gridcenter">
-        
-        <div class="flex span2">
-            
-            <span><input type="number" value="{{data.data.customroll.dice}}" name="data.customroll.dice" data-type="Number">W10 + </span>
-            <input type="number" value="{{data.data.customroll.bonus}}" name="data.customroll.bonus" data-type="Number">
-            
-        </div>
-        
-        <div class="grid gridcenter">
-            <span>Erschwert</span>
-            <input type="checkbox" {{checked data.data.customroll.removehighest}} name="data.customroll.removehighest">
-        </div>
+    <h2>Freier Wurf</h2>
+    <div>
+        <img class="d10-symbol roll-btn"  src="systems/darkspace/icons/d10.svg">
+        <img class="d10-symbol roll-btn disadv"  src="systems/darkspace/icons/d10disadv.svg">
 
-        <div>
-            <a><img class="roll-btn" src="systems/darkspace/icons/d10.svg"></a>
-        </div>
-
-        <div class="grid gridcenter">
-            <span>Global</span>
-            <input type="checkbox" {{checked data.data.customroll.global}} name="data.customroll.global">
-        </div>
+        <input type="number" value="{{data.data.customroll.dice}}" name="data.customroll.dice" data-type="Number">W10 + 
+        <input type="number" value="{{data.data.customroll.bonus}}" name="data.customroll.bonus" data-type="Number">
+        
     </div>
 </div>

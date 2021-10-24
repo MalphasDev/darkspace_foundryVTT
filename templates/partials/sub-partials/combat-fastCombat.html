@@ -1,0 +1,29 @@
+<div>
+    <h2>Kampf Schnellwahl</h2>
+    <ul class="item-list">
+        <li>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-protection.html"}}
+        </li>
+        <li>
+            <span>
+                <img class="d10-symbol unarmedCombat" data-modroll="false" src="systems/darkspace/icons/d10.svg">
+                <img class="d10-symbol unarmedCombat" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
+                Waffenlos ({{data.data.unarmedDmg}}{{data.data.unarmedDmgType}})
+            </span>
+        </li>
+        {{#each Waffe}}
+        {{#if data.equipped}}
+        <li class="item" data-item-id="{{this._id}}">
+
+            <img class="d10-symbol rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}" data-modroll="false" src="systems/darkspace/icons/d10.svg">
+            <img class="d10-symbol rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
+
+            {{this.name}} ({{this.data.dmg}}{{this.data.dmgtype}} | {{this.data.range}})
+            
+            
+        </li>
+        {{/if}}
+        {{/each}}
+        
+    </ul>
+</div>

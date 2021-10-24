@@ -12,7 +12,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         "Waffe": "systems/darkspace/templates/dice/chatWeapon.html",
         "Panzerung": "systems/darkspace/templates/dice/chatArmor.html",
         "Artifizierung": "systems/darkspace/templates/dice/chatCybernetics.html"
-        
     }
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -61,8 +60,24 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
         html.find(".changeProp").click(this._onChangeProp.bind(this));
         html.find(".unarmedCombat").click(this._onUnarmedCombat.bind(this));
+        html.find(".protection").click(this._onProtection.bind(this));
         html.find(".item-quick-edit").change(this._onItemQuickEdit.bind(this));
 
+    }
+
+    createInputData(event) {
+        event.preventDefault();
+        const element = event.currentTarget;
+        const actorData = this.object.data.data;
+        
+        
+        let inputData = {
+            eventData: element,
+            actorId: this.actor.id,
+            actorData: actorData,
+            removehighest: element.className.includes("disadv")
+        }
+        return inputData;
     }
 
     async _onRollSkill (event) {
@@ -71,20 +86,15 @@ export default class DSCharakcterSheet extends ActorSheet {
         const dataset = element.dataset;
         const actorData = this.object.data.data;
         
-        
-        if(actorData.customroll.global) {
-            var attrMod = actorData.customroll.dice;
-            var fertMod = actorData.customroll.bonus;
-        } else {
-            var attrMod = 0;
-            var fertMod = 0;
-        }
 
         var dynattr = 0;
         var dynskill = 0;
 
         var roleData = {attribute: dataset.attr, skill: dataset.skill};
         
+        console.log(dataset.attr);
+        console.log(actorData.charattribut);
+
         if (this.actor.type === "DrohneFahrzeug") {
             dynattr = actorData[dataset.attr]
             dynskill = actorData[dataset.skill];
@@ -106,22 +116,14 @@ export default class DSCharakcterSheet extends ActorSheet {
         // Bau des Übergabe-Objektes //
         // ------------------------- //
         
+        let preCreatedInput = this.createInputData(event)
         var inputData = {
-            eventData: element,
-            actorData: actorData,
+            ...preCreatedInput,
             dynattr: dynattr,
             dynskill: dynskill,
-            attrMod: attrMod,
-            fertMod: fertMod,
-            attrModLocal: 0,
-            fertModLocal: 0,
-            roleData: roleData,
-            actorId: this.actor.id,
-            rollglobal: actorData.customroll.global,
-            removehighest: actorData.customroll.removehighest
+            roleData: roleData
         };
-     
-        this.modRolls(inputData, event)
+        DSMechanics.modRolls(inputData, event)
         
     }
 
@@ -129,125 +131,65 @@ export default class DSCharakcterSheet extends ActorSheet {
         event.preventDefault();
         const element = event.currentTarget;
         const actorData = this.object.data.data;
+        const dataset = element.dataset;
         
-        var dynattr = actorData.customroll.dice;
-        var dynskill = actorData.customroll.bonus;
-        var roleData = {attribute: "", skill: "Bonus"};
 
+        let dynattr = actorData.customroll.dice;
+        let dynskill = actorData.customroll.bonus;
+        let roleData = {attribute: "", skill: "Bonus"};
+
+        let preCreatedInput = this.createInputData(event)
         let inputData = ({
-            eventData: element,
-            actorData: actorData,
+            ...preCreatedInput,
             dynattr: dynattr,
             dynskill: dynskill,
-            attrMod: 0,
-            fertMod: 0,
-            attrModLocal: 0,
-            fertModLocal: 0,
-            roleData: roleData,
-            actorId: this.actor.id,
-            rollglobal: actorData.customroll.global,
-            removehighest: actorData.customroll.removehighest
+            roleData: roleData
         });
 
-        this._resolveDice(inputData, event)
+        DSMechanics._resolveDice(inputData, event)
     }
 
     async _onUnarmedCombat(event) {
         event.preventDefault();
-        const element = event.currentTarget;
         const actorData = this.object.data.data;
         
         var dynattr = actorData.charattribut.Geschick.attribut;
         var dynskill = actorData.charattribut.Geschick.skill.Kampftechnik;
         var roleData = {attribute: "", skill: "Bonus"};
 
+        let preCreatedInput = this.createInputData(event)
         let inputData = ({
-            eventData: element,
-            actorData: actorData,
+            ...preCreatedInput,
             dynattr: dynattr,
             dynskill: dynskill,
-            attrMod: 0,
-            fertMod: 0,
-            attrModLocal: 0,
-            fertModLocal: 0,
-
-            roleData: roleData,
-            actorId: this.actor.id,
-            rollglobal: actorData.customroll.global,
-            removehighest: actorData.customroll.removehighest
+            roleData: roleData
         });
 
-        this.modRolls(inputData, event)
+        DSMechanics.modRolls(inputData, event)
         
     }
-
-    async modRolls(inputData, event) {
+    async _onProtection(event) {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
-        const actorData = this.object.data.data;
+        
+        let dynattr = parseInt(dataset.structure);
+        let dynskill = parseInt(dataset.protection);
 
-        let attrModLocal;
-        let fertModLocal;
+        var roleData = {attribute: "Struktur", skill: "Schutz"};
 
-        const dialogModRolls = await renderTemplate("systems/darkspace/templates/dice/dialogModRolls.html");
-        if (element.dataset.modroll === "true") {
-            new Dialog({
-                title: "Modifizierte Probe",
-                content: dialogModRolls,
-                buttons: {
-                    button1: {
-                        label: "OK",
-                        callback: (html) => {
-                            attrModLocal = parseInt(html.find("[name=attrmod]")[0].value)
-                            fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
-                            let ifRemoveHighest = html.find("#removeHighestCheck")[0].checked
-                            inputData = {
-                                ...inputData,
-                                attrModLocal: attrModLocal,
-                                fertModLocal: fertModLocal,
-                                removehighest: ifRemoveHighest
-                            }
-                            
-                            
-                            this._resolveDice(inputData, event)
-                        },
-                        icon: `<i class="fas fa-check"></i>`
-                    },
-                },
-                close: () => {
-                }
-                
-            }).render(true);
-        } else {
-            this._resolveDice(inputData, event)
-        }
-    }
-
-
-    async _resolveDice(inputData, event) {
-        let outputData = DSMechanics.rollDice(inputData);
-        let messageData = outputData.messageData
-        let cardData = outputData.cardData
-        let currentRollClass = event.currentTarget.className;
-        let currentRoll;
+        let preCreatedInput = this.createInputData(event)
+        let inputData = ({
+            ...preCreatedInput,
+            dynattr: dynattr,
+            dynskill: dynskill,
+            roleData: roleData
+        });
 
         
-        currentRollClass.includes("roleSkill") ? currentRoll = "Skill" : ""
-        currentRollClass.includes("roll-btn") ? currentRoll = "Custom" : ""
-        currentRollClass.includes("unarmedCombat") ? currentRoll = "Unarmed" : ""
-        currentRollClass.includes("rollItem") ? currentRoll = inputData.item.data.type : ""
-
-        messageData.content = await renderTemplate(this.chatTemplate[currentRoll], cardData);
+        DSMechanics.modRolls(inputData, event)
         
-        console.log(outputData);
-
-        AudioHelper.play({src: CONFIG.sounds.dice});
-        return ChatMessage.create(messageData);
     }
-
-
-
 
     // ----------------------- //
     // -------- ITEMS -------- //
@@ -260,7 +202,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         var dynattr = 0;
         var dynskill = 0;
         const actorData = this.object.data.data;
-        
         
         const itemId = element.closest(".item").dataset.itemId;
         const item = this.actor.getOwnedItem(itemId);
@@ -292,10 +233,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         // Daten für Schutzwürfe //
         // --------------------- //
 
-        if (dataset.rolltype == "protection") {
-            dynattr = parseInt(dataset.structure);
-            dynskill = parseInt(dataset.protection);
-        }
+        
         
         // ------------------------ //
         // Daten für Kybernesewürfe //
@@ -307,28 +245,16 @@ export default class DSCharakcterSheet extends ActorSheet {
         }
         var roleData = {attribute: attrident, skill: skillident};
         
+        let preCreatedInput = this.createInputData(event)
         let inputData = ({
-            eventData: element,
-            actorData: actorData,
+            ...preCreatedInput,
             dynattr: dynattr,
             dynskill: dynskill,
-            attrMod: 0,
-            fertMod: 0,
-            attrModLocal: 0,
-            fertModLocal: 0,
             roleData: roleData,
-            actorId: this.actor.id,
-            rollglobal: actorData.customroll.global,
-            removehighest: actorData.customroll.removehighest,
             item: item
         });
-
         
-        // --------------------------------------------- //
-        // Übergabe an die Roll-Logic in der Item-Klasse //
-        // --------------------------------------------- //
-        
-        this.modRolls(inputData, event);
+        DSMechanics.modRolls(inputData, event);
 
     }
 
@@ -378,7 +304,7 @@ export default class DSCharakcterSheet extends ActorSheet {
                             newItemData = {
                                 ...newItemData,
                                 dmgtype: html.find("[name=newDamageType]")[0].selectedOptions[0].innerHTML,
-                                range: html.find("[name=newRange]")[0].value,
+                                ranged: html.find("[name=newRange]")[0].checked,
                             }
                         }
                         if (element.dataset.type === "Artifizierung") {
@@ -580,6 +506,8 @@ export default class DSCharakcterSheet extends ActorSheet {
                 
             }).render(true);
         }
+
+        
     }
 
     async _onItemQuickEdit(event) {
