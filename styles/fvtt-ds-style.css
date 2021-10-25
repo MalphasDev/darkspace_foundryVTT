@@ -273,6 +273,9 @@ ul {
 .col4 {
     grid-template-columns: repeat(4, 1fr);
 }
+.col4-item {
+    grid-template-columns: 1fr 40px 40px 50px;
+}
 .col5 {
     grid-template-columns: repeat(5, 1fr);
 }
@@ -435,10 +438,9 @@ label>*:hover {
     color: rgb(144 72 72);
 }
 .tab.combat li.item, .tab.items li.item {
-    border: solid 2px #948686;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #6b6b6b1a;
+    border-bottom: solid 1px #948686;
+    padding: 5px 0 0 0;
+    margin: 0px 0;
 }
 .item-list {
     font-size: 9pt;

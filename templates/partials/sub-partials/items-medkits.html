@@ -4,12 +4,9 @@
         <i class="fas fa-plus createItem" data-type="Gegenstand"></i>
     </h2>
     <ul class="item-list">
-        
-        
-
         {{#each Gegenstand}}
         <li class="item" data-item-id="{{this._id}}">
-            <div class="grid col4-item">
+            <div class="flex between">
                 <span class="itemname itemToChat" draggable="true">{{this.name}}</span>
                 <span>GM {{this.data.size}}</span>
                 <span>MK {{this.data.mk}}</span>

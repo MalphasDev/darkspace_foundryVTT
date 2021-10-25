@@ -257,8 +257,10 @@
     "Item": {
         "types": [
             "Waffe",
-            "Artifizierung",
             "Panzerung",
+            "Werkzeug",
+            "Terminals",
+            "Artifizierung",
             "Gegenstand",
             "Unterbringung",
             "Talent",
@@ -290,6 +292,21 @@
             "rangeBonus": 0,
             "dmgtype": "B",
             "templates": ["itemBase"]
+        },
+        "Werkzeug": {
+            "templates": ["itemBase"],
+            "Eigenschaften": {
+                "Computer": true,
+                "Energie": true
+            }
+        },
+        "Terminals": {
+            "templates": ["itemBase"],
+            "bots": 0,
+            "Eigenschaften": {
+                "Computer": true,
+                "Energie": true
+            }
         },
         "Artifizierung": {
             "bodyPart": "Körper",

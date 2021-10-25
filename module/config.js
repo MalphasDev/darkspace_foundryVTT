@@ -35,10 +35,10 @@ darkspace.features = {
     Sonstige: "Sonstige"
 }
 darkspace.itemProperties = {
-     Computer: "Computer",
-     Energie: "Energie",
-     Leistung: "Leistung",
-     Sensor: "Sensor"
+    Computer: "Computer",
+    Energie: "Energie",
+    Leistung: "Leistung",
+    Sensor: "Sensor"
 }
 darkspace.bodyPart = {
     Körper: "Körper",

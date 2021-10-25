@@ -1,32 +1,35 @@
 <section>
-    <h2  class="flex between"><span>Unterbringung</span><i class="fas fa-plus createItem" data-type="Unterbringung"></i></h2>
+    <h2  class="flex between">
+        <span>Unterbringung</span>
+        <i class="fas fa-plus createItem" data-type="Unterbringung"></i>
+    </h2>
     <ul class="item-list">
         {{#each Unterbringung}}
             <li class="item" data-item-id="{{this._id}}">
                 <div class="flex between ">
-                    <h3 class="itemToChat" style="display: inline-block;">{{this.name}}</h3>
+                    <span class="itemname itemToChat" draggable="true">{{this.name}}</span>
                     <span class="anmerkung">{{this.data.type}}</span>
 
                         <span class="anmerkung">MK {{this.data.mk}}</span>
                         <span class="anmerkung">GM {{this.data.size}}</span>
                         <div style="display: inline-block;">
+                            
+                        <div>
+                            <label for="equippedGear{{this._id}}">
+                                {{#if data.equipped}}
+                                <i class="fas fa-fist-raised"></i>
+                                {{/if}}
+
+                                {{#unless data.equipped}}
+                                <i class="fas fa-hand-paper"></i>
+                                {{/unless}}
+                            </label>
+                            <input type="checkbox" invisible {{checked data.equipped}} class="item-quick-edit" id="equippedGear{{this._id}}" data-target="data.equipped">
                             <label class="collapsible" for="collapse-cntr-{{this._id}}"><i class="fas fa-info-circle"></i></label>
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                             <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                         </div>
 
-                </div>
-
-                <div class="grid col4">
-                    <span>Komfort</span>
-                    <span>Ressourcen</span>
-                    <span>Kriminalität</span>
-                    <span>Verschmutzung</span>
-
-                    <span>{{this.data.comfort}}W10</span>
-                    <span>{{this.data.ressourcen}}W10</span>
-                    <span>{{this.data.crime}}W10</span>
-                    <span>{{this.data.polution}}W10</span>
                 </div>
 
                 

@@ -1,7 +1,18 @@
-<h3> (Unterhalt: {{data.data.keepOfItems}} / Wohlstand: {{data.data.wealth}})</h3>
-   <div class="grid col2">
+<div class="grid col2">
     {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
-    {{> "systems/darkspace/templates/partials/sub-partials/items-quarter.html"}}
-   </div>
+    
+    <div>
+        <h2 class="flex between">
+            <span>Werkzeug und Computer</span>
+            <i class="fas fa-plus createItem" data-type="Gegenstand"></i>
+        </h2>
+    
+        <ul class="item-list">
+            {{> "systems/darkspace/templates/partials/sub-partials/items-terminals.html"}}
+            {{> "systems/darkspace/templates/partials/sub-partials/items-tools.html"}}
+        </ul>
+    </div>
+    
+</div>
     
 

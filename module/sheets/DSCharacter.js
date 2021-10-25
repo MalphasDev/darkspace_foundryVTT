@@ -17,8 +17,9 @@ export default class DSCharacter extends Actor {
 
         if (this.type != 'DrohneFahrzeug') {
 
-            let weaponList = this.data.items.filter( (f) => {return f.type === "Waffe"})
-            let armorList = this.data.items.filter( (i) => {return (i.data.type === "Panzerung")})
+            var weaponList = this.data.items.filter( (f) => {return f.type === "Waffe"})
+            var armorList = this.data.items.filter( (i) => {return (i.data.type === "Panzerung")})
+            var quarterList = this.data.items.filter( (i) => {return (i.data.type === "Unterbringung")})
 
             data.conditions = []
 
@@ -52,6 +53,8 @@ export default class DSCharacter extends Actor {
         if (this.type == 'Charakter') {
 
 
+            
+
             data.bruises.value < 0 ? data.bruises.value = 0 : data.bruises.value;
             data.wounds.value < 0 ? data.wounds.value = 0 : data.wounds.value;
             
@@ -67,12 +70,17 @@ export default class DSCharacter extends Actor {
 
             data.initiative =  Math.ceil((data.charattribut.Aufmerksamkeit.attribut + data.charattribut.Geschick.attribut + data.charattribut.Intuition.attribut)/3);
             data.finalinitiative = data.initiative + data.initMod; 
+
+            // Unterbringung
+            let quarterListEquipped = quarterList.filter((e) => {return e.data.data.equipped === true});
             
             // Unterhalt und Wohlstand
-            let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten")} )
+            let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten") && (i.type != "Unterbringung")} )
+            ownedItems = ownedItems.concat(quarterListEquipped);
+            
             let itemSizes = Array.from(ownedItems.map( (k) => {return k.data.data.size})).sort( (a,b) => (a-b))
             let itemMk = Array.from(ownedItems.map( (k) => {return k.data.data.mk})).sort( (a,b) => (a-b))
-            
+
             data.keepOfItems = Math.max(...itemSizes) + Math.max(...itemMk);
             data.wealth = data.charattribut.Ressourcen.attribut*2;
 
@@ -83,8 +91,7 @@ export default class DSCharacter extends Actor {
             data.unarmedDmg = 2 + Math.floor(data.charattribut.Konstitution.attribut/6);
             data.unarmedDmgType = "B"
 
-            
-            
+            console.log(ownedItems);
         };
 
         if (this.type == 'Nebencharakter') {

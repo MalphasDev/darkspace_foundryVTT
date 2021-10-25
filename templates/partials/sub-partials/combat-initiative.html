@@ -1,11 +1,5 @@
-<h2 class="flex between">Initiative <!--<i class="fas fa-cog changeProp"></i>--></h2>
-<!--<div>
-    <p class="derivedValue"></p>
-    <span>{{data.data.initiative}}
-    <input class="value_box" name="data.initMod" value="{{data.data.initMod}}" type="number">
-    
-    
-</div>-->
-<span>{{data.data.finalinitiative}}W 
-    <span class="anmerkung text_c"> = (Aufm. + Ges. + Intu.) / 3</span>
-</span>
+<div>
+    <img class="directRoll d10-symbol" data-rollname="Initiative" data-dice="{{data.data.initiative}}" data-bonus="0" src="systems/darkspace/icons/d10.svg">
+    <img class="directRoll d10-symbol disadv" data-rollname="Initiative" data-dice="{{data.data.initiative}}" data-bonus="0" src="systems/darkspace/icons/d10disadv.svg">
+    <span>Initiative {{data.data.finalinitiative}}W <span class="anmerkung text_c"> (Aufm. + Ges. + Intu.) / 3</span></span>
+</div>

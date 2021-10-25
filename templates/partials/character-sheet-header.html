@@ -37,15 +37,18 @@
         <div>
             <div class="grid col2">
                 <!--Spalte 2-->
-            <div class="cell_t">   
+            <div class="cell_t">
+                <h2>Schnellwahl</h2>
                 {{> "systems/darkspace/templates/partials/sub-partials/combat-initiative.html"}} 
+                <hr>
                 {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+                <hr>
+                {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
             </div>
             
             <!--Spalte 3-->
             <div class="cell_t">
                 {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
-                {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
                 
             </div>
             </div>
@@ -64,6 +67,7 @@
             <a class="item" data-tab="combat">Waffen und Rüstung</a>
             <a class="item" data-tab="items">Items</a>
             <a class="item" data-tab="notes">Notizen</a>
+            <a class="item" data-tab="downtime">Downtime</a>
         </nav>
     </div>
     

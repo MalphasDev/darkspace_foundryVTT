@@ -30,14 +30,27 @@ export default class DSCharakcterSheet extends ActorSheet {
 
         //data.config = CONFIG.darkspace;
 
-        data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
-        data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
-        data.Panzerung = data.items.filter(function (item) {return item.type == "Panzerung"});
-        data.Talent = data.items.filter(function (item) {return item.type == "Talent"});
-        data.Module = data.items.filter(function (item) {return item.type == "Module"});
-        data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
-        data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
-        data.Besonderheiten = data.items.filter(function (item) {return item.type == 'Besonderheiten'});
+
+        // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
+
+        let itemType = Array.from(data.items.map( (i) => {return i.type}))
+
+        for (let i = 0; i < itemType.length; i++) {
+            data[itemType[i]] = data.items.filter(function (item) {return item.type == itemType[i]})
+        }
+
+        // /|\
+        //  --- Das da sind die Zeilen unten  ---  drunter als FOR-Schleife
+        //                                   \|/
+
+        // data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
+        // data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
+        // data.Panzerung = data.items.filter(function (item) {return item.type == "Panzerung"});
+        // data.Talent = data.items.filter(function (item) {return item.type == "Talent"});
+        // data.Module = data.items.filter(function (item) {return item.type == "Module"});
+        // data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
+        // data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
+        // data.Besonderheiten = data.items.filter(function (item) {return item.type == "Besonderheiten"});
         
         return data;
     }
@@ -60,7 +73,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".decWounds, .incWounds, .decBruises, .incBruises").click(this._onModHealth.bind(this));
         html.find(".changeProp").click(this._onChangeProp.bind(this));
         html.find(".unarmedCombat").click(this._onUnarmedCombat.bind(this));
-        html.find(".protection").click(this._onProtection.bind(this));
+        html.find(".directRoll").click(this._onDirectRoll.bind(this));
         html.find(".item-quick-edit").change(this._onItemQuickEdit.bind(this));
 
     }
@@ -92,9 +105,6 @@ export default class DSCharakcterSheet extends ActorSheet {
 
         var roleData = {attribute: dataset.attr, skill: dataset.skill};
         
-        console.log(dataset.attr);
-        console.log(actorData.charattribut);
-
         if (this.actor.type === "DrohneFahrzeug") {
             dynattr = actorData[dataset.attr]
             dynskill = actorData[dataset.skill];
@@ -168,15 +178,15 @@ export default class DSCharakcterSheet extends ActorSheet {
         DSMechanics.modRolls(inputData, event)
         
     }
-    async _onProtection(event) {
+    async _onDirectRoll(event) {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
         
-        let dynattr = parseInt(dataset.structure);
-        let dynskill = parseInt(dataset.protection);
+        let dynattr = parseInt(dataset.dice);
+        let dynskill = parseInt(dataset.bonus);
 
-        var roleData = {attribute: "Struktur", skill: "Schutz"};
+        var roleData = {attribute: "", skill: dataset.rollname};
 
         let preCreatedInput = this.createInputData(event)
         let inputData = ({
@@ -229,12 +239,6 @@ export default class DSCharakcterSheet extends ActorSheet {
             dynskill = actorData.charattribut[attrident].skill[skillident];
         }
 
-        // --------------------- //
-        // Daten für Schutzwürfe //
-        // --------------------- //
-
-        
-        
         // ------------------------ //
         // Daten für Kybernesewürfe //
         // ------------------------ //
@@ -523,7 +527,6 @@ export default class DSCharakcterSheet extends ActorSheet {
             targetValue = event.target.value;
         }
 
-        console.log(item);
         setProperty(item, target, targetValue);
         this.actor.updateEmbeddedDocuments("Item", [item]);
       }

@@ -1,16 +1,7 @@
-<div>
-    <h2 class="flex between">
-        <span>Gegenstände</span>
-        <i class="fas fa-plus createItem" data-type="Gegenstand"></i>
-    </h2>
-    <ul class="item-list">
-        
-        
-
-        {{#each Gegenstand}}
+{{#each Terminals}}
         <li class="item" data-item-id="{{this._id}}">
             <div class="grid col4-item">
-                <span class="itemname itemToChat" draggable="true">{{this.name}}</span>
+                <span class="itemname itemToChat" draggable="true"><i class="fas fa-server"></i> {{this.name}}</span>
                 <span>GM {{this.data.size}}</span>
                 <span>MK {{this.data.mk}}</span>
                 <span>
@@ -32,6 +23,4 @@
             </div>
         </li>
         
-        {{/each}}
-    </ul>
-</div>
+{{/each}}
