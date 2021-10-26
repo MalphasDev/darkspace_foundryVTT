@@ -8,30 +8,7 @@
             <h3 class="charname">
                 <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
             </h3>
-            <div class="">
-                <div class="flex between">
-                    <span>EP</span> 
-                    <div>
-                        <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
-                        <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
-                    </div>     
-                    
-                </div>
-                <div class="flex between">
-                    <span>Netzwerk-EP</span>
-                    <div>
-                        <input name="data.xp_social.value" value="{{data.data.xp_social.value}}" type="number">/
-                        <input name="data.xp_social.max" value="{{data.data.xp_social.max}}" type="number">
-                    </div>
-                </div>
-                <div class="flex between">
-                    <span>Ressourcen-EP</span>
-                    <div>
-                        <input name="data.xp_ress.value" value="{{data.data.xp_ress.value}}" type="number">/
-                        <input name="data.xp_ress.max" value="{{data.data.xp_ress.max}}" type="number">
-                    </div>
-                </div>
-            </div>
+            
         </div>
         
         <div>
@@ -48,9 +25,37 @@
             
             <!--Spalte 3-->
             <div class="cell_t">
-                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
                 
+                <div>
+                    <h2>Erfahrung</h2>
+                    <div class="flex between">
+                        <span>EP</span> 
+                        <div>
+                            <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
+                            <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
+                        </div>     
+                        
+                    </div>
+                    <div class="flex between">
+                        <span>Netzwerk-EP</span>
+                        <div>
+                            <input name="data.xp_social.value" value="{{data.data.xp_social.value}}" type="number">/
+                            <input name="data.xp_social.max" value="{{data.data.xp_social.max}}" type="number">
+                        </div>
+                    </div>
+                    <div class="flex between">
+                        <span>Ressourcen-EP</span>
+                        <div>
+                            <input name="data.xp_ress.value" value="{{data.data.xp_ress.value}}" type="number">/
+                            <input name="data.xp_ress.max" value="{{data.data.xp_ress.max}}" type="number">
+                        </div>
+                    </div>
+                </div>
+                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
             </div>
+
+            
+
             </div>
         
         </div>

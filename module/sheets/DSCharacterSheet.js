@@ -39,6 +39,8 @@ export default class DSCharakcterSheet extends ActorSheet {
             data[itemType[i]] = data.items.filter(function (item) {return item.type == itemType[i]})
         }
 
+        console.log(data);
+
         // /|\
         //  --- Das da sind die Zeilen unten  ---  drunter als FOR-Schleife
         //                                   \|/

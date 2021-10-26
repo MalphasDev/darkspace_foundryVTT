@@ -98,6 +98,8 @@ Hooks.once("init", function() {
     Actors.registerSheet("darkspace", DSCharacterSheet, {makeDefault: true});
     Actors.registerSheet("darkspace", DSNebencharakter, {makeDefault: true});
 
+    
+
     preloadHandlebarsTemplates();
     
     game.settings.register("darkspace", "ae_input", {

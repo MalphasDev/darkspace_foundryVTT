@@ -84,14 +84,16 @@ export default class DSCharacter extends Actor {
             data.keepOfItems = Math.max(...itemSizes) + Math.max(...itemMk);
             data.wealth = data.charattribut.Ressourcen.attribut*2;
 
+            // Kybernese
+
             data.miscData.Kybernese.mk = this.data.items.filter( (i) => {return (i.type === "Artifizierung")}).map( (j) => {return j.data.data.mk});
-            data.miscData.Kybernese.bonus = Math.min(...data.miscData.Kybernese.mk);
+            data.miscData.Kybernese.bonus = Math.min(...data.miscData.Kybernese.mk, 0);
 
             // Waffenloser Schaden
             data.unarmedDmg = 2 + Math.floor(data.charattribut.Konstitution.attribut/6);
             data.unarmedDmgType = "B"
 
-            console.log(ownedItems);
+
         };
 
         if (this.type == 'Nebencharakter') {
@@ -147,6 +149,12 @@ export default class DSCharacter extends Actor {
     
         
         
+    }
+    async _preCreate() {
+        // Player character configuration
+        if ( this.type === "Charakter" ) {
+            this.data.token.update({vision: true, actorLink: true, disposition: 1});
+        }
     }
 
 }
