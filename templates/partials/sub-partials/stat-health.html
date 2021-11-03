@@ -1,5 +1,5 @@
 <div>
-<h2 class="flex between">Gesundheit <i class="fas fa-cog changeProp"></i></h2>
+<h2 class="flex between">Gesundheit<i class="fas fa-cog changeProp" data-fieldtype="health"></i></h2>
 <div class="grid col2 gridcenter h_gap">
     
     <div class="grid gridcenter">
@@ -10,8 +10,7 @@
             <i class="fas fa-plus-square incBruises"></i>
         </div>
         <span>
-            {{#times data.data.bruises.value}}<i class="fas fa-band-aid"></i>{{/times}}
-            {{#times data.data.bruises.remaining}}<i class="fas fa-band-aid opacity50"></i></i>{{/times}}
+            {{#times data.data.bruises.value}}<i class="fas fa-band-aid"></i>{{/times}}{{#times data.data.bruises.remaining}}<i class="fas fa-band-aid opacity50"></i></i>{{/times}}
         </span>
 
     </div>
@@ -24,8 +23,7 @@
             <i class="fas fa-plus-square incWounds"></i>
         </div>
         <span>
-            {{#times data.data.wounds.value}}<i class="fas fa-heartbeat"></i></i>{{/times}}
-            {{#times data.data.wounds.remaining}}<i class="fas fa-heartbeat opacity50"></i></i>{{/times}}
+            {{#times data.data.wounds.value}}<i class="fas fa-heartbeat"></i>{{/times}}{{#times data.data.wounds.remaining}}<i class="fas fa-heartbeat opacity50"></i>{{/times}}
         </span>
         
         

@@ -1,18 +1,19 @@
 <form class="{{cssClass}} item" autocomplete="off">
-    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-
-    <div class="grid col4 gridcenter">
-        
-        <span>Komfort</span>
-        <span>Ressourcen</span>
-        <span>Kriminialität</span>
-        <span>Verschmutzung</span>
-
-        <input class="value_box" type="number" name="data.comfort" value="{{data.data.comfort}}">
-        <input class="value_box" type="number" name="data.ressourcen" value="{{data.data.ressourcen}}">
-        <input class="value_box" type="number" name="data.crime" value="{{data.data.crime}}">
-        <input class="value_box" type="number" name="data.polution" value="{{data.data.polution}}">
+    <div class="grid col2-21">
+        <div>
+            {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+        </div>
+        <div>
+            <div>
+                {{>"systems/darkspace/templates/partials/MKSize.html"}}
+            </div>
+            <div class="grid col2-21">
+                <span>Komfort</span>
+                <input class="value_box" type="number" name="data.comfort" value="{{data.data.comfort}}">
+            </div>
+        </div>
     </div>
+
 
     {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
         

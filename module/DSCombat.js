@@ -66,7 +66,6 @@ export default class DSCombat extends Combat {
         } else {
             
             ids.forEach( (id) => { 
-                console.log(id)
                 
                 var currentCombatant = Array.from(actorData.filter( (d) => {return d.data._id == id} ))[0];
                 var actorByCombatantId = currentCombatant._actor.data;
@@ -84,8 +83,6 @@ export default class DSCombat extends Combat {
                     roll: initRoll,
                     flavor: "würfelt Initiative"
                 }
-                console.log(chatdata)
-                console.log(typeof chatdata)
                 initRoll.toMessage(chatdata, {})
             })
         }
@@ -112,7 +109,6 @@ export default class DSCombat extends Combat {
 
     _waitCombat(id) {
         const Combatant = this.combatant;
-        //console.log(this.combatant)
         //debugger;
         return Combatant.update ({
             _id: id,
@@ -121,12 +117,9 @@ export default class DSCombat extends Combat {
     }
 
     eliminateDefeated () {
-        //console.log("++++ eliminateDefeated ++++");
         var combatantlist_length = document.querySelectorAll(".combatant",".defeated").length;
         var combatantlist = document.querySelectorAll(".combatant",".defeated");
-        //console.log(combatantlist);
 
-        //console.log("+++ Starte Schleife +++")
         for(var i = 0; i < combatantlist_length; i++) {
             deafeatedCombatant = combatantlist[i].dataset.combatantId;
         }

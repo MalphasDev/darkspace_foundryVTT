@@ -1,4 +1,7 @@
 /* ---- Foundry Style Overwrite ---- */
+body {
+    font-family: system-ui;
+}
 .sheet {
     min-width: 750px;
 }
@@ -15,26 +18,6 @@ img {
     border: none;
 }
 
-header input[type="text"] {
-    text-align: left;
-}
-
-input[type="text"] {
-    text-align: center;
-}
-
-.charname {
-    border: none;
-    margin: none;
-}
-.charname input {
-    background: none;
-    padding: 0;
-    margin: 0;
-    border: none;
-    border-bottom: 1px solid;
-    border-radius: 0;
-}
 .window-app .window-content, .chat-message, #chat-form textarea {
     background: rgb(194,194,194);
     background: linear-gradient(0deg, rgba(194,194,194,1) 0%, rgba(228,228,228,1) 100%);
@@ -70,13 +53,35 @@ input[type="text"] {
     transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+header input[type="text"] {
+    text-align: left;
+}
+
+input[type="text"] {
+    text-align: center;
+}
+
+input[type="text"], 
+input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="time"] {
+    background: none;
+    border: none;
+    border-bottom: 1px solid #00000063;
+}
+
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
 input[type="time"]:focus {
-    box-shadow: 0 0 5px #fff;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.336);
 }
+input:disabled {
+    border: none;
+}
+
 .tabs .item.active {
     text-shadow: 0 0 10px #fff;
     background-color: #a259594f;
@@ -127,7 +132,10 @@ input[type="time"]:focus {
 .fa-clock {
     margin: 5px 0;
 }
-
+.window-content .fa, .window-content .fas {
+    cursor: pointer;
+    padding: 2px;
+}
 
 
 
@@ -141,17 +149,6 @@ input[type="time"]:focus {
 .editor .editor-content {
     min-height: 400px;
   }
-/* .checkcounter {
-    width: 14px;
-    height: 14px;
-    border: 1px solid #000;
-    display: inline-block;
-    border-radius: 0%;
-    cursor: pointer;
-}
-.checkcounter.active {
-    background: #000;
-} */
 
 input[type="number"] {
     width: 40px;
@@ -169,13 +166,6 @@ ul {
     margin: 0;
 }
 
-/* .border {
-    border: 1px #000 solid;
-    padding: 5px;
-    margin: 5px;
-} */
-
-
 .flex {
     display: flex;
     justify-content: center;
@@ -192,15 +182,13 @@ ul {
 }
 .flex.start {
     justify-content: start;
+    align-items: flex-start;
 }
 .flex.evenly {
     justify-content: space-evenly;
 }
 .flex.between {
     justify-content: space-between;
-}
-.flex.start {
-    align-items: flex-start;
 }
 .flex.strech {
     align-items: strech;
@@ -274,7 +262,7 @@ ul {
     grid-template-columns: repeat(4, 1fr);
 }
 .col4-item {
-    grid-template-columns: 1fr 40px 40px 50px;
+    grid-template-columns: 1fr 40px 40px 60px;
 }
 .col5 {
     grid-template-columns: repeat(5, 1fr);
@@ -287,7 +275,7 @@ ul {
 }
 
 .col-weapons {
-    grid-template-columns: 45px 1fr 50px 140px 35px 35px 60px;
+    grid-template-columns: 45px 1fr 50px 100px 35px 45px 70px;
     gap: 0;
     align-items: center;
 }
@@ -335,9 +323,6 @@ ul {
     text-align: center;
 }
 
-/* .description_box {
-    background: rgba(255,255,255,0.5);
-} */
 .value_box {
     max-width: 5ch;
 }
@@ -369,6 +354,7 @@ ul {
 .fa-caret-left:hover,
 .fa-caret-right:hover,
 .d10-symbol:hover,
+.changeProp:hover,
 label:hover, 
 label>*:hover {
     cursor: pointer;
@@ -422,10 +408,6 @@ label>*:hover {
 }
 .einzug_ul {
     margin-left: 4ch;
-}
-.fa-caret-left,
-.fa-caret-right {
-    margin: 0 10px;
 }
 .displaySkill:hover,
 .itemToChat:hover {

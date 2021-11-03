@@ -39,8 +39,6 @@ export default class DSCharakcterSheet extends ActorSheet {
             data[itemType[i]] = data.items.filter(function (item) {return item.type == itemType[i]})
         }
 
-        console.log(data);
-
         // /|\
         //  --- Das da sind die Zeilen unten  ---  drunter als FOR-Schleife
         //                                   \|/
@@ -76,6 +74,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         html.find(".changeProp").click(this._onChangeProp.bind(this));
         html.find(".unarmedCombat").click(this._onUnarmedCombat.bind(this));
         html.find(".directRoll").click(this._onDirectRoll.bind(this));
+        html.find(".ressPoints").click(this._ressPoints.bind(this));
         html.find(".item-quick-edit").change(this._onItemQuickEdit.bind(this));
 
     }
@@ -241,6 +240,16 @@ export default class DSCharakcterSheet extends ActorSheet {
             dynskill = actorData.charattribut[attrident].skill[skillident];
         }
 
+        // ----------------- //
+        // Daten für Komfort //
+        // ----------------- //
+
+        if (dataset.rolltype === "quarter") {
+            console.log(dataset);
+            dynattr = dataset.attr;
+            dynskill = dataset.skill;
+        }
+
         // ------------------------ //
         // Daten für Kybernesewürfe //
         // ------------------------ //
@@ -259,19 +268,19 @@ export default class DSCharakcterSheet extends ActorSheet {
             roleData: roleData,
             item: item
         });
-        
         DSMechanics.modRolls(inputData, event);
 
     }
 
 
-
-
+    // ------------- //
+    // Item Creation //
+    // ------------- //
 
     async _onCreateItem(event) {
         event.preventDefault()
         const element = event.currentTarget;
-        var dialogNewItem = await renderTemplate("systems/darkspace/templates/dice/dialogNew"+element.dataset.type+".html");
+        var dialogNewItem = await renderTemplate("systems/darkspace/templates/createNewItem/dialogNew"+element.dataset.type+".html");
         
         new Dialog ({
             title: "Neuer Gegenstand",
@@ -285,6 +294,7 @@ export default class DSCharakcterSheet extends ActorSheet {
                             name: html.find("[name=newName]")[0].value,
                             type: element.dataset.type,
                             description: html.find("[name=newDesc]")[0].value,
+                            
                         }
                         if (element.dataset.type != "Talent" && element.dataset.type != "Besonderheiten") {
                             newItemData = {
@@ -299,8 +309,6 @@ export default class DSCharakcterSheet extends ActorSheet {
                                 ...newItemData,
                                 Eigenschaften: {
                                     Computer: html.find("[name=propComputer]")[0].checked,
-                                    Energie: html.find("[name=propEnergie]")[0].checked,
-                                    Leistung: html.find("[name=propLeistung]")[0].checked,
                                     Sensoren: html.find("[name=propSensoren]")[0].checked,
                                     Kybernetik: html.find("[name=propKybernetik]")[0].checked
                                 },
@@ -327,9 +335,6 @@ export default class DSCharakcterSheet extends ActorSheet {
                             newItemData = {
                                 ...newItemData,
                                 comfort: html.find("[name=newKomfort]")[0].value,
-                                ressourcen: html.find("[name=newRess]")[0].value,
-                                crime: html.find("[name=newVerbrechen]")[0].value,
-                                polution: html.find("[name=newVerschmutzung]")[0].value,
                             }
                         }
                         if (element.dataset.type === "Talent") {
@@ -347,13 +352,22 @@ export default class DSCharakcterSheet extends ActorSheet {
                                 
                             }
                         }
+                        if (element.dataset.type === "TerminalsWerkzeuge") {
+                            newItemData = {
+                                ...newItemData,
+                                type: html.find("[name=itemType]")[0].value,
+                                
+                            }
+                        }
                         
                         
                         let itemData = {
                             name: html.find("[name=newName]")[0].value,
-                            type: element.dataset.type,
+                            type: newItemData.type,
                             data: newItemData,
                         }
+                        
+                        console.log(itemData.type);
                         
                         return this.actor.createOwnedItem(itemData);
                     }
@@ -479,13 +493,16 @@ export default class DSCharakcterSheet extends ActorSheet {
         
     }
     async _onChangeProp(event) {
-        const data = this.actor.data.data;
+        const actordata = this.actor.data.data;
+        const element = event.currentTarget;
+        const healthMod = await renderTemplate("systems/darkspace/templates/dice/dialogHealthMod.html");
+        //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
-        const healthMod = await renderTemplate("systems/darkspace/templates/dice/dialogHeathMod.html");
+        console.log(element.dataset.fieldtype);
 
         // Testet welcher Property-Button gedrückt wurde //
-        if (event.currentTarget.innerHTML.includes("Gesundheit")) {
-
+        if (element.dataset.fieldtype === "health") {
+            console.log("Test");
             let bruisesBonus
             let woundsBonus
             new Dialog({
@@ -514,6 +531,8 @@ export default class DSCharakcterSheet extends ActorSheet {
         }
 
         
+
+        
     }
 
     async _onItemQuickEdit(event) {
@@ -532,5 +551,31 @@ export default class DSCharakcterSheet extends ActorSheet {
         setProperty(item, target, targetValue);
         this.actor.updateEmbeddedDocuments("Item", [item]);
       }
+    
+    _ressPoints(event) {
+        const actorData = this.object.data.data;
+        const element = event.currentTarget
+
+        let currentIndex = parseInt(element.dataset.index)
+        let currentActive = parseInt(element.dataset.active)
+        let currentAttr = element.dataset.thisattr
+        let currentAttrData = actorData.charattribut[currentAttr]
+        let ValueAdress = "data.charattribut." + currentAttr + ".ress.value"
+        
+        if (currentActive === 1) {
+            this.actor.update({
+                "id": this.actor.id,
+                [ValueAdress]: currentIndex
+            })
+        } else {
+            this.actor.update({
+                "id": this.actor.id,
+                [ValueAdress]: currentAttrData.ress.value + currentIndex
+            })
+        }
+        
+    } 
+    
+    
 
 }

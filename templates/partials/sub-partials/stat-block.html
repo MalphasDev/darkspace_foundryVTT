@@ -48,9 +48,21 @@
                 <li>
                     <span>{{this.ress.ressname}}</span>
                     {{this.ress.value}}
-                    <div class="flex">
+                    <!-- <div class="flex">
                         <i class="fas fa-caret-left decRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
                         <input type="range" min="0" max={{this.ress.max}} value="{{this.ress.value}}" name="data.charattribut.{{attrname}}.ress.value" data-type="Number" class="slider">
+                        <i class="fas fa-caret-right incRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
+                    </div> -->
+                    
+                    <div class="span2">
+                        <i class="fas fa-caret-left decRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
+                        {{#times this.ress.value}}
+                        <i class="fas fa-circle ressPoints" data-active="1" data-thisattr="{{attrname}}"></i>
+                        {{/times}}
+
+                        {{#times this.ress.remaining}}
+                        <i class="far fa-circle ressPoints" data-active="0" data-thisattr="{{attrname}}"></i>
+                        {{/times}}
                         <i class="fas fa-caret-right incRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
                     </div>
                 </li>

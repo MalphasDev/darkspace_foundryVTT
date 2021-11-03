@@ -57,7 +57,6 @@ async function preloadHandlebarsTemplates () {
         "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
         "systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html",
         "systems/darkspace/templates/partials/sub-partials/misc-properties.html",
-        "systems/darkspace/templates/dice/dialogModRolls.html",
 
         //Dialog
         "systems/darkspace/templates/dice/dialog-sub-partials/dialogMkSize.html",
@@ -67,7 +66,6 @@ async function preloadHandlebarsTemplates () {
         
         "systems/darkspace/templates/dice/dialog-sub-partials/dialogWeapon.html",
         "systems/darkspace/templates/dice/dialog-sub-partials/dialogArmor.html",
-        "systems/darkspace/templates/dice/dialog-sub-partials/dialogHomeProperties.html",
         
         //Chat
         "systems/darkspace/templates/dice/chatWeapon.html",
@@ -126,13 +124,13 @@ Hooks.once("init", function() {
     })
     Handlebars.registerHelper("times", function (n, content) {
         let result = "";
-        
-        for (let i = 0; i < n; ++i) {
-            result += content.fn(n)
+        for (var i = 0; i < n; ++i) {
+            let htmlString = content.fn(n)
+            let dataIndexString = "data-index=" + (i+1) + ">"
+            htmlString = htmlString.replace(">", dataIndexString)
+            result += htmlString
         }
         return result
     });
-
-
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

@@ -146,7 +146,7 @@
                         "ressname": "Ersparnisse",
                         "value": 0,
                         "min": 0,
-                        "max": 20
+                        "max": 10
                     }
                 }
                 
@@ -274,8 +274,6 @@
                 "description": "",
                 "Eigenschaften": {
                     "Computer": false,
-                    "Energie": false,
-                    "Leistung": false,
                     "Sensoren": false,
                     "Kybernetik": false
                 },
@@ -294,18 +292,13 @@
             "templates": ["itemBase"]
         },
         "Werkzeug": {
-            "templates": ["itemBase"],
-            "Eigenschaften": {
-                "Computer": true,
-                "Energie": true
-            }
+            "templates": ["itemBase"]
         },
         "Terminals": {
             "templates": ["itemBase"],
             "bots": 0,
             "Eigenschaften": {
-                "Computer": true,
-                "Energie": true
+                "Computer": true
             }
         },
         "Artifizierung": {
@@ -313,8 +306,7 @@
             "templates": ["itemBase"],
             "Eigenschaften": {
                 "Computer": true,
-                "Energie": true,
-                "Leistung": true
+                "Kybernetik": true
             }
         },
         "Panzerung": {
@@ -327,11 +319,7 @@
             "templates": ["itemBase","weapons"]
         },
         "Unterbringung": {
-            "type": "Unterschicht",
             "comfort": 0,
-            "ressourcen": 0,
-            "crime": 0,
-            "polution": 0,
             "module": "",
             "templates": ["itemBase"]
         },

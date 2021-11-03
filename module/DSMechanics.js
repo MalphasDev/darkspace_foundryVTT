@@ -4,15 +4,17 @@ export function rollDice(rollDiceData) {
     const actorData = rollDiceData.actorData
     const actorId = rollDiceData.actorId
     const element = rollDiceData.eventData
-    let dynattr = rollDiceData.dynattr
-    let dynskill = rollDiceData.dynskill
-    let attrModLocal = rollDiceData.attrModLocal
-    let fertModLocal = rollDiceData.fertModLocal
+    let dynattr = parseInt(rollDiceData.dynattr)
+    let dynskill = parseInt(rollDiceData.dynskill)
+    let attrModLocal = parseInt(rollDiceData.attrModLocal)
+    let fertModLocal = parseInt(rollDiceData.fertModLocal)
     let roleData = rollDiceData.roleData
     let removehighest = rollDiceData.removehighest
     let item
     
     let rollformular
+
+    
 
     // ------------------------------------- //
     // Custom Roll und globale Modifikatoren //
@@ -22,10 +24,9 @@ export function rollDice(rollDiceData) {
     attrModLocal === undefined ? attrModLocal = 0 : attrModLocal;
     fertModLocal === undefined ? fertModLocal = 0 : fertModLocal;
 
-
     dynattr += attrModLocal;
-        dynskill += fertModLocal;
-        if (removehighest != true) {
+    dynskill += fertModLocal;
+    if (removehighest != true) {
             rollformular = dynattr + "d10x10kh2+" + dynskill;
                 
         } else {
@@ -33,6 +34,8 @@ export function rollDice(rollDiceData) {
         }
     var rollResult = new Roll(rollformular, actorData).roll();
     
+    
+
     // --------------------- //
     // Krit und Patzer Logik //
     // --------------------- //
@@ -43,6 +46,7 @@ export function rollDice(rollDiceData) {
     if (krit[2] >= 9) { resultMessage = {msg: "KRITISCHER ERFOLG"}; }
     if (rollResult.total <= 9) { resultMessage = {msg: "PATZER"} }
     if (removehighest) { disadvMessage = {disadv: "Erschwert"} }
+
 
 
     let messageData = {
@@ -73,6 +77,7 @@ export function rollDice(rollDiceData) {
         ...disadvMessage,
         owner: actorId
     }
+    
     if (rollDiceData.item != undefined) {
         item = rollDiceData.item.data
         cardData = {
@@ -136,7 +141,6 @@ export async function modRolls(inputData, event) {
                         fertModLocal = parseInt(html.find("[name=fertmod]")[0].value)
                         let ifRemoveHighest = true;
                         
-                        console.log(html.find(".disadv")[0]);
                         inputData = {
                             ...inputData,
                             attrModLocal: attrModLocal,
@@ -190,11 +194,12 @@ export async function _resolveDice(inputData, event) {
         "Unarmed": "systems/darkspace/templates/dice/chatUnarmed.html",
         "Waffe": "systems/darkspace/templates/dice/chatWeapon.html",
         "Panzerung": "systems/darkspace/templates/dice/chatArmor.html",
-        "Artifizierung": "systems/darkspace/templates/dice/chatCybernetics.html"
+        "Artifizierung": "systems/darkspace/templates/dice/chatCybernetics.html",
+        "Unterbringung": "systems/darkspace/templates/dice/chatHousing.html"
     }
     
     messageData.content = await renderTemplate(chatTempPath[currentRoll], cardData);
-  
+    
     AudioHelper.play({src: CONFIG.sounds.dice});
     return ChatMessage.create(messageData);
 }

@@ -1,11 +1,16 @@
 <form class="{{cssClass}} item" autocomplete="off">
-    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+    <div class="grid col2-21">
+        {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+        <div>
+            {{>"systems/darkspace/templates/partials/MKSize.html"}}
+        </div>
+    </div>
 
-    
+    <hr>
     <div class="sheet-content"> <!--Itemsheet-Body-->
-        <div class="grid col2 gridcenter">
+        <div class="grid col5 gridcenter">
             
-            <div>
+            <div> <!-- Box für Schaden -->
                 <span class="flex"><i class="fas fa-bolt"></i> Schaden</span>
                 <div class="container_center">
                     <span class="derivedValue">{{data.data.dmg}}</span>
@@ -17,18 +22,14 @@
                         {{/select}}
                     </select>
                 </div>
-                <div class="container_center">
+                <!-- <div class="container_center">
                     <span class="anmerkung">{{data.data.mkdmg}} [MK] + {{data.data.sizedmg}} [Größe] {{#if data.data.dmgBonus}} + {{data.data.dmgBonus}} [Schock]{{/if}} + <input name="data.damage" type="number" value="{{data.data.damage}}"></span>
-                    
-                </div>
-                
+                </div> -->
             </div>
-            <div>
-                
-                
+            <div> <!--Box für Reichweite-->
                 <input type="checkbox" class="symbol" id="ranged" {{checked data.data.ranged}} name="data.ranged">
-                <label for="ranged">
-                    <span class="flex between">
+                <label for="ranged" class="container_center">
+                    <span>
                     {{#if data.data.ranged}}
                     <i class="fas fa-arrows-alt-h"></i>
                     {{/if}}
@@ -39,15 +40,14 @@
                     </span>
                 </label>
 
-                <p><input name="data.range" type="text" value="{{data.data.range}}" disabled></p>
-                <p class="flex cell_c">Rw-Bonus: <input name="data.rangeBonus" type="number" value="{{data.data.rangeBonus}}"></p>
-                
+                <input name="data.range" type="text" value="{{data.data.range}}" disabled>
+                <!-- <p class="flex cell_c">Rw-Bonus: <input name="data.rangeBonus" type="number" value="{{data.data.rangeBonus}}"></p> -->
             </div>            
             
+            {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
             
             
         </div>
-        {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
         {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
         
         

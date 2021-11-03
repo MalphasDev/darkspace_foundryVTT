@@ -10,7 +10,6 @@ export default class DSItem extends Item {
 
         const data = itemData.data;
         
-        
         // Struktur und Schutz //
         data.baseStructure = data.mk + data.size;
         data.structure = data.baseStructure < 1 ? 1 : data.baseStructure;
@@ -99,6 +98,17 @@ export default class DSItem extends Item {
         
     }
 
+    async _preCreate(createData, options, user) {
+        await super._preCreate(createData, options, user);
+        
+        let itemType = createData.type;
 
-
+        // add token default settings
+        const updateData = {};
+        updateData['img'] = "systems/darkspace/icons/itemDefault/itemIcon_"+itemType+".svg";
+        console.log(updateData);
+        await this.data.update( updateData );
+    
+      }
+  
 }

@@ -50,9 +50,9 @@ export default class DSCharacter extends Actor {
             
         }
 
-        if (this.type == 'Charakter') {
+        if (this.type === 'Charakter') {
 
-
+            data.charattribut.Ressourcen.ress.max = 10; // Nach Aktualisierung entfernen
             
 
             data.bruises.value < 0 ? data.bruises.value = 0 : data.bruises.value;
@@ -73,6 +73,14 @@ export default class DSCharacter extends Actor {
 
             // Unterbringung
             let quarterListEquipped = quarterList.filter((e) => {return e.data.data.equipped === true});
+            
+            // Ressourcen
+            let attributNames = Object.keys(data.charattribut);
+            for (var i = 0;attributNames.length > i;i++) {
+                if (data.charattribut[attributNames[i]].ress != undefined) {
+                    data.charattribut[attributNames[i]].ress.remaining = data.charattribut[attributNames[i]].ress.max - data.charattribut[attributNames[i]].ress.value
+                }
+            }
             
             // Unterhalt und Wohlstand
             let ownedItems = this.data.items.filter( (i) => {return (i.type != "Talent") && (i.type != "Besonderheiten") && (i.type != "Unterbringung")} )
@@ -96,7 +104,7 @@ export default class DSCharacter extends Actor {
 
         };
 
-        if (this.type == 'Nebencharakter') {
+        if (this.type === 'Nebencharakter') {
 
             data.bruises.max = 5 + data.bruises.bonus + Math.floor(data.charattribut.Geistig.attribut/6);
             data.wounds.max = 5 + data.wounds.bonus + Math.floor(data.charattribut.Körperlich.attribut/6);
@@ -134,7 +142,7 @@ export default class DSCharacter extends Actor {
             
         };
 
-        if (this.type == 'DrohneFahrzeug') {
+        if (this.type === 'DrohneFahrzeug') {
             data.structure = Math.max(data.mk + data.size,2);
             data.damageFailure = data.structure + data.damages.max;
             data.damageDestruction = data.damageFailure * 2;

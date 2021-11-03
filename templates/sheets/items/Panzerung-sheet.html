@@ -1,30 +1,36 @@
 <form class="{{cssClass}} item" autocomplete="off">
-    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-    
     <div class="grid col2-21">
+        {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+        <div>
+            {{>"systems/darkspace/templates/partials/MKSize.html"}}
+            {{#if this.data.data.bodyPart}}
+            <div class="grid col2-21">
+                <span>Körperzone</span>
+                    
+                <select name="data.bodyPart">
+                    {{#select data.data.bodyPart}}
+                        {{#each config.bodyPart as |name attrname|}}
+                            <option value="{{attrname}}" type="text">{{name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+            
+            {{/if}}
+        </div>
+    </div>
+    <hr>
+    <div class="grid col4">
         <div class="container_center">
             <h3>Panzerung und Schutz</h3>
-            <p style="text-align: center;" class="derivedValue container_center">{{data.data.armor}}W + {{data.data.protection}}</p>
+            <input name="data.range" type="text" value="{{data.data.armor}}W + {{data.data.protection}}" disabled>
         </div>
-    
-        <div class="cell_c">
-            
-            {{#if this.data.data.bodyPart}}
-                
-            <select name="data.bodyPart">
-                {{#select data.data.bodyPart}}
-                    {{#each config.bodyPart as |name attrname|}}
-                        <option value="{{attrname}}" type="text">{{name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-            {{/if}}
-    
-        </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
+        
     </div>
     
 
-    {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
+
     <div class="sheet-content">
         {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
     </div>
