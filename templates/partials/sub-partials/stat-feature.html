@@ -7,6 +7,7 @@
                     <li>
                         <div class="item" data-item-id="{{this._id}}">
                             <div class="grid col2-21">
+
                                 <div>
                                     <p class="talentname itemToChat">{{this.name}}</p>
                                     <p class="anmerkung">{{this.data.type}}</p>
@@ -17,8 +18,10 @@
                                     <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                                     <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                                 </div>
+
                             </div>
                         </div>
+                        {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
                     </li>
                 {{/each}}
                 </ul>

@@ -53,11 +53,8 @@
                     </div>
                 </div>
             </div>
-            <input class="collapsible-cntr" type="checkbox" id="collapse-cntr-{{this._id}}">
-            <div class="collapsible-content">
-                {{{data.modules}}}
-            </div>
         </li>
+        {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
         {{/each}}
         
     </ul>

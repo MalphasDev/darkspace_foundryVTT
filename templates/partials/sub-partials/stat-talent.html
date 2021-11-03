@@ -22,13 +22,7 @@
                             
                             
                         </div>
-                        <div>
-                            <input class="collapsible-cntr" type="checkbox" id="collapse-cntr-{{this._id}}">
-                            <div class="collapsible-content">
-                                {{{data.description}}}
-                            </div>
-                        
-                        </div>
+                        {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
                     </li>
                 {{/each}}
                 </ul>

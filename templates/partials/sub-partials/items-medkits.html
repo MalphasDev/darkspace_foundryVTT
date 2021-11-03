@@ -16,19 +16,8 @@
                     <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                 </span>
             </div>
-            
-
-            <div>
-                <input class="collapsible-cntr" type="checkbox" id="collapse-cntr-{{this._id}}">
-                <div class="collapsible-content">
-                    {{{data.description}}}
-                    <hr>
-                    {{{data.modules}}}
-                </div>
-            
-            </div>
         </li>
-        
+        {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
         {{/each}}
     </ul>
 </div>

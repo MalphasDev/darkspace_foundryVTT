@@ -38,7 +38,6 @@ async function preloadHandlebarsTemplates () {
             //Items
             "systems/darkspace/templates/partials/sub-partials/items-header.html",
             "systems/darkspace/templates/partials/sub-partials/items-item.html",
-            "systems/darkspace/templates/partials/sub-partials/items-rep.html",
             "systems/darkspace/templates/partials/sub-partials/items-quarter.html",
             "systems/darkspace/templates/partials/sub-partials/items-medkits.html",
             "systems/darkspace/templates/partials/sub-partials/items-tools.html",
@@ -55,8 +54,10 @@ async function preloadHandlebarsTemplates () {
 
         //Misc
         "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
-        "systems/darkspace/templates/partials/sub-partials/misc-collapsibleModuls.html",
         "systems/darkspace/templates/partials/sub-partials/misc-properties.html",
+
+        //Sub-Sub-Partials
+        "systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html",
 
         //Dialog
         "systems/darkspace/templates/dice/dialog-sub-partials/dialogMkSize.html",
