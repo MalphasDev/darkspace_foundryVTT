@@ -27,7 +27,7 @@
                                         <a class="itemToChat">{{this.name}}</a>
                                     </div>
                                     
-                                    <p class="anmerkung">GM {{this.data.size}} | MK {{this.data.mk}} | {{this.data.bodyPart}}</p>
+                                    <p class="anmerkung">GM {{this.data.size}} | MK {{this.data.mk}} {{#if data.artControl}}| Kontroll-Vorteil{{/if}}</p>
                                 </div>
                                 <div class="cell_c">
                                     <label class="collapsible" for="collapse-cntr-{{this._id}}"><i class="fas fa-info-circle"></i></label>

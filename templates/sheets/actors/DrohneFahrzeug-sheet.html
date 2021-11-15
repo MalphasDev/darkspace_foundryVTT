@@ -4,138 +4,80 @@
     
     <div class="grid col3">
         <div>
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            <h2 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="Bezeichnung"/>
+            </h2>
             
             <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
 
-            <div class="grid col3 gridcenter">
-                <span>MK</span>
-                <span>GM</span>
-                <span>Initiative</span>
-                <input class="value-box" name="data.mk" value="{{data.data.mk}}" type="number">
-                <input class="value-box" name="data.size" value="{{data.data.size}}" type="number">
-                <span> {{data.data.initiative}}W + {{data.data.initBonus}}</span>
+            {{> "systems/darkspace/templates/partials/MKSize.html"}}
+
+            
+
+            <div class="grid col2-21">
+                <span>Struktur <span class="anmerkung">(MK + GM)</span></span>
+                <span class="text_c">{{data.data.structure}}</span>
             </div>
         </div>
 
-        <!-- BESCHÄDIGUNGEN -->
-        <div class="grid col2 gridcenter h_gap">
-            <h3 class="cell_r">Beschädigung</h3>
-            <div class="grid gridcenter">
-                <span class="derivedValue">{{data.data.damages.value}} / {{data.data.damageFailure}} / {{data.data.damageDestruction}}</span>
-                
-                <input type="range" min="0" max={{data.data.damageDestruction}} value="{{data.data.damages.value}}" name="data.damages.value" data-type="Number" class="slider" id="damage_slider">
-                <div class="grid gridcenter">
-                    <p>Max. Beschädigung</p>
-                    <div>
-                        <span>Zusätzliche max. Beschädigung: </span>
-                        <input type="number" name=data.damages.max value={{data.data.damages.max}}>
-                    </div>
-                </div>
+        <!-- Mittlere Spalte -->
+        
+
+        <div>
+            <h2>Schnellwahl</h2>
+
+            <div>
+                <img class="directRoll d10-symbol" data-rollname="Initiative" data-dice="{{data.data.mk}}" data-bonus="0" src="systems/darkspace/icons/d10.svg">
+                <img class="directRoll d10-symbol disadv" data-rollname="Initiative" data-dice="{{data.data.mk}}" data-bonus="0" src="systems/darkspace/icons/d10disadv.svg">
+                <span>Initiative {{data.data.mk}}W</span>
             </div>
+            <hr>
+            {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+            <hr>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
             
         </div>
+
+        <!-- Rechte Spalte -->
+        <div>
+            <h2>Kapazität</h2>
+            <h3 class="flex between">
+                <span>Besatzung</span>
+                <span>{{data.data.crewNumber}}</span>
+            </h3>
+            <h3 class="flex between">
+                <span>Kapazität</span>
+                <span>{{data.data.passenger}}GM {{data.data.cargo}}</span>
+            </h3>
+            <div>
+                <h2 class="flex between">
+                    <span>Handling</span>
+                    <span>{{data.data.handlingDesc}}</span>
+                </h2>
+                <span class="anmerkung">
+                    {{data.data.handling}} = {{data.data.mk}} - {{data.data.size}}
+                </span>
+            </div>
+        </div>
         
-        {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+        
     </div>
 
     <div class="grid col2">
         <div>
-            <h2>Modulklasse</h2>
-            <div class="grid col2">
-                <span class="attrname">Modulklasse</span>
-                    <span class="attrvalue">    
-                        <input class="value_box" name="{{data.data.mk}}" value="{{data.data.mk}}" type="number" disabled>
-                        <span>W</span>
-                        
-                    </span>
-
-                </div>
-                    
-                <ul class="fertfeld">
-                    <li class="gridleftcenter">
-                        <p>Volle Modulklasse</p>
-                        
-                        <div class="skillbox">
-                            
-                            <input class="value_box" name="{{data.data.mk}}" value="{{data.data.mk}}" type="number" disabled>
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                        </div>
-                        <ul class="einzug_ul">
-                            <li>Fahrzeuge</li>
-                        </ul>
-                    </li>
-
-                    <li class="gridleftcenter">
-                        <p>Halbe Modulklasse</p>
-                        
-                        <div class="skillbox">
-                            
-                            <input class="value_box" name="{{data.data.halbmk}}" value="{{data.data.halbmk}}" type="number" disabled>
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="mk" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                        </div>
-                        <ul class="einzug_ul">
-                            {{#if data.data.Eigenschaften.Computer}}
-                            <li>Cortex</li>
-                            <li>Logik</li>
-                            {{/if}}
-
-                            {{#if data.data.Eigenschaften.Energie}}
-                            <li>Fitness</li>
-                            {{/if}}
-
-                            {{#if data.data.Eigenschaften.Leistung}}
-                            <li>Leistung</li>
-                            {{/if}}
-                            
-                            {{#if data.data.Eigenschaften.Sensoren}}
-                            <li>Wahrnehmen</li>
-                            {{/if}}
-                        </ul>
-                    </li>
-                    <li class="gridleftcenter">
-                        <p>Ohne Modulklasse</p>
-                        
-                        <div class="skillbox">
-                            
-                            <input class="value_box" name="noMK" value="0" type="number" disabled>
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="noMk" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="mk" data-skill="noMk" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                        </div>
-                        <ul class="einzug_ul">
-                            {{#unless data.data.Eigenschaften.Computer}}
-                            <li>Cortex</li>
-                            <li>Logik</li>
-                            {{/unless}}
-
-                            {{#unless data.data.Eigenschaften.Energie}}
-                            <li>Fitness</li>
-                            {{/unless}}
-
-                            {{#unless data.data.Eigenschaften.Leistung}}
-                            <li>Leistung</li>
-                            {{/unless}}
-                            
-                            {{#unless data.data.Eigenschaften.Sensoren}}
-                            <li>Wahrnehmen</li>
-                            {{/unless}}
-                        </ul>
-                    </li>
-                </ul>
-        </div>
-        <div>
+            
             {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
+        </div>
+
+        
+        <div>
+            {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
         </div>
     </div>
     
     
-
+    
     <div class="grid col2">
-        {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
-        {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
     </div>
     
     <div class="sheet-content">

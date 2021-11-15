@@ -277,6 +277,9 @@
                     "Sensoren": false,
                     "Kybernetik": false
                 },
+                "ress": {
+                    "bots": 0
+                },
                 "equipped": true
                 
             }
@@ -296,7 +299,6 @@
         },
         "Terminals": {
             "templates": ["itemBase"],
-            "bots": 0,
             "Eigenschaften": {
                 "Computer": true
             }

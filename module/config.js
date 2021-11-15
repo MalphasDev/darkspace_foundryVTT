@@ -1,5 +1,6 @@
 export const darkspace = {};
 
+console.log(darkspace);
 
 darkspace.attackTypes = {
     none: "",
@@ -49,3 +50,7 @@ darkspace.bodyPart = {
     Ganzkörper: "Ganzkörper"
 }
 darkspace.iniSend = 0;
+
+darkspace.dice = "systems/darkspace/icons/d10.svg"
+darkspace.diceEdit = "systems/darkspace/icons/d10edit.svg"
+darkspace.test = "Test"

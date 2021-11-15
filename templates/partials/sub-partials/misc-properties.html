@@ -2,10 +2,29 @@
         <div class="flex column">
             <label for="propComputer">Computer</label>
             <input type="checkbox" id="propComputer" name="data.Eigenschaften.Computer" {{checked data.data.Eigenschaften.Computer}}>
+            {{#if data.data.Eigenschaften.Computer}}
+            <div>
+                <i class="fas fa-caret-left decRess" data-attr="bots"></i>
+                {{#times data.data.ress.bots}}
+                <i class="fas fa-circle ressPoints" data-active="1" data-thisattr="bots"></i>
+                {{/times}}
+                {{#times data.data.botsRemaining}}
+                <i class="far fa-circle ressPoints" data-active="0" data-thisattr="bots"></i>
+                {{/times}}
+                <i class="fas fa-caret-right incRess" data-attr="bots"></i>
+            </div>
+            {{/if}}
         </div>
         <div class="flex column">
             <label for="propSensoren">Sensoren</label>
             <input type="checkbox" id="propSensoren" name="data.Eigenschaften.Sensoren" {{checked data.data.Eigenschaften.Sensoren}}>
+            {{#if data.data.Eigenschaften.Sensoren}}
+            <div>
+                <img class="directRoll d10-symbol" data-rollname="Abtasten" data-dice="{{data.data.mk}}" data-bonus="{{data.data.mkHalf}}" src="systems/darkspace/icons/d10.svg">
+                <img class="directRoll d10-symbol disadv" data-rollname="Abtasten" data-dice="{{data.data.mk}}" data-bonus="{{data.data.mkHalf}}" src="systems/darkspace/icons/d10disadv.svg">
+                {{data.data.sensorRange}} m Reichweite
+            </div>
+            {{/if}}
         </div>
         <div class="flex column">
             <label for="propKybernetik">Kybernetik</label>

@@ -1,16 +1,8 @@
 /* ---- Farben ---- */
 :root {
     --main-color: #782e22;
-    --secondary-color: #fff;
 }
-::-webkit-scrollbar-thumb {
-    background: var(--main-color);
-    border: var(--secondary-color)
-}
-::-webkit-scrollbar-track {
-    box-shadow: 0 0 5px #000 inset;
-    border-radius: 0px;
-}
+
 /* ---- Foundry Style Overwrite ---- */
 body {
     
@@ -252,8 +244,8 @@ ul {
 .col2-21 {
     grid-template-columns: 2fr 1fr;
 }
-.col2-23 {
-    grid-template-columns: 2fr 3fr;
+.col2-31 {
+    grid-template-columns: 3fr 1fr;
 }
 .col3 {
     grid-template-columns: repeat(3, 1fr);
@@ -290,7 +282,7 @@ ul {
 }
 
 .col-weapons {
-    grid-template-columns: 45px 1fr 50px 130px 35px 45px 80px;
+    grid-template-columns: 45px 1fr 50px 100px 35px 45px 70px;
     gap: 0;
     align-items: center;
 }
@@ -337,12 +329,7 @@ ul {
 .text_c {
     text-align: center;
 }
-.red {
-    color: red;
-}
-.green {
-    color: green;
-}
+
 .value_box {
     max-width: 5ch;
 }

@@ -3,13 +3,15 @@
         <li>
             {{> "systems/darkspace/templates/partials/sub-partials/combat-protection.html"}}
         </li>
+        {{#unless data.data.unarmedHide}}
         <li>
             <span>
                 <img class="d10-symbol unarmedCombat" data-modroll="false" src="systems/darkspace/icons/d10.svg">
                 <img class="d10-symbol unarmedCombat" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                Waffenlos ({{data.data.unarmedDmg}}{{data.data.unarmedDmgType}})
+                {{data.data.unarmedName}} ({{data.data.unarmedDmg}}{{data.data.unarmedDmgType}})
             </span>
         </li>
+        {{/unless}}
         {{#each Waffe}}
         {{#if data.equipped}}
         <li class="item" data-item-id="{{this._id}}">

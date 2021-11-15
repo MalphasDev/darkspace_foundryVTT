@@ -6,8 +6,12 @@
             {{>"systems/darkspace/templates/partials/MKSize.html"}}
         </div>
     </div>
-    <div class="grid col3">
+    <div class="grid col4">
         {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
+        <div class="flex column">
+            <label for="propKybernetik">Kontroll-Vorteil</label>
+            <input type="checkbox" id="propControl" name="data.artControl" {{checked data.data.artControl}} disabled>
+        </div>
     </div>
     {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

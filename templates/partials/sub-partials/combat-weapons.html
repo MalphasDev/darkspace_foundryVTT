@@ -3,7 +3,7 @@
 
     <ul class="item-list">
         
-
+        {{#unless data.data.unarmedHide}}
         <li class="item">
             <div>
                 <div class="grid col-weapons">
@@ -11,12 +11,13 @@
                         <img class="d10-symbol unarmedCombat" data-modroll="false" src="systems/darkspace/icons/d10.svg">
                         <img class="d10-symbol unarmedCombat" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
                     </span>
-                    <span>Waffenloser Kampf</span>
+                    <span>{{data.data.unarmedName}}</span>
                     <span class="derivedValue"><i class="fas fa-bolt"></i> {{data.data.unarmedDmg}}{{data.data.unarmedDmgType}}</span>
                 <span class="derivedValue"><i class="fas fa-arrows-alt-h"></i> Nahkampf</span>
                 </div>
             </div>
         </li>
+        {{/unless}}
 
         {{#each Waffe}}
         <li class="item" data-item-id="{{this._id}}">
