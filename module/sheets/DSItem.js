@@ -46,22 +46,11 @@ export default class DSItem extends Item {
       data.range = "Nahkampf";
     }
 
-    // Artifizierung Kontrolle
-    if (actorData != undefined && itemData.type === "Artifizierung") {
-      const artData = this.data;
-      let artMk = artData.data.mk;
-      let artSize = artData.data.size;
-      let artStructure = artMk + artSize;
-
-      var charaCybernetics = actorData.data.miscData.Kybernese.attribut;
-
-      let artControl = charaCybernetics + artStructure >= 10;
-
-      data.artControl = artControl;
+    //Alles außer Talente und Besonderheiten
+    if (itemData.type != "Talent" && itemData.type != "Besonderheiten") {
+      // Ressourcen
+      data.botsRemaining = data.mk - data.ress.bots;
     }
-
-    // Ressourcen
-    data.botsRemaining = data.mk - data.ress.bots;
 
     if (this.type === "Panzerung") {
       data.armor = data.structure;

@@ -1,339 +1,327 @@
 {
-    "Actor": {
-        "types": [
-            "Charakter",
-            "Nebencharakter",
-            "DrohneFahrzeug"
-        ],
-        "templates": {
-            "commonStats": {
-                "Panzerung": {
-                    "Struktur": 0,
-                    "Schutz": 0
-                }
-            }
-        },
-        "Charakter": {
-            "description": "",
-            "quote": "",
-            "xp": {
-                "value": 0,
-                "max": 0
-            },
-            "xp_social": {
-                "value": 0,
-                "max": 0
-            },
-            "xp_ress": {
-                "value": 0,
-                "max": 0
-            },
-
-            "bruises": {
-                "value": 0,
-                "max": 5,
-                "bonus": 0
-            },
-            "wounds": {
-                "value": 0,
-                "max": 5,
-                "bonus": 0
-            },
-            "notes": "",
-            
-            "charattribut": {
-                "Aufmerksamkeit": {
-                    "attribut": 1,
-                    "skill": {
-                        "Fahrzeuge": 0,
-                        "Menschenkenntnis": 0,
-                        "Schätzen": 0,
-                        "Wahrnehmen": 0
-                    }
-                },
-                "Ausstrahlung": {
-                    "attribut": 1,
-                    "skill": {
-                        "Charisma": 0,
-                        "Einschüchtern": 0,
-                        "Überzeugen": 0,
-                        "Verhandeln": 0
-                    }
-                },
-                "Geschick": {
-                    "attribut": 1,
-                    "skill": {
-                        "Heimlichkeit": 0,
-                        "Motorik": 0,
-                        "Kampftechnik": 0,
-                        "Schusswaffen": 0
-                    }
-                    
-                },
-                "Konstitution": {
-                    "attribut": 1,
-                    "skill": {
-                        "Athletik": 0,
-                        "Fitness": 0,
-                        "Nahkampfwaffen": 0,
-                        "Unterstützungswaffen": 0
-                    }
-                },
-                "Intelligenz": {
-                    "attribut": 1,
-                    "skill": {
-                        "Bildung": 0,
-                        "Logik": 0,
-                        "Medizin": 0,
-                        "Raumfahrt": 0
-                    }
-                },
-                "Intuition": {
-                    "attribut": 1,
-                    "skill": {
-                        "Cortex": 0,
-                        "Kreativität": 0,
-                        "Kultur": 0,
-                        "Polytronik": 0
-                    }
-                },
-                "Anomalie": {
-                    "attribut": 1,
-                    "skill": {
-                        "Glück": 0
-                    },
-                    "ress": {
-                        "exists": true,
-                        "ressname": "Anomaliepunkte",
-                        "value": 0,
-                        "min": 0,
-                        "max": 10
-                    }
-                },
-                "Konzentration": {
-                    "attribut": 1,
-                    "skill": {
-                        "Willenskraft": 0
-                    },
-                    "ress": {
-                        "exists": true,
-                        "ressname": "Traumapunkte",
-                        "value": 0,
-                        "min": 0,
-                        "max": 10
-                    }
-                },
-                "Netzwerk": {
-                    "attribut": 1,
-                    "skill": {
-                        "Kontakte": 0
-                    },
-                    "ress": {
-                        "exists": true,
-                        "ressname": "Reputation",
-                        "value": 0,
-                        "min": 0,
-                        "max": 10
-                    }
-                },
-                "Ressourcen": {
-                    "attribut": 1,
-                    "skill": {
-                        "Finanzen": 0
-                    },
-                    "ress": {
-                        "exists": true,
-                        "ressname": "Ersparnisse",
-                        "value": 0,
-                        "min": 0,
-                        "max": 10
-                    }
-                }
-                
-                
-            },
-            "metadata": {
-        
-                "Fraktionen": {
-                    "Fraktion": "",
-                    "Reputation": 0,
-                    "Macht":0
-                },
-                "vips": {
-                    "Name": "",
-                    "BS": 1,
-                    "Verhältnis": 0
-                }
-            },
-            "miscData": {
-                "Kybernese": {
-                    "attribut": 1
-                }
-            },
-            "customroll": {
-                "dice": 2,
-                "bonus": 0
-              },
-            "initMod": 0
-            
-            },
-            
-            
-        "Nebencharakter": {
-            "Bedrohungsstufe": 1,
-            "bruises": {
-                "value": 0,
-                "max": 5,
-                "bonus": 0
-            },
-            "wounds": {
-                "value": 0,
-                "max": 5,
-                "bonus": 0
-            },
-            
-            "charattribut": {
-                "Fernkampf": {
-                    "attribut": 0,
-                    "skill": {
-                        "Schusswaffen": 0,
-                        "Unterstützungswaffen": 0
-                    }
-                },
-                "Nahkampf": {
-                    "attribut": 0,
-                    "skill": {
-                        "Kampftechnik": 0,
-                        "Nahkampfwaffen": 0
-                    }
-                }
-                ,
-                "Körperlich": {
-                    "attribut": 0,
-                    "skill": {
-                        "Sportlichkeit": 0
-                    }
-                },
-                "Geistig": {
-                    "attribut": 0,
-                    "skill": {
-                        "Intellekt": 0
-                    }
-                }
-            },
-            "customroll": {
-                "dice": 0,
-                "bonus": 0
-              },
-            
-            "Eigenschaften": [],
-            "templates": ["commonStats"]
-        },
-        "DrohneFahrzeug": {
-            "mk": 1,
-            "size": 1,
-            "initMod": 0,
-
-            "damages": {
-                "value": 0,
-                "max": 0
-            },
-
-            "customroll": {
-                "dice": 0,
-                "bonus": 0
-              },
-            
-            "Eigenschaften": {
-                "Computer": false,
-                "Energie": false,
-                "Leistung": false,
-                "Sensoren": false
-            },
-
-            "templates": ["commonStats"]
-        }
-    },
-    "Item": {
-        "types": [
-            "Waffe",
-            "Panzerung",
-            "Werkzeug",
-            "Terminals",
-            "Artifizierung",
-            "Gegenstand",
-            "Unterbringung",
-            "Talent",
-            "Besonderheiten"
-        ],
-        "templates": {
-            "itemBase": {
-                "mk": 1,
-                "size": -1,
-                "modules": "",
-                "description": "",
-                "Eigenschaften": {
-                    "Computer": false,
-                    "Sensoren": false,
-                    "Kybernetik": false
-                },
-                "ress": {
-                    "bots": 0
-                },
-                "equipped": true
-                
-            }
-        },
-        "Waffe": {
-            "dmg": 1,
-            "size": -3,
-            "ranged": true,
-            "attackWith": "Schusswaffen",
-            "range":"0-10/20/100",
-            "rangeBonus": 0,
-            "dmgtype": "B",
-            "templates": ["itemBase"]
-        },
-        "Werkzeug": {
-            "templates": ["itemBase"]
-        },
-        "Terminals": {
-            "templates": ["itemBase"],
-            "Eigenschaften": {
-                "Computer": true
-            }
-        },
-        "Artifizierung": {
-            "bodyPart": "Körper",
-            "templates": ["itemBase"],
-            "Eigenschaften": {
-                "Computer": true,
-                "Kybernetik": true
-            }
-        },
+  "Actor": {
+    "types": ["Charakter", "Nebencharakter", "DrohneFahrzeug"],
+    "templates": {
+      "commonStats": {
         "Panzerung": {
-            "armor": 0,
-            "protection": 0,
-            "bodyPart": "Körper",
-            "templates": ["itemBase"]
-        },
-        "Gegenstand": {
-            "templates": ["itemBase","weapons"]
-        },
-        "Unterbringung": {
-            "comfort": 0,
-            "module": "",
-            "templates": ["itemBase"]
-        },
-        "Talent":{
-            "attribut": "",
-            "skill": "",
-            "requirement": "1",
-            "description": ""
-        },
-        "Besonderheiten": {
-            "type": "",
-            "description": ""
+          "Struktur": 0,
+          "Schutz": 0
         }
+      }
+    },
+    "Charakter": {
+      "description": "",
+      "quote": "",
+      "xp": {
+        "value": 0,
+        "max": 0
+      },
+      "xp_social": {
+        "value": 0,
+        "max": 0
+      },
+      "xp_ress": {
+        "value": 0,
+        "max": 0
+      },
+
+      "bruises": {
+        "value": 0,
+        "max": 5,
+        "bonus": 0
+      },
+      "wounds": {
+        "value": 0,
+        "max": 5,
+        "bonus": 0
+      },
+      "notes": "",
+
+      "charattribut": {
+        "Aufmerksamkeit": {
+          "attribut": 1,
+          "skill": {
+            "Fahrzeuge": 0,
+            "Menschenkenntnis": 0,
+            "Schätzen": 0,
+            "Wahrnehmen": 0
+          }
+        },
+        "Ausstrahlung": {
+          "attribut": 1,
+          "skill": {
+            "Charisma": 0,
+            "Einschüchtern": 0,
+            "Überzeugen": 0,
+            "Verhandeln": 0
+          }
+        },
+        "Geschick": {
+          "attribut": 1,
+          "skill": {
+            "Heimlichkeit": 0,
+            "Motorik": 0,
+            "Kampftechnik": 0,
+            "Schusswaffen": 0
+          }
+        },
+        "Konstitution": {
+          "attribut": 1,
+          "skill": {
+            "Athletik": 0,
+            "Fitness": 0,
+            "Nahkampfwaffen": 0,
+            "Unterstützungswaffen": 0
+          }
+        },
+        "Intelligenz": {
+          "attribut": 1,
+          "skill": {
+            "Bildung": 0,
+            "Logik": 0,
+            "Medizin": 0,
+            "Raumfahrt": 0
+          }
+        },
+        "Intuition": {
+          "attribut": 1,
+          "skill": {
+            "Cortex": 0,
+            "Kreativität": 0,
+            "Kultur": 0,
+            "Polytronik": 0
+          }
+        },
+        "Anomalie": {
+          "attribut": 1,
+          "skill": {
+            "Glück": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Anomaliepunkte",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        },
+        "Konzentration": {
+          "attribut": 1,
+          "skill": {
+            "Willenskraft": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Traumapunkte",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        },
+        "Netzwerk": {
+          "attribut": 1,
+          "skill": {
+            "Kontakte": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Reputation",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        },
+        "Ressourcen": {
+          "attribut": 1,
+          "skill": {
+            "Finanzen": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Ersparnisse",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        }
+      },
+      "metadata": {
+        "Fraktionen": {
+          "Fraktion": "",
+          "Reputation": 0,
+          "Macht": 0
+        },
+        "vips": {
+          "Name": "",
+          "BS": 1,
+          "Verhältnis": 0
+        }
+      },
+      "miscData": {
+        "Kybernese": {
+          "attribut": 1
+        }
+      },
+      "customroll": {
+        "dice": 2,
+        "bonus": 0
+      },
+      "initMod": 0
+    },
+
+    "Nebencharakter": {
+      "Bedrohungsstufe": 1,
+      "bruises": {
+        "value": 0,
+        "max": 5,
+        "bonus": 0
+      },
+      "wounds": {
+        "value": 0,
+        "max": 5,
+        "bonus": 0
+      },
+
+      "charattribut": {
+        "Fernkampf": {
+          "attribut": 0,
+          "skill": {
+            "Schusswaffen": 0,
+            "Unterstützungswaffen": 0
+          }
+        },
+        "Nahkampf": {
+          "attribut": 0,
+          "skill": {
+            "Kampftechnik": 0,
+            "Nahkampfwaffen": 0
+          }
+        },
+        "Körperlich": {
+          "attribut": 0,
+          "skill": {
+            "Sportlichkeit": 0
+          }
+        },
+        "Geistig": {
+          "attribut": 0,
+          "skill": {
+            "Intellekt": 0
+          }
+        }
+      },
+      "customroll": {
+        "dice": 0,
+        "bonus": 0
+      },
+
+      "Eigenschaften": [],
+      "templates": ["commonStats"]
+    },
+    "DrohneFahrzeug": {
+      "mk": 1,
+      "size": 1,
+      "initMod": 0,
+
+      "damages": {
+        "value": 0,
+        "max": 0
+      },
+
+      "customroll": {
+        "dice": 0,
+        "bonus": 0
+      },
+
+      "Eigenschaften": {
+        "Computer": false,
+        "Energie": false,
+        "Leistung": false,
+        "Sensoren": false
+      },
+
+      "templates": ["commonStats"]
     }
+  },
+  "Item": {
+    "types": [
+      "Waffe",
+      "Panzerung",
+      "Werkzeug",
+      "Terminals",
+      "Artifizierung",
+      "Gegenstand",
+      "Unterbringung",
+      "Talent",
+      "Besonderheiten"
+    ],
+    "templates": {
+      "itemBase": {
+        "mk": 1,
+        "size": -1,
+        "modules": "",
+        "description": "",
+        "Eigenschaften": {
+          "Computer": false,
+          "Sensoren": false,
+          "Kybernetik": false
+        },
+        "ress": {
+          "bots": 0
+        },
+        "equipped": true
+      }
+    },
+    "Waffe": {
+      "dmg": 1,
+      "size": -3,
+      "ranged": true,
+      "attackWith": "Schusswaffen",
+      "range": "0-10/20/100",
+      "rangeBonus": 0,
+      "dmgtype": "B",
+      "templates": ["itemBase"]
+    },
+    "Werkzeug": {
+      "templates": ["itemBase"]
+    },
+    "Terminals": {
+      "templates": ["itemBase"],
+      "Eigenschaften": {
+        "Computer": true
+      }
+    },
+    "Artifizierung": {
+      "bodyPart": "Körper",
+      "templates": ["itemBase"],
+      "Eigenschaften": {
+        "Computer": true,
+        "Kybernetik": true
+      }
+    },
+    "Panzerung": {
+      "armor": 0,
+      "protection": 0,
+      "bodyPart": "Körper",
+      "templates": ["itemBase"]
+    },
+    "Gegenstand": {
+      "templates": ["itemBase", "weapons"]
+    },
+    "Unterbringung": {
+      "comfort": 0,
+      "module": "",
+      "templates": ["itemBase"]
+    },
+    "Talent": {
+      "attribut": "",
+      "skill": "",
+      "requirement": "1",
+      "description": ""
+    },
+    "Besonderheiten": {
+      "type": "",
+      "description": ""
+    }
+  }
 }
