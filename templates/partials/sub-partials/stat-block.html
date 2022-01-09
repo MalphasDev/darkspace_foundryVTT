@@ -1,9 +1,10 @@
 <div>
     <h2>Attribute und Fertigkeiten</h2>
     <div>
-        
+        <h3>Test</h3>
+
     </div>
-    <ul class="grid col2" id="statFeld">
+    <ul class="grid col3" id="statFeld">
     
         {{#each data.data.charattribut as |attrobj attrname|}}
         <li class="attrfeld">
@@ -46,6 +47,9 @@
                 
                 {{/each}}
             </ul>
+            
+                
+            
             {{#if this.ress.exists}}
             <ul class="fertfeld">
                 <li>
@@ -69,15 +73,53 @@
                         <i class="fas fa-caret-right incRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
                     </div>
                 </li>
+                
             </ul>
             {{/if}}
-
-            {{#if ../data.data.Bedrohungsstufe}}
-            </label>
-            {{/if}}
-            </li>
+            <ul class="item-list">
+                
+                {{#each ../Eigenschaft}}
+                
+                {{#if this.data.attribut}}
+                    <li>
+                        <div class="item" data-item-id="{{this._id}}">
+                            <p class="Eigenschaftname itemToChat">{{this.name}} ({{this.data.attribut}})</p>
+                            <p class="anmerkung">{{this.data.type}}</p>
+                        </div>
+                    </li>
+                {{/if}}
+                {{/each}}
+            </ul>
+        </li>
+            
         {{/each}}
 
         
     </ul>
+    <ul class="item-list">
+        {{#each Eigenschaft}}
+            <li>
+                <div class="item" data-item-id="{{this._id}}">
+                    
+                    <div class="grid col2-21">
+                        <div>
+                            <p class="Eigenschaftname itemToChat">{{this.name}}</p>
+                            <p class="anmerkung">{{this.data.type}}</p>
+                        </div>
+                        <div class="cell_c">
+                            
+                            <label class="collapsible" for="collapse-cntr-{{this._id}}"><i class="fas fa-info-circle"></i></label>
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
+            </li>
+        {{/each}}
+        </ul>
+
+        
 </div>

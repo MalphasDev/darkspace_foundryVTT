@@ -13,17 +13,23 @@ export default class DSCharacter extends Actor {
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
 
+    //Eigenschaften
+    var propertyList = actorData.items.filter((e) => {
+      return e.type === "Eigenschaft";
+    });
+    console.log(propertyList);
+
     if (this.type != "DrohneFahrzeug") {
-      var weaponList = this.data.items.filter((f) => {
+      var weaponList = actorData.items.filter((f) => {
         return f.type === "Waffe";
       });
-      var armorList = this.data.items.filter((i) => {
+      var armorList = actorData.items.filter((i) => {
         return i.data.type === "Panzerung";
       });
-      var quarterList = this.data.items.filter((i) => {
+      var quarterList = actorData.items.filter((i) => {
         return i.data.type === "Unterbringung";
       });
-      var artList = this.data.items.filter((i) => {
+      var artList = actorData.items.filter((i) => {
         return i.data.type === "Artifizierung";
       });
 
@@ -65,6 +71,8 @@ export default class DSCharacter extends Actor {
 
       data.Struktur = Math.max(...StrukturArray);
       data.Schutz = Math.max(...SchutzArray) + addedArmors;
+
+      data.unarmedName = "Waffenloser Kampf";
     }
 
     if (this.type === "Charakter") {
@@ -117,9 +125,9 @@ export default class DSCharacter extends Actor {
       }
 
       // Unterhalt und Wohlstand
-      let ownedItems = this.data.items.filter((i) => {
+      let ownedItems = actorData.items.filter((i) => {
         return (
-          i.type != "Talent" &&
+          i.type != "Eigenschaft" &&
           i.type != "Besonderheiten" &&
           i.type != "Unterbringung"
         );
@@ -154,21 +162,21 @@ export default class DSCharacter extends Actor {
         data.comfortCr = 20;
       }
 
-      // Kybernese
-      data.miscData.Kybernese.mk = this.data.items
-        .filter((i) => {
-          return i.type === "Artifizierung";
-        })
-        .map((j) => {
-          return j.data.data.mk;
-        });
-      data.miscData.Kybernese.bonus = Math.min(
-        ...data.miscData.Kybernese.mk,
-        0
-      );
+      // // Kybernese
+      // data.miscData.Kybernese.mk = actorData.items
+      //   .filter((i) => {
+      //     return i.type === "Artifizierung";
+      //   })
+      //   .map((j) => {
+      //     return j.data.data.mk;
+      //   });
+      // data.miscData.Kybernese.bonus = Math.min(
+      //   ...data.miscData.Kybernese.mk,
+      //   0
+      // );
 
       // Waffenloser Schaden
-      data.unarmedName = "Waffenloser Kampf";
+
       data.unarmedDmg =
         2 + Math.floor(data.charattribut.Konstitution.attribut / 6);
       data.unarmedDmgType = "B";
@@ -266,7 +274,7 @@ export default class DSCharacter extends Actor {
   async _preCreate() {
     // Player character configuration
     if (this.type === "Charakter") {
-      this.data.token.update({ vision: true, actorLink: true, disposition: 1 });
+      actorData.token.update({ vision: true, actorLink: true, disposition: 1 });
     }
   }
 }

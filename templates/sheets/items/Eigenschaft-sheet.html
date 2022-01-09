@@ -1,0 +1,18 @@
+<form class="{{cssClass}} item sheet-content" autocomplete="off">
+    <div class="grid col2-21">
+        {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+        <div class="cell_c">
+            {{#select data.data.attribut}}
+            <select name="data.attribut" class="container_center">
+                {{#each this.data.data.attrList}}
+                <option value="{{this}}" type="text">{{this}}</option>
+                {{/each}}
+            </select>
+            {{/select}}
+        </div>
+    </div>
+
+    
+
+    {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+</form>

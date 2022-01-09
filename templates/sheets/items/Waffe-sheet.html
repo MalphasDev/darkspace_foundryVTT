@@ -1,50 +1,56 @@
 <form class="{{cssClass}} item" autocomplete="off">
-    <div class="grid col2-21">
+    <div >
         {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-        <div>
-            {{>"systems/darkspace/templates/partials/MKSize.html"}}
-        </div>
+        
     </div>
 
     <hr>
     <div class="sheet-content"> <!--Itemsheet-Body-->
-        <div class="grid col5 gridcenter">
+        <div class="grid col4-2211 gridcenter">
             
-            <div> <!-- Box für Schaden -->
-                <span class="flex"><i class="fas fa-bolt"></i> Schaden</span>
-                <div class="container_center">
-                    <span class="derivedValue">{{data.data.dmg}}</span>
-                    <select name="data.dmgtype">
-                        {{#select data.data.dmgtype}}
-                        {{#each config.dmgtype}}
-                        <option name="data.dmgtype" value="{{@key}}" type="text">{{this}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
+            <div class="grid col2-12 nogap gridcenter"> <!-- Box für Schaden -->
+                <i class="fas fa-bolt cell_c doublesize"></i>
+                <div>
+                    <span class="flex">Schaden</span>
+                    <div class="container_center">
+                        <span class="derivedValue">{{data.data.dmg}}</span>
+                        <select name="data.dmgtype">
+                            {{#select data.data.dmgtype}}
+                            {{#each config.dmgtype}}
+                            <option name="data.dmgtype" value="{{@key}}" type="text">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
                 </div>
-                <!-- <div class="container_center">
-                    <span class="anmerkung">{{data.data.mkdmg}} [MK] + {{data.data.sizedmg}} [Größe] {{#if data.data.dmgBonus}} + {{data.data.dmgBonus}} [Schock]{{/if}} + <input name="data.damage" type="number" value="{{data.data.damage}}"></span>
-                </div> -->
             </div>
-            <div> <!--Box für Reichweite-->
-                <input type="checkbox" class="symbol" id="ranged" {{checked data.data.ranged}} name="data.ranged">
-                <label for="ranged" class="container_center">
-                    <span>
-                    {{#if data.data.ranged}}
-                    <i class="fas fa-arrows-alt-h"></i>
-                    {{/if}}
-                    {{#unless data.data.ranged}}
-                    <i class="fas fa-fist-raised"></i>
-                    {{/unless}}
-                    <span>Reichweite</span>
-                    </span>
-                </label>
 
-                <input name="data.range" type="text" value="{{data.data.range}}" disabled>
+            <div class="grid col2-12 nogap gridcenter"> <!--Box für Reichweite-->
+                <div>
+                    <input type="checkbox" class="symbol" id="ranged" {{checked data.data.ranged}} name="data.ranged">
+                    <label for="ranged" class="container_center">
+                        <span>
+                        {{#if data.data.ranged}}
+                        <i class="fas fa-arrows-alt-h cell_c doublesize"></i>
+                        {{/if}}
+                        {{#unless data.data.ranged}}
+                        <i class="fas fa-fist-raised doublesize"></i>
+                        {{/unless}}
+                        
+                        </span>
+                    </label>
+                </div>
+                <div>
+                    <span>Reichweite</span>
+                    <input name="data.range" type="text" value="{{data.data.range}}" disabled>
+                </div>
+                
                 <!-- <p class="flex cell_c">Rw-Bonus: <input name="data.rangeBonus" type="number" value="{{data.data.rangeBonus}}"></p> -->
             </div>            
             
-            {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
+            
+                {{>"systems/darkspace/templates/partials/MKSize.html"}}
+            
             
             
         </div>

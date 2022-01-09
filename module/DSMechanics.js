@@ -16,18 +16,18 @@ export function rollDice(rollDiceData) {
   // Custom Roll und globale Modifikatoren //
   // ------------------------------------- //
 
-  attrModLocal === undefined ? (attrModLocal = 0) : attrModLocal;
-  fertModLocal === undefined ? (fertModLocal = 0) : fertModLocal;
+  attrModLocal++ ? attrModLocal : (attrModLocal = 0);
+  fertModLocal++ ? fertModLocal : (fertModLocal = 0);
 
   dynattr += attrModLocal;
   dynskill += fertModLocal;
+
   if (removehighest != true) {
     rollformular = dynattr + "d10x10kh2+" + dynskill;
   } else {
     rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
   }
   var rollResult = new Roll(rollformular, actorData).roll();
-
   // --------------------- //
   // Krit und Patzer Logik //
   // --------------------- //

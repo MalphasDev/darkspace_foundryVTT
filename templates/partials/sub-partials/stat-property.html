@@ -1,16 +1,16 @@
 <div>
-    <h2 class="flex between"><span>Talente</span><i class="fas fa-plus createItem" data-type="Talent"></i></h2>
+    <h2 class="flex between"><span>Eigenschaft</span><i class="fas fa-plus createItem" data-type="Eigenschaft"></i></h2>
     
             <section>
                 <ul class="item-list">
-                {{#each Talent}}
+                {{#each Eigenschaft}}
                     <li>
                         <div class="item" data-item-id="{{this._id}}">
                             
                             <div class="grid col2-21">
                                 <div>
-                                    <p class="talentname itemToChat">{{this.name}}</p>
-                                    <p class="anmerkung">{{this.data.attribut}}</p>
+                                    <p class="Eigenschaftname itemToChat">{{this.name}}</p>
+                                    <p class="anmerkung">{{this.data.type}}</p>
                                 </div>
                                 <div class="cell_c">
                                     

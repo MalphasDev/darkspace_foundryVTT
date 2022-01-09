@@ -1,31 +1,12 @@
 <form class="{{cssClass}} item" autocomplete="off">
-    <div class="grid col2-21">
-        {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-        <div>
-            {{>"systems/darkspace/templates/partials/MKSize.html"}}
-            {{#if this.data.data.bodyPart}}
-            <div class="grid col2-21">
-                <span>Körperzone</span>
-                    
-                <select name="data.bodyPart">
-                    {{#select data.data.bodyPart}}
-                        {{#each config.bodyPart as |name attrname|}}
-                            <option value="{{attrname}}" type="text">{{name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-            </div>
-            
-            {{/if}}
-        </div>
-    </div>
-    <hr>
-    <div class="grid col4">
+    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+
+    <div class="grid col3-211">
         <div class="container_center">
             <h3>Panzerung und Schutz</h3>
             <input name="data.range" type="text" value="{{data.data.armor}}W + {{data.data.protection}}" disabled>
         </div>
-        {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
+        {{>"systems/darkspace/templates/partials/MKSize.html"}}
         
     </div>
     
@@ -35,3 +16,17 @@
         {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
     </div>
 </form>
+
+
+
+<!-- <div class="grid col2-21">
+        {{#if this.data.data.bodyPart}}
+        <select name="data.bodyPart">
+            {{#select data.data.bodyPart}}
+                {{#each config.bodyPart as |name attrname|}}
+                    <option value="{{attrname}}" type="text">{{name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        {{/if}}
+    </div> -->

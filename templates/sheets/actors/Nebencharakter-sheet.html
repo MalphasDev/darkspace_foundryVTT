@@ -16,8 +16,13 @@
         </div>
 
         {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
-        
-        {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+        <div>
+            <h2>Schnellwahl</h2>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
+            <hr>
+            {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+
+        </div>
     </div>
 
     {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
@@ -25,7 +30,7 @@
     <div class="grid col2">
         {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
         {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
-        {{> "systems/darkspace/templates/partials/sub-partials/stat-talent.html"}}
+        {{> "systems/darkspace/templates/partials/sub-partials/stat-property.html"}}
         {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
     </div>
     

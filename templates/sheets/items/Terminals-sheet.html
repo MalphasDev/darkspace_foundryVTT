@@ -1,14 +1,19 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
 
-    <div class="grid col2-21">
-        {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+    <div class="grid col3-211 gridcenter">
         <div>
-            {{>"systems/darkspace/templates/partials/MKSize.html"}}
+            <h3 class="text_c">Bots</h3>
+            <i class="fas fa-caret-left decRess" data-attr="bots"></i>
+            {{#times data.data.ress.bots}}
+            <i class="fas fa-circle ressPoints" data-active="1" data-thisattr="bots"></i>
+            {{/times}}
+            {{#times data.data.botsRemaining}}
+            <i class="far fa-circle ressPoints" data-active="0" data-thisattr="bots"></i>
+            {{/times}}
+            <i class="fas fa-caret-right incRess" data-attr="bots"></i>
         </div>
-    </div>
-    
-    <div class="grid col3">
-        {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
+        {{>"systems/darkspace/templates/partials/MKSize.html"}}
     </div>
     {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

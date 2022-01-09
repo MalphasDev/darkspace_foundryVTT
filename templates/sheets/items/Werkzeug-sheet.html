@@ -1,14 +1,8 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
 
-    <div class="grid col2-21">
-        {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-        <div>
-            {{>"systems/darkspace/templates/partials/MKSize.html"}}
-        </div>
-    </div>
-    
-    <div class="grid col3">
-        {{> "systems/darkspace/templates/partials/sub-partials/misc-properties.html"}}
+    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+    <div class="grid col2 gridcenter">
+        {{>"systems/darkspace/templates/partials/MKSize.html"}}
     </div>
     {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

@@ -112,7 +112,20 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Traumapunkte",
+            "ressname": "Geistespunkte",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        },
+        "Kybernese": {
+          "attribut": 1,
+          "skill": {
+            "Synthese": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Energiepunkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -125,7 +138,7 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Reputation",
+            "ressname": "Netzwerkpunkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -138,28 +151,11 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Ersparnisse",
+            "ressname": "Ressourcen-Punkte",
             "value": 0,
             "min": 0,
             "max": 10
           }
-        }
-      },
-      "metadata": {
-        "Fraktionen": {
-          "Fraktion": "",
-          "Reputation": 0,
-          "Macht": 0
-        },
-        "vips": {
-          "Name": "",
-          "BS": 1,
-          "Verhältnis": 0
-        }
-      },
-      "miscData": {
-        "Kybernese": {
-          "attribut": 1
         }
       },
       "customroll": {
@@ -215,7 +211,7 @@
         "bonus": 0
       },
 
-      "Eigenschaften": [],
+      "Eigenschaftn": [],
       "templates": ["commonStats"]
     },
     "DrohneFahrzeug": {
@@ -233,7 +229,7 @@
         "bonus": 0
       },
 
-      "Eigenschaften": {
+      "Eigenschaftn": {
         "Computer": false,
         "Energie": false,
         "Leistung": false,
@@ -252,20 +248,14 @@
       "Artifizierung",
       "Gegenstand",
       "Unterbringung",
-      "Talent",
-      "Besonderheiten"
+      "Eigenschaft"
     ],
     "templates": {
       "itemBase": {
         "mk": 1,
         "size": -1,
-        "modules": "",
         "description": "",
-        "Eigenschaften": {
-          "Computer": false,
-          "Sensoren": false,
-          "Kybernetik": false
-        },
+        "Eigenschaft": [],
         "ress": {
           "bots": 0
         },
@@ -287,17 +277,12 @@
     },
     "Terminals": {
       "templates": ["itemBase"],
-      "Eigenschaften": {
-        "Computer": true
-      }
+      "Eigenschaft": ["Computer"]
     },
     "Artifizierung": {
       "bodyPart": "Körper",
       "templates": ["itemBase"],
-      "Eigenschaften": {
-        "Computer": true,
-        "Kybernetik": true
-      }
+      "Eigenschaft": ["Computer", "Kybernetik"]
     },
     "Panzerung": {
       "armor": 0,
@@ -313,14 +298,9 @@
       "module": "",
       "templates": ["itemBase"]
     },
-    "Talent": {
-      "attribut": "",
-      "skill": "",
-      "requirement": "1",
-      "description": ""
-    },
-    "Besonderheiten": {
+    "Eigenschaft": {
       "type": "",
+      "attribut": "",
       "description": ""
     }
   }

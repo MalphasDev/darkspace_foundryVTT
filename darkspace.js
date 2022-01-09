@@ -11,7 +11,6 @@ async function preloadHandlebarsTemplates() {
   const templatePaths = [
     //Charakter-Partials
     "systems/darkspace/templates/partials/character-sheet-header.html",
-    "systems/darkspace/templates/partials/character-sheet-stat-block.html",
     "systems/darkspace/templates/partials/character-sheet-items.html",
     "systems/darkspace/templates/partials/character-sheet-combat.html",
     "systems/darkspace/templates/partials/character-sheet-downtime.html",
@@ -22,8 +21,7 @@ async function preloadHandlebarsTemplates() {
     //Stats
     "systems/darkspace/templates/partials/sub-partials/stat-artificals.html",
     "systems/darkspace/templates/partials/sub-partials/stat-block.html",
-    "systems/darkspace/templates/partials/sub-partials/stat-feature.html",
-    "systems/darkspace/templates/partials/sub-partials/stat-talent.html",
+    "systems/darkspace/templates/partials/sub-partials/stat-property.html",
     "systems/darkspace/templates/partials/sub-partials/stat-health.html",
 
     //Combat

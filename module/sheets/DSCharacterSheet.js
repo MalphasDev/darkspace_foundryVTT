@@ -57,7 +57,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     // data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
     // data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
     // data.Panzerung = data.items.filter(function (item) {return item.type == "Panzerung"});
-    // data.Talent = data.items.filter(function (item) {return item.type == "Talent"});
+    // data.Eigenschaft = data.items.filter(function (item) {return item.type == "Eigenschaft"});
     // data.Module = data.items.filter(function (item) {return item.type == "Module"});
     // data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
     // data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
@@ -168,8 +168,15 @@ export default class DSCharakcterSheet extends ActorSheet {
     event.preventDefault();
     const actorData = this.object.data.data;
 
-    var dynattr = actorData.charattribut.Geschick.attribut;
-    var dynskill = actorData.charattribut.Geschick.skill.Kampftechnik;
+    if (this.object.data.type === "Charakter") {
+      var dynattr = actorData.charattribut.Geschick.attribut;
+      var dynskill = actorData.charattribut.Geschick.skill.Kampftechnik;
+    }
+    if (this.object.data.type === "Nebencharakter") {
+      var dynattr = actorData.charattribut.Nahkampf.attribut;
+      var dynskill = actorData.charattribut.Nahkampf.skill.Kampftechnik;
+    }
+
     var roleData = { attribute: "", skill: "Bonus" };
 
     let preCreatedInput = this.createInputData(event);
@@ -290,7 +297,8 @@ export default class DSCharakcterSheet extends ActorSheet {
     var dialogNewItem = await renderTemplate(
       "systems/darkspace/templates/createNewItem/dialogNew" +
         element.dataset.type +
-        ".html"
+        ".html",
+      CONFIG.darkspace
     );
 
     new Dialog({
@@ -307,7 +315,7 @@ export default class DSCharakcterSheet extends ActorSheet {
               description: html.find("[name=newDesc]")[0].value,
             };
             if (
-              element.dataset.type != "Talent" &&
+              element.dataset.type != "Eigenschaft" &&
               element.dataset.type != "Besonderheiten"
             ) {
               newItemData = {
@@ -319,12 +327,12 @@ export default class DSCharakcterSheet extends ActorSheet {
             }
             if (
               element.dataset.type != "Unterbringung" &&
-              element.dataset.type != "Talent" &&
+              element.dataset.type != "Eigenschaft" &&
               element.dataset.type != "Besonderheiten"
             ) {
               newItemData = {
                 ...newItemData,
-                Eigenschaften: {
+                Eigenschaftn: {
                   Computer: html.find("[name=propComputer]")[0].checked,
                   Sensoren: html.find("[name=propSensoren]")[0].checked,
                   Kybernetik: html.find("[name=propKybernetik]")[0].checked,
@@ -346,6 +354,7 @@ export default class DSCharakcterSheet extends ActorSheet {
             }
             if (element.dataset.type === "Panzerung") {
               newItemData = {
+                ...newItemData,
                 bodyPart:
                   html.find("[name=newBodyPart]")[0].selectedOptions[0]
                     .innerHTML,
@@ -357,7 +366,7 @@ export default class DSCharakcterSheet extends ActorSheet {
                 comfort: html.find("[name=newKomfort]")[0].value,
               };
             }
-            if (element.dataset.type === "Talent") {
+            if (element.dataset.type === "Eigenschaft") {
               newItemData = {
                 ...newItemData,
                 skill: html.find("[name=newSkillReq]")[0].value,
@@ -383,8 +392,6 @@ export default class DSCharakcterSheet extends ActorSheet {
               type: newItemData.type,
               data: newItemData,
             };
-
-            console.log(itemData.type);
 
             return this.actor.createOwnedItem(itemData);
           },
@@ -455,7 +462,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         }),
       };
     }
-    if (itemType === "Talent") {
+    if (itemType === "Eigenschaft") {
       itemChatData = {
         ...itemDefaultData,
         attribut: itemClicked.map((i) => {

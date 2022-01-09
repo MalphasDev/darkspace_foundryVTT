@@ -1,16 +1,22 @@
 import * as DSMechanics from "../DSMechanics.js";
+import * as config from "../config.js";
 export default class DSItem extends Item {
   prepareData() {
     super.prepareData();
 
     const itemData = this.data;
     const actorData = this.actor ? this.actor.data : {};
-
+    const configData = config.darkspace;
     const data = itemData.data;
 
+    data.attrList = configData.attr;
+
     data.mkHalf = Math.ceil(data.mk * 0.5);
+
+    console.log(this.data.data);
+
     // Struktur und Schutz //
-    data.baseStructure = data.mk + data.size;
+    data.baseStructure = parseInt(data.mk) + parseInt(data.size);
     data.structure = data.baseStructure < 1 ? 1 : data.baseStructure;
     data.protection = Math.floor(data.mk / 2);
 
@@ -46,8 +52,8 @@ export default class DSItem extends Item {
       data.range = "Nahkampf";
     }
 
-    //Alles außer Talente und Besonderheiten
-    if (itemData.type != "Talent" && itemData.type != "Besonderheiten") {
+    //Alles außer Eigenschaft und Besonderheiten
+    if (itemData.type != "Eigenschaft" && itemData.type != "Besonderheiten") {
       // Ressourcen
       data.botsRemaining = data.mk - data.ress.bots;
     }

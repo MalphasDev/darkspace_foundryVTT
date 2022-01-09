@@ -1,79 +1,82 @@
 /* ---- Farben ---- */
 :root {
-    --main-color: #782e22;
+  --main-color: #782e22;
 }
 
 /* ---- Foundry Style Overwrite ---- */
 body {
-    
-    font-family: system-ui;
+  font-family: system-ui;
 }
 .sheet {
-    min-width: 750px;
+  min-width: 750px;
 }
 h2 {
-    border-bottom: 1px solid rgb(124, 124, 124);
-    margin-top: 20px;
-    width: 100%;
+  border-bottom: 1px solid rgb(124, 124, 124);
+  margin-top: 20px;
+  width: 100%;
 }
 p {
-    margin: 0;
+  margin: 0;
 }
 img {
-    border: none;
+  border: none;
 }
 
-.window-app .window-content, .chat-message, #chat-form textarea {
-    background: rgb(194,194,194);
-    background: linear-gradient(0deg, rgba(194,194,194,1) 0%, rgba(228,228,228,1) 100%);
-    scrollbar-color: #fff #000;
+.window-app .window-content,
+.chat-message,
+#chat-form textarea {
+  background: rgb(194, 194, 194);
+  background: linear-gradient(
+    0deg,
+    rgba(194, 194, 194, 1) 0%,
+    rgba(228, 228, 228, 1) 100%
+  );
+  scrollbar-color: #fff #000;
 }
-.app.window-app.darkspace.sheet.Charakter>section{
-    background-image: url(../styles/bg_ds_fvtt.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+.app.window-app.darkspace.sheet.Charakter > section {
+  background-image: url(../styles/bg_ds_fvtt.png);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-
 
 .sheet nav.sheet-tabs {
-    height: auto;
-    margin: 20px 0 0 0;
-    line-height: initial;
-    border: solid var(--main-color);
-    border-width: 1px 0px;
+  height: auto;
+  margin: 20px 0 0 0;
+  line-height: initial;
+  border: solid var(--main-color);
+  border-width: 1px 0px;
 }
-
 
 .window-content a:hover {
-    text-shadow: none;
+  text-shadow: none;
 }
 .window-content a.item {
-    width: 80%;
-    min-width: 10ch;
-    padding: 5px 0;
+  width: 80%;
+  min-width: 10ch;
+  padding: 5px 0;
 }
 .window-content a.item:hover {
-    background: var(--main-color);
-    color: #fff;
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  background: var(--main-color);
+  color: #fff;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 header input[type="text"] {
-    text-align: left;
+  text-align: left;
 }
 
 input[type="text"] {
-    text-align: center;
+  text-align: center;
 }
 
-input[type="text"], 
+input[type="text"],
 input[type="number"],
 input[type="password"],
 input[type="date"],
 input[type="time"] {
-    background: none;
-    border: none;
-    border-bottom: 1px solid #00000063;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #00000063;
 }
 
 input[type="text"]:focus,
@@ -81,370 +84,366 @@ input[type="number"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
 input[type="time"]:focus {
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.336);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.336);
 }
 input:disabled {
-    border: none;
+  border: none;
 }
 
 .tabs .item.active {
-    text-shadow: 0 0 10px #fff;
-    background-color: var(--main-color);
+  text-shadow: 0 0 10px #fff;
+  background-color: var(--main-color);
 }
-
-
-
 
 #combat-controls {
-    display: block;
+  display: block;
 }
-#combat-controls>* {
-    display: flex;
-    justify-content: center;
+#combat-controls > * {
+  display: flex;
+  justify-content: center;
 }
 .customAE {
-    padding: 5px;
-    border: solid;
-    height: 50px;
-    width: 50%;
-    margin: 0 auto;
+  padding: 5px;
+  border: solid;
+  height: 50px;
+  width: 50%;
+  margin: 0 auto;
 }
-.customAE>* {
-    text-align: center;
-    width: 50px;
-    color: #fff;
-    font-size: 20px;
+.customAE > * {
+  text-align: center;
+  width: 50px;
+  color: #fff;
+  font-size: 20px;
 }
 .customAE input[type="value"] {
-    background: none;
-    font-size: 25px;
-    border: none;
+  background: none;
+  font-size: 25px;
+  border: none;
 }
 .customAE button {
-    background: none;
-    margin: 0;
-    padding: 0;
-    border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 .customAE button:hover {
-    outline: none;
-    box-shadow: 0 0 5px red;
-    background: rgb(255 0 0 / 45%);
-    font-size: 25px;
-    transition: 0.2s linear;
+  outline: none;
+  box-shadow: 0 0 5px red;
+  background: rgb(255 0 0 / 45%);
+  font-size: 25px;
+  transition: 0.2s linear;
 }
 
 .fa-clock {
-    margin: 5px 0;
+  margin: 5px 0;
 }
-.window-content .fa, .window-content .fas {
-    cursor: pointer;
-    padding: 2px;
+.window-content .fa,
+.window-content .fas {
+  cursor: pointer;
+  padding: 2px;
 }
-.fertfeld .fa, .fertfeld .fas {
-    padding: 0;
+.fertfeld .fa,
+.fertfeld .fas {
+  padding: 0;
 }
-
-
-
 
 /* --------------------------------- */
 /* ---------- Sheet Style ---------- */
 /* --------------------------------- */
 
-
 .editor .editor-content {
-    min-height: 400px;
-  }
+  min-height: 400px;
+}
 
 input[type="number"] {
-    width: 40px;
-    text-align: center;
+  width: 40px;
+  text-align: center;
 }
 
 ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 .editor ul {
-    list-style: initial;
-    padding-left: 20px;
-    margin: 0;
+  list-style: initial;
+  padding-left: 20px;
+  margin: 0;
 }
 
 .flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .fcol2 {
-    flex-direction: row;
-    height: inherit;
-    justify-content: space-around;
+  flex-direction: row;
+  height: inherit;
+  justify-content: space-around;
 }
 .fcol2 .desc-content {
-    width: 47%;
-    height: 100%;
+  width: 47%;
+  height: 100%;
 }
 .flex.start {
-    justify-content: start;
-    align-items: flex-start;
+  justify-content: start;
+  align-items: flex-start;
 }
 .flex.evenly {
-    justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 .flex.between {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 .flex.strech {
-    align-items: strech;
+  align-items: strech;
 }
 .column {
-   flex-direction: column;
+  flex-direction: column;
 }
 .flexDice {
-    display: flex;
-    justify-content: space-evenly;
-    font-size: 1.2em;
-    font-weight: bold;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 .flexResult {
-    display: flex;
-    justify-content: center;
-    font-size: 1.5em;
-    font-weight: bold;
+  display: flex;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 .grid {
-    display: grid;
-    grid-gap: 0 1em;
+  display: grid;
+  grid-gap: 0 1em;
 }
 .gridcenter {
-    justify-items: center;
-    align-items: center;
+  justify-items: center;
+  align-items: center;
 }
 .gridleftcenter {
-    justify-items: left;
-    align-items: center;
+  justify-items: left;
+  align-items: center;
 }
 .gridrightcenter {
-    justify-items: right;
-    align-items: center;
+  justify-items: right;
+  align-items: center;
 }
 .col2 {
-    grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 }
 .col2-12 {
-    grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 2fr;
 }
 .col2-13 {
-    grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 3fr;
 }
 .col2-21 {
-    grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1fr;
 }
 .col2-31 {
-    grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3fr 1fr;
 }
 .col3 {
-    grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 }
 .col3-112 {
-    grid-template-columns: 1fr 1fr 2fr;
+  grid-template-columns: 1fr 1fr 2fr;
 }
 .col3-211 {
-    grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
 }
 .col3-212 {
-    grid-template-columns: 2fr 1fr 2fr;
+  grid-template-columns: 2fr 1fr 2fr;
 }
 .col3-221 {
-    grid-template-columns: 2fr 2fr 1fr;
+  grid-template-columns: 2fr 2fr 1fr;
 }
 .col3-122 {
-    grid-template-columns: 1fr 2fr 2fr;
+  grid-template-columns: 1fr 2fr 2fr;
 }
 .col4 {
-    grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 .col4-item {
-    grid-template-columns: 1fr 40px 40px 60px;
+  grid-template-columns: 1fr 40px 40px 60px;
 }
 .col5 {
-    grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 }
 .col5-31111 {
-    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
 }
 .col6 {
-    grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
 }
 
 .col-weapons {
-    grid-template-columns: 45px 1fr 50px 100px 35px 45px 70px;
-    gap: 0;
-    align-items: center;
+  grid-template-columns: 45px 1fr 50px 100px 35px 45px 70px;
+  gap: 0;
+  align-items: center;
 }
 
 .span2 {
-    grid-column: 1 / span2;
+  grid-column: 1 / span2;
 }
 .span3 {
-    grid-column: 1 / span3;
+  grid-column: 1 / span3;
 }
 .span4 {
-    grid-column: 1 / span4;
+  grid-column: 1 / span4;
 }
 
 .cell_c {
-    justify-self: center;
-    align-self: center;
+  justify-self: center;
+  align-self: center;
 }
 .cell_l {
-    justify-self: left;
+  justify-self: left;
 }
 .cell_r {
-    justify-self: right;
+  justify-self: right;
 }
 .cell_d {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 .cell_t {
-    align-self: flex-start;
+  align-self: flex-start;
 }
 .container_center {
-    display: block;
-    margin: 0 auto;
-    width: fit-content;
-    text-align: center;
+  display: block;
+  margin: 0 auto;
+  width: fit-content;
+  text-align: center;
 }
 .nogap {
-    grid-gap: 0;
+  grid-gap: 0;
 }
 .h_gap {
-    grid-row-gap: 2em;
+  grid-row-gap: 2em;
 }
 
 .text_c {
-    text-align: center;
+  text-align: center;
 }
 
 .value_box {
-    max-width: 5ch;
+  max-width: 5ch;
 }
 
 .attrfeld {
-    border: 1px solid rgb(124, 124, 124);
-    margin: 5px 0;
-    padding: 5px;
+  border: 1px solid rgb(124, 124, 124);
+  margin: 5px 0;
+  padding: 5px;
 }
 .attrfeld input {
-    text-align: center;
-    justify-self: right;
+  text-align: center;
+  justify-self: right;
 }
 .attrvalue {
-    justify-self: end;
-    display: flex;
-    align-items: center;
+  justify-self: end;
+  display: flex;
+  align-items: center;
 }
 .attrname {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 .d10-symbol {
-    margin: 0px;
-    padding: 0px;
-    width: 20px;
-    opacity: 0.4;
-    border-radius: 50%;
+  margin: 0px;
+  padding: 0px;
+  width: 20px;
+  opacity: 0.4;
+  border-radius: 50%;
 }
 .fa-caret-left:hover,
 .fa-caret-right:hover,
 .d10-symbol:hover,
 .changeProp:hover,
-label:hover, 
-label>*:hover {
-    cursor: pointer;
-    background-color: rgba(204,0,0,0.3);
-    box-shadow: 0 0 5px rgb(204 0 0);
-    opacity: 1;
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+label:hover,
+label > *:hover {
+  cursor: pointer;
+  background-color: rgba(204, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgb(204 0 0);
+  opacity: 1;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
 }
 .fertfeld li {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
 }
-.talentname {
-    border-left: 1px solid;
-    margin: 4px 0 0 0;
-    padding: 0 5px;
-    font-size: 1.2em;
+.Eigenschaftname {
+  border-left: 1px solid;
+  margin: 4px 0 0 0;
+  padding: 0 5px;
+  font-size: 1.2em;
 }
 .anmerkung {
-    color: rgb(124, 124, 124);
-    font-size: 0.9em;
+  color: rgb(124, 124, 124);
+  font-size: 0.9em;
 }
 .actorimg {
-    width: 90%;
-    display: block;
-    margin: 0 auto;
+  width: 90%;
+  display: block;
+  margin: 0 auto;
 }
 .npcBonus {
-    width: 5ch;
-    margin-left: 2ch;
+  width: 5ch;
+  margin-left: 2ch;
 }
 .skillbox {
-    justify-self: right;
-    display: flex;
-    align-items: center;
+  justify-self: right;
+  display: flex;
+  align-items: center;
 }
 .collapsible-cntr {
-    display: none;
+  display: none;
 }
 .collapsible-cntr + div {
-    max-height: 0;
-    overflow: hidden;
-    transition: 0.5s linear;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.5s linear;
 }
 .collapsible-cntr:checked + div {
-    max-height: 150px;
-    overflow: scroll;
+  max-height: 150px;
+  overflow: scroll;
 }
 .collapsible {
-    cursor: pointer;
+  cursor: pointer;
 }
 .einzug_ul {
-    margin-left: 4ch;
+  margin-left: 4ch;
 }
 .displaySkill:hover,
 .itemToChat:hover {
-    cursor: help;
+  cursor: help;
 }
 .evalDice {
-    font-weight: bold;
+  font-weight: bold;
 }
 .kritDice {
-    color: var(--main-color);
+  color: var(--main-color);
 }
-.tab.combat li.item, .tab.items li.item {
-    border-bottom: solid 1px #948686;
-    padding: 5px 0 0 0;
-    margin: 0px 0;
+.tab.combat li.item,
+.tab.items li.item {
+  border-bottom: solid 1px #948686;
+  padding: 5px 0 0 0;
+  margin: 0px 0;
 }
 .item-list {
-    font-size: 9pt;
+  font-size: 9pt;
 }
-input[type=checkbox].item-quick-edit,
-input[type=checkbox].symbol {
-    display: none;
+input[type="checkbox"].item-quick-edit,
+input[type="checkbox"].symbol {
+  display: none;
 }
 
 input[id="newRanged"]:checked + label[for="newRanged"]:after {
-    content: "Fernkampf";
+  content: "Fernkampf";
 }
 input[id="newRanged"] + label[for="newRanged"]:after {
-    content: "Nahkampf";
+  content: "Nahkampf";
 }
 .opacity50 {
-    opacity: 0.5;
+  opacity: 0.5;
 }
