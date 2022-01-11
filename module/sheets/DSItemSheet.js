@@ -55,8 +55,6 @@ export default class DSItemSheet extends ItemSheet {
     const element = event.currentTarget;
     const dataset = element.dataset;
 
-    console.log(dataset);
-
     let dynattr = parseInt(dataset.dice);
     let dynskill = parseInt(dataset.bonus);
 

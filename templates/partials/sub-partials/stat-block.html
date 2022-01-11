@@ -1,15 +1,12 @@
 <div>
     <h2>Attribute und Fertigkeiten</h2>
-    <div>
-        <h3>Test</h3>
-
-    </div>
+    
     <ul class="grid col3" id="statFeld">
     
         {{#each data.data.charattribut as |attrobj attrname|}}
         <li class="attrfeld">
                 {{#if ../data.data.Bedrohungsstufe}}
-                <div class="grid col2 ">
+                <div class="grid col2-21">
                     <div class="container_center">
                         <input type="checkbox" class="checkbox" id="{{attrname}}_prio" data-field="{{attrname}}" name="data.charattribut.{{attrname}}.prio" {{checked this.prio}}>
                         <label for="{{attrname}}_prio">Verstärkt</label>
@@ -21,8 +18,10 @@
                 </div>
                 
                 {{/if}}
-                <div class="grid col2">
-                    <span class="attrname">{{attrname}}</span>
+
+                <!--ATTRIBUTE für Charaktere-->
+                <div class="grid col2-21">
+                    <span class="attrname"><i class="fas fa-cog changeProp" data-fieldtype="editAttr" data-parentAttr="{{attrname}}"></i> {{attrname}}</span>
                     <span class="attrvalue">                    
                     <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}" type="number" {{disabled ../data.data.Bedrohungsstufe}}>
                     <span>W</span>
@@ -51,10 +50,10 @@
                 
             
             {{#if this.ress.exists}}
+            <hr>
             <ul class="fertfeld">
                 <li>
                     <span>{{this.ress.ressname}}</span>
-                    {{this.ress.value}}
                     <!-- <div class="flex">
                         <i class="fas fa-caret-left decRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
                         <input type="range" min="0" max={{this.ress.max}} value="{{this.ress.value}}" name="data.charattribut.{{attrname}}.ress.value" data-type="Number" class="slider">
@@ -77,17 +76,14 @@
             </ul>
             {{/if}}
             <ul class="item-list">
-                
                 {{#each ../Eigenschaft}}
-                
-                {{#if this.data.attribut}}
-                    <li>
+                {{#ifEquals data.attribut attrname}}                
+                    <li class="propertyListElement">
                         <div class="item" data-item-id="{{this._id}}">
-                            <p class="Eigenschaftname itemToChat">{{this.name}} ({{this.data.attribut}})</p>
-                            <p class="anmerkung">{{this.data.type}}</p>
+                            <p class="Eigenschaftname item-control item-edit {{#if data.handicap}}handicap{{/if}}">{{this.name}}</p>
                         </div>
                     </li>
-                {{/if}}
+                {{/ifEquals}}
                 {{/each}}
             </ul>
         </li>
@@ -96,30 +92,7 @@
 
         
     </ul>
-    <ul class="item-list">
-        {{#each Eigenschaft}}
-            <li>
-                <div class="item" data-item-id="{{this._id}}">
-                    
-                    <div class="grid col2-21">
-                        <div>
-                            <p class="Eigenschaftname itemToChat">{{this.name}}</p>
-                            <p class="anmerkung">{{this.data.type}}</p>
-                        </div>
-                        <div class="cell_c">
-                            
-                            <label class="collapsible" for="collapse-cntr-{{this._id}}"><i class="fas fa-info-circle"></i></label>
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-                {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
-            </li>
-        {{/each}}
-        </ul>
+    
 
         
 </div>

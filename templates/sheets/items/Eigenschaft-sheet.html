@@ -2,14 +2,27 @@
     <div class="grid col2-21">
         {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
         <div class="cell_c">
+            <div>
             {{#select data.data.attribut}}
             <select name="data.attribut" class="container_center">
-                {{#each this.data.data.attrList}}
+                {{#each data.data.attrList}}
                 <option value="{{this}}" type="text">{{this}}</option>
                 {{/each}}
             </select>
             {{/select}}
         </div>
+        <div class="handlicapCheck {{#if data.data.handicap}}handicap{{/if}} {{#unless data.data.handicap}}merit{{/unless}}">
+            <input type="checkbox" invisible {{checked data.data.handicap}} class="item-quick-edit" name="data.handicap" id="{{id}}prop">
+            {{#if data.data.handicap}}
+            <label for="{{id}}prop">Handicap</label>
+            {{/if}}
+
+            {{#unless data.data.handicap}}
+            <label for="{{id}}prop">Vorteil</label>
+            {{/unless}}
+        </div>
+
+    </div>
     </div>
 
     

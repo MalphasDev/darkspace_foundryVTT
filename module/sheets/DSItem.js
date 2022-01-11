@@ -13,8 +13,6 @@ export default class DSItem extends Item {
 
     data.mkHalf = Math.ceil(data.mk * 0.5);
 
-    console.log(this.data.data);
-
     // Struktur und Schutz //
     data.baseStructure = parseInt(data.mk) + parseInt(data.size);
     data.structure = data.baseStructure < 1 ? 1 : data.baseStructure;
@@ -147,7 +145,6 @@ export default class DSItem extends Item {
     const updateData = {};
     updateData["img"] =
       "systems/darkspace/icons/itemDefault/itemIcon_" + itemType + ".svg";
-    console.log(updateData);
     await this.data.update(updateData);
   }
 }

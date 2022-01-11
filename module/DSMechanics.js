@@ -19,13 +19,13 @@ export function rollDice(rollDiceData) {
   attrModLocal++ ? attrModLocal : (attrModLocal = 0);
   fertModLocal++ ? fertModLocal : (fertModLocal = 0);
 
-  dynattr += attrModLocal;
-  dynskill += fertModLocal;
+  var attr = dynattr + attrModLocal;
+  var skill = dynskill + fertModLocal;
 
   if (removehighest != true) {
-    rollformular = dynattr + "d10x10kh2+" + dynskill;
+    rollformular = attr + "d10x10kh2+" + skill;
   } else {
-    rollformular = dynattr + "d10x10kh3dh1+" + dynskill;
+    rollformular = attr + "d10x10kh3dh1+" + skill;
   }
   var rollResult = new Roll(rollformular, actorData).roll();
   // --------------------- //
@@ -64,6 +64,10 @@ export function rollDice(rollDiceData) {
   let unEvalDice = fullDice.splice(3, 100);
 
   let diceResult = {
+    attr: dynattr,
+    skillValue: dynskill,
+    attrModLocal: attrModLocal,
+    fertModLocal: fertModLocal,
     evalDice: evalDice,
     kritDice: kritDice,
     unEvalDice: unEvalDice,

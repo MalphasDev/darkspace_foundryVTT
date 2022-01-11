@@ -1,7 +1,13 @@
 <div>
     <h3>Probe</h3>
-    <p class="anmerkung text_c">{{this.terms.[0].number}}W +{{this.terms.[2].number}}</p>
-    <hr>
-    {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
+    <div class="grid col2-12">
+        <span class="anmerkung">Würfelpool:</span>
+        <span class="anmerkung">{{attr}}W</span>
+        <span class="anmerkung">Fertigkeit:</span>
+        <span class="anmerkung">+{{skillValue}}</span>
+    </div>
     
+    <hr>
+    
+    {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
 </div>

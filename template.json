@@ -6,21 +6,19 @@
         "Panzerung": {
           "Struktur": 0,
           "Schutz": 0
-        }
+        },
+        "customroll": {
+          "dice": 2,
+          "bonus": 0
+        },
+        "initMod": 0,
+        "notes": ""
       }
     },
     "Charakter": {
       "description": "",
       "quote": "",
       "xp": {
-        "value": 0,
-        "max": 0
-      },
-      "xp_social": {
-        "value": 0,
-        "max": 0
-      },
-      "xp_ress": {
         "value": 0,
         "max": 0
       },
@@ -35,7 +33,6 @@
         "max": 5,
         "bonus": 0
       },
-      "notes": "",
 
       "charattribut": {
         "Aufmerksamkeit": {
@@ -157,12 +154,7 @@
             "max": 10
           }
         }
-      },
-      "customroll": {
-        "dice": 2,
-        "bonus": 0
-      },
-      "initMod": 0
+      }
     },
 
     "Nebencharakter": {
@@ -206,12 +198,7 @@
           }
         }
       },
-      "customroll": {
-        "dice": 0,
-        "bonus": 0
-      },
 
-      "Eigenschaftn": [],
       "templates": ["commonStats"]
     },
     "DrohneFahrzeug": {
@@ -222,18 +209,6 @@
       "damages": {
         "value": 0,
         "max": 0
-      },
-
-      "customroll": {
-        "dice": 0,
-        "bonus": 0
-      },
-
-      "Eigenschaftn": {
-        "Computer": false,
-        "Energie": false,
-        "Leistung": false,
-        "Sensoren": false
       },
 
       "templates": ["commonStats"]
@@ -255,7 +230,6 @@
         "mk": 1,
         "size": -1,
         "description": "",
-        "Eigenschaft": [],
         "ress": {
           "bots": 0
         },
@@ -276,13 +250,11 @@
       "templates": ["itemBase"]
     },
     "Terminals": {
-      "templates": ["itemBase"],
-      "Eigenschaft": ["Computer"]
+      "templates": ["itemBase"]
     },
     "Artifizierung": {
       "bodyPart": "Körper",
-      "templates": ["itemBase"],
-      "Eigenschaft": ["Computer", "Kybernetik"]
+      "templates": ["itemBase"]
     },
     "Panzerung": {
       "armor": 0,
@@ -291,16 +263,16 @@
       "templates": ["itemBase"]
     },
     "Gegenstand": {
-      "templates": ["itemBase", "weapons"]
+      "templates": ["itemBase"]
     },
     "Unterbringung": {
       "comfort": 0,
-      "module": "",
       "templates": ["itemBase"]
     },
     "Eigenschaft": {
       "type": "",
       "attribut": "",
+      "handicap": false,
       "description": ""
     }
   }

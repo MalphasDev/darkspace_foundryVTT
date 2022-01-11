@@ -57,7 +57,6 @@ async function preloadHandlebarsTemplates() {
 
     //Dialog
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogMkSize.html",
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogProperties.html",
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogName.html",
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogDescMod.html",
 
@@ -66,6 +65,7 @@ async function preloadHandlebarsTemplates() {
 
     //Chat
     "systems/darkspace/templates/dice/chatWeapon.html",
+    "systems/darkspace/templates/dice/chatBase.html",
     "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html",
 
     //Foundry UI-Overwrite
@@ -104,9 +104,7 @@ Hooks.once("init", function () {
       ae_slider: "Slider",
     },
     default: "ae_button",
-    onChange: (value) => {
-      console.log(value);
-    },
+    onChange: (value) => {},
   });
 
   Handlebars.registerHelper("disabled", function (condition) {
@@ -127,6 +125,9 @@ Hooks.once("init", function () {
       result += htmlString;
     }
     return result;
+  });
+  Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
+    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
   });
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

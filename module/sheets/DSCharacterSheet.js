@@ -35,7 +35,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     let data = super.getData();
 
     //data.config = CONFIG.darkspace;
-
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
 
     let itemType = Array.from(
@@ -261,7 +260,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     // ----------------- //
 
     if (dataset.rolltype === "quarter") {
-      console.log(dataset);
       dynattr = dataset.attr;
       dynskill = dataset.skill;
     }
@@ -323,20 +321,6 @@ export default class DSCharakcterSheet extends ActorSheet {
                 mk: html.find("[name=newMK]")[0].value,
                 size: html.find("[name=newSize]")[0].value,
                 modules: html.find("[name=newMods]")[0].value,
-              };
-            }
-            if (
-              element.dataset.type != "Unterbringung" &&
-              element.dataset.type != "Eigenschaft" &&
-              element.dataset.type != "Besonderheiten"
-            ) {
-              newItemData = {
-                ...newItemData,
-                Eigenschaftn: {
-                  Computer: html.find("[name=propComputer]")[0].checked,
-                  Sensoren: html.find("[name=propSensoren]")[0].checked,
-                  Kybernetik: html.find("[name=propKybernetik]")[0].checked,
-                },
               };
             }
             if (element.dataset.type === "Waffe") {
@@ -575,16 +559,26 @@ export default class DSCharakcterSheet extends ActorSheet {
   async _onChangeProp(event) {
     const actordata = this.actor.data.data;
     const element = event.currentTarget;
+
     const healthMod = await renderTemplate(
       "systems/darkspace/templates/dice/dialogHealthMod.html"
     );
-    //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
-    console.log(element.dataset.fieldtype);
+    const parentAttr = element.dataset.parentattr;
+    const parentProp = this.actor.data.items.filter((p) => {
+      return p.data.data.attribut === parentAttr;
+    });
+    const propList = parentProp.filter((a) => {
+      return a.type === "Eigenschaft";
+    });
+    const editAttr = await renderTemplate(
+      "systems/darkspace/templates/dice/dialogPropAttr.html",
+      propList
+    );
+    //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
     // Testet welcher Property-Button gedrückt wurde //
     if (element.dataset.fieldtype === "health") {
-      console.log("Test");
       let bruisesBonus;
       let woundsBonus;
       new Dialog({
@@ -609,6 +603,33 @@ export default class DSCharakcterSheet extends ActorSheet {
             id: this.actor.id,
             "data.bruises.bonus": bruisesBonus,
             "data.wounds.bonus": woundsBonus,
+          });
+        },
+      }).render(true);
+    }
+
+    if (element.dataset.fieldtype === "editAttr") {
+      new Dialog({
+        title: "Eigenschaften",
+        content: editAttr,
+        buttons: {
+          button1: {
+            label: "OK",
+            callback: (html) => {
+              for (var i = 0; html.find("[type=checkbox]").length > i; i++) {
+                if (html.find("[type=checkbox]")[i].checked == true) {
+                  this.actor.deleteOwnedItem(
+                    html.find("[type=checkbox]")[i].dataset.itemId //Es wird nur das letzte Item gelöscht???
+                  );
+                }
+              }
+            },
+            icon: `<i class="fas fa-check"></i>`,
+          },
+        },
+        close: () => {
+          this.actor.update({
+            id: this.actor.id,
           });
         },
       }).render(true);

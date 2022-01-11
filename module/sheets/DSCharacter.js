@@ -13,11 +13,10 @@ export default class DSCharacter extends Actor {
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
 
-    //Eigenschaften
+    // //Eigenschaften
     var propertyList = actorData.items.filter((e) => {
       return e.type === "Eigenschaft";
     });
-    console.log(propertyList);
 
     if (this.type != "DrohneFahrzeug") {
       var weaponList = actorData.items.filter((f) => {
@@ -151,15 +150,15 @@ export default class DSCharacter extends Actor {
 
       // Erholung
 
-      let trauma = data.charattribut.Konzentration.ress.value;
-      if (trauma <= 3) {
-        data.comfortCr = 16;
+      let geistespunkte = data.charattribut.Konzentration.ress.value;
+      if (geistespunkte <= 3) {
+        data.comfortCr = 20;
       }
-      if (trauma > 3 && trauma < 7) {
+      if (geistespunkte > 3 && geistespunkte < 7) {
         data.comfortCr = 18;
       }
-      if (trauma >= 7) {
-        data.comfortCr = 20;
+      if (geistespunkte >= 7) {
+        data.comfortCr = 16;
       }
 
       // // Kybernese

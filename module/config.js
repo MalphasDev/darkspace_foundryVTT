@@ -1,8 +1,6 @@
 export const darkspace = {};
 import * as DSCharakter from "./sheets/DSCharacter.js";
 
-console.log(darkspace);
-
 darkspace.attackTypes = {
   none: "",
   Schusswaffen: "Schusswaffen",

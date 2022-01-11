@@ -267,6 +267,9 @@ ul {
 .col3-122 {
   grid-template-columns: 1fr 2fr 2fr;
 }
+.col3-231 {
+  grid-template-columns: 2fr 3fr 1fr;
+}
 .col4 {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -387,11 +390,32 @@ label > *:hover {
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
-.Eigenschaftname {
-  border-left: 1px solid;
-  margin: 4px 0 0 0;
-  padding: 0 5px;
-  font-size: 1.2em;
+.propertyListElement {
+  display: inline-block;
+}
+.propertyListElement > div > p {
+  border: 1px solid;
+  border-radius: 4px;
+  width: max-content;
+  padding: 0px 4px;
+  font-size: 8pt;
+  background-color: #c7c7c7;
+}
+.propertyListElement .handicap,
+.handicap {
+  background-color: rgb(70, 0, 0);
+  color: #fff;
+}
+.merit {
+  background-color: #008eff;
+}
+.handlicapCheck {
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  width: 100%;
+  border: 1px solid;
+  margin: 5px 0 0 0;
 }
 .anmerkung {
   color: rgb(124, 124, 124);
