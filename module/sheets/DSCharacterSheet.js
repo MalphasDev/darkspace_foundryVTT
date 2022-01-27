@@ -34,7 +34,6 @@ export default class DSCharakcterSheet extends ActorSheet {
   getData() {
     let data = super.getData();
 
-    //data.config = CONFIG.darkspace;
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
 
     let itemType = Array.from(
@@ -77,9 +76,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     html.find(".rollItem").click(this._onRollItem.bind(this));
     html.find(".roll-btn").click(this._onCustomRoll.bind(this));
     html.find(".incRess, .decRess").click(this._onModRess.bind(this));
-    html
-      .find(".decWounds, .incWounds, .decBruises, .incBruises")
-      .click(this._onModHealth.bind(this));
     html.find(".changeProp").click(this._onChangeProp.bind(this));
     html.find(".unarmedCombat").click(this._onUnarmedCombat.bind(this));
     html.find(".directRoll").click(this._onDirectRoll.bind(this));
@@ -138,6 +134,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynattr: dynattr,
       dynskill: dynskill,
       roleData: roleData,
+      object: this.object,
     };
     DSMechanics.modRolls(inputData, event);
   }
@@ -158,6 +155,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynattr: dynattr,
       dynskill: dynskill,
       roleData: roleData,
+      object: this.object,
     };
 
     DSMechanics._resolveDice(inputData, event);
@@ -525,43 +523,13 @@ export default class DSCharakcterSheet extends ActorSheet {
       [attrKey]: newInc,
     });
   }
-  async _onModHealth(event) {
-    let currHealth = {
-      bruises: this.actor.data.data.bruises.value,
-      wounds: this.actor.data.data.wounds.value,
-    };
-    let modBruises;
-    let modWounds;
-
-    if (event.currentTarget.className.includes("decBruises")) {
-      modBruises = -1;
-      modWounds = 0;
-    }
-    if (event.currentTarget.className.includes("incBruises")) {
-      modBruises = 1;
-      modWounds = 0;
-    }
-    if (event.currentTarget.className.includes("decWounds")) {
-      modBruises = 0;
-      modWounds = -1;
-    }
-    if (event.currentTarget.className.includes("incWounds")) {
-      modBruises = 0;
-      modWounds = 1;
-    }
-
-    this.actor.update({
-      id: this.actor.id,
-      "data.bruises.value": currHealth.bruises + modBruises,
-      "data.wounds.value": currHealth.wounds + modWounds,
-    });
-  }
   async _onChangeProp(event) {
     const actordata = this.actor.data.data;
     const element = event.currentTarget;
 
-    const healthMod = await renderTemplate(
-      "systems/darkspace/templates/dice/dialogHealthMod.html"
+    const conditions = await renderTemplate(
+      "systems/darkspace/templates/dice/dialogConditions.html",
+      { config: CONFIG.darkspace, data: actordata }
     );
 
     const parentAttr = element.dataset.parentattr;
@@ -578,31 +546,29 @@ export default class DSCharakcterSheet extends ActorSheet {
     //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
     // Testet welcher Property-Button gedrückt wurde //
-    if (element.dataset.fieldtype === "health") {
-      let bruisesBonus;
-      let woundsBonus;
+    if (element.dataset.fieldtype === "conditions") {
+      var newConditionList = [];
       new Dialog({
         title: "Gesundheit modifizieren",
-        content: healthMod,
+        content: conditions,
         buttons: {
           button1: {
             label: "OK",
             callback: (html) => {
-              bruisesBonus = parseInt(
-                html.find("[name=bruisesBonusInput]")[0].value
-              );
-              woundsBonus = parseInt(
-                html.find("[name=woundsBonusInput]")[0].value
-              );
+              for (var i = 0; html.find("[type=checkbox]").length > i; i++) {
+                if (html.find("[type=checkbox]")[i].checked == true) {
+                  newConditionList.push(i);
+                }
+              }
             },
+
             icon: `<i class="fas fa-check"></i>`,
           },
         },
         close: () => {
           this.actor.update({
             id: this.actor.id,
-            "data.bruises.bonus": bruisesBonus,
-            "data.wounds.bonus": woundsBonus,
+            "data.conditions": newConditionList,
           });
         },
       }).render(true);

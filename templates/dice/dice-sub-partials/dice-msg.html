@@ -1,25 +1,48 @@
 <div class="flexDice">
-    {{#each this.evalDice}}
-    <span class="evalDice">{{this}}</span>
-    {{/each}}
     
-    {{#each this.kritDice}}
-    <span class="kritDice">{{this}}</span>
-    {{/each}}
+    <span class="{{#if disadv}}unEvalDice{{else}}evalDice{{/if}}">{{evalDiceA}}</span>
+    <span class="evalDice">{{evalDiceB}}</span>
     
-    {{#each this.unEvalDice}}
-    <span style="color: rgb(110, 110, 110)">{{this}}</span>
+    <span class="{{#unless disadv}}unEvalDice{{else}}evalDice {{/unless}} {{#unless disadv}}{{#if msg}}kritDice{{/if}}{{/unless}}">{{evalDiceC}}</span>
+    <span class="{{#if disadv}}{{#if msg}} kritDice{{/if}}{{/if}} unEvalDice">{{evalDiceD}}</span>
+    
+    
+    {{#each unEvalDice}}
+    <span class="unEvalDice">{{this}}</span>
     {{/each}}
 
-    <span>( + {{this.terms.[2].number}})</span>
+    <span>( + {{terms.[2].number}})</span>
 </div>
 
 <hr>    
 
-<div class="flexResult">{{this._total}}</div>
-{{#if this.msg}}
-<p class="text_c">{{this.msg}}</p>
+<div class="flexResult">{{_total}}</div>
+{{#if msg}}
+<p class="text_c">{{msg}}</p>
 {{/if}}
-{{#if this.disadv}}
-<p class="text_c">{{this.disadv}}</p>
-{{/if}}
+<ul>
+    {{#each merits}}
+    <li class="propertyListElement">
+        <div class="item" data-item-id="{{this._id}}">
+            <p class="Eigenschaftname"><i
+                    class="fas fa-dna"></i> {{name}}</p>
+        </div>
+    </li>
+    {{/each}}
+    {{#each handicaps}}
+    <li class="propertyListElement">
+        <div class="item" data-item-id="{{this._id}}">
+            <p class="Eigenschaftname handicap"><i
+                    class="fas fa-dna"></i> {{name}}</p>
+        </div>
+    </li>
+    {{/each}}
+    {{#each cybernetics}}
+    <li class="propertyListElement">
+        <div class="item" data-item-id="{{this._id}}">
+            <p class="Eigenschaftname artifizierung"><i
+                    class="fas fa-user-cog"></i> {{name}}</p>
+        </div>
+    </li>
+    {{/each}}
+</ul>

@@ -1,6 +1,6 @@
 export const darkspace = {};
 import * as DSCharakter from "./sheets/DSCharacter.js";
-
+console.log(darkspace);
 darkspace.attackTypes = {
   none: "",
   Schusswaffen: "Schusswaffen",
@@ -41,3 +41,34 @@ darkspace.attr = [
   "Netzwerk",
   "Ressourcen",
 ];
+
+darkspace.conditions = {
+  con0: {
+    value: "Außer Gefecht",
+    active: false,
+  },
+  con1: {
+    value: "Blutung",
+    active: false,
+  },
+  con2: {
+    value: "Bewusstlos",
+    active: false,
+  },
+  con3: {
+    value: "Tod",
+    active: false,
+  },
+  con4: {
+    value: "Niederhalten",
+    active: false,
+  },
+  con5: {
+    value: "Verkrüppelt",
+    active: false,
+  },
+  con6: {
+    value: "Verwundet",
+    active: false,
+  },
+};

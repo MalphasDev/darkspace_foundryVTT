@@ -1,0 +1,9 @@
+<div>
+    <ul>
+        {{#each data.conditionList}}
+        <li><input type="checkbox" {{checked [1].active}} name="data.conditions.active" value="{{@index}}">
+            {{[1].value}}</li>
+        {{/each}}
+    </ul>
+
+</div>

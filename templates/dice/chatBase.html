@@ -1,14 +1,18 @@
 <div>
-    <div class="grid col3-231">
-        <span class="anmerkung">Würfelpool:</span>
-        <span class="anmerkung">{{attr}}W ({{attribute}})</span>
-        <span class="anmerkung">+ {{attrModLocal}}W</span>
-        <span class="anmerkung">Fertigkeit:</span>
-        <span class="anmerkung">+{{skillValue}} ({{skill}})</span>
-        <span class="anmerkung">+ {{fertModLocal}}</span>
+    <div>
+        <div class="grid col3-231">
+            <span class="anmerkung">Würfelpool:</span>
+            <span class="anmerkung">{{attr}}W ({{attribute}})</span>
+            <span class="anmerkung">+ {{attrModLocal}}W</span>
+            <span class="anmerkung">Fertigkeit:</span>
+            <span class="anmerkung">+{{skillValue}} ({{skill}})</span>
+            <span class="anmerkung">+ {{fertModLocal}}</span>
+        </div>
+        {{#if this.disadv}}<hr><p class="red text_c">{{this.disadv}}</p>{{/if}}
+        
+        <hr>
+        
+        {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
     </div>
     
-    <hr>
-    
-    {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
 </div>

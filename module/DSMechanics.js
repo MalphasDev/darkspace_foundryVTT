@@ -9,15 +9,14 @@ export function rollDice(rollDiceData) {
   let roleData = rollDiceData.roleData;
   let removehighest = rollDiceData.removehighest;
   let item;
-
   let rollformular;
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
   // ------------------------------------- //
 
-  attrModLocal++ ? attrModLocal : (attrModLocal = 0);
-  fertModLocal++ ? fertModLocal : (fertModLocal = 0);
+  attrModLocal++ ? attrModLocal-- : (attrModLocal = 0);
+  fertModLocal++ ? fertModLocal-- : (fertModLocal = 0);
 
   var attr = dynattr + attrModLocal;
   var skill = dynskill + fertModLocal;
@@ -58,34 +57,73 @@ export function rollDice(rollDiceData) {
   for (var i = 0; i < rollResult.terms[0].results.length; i++) {
     dices.push(rollResult.terms[0].results[i].result);
   }
+
+  // ------------------------------ //
+  // Zusammenstellen der Chat-Daten //
+  // ------------------------------ //
+
   let fullDice = dices.sort((a, b) => b - a);
-  let evalDice = [fullDice[0], fullDice[1]];
-  let kritDice = [fullDice[2]];
-  let unEvalDice = fullDice.splice(3, 100);
+  let evalDiceA = fullDice[0];
+  let evalDiceB = fullDice[1];
+  let evalDiceC = fullDice[2];
+  let evalDiceD = fullDice[3];
+  let unEvalDice = fullDice.splice(4, 100);
 
   let diceResult = {
     attr: dynattr,
     skillValue: dynskill,
     attrModLocal: attrModLocal,
     fertModLocal: fertModLocal,
-    evalDice: evalDice,
-    kritDice: kritDice,
+    evalDiceA: evalDiceA,
+    evalDiceB: evalDiceB,
+    evalDiceC: evalDiceC,
+    evalDiceD: evalDiceD,
     unEvalDice: unEvalDice,
   };
+
+  let merits = rollDiceData.object.data.items
+    .filter((i) => {
+      return i.type === "Eigenschaft";
+    })
+    .filter((j) => {
+      return j.data.data.handicap === false;
+    })
+    .filter((k) => {
+      return k.data.data.attribut === roleData.attribute;
+    });
+  let handicaps = rollDiceData.object.data.items
+    .filter((i) => {
+      return i.type === "Eigenschaft";
+    })
+    .filter((j) => {
+      return j.data.data.handicap === true;
+    })
+    .filter((k) => {
+      return k.data.data.attribut === roleData.attribute;
+    });
+  let cybernetics = rollDiceData.object.data.items
+    .filter((i) => {
+      return i.type === "Artifizierung";
+    })
+    .filter((k) => {
+      return k.data.data.attribut === roleData.attribute;
+    });
+
   let cardData = {
-    ...this.data,
     ...roleData,
     ...rollResult,
     ...diceResult,
     ...resultMessage,
     ...disadvMessage,
+    merits: merits,
+    handicaps: handicaps,
+    cybernetics: cybernetics,
     owner: actorId,
   };
 
   if (rollDiceData.item != undefined) {
     item = rollDiceData.item.data;
     cardData = {
-      ...this.data,
       ...roleData,
       ...rollResult,
       ...diceResult,

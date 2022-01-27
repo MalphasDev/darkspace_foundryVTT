@@ -157,6 +157,7 @@ input:disabled {
 
 .editor .editor-content {
   min-height: 400px;
+  max-width: calc(100% - 40px);
 }
 
 input[type="number"] {
@@ -409,6 +410,9 @@ label > *:hover {
 .merit {
   background-color: #008eff;
 }
+.propertyListElement .artifizierung {
+  background-color: rgb(169, 202, 202);
+}
 .handlicapCheck {
   padding: 5px 10px;
   border-radius: 5px;
@@ -418,7 +422,7 @@ label > *:hover {
   margin: 5px 0 0 0;
 }
 .anmerkung {
-  color: rgb(124, 124, 124);
+  opacity: 0.75;
   font-size: 0.9em;
 }
 .actorimg {
@@ -459,6 +463,9 @@ label > *:hover {
 }
 .evalDice {
   font-weight: bold;
+}
+.unEvalDice {
+  color: rgb(161, 161, 161);
 }
 .kritDice {
   color: var(--main-color);

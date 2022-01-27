@@ -44,6 +44,15 @@
                 </div>
                
             </div>
+            <div>
+                <ul class="item-list">
+                    {{#each items}}
+                    <li class="item" data-item-id="{{this._id}}">
+                        {{name}} <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
             
             
         </section>

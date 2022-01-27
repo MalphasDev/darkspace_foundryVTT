@@ -3,19 +3,17 @@
     "types": ["Charakter", "Nebencharakter", "DrohneFahrzeug"],
     "templates": {
       "commonStats": {
-        "Panzerung": {
-          "Struktur": 0,
-          "Schutz": 0
-        },
         "customroll": {
           "dice": 2,
           "bonus": 0
         },
+        "conditions": [],
         "initMod": 0,
         "notes": ""
       }
     },
     "Charakter": {
+      "templates": ["commonStats"],
       "description": "",
       "quote": "",
       "xp": {
@@ -23,24 +21,13 @@
         "max": 0
       },
 
-      "bruises": {
-        "value": 0,
-        "max": 5,
-        "bonus": 0
-      },
-      "wounds": {
-        "value": 0,
-        "max": 5,
-        "bonus": 0
-      },
-
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
           "skill": {
             "Fahrzeuge": 0,
+            "Fokus": 0,
             "Menschenkenntnis": 0,
-            "Schätzen": 0,
             "Wahrnehmen": 0
           }
         },
@@ -196,6 +183,12 @@
           "skill": {
             "Intellekt": 0
           }
+        },
+        "Gesellschaftlich": {
+          "attribut": 0,
+          "skill": {
+            "Sozial": 0
+          }
         }
       },
 
@@ -253,7 +246,7 @@
       "templates": ["itemBase"]
     },
     "Artifizierung": {
-      "bodyPart": "Körper",
+      "attribut": "",
       "templates": ["itemBase"]
     },
     "Panzerung": {

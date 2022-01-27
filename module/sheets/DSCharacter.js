@@ -9,6 +9,7 @@ export default class DSCharacter extends Actor {
     const actorData = this.data;
     const data = actorData.data;
     const flags = actorData.flags;
+    const config = CONFIG.darkspace;
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
@@ -17,6 +18,33 @@ export default class DSCharacter extends Actor {
     var propertyList = actorData.items.filter((e) => {
       return e.type === "Eigenschaft";
     });
+
+    // Zustand
+    data.conditionList = Object.entries(config.conditions).map((i) => {
+      return i;
+    });
+    CONFIG.darkspace.update({
+      test2: "testing",
+    });
+    console.log(CONFIG.darkspace);
+
+    console.log("data.conditions.length: " + data.conditions.length);
+    var activeConditions = [];
+    for (var i = 0; data.conditionList.length > i; i++) {
+      activeConditions.push(data.conditionList[i][1].active);
+      data.conditionList[i][1].active = false;
+    }
+    for (var i = 0; data.conditions.length > i; i++) {
+      data.conditionList[data.conditions[i]][1].active = true;
+    }
+    data.activeConditions = activeConditions;
+    data.activeConditionList = data.conditionList
+      .filter((a) => {
+        return a[1].active;
+      })
+      .map((b) => {
+        return b[1].value;
+      });
 
     if (this.type != "DrohneFahrzeug") {
       var weaponList = actorData.items.filter((f) => {
@@ -32,21 +60,6 @@ export default class DSCharacter extends Actor {
         return i.data.type === "Artifizierung";
       });
 
-      data.conditions = [];
-
-      data.bruisesName = "Betäubungen";
-      data.woundsName = "Verletzungen";
-
-      if (data.bruises.value === data.bruises.max) {
-        data.conditions.push("Leichtes Ziel");
-      }
-      if (data.wounds.value >= data.wounds.max) {
-        data.conditions.push("Außer Gefecht");
-      }
-      if (parseInt(data.wounds.value) >= 10) {
-        data.conditions.push("Tod");
-      }
-
       // Panzerung
 
       let armorListEquipped = armorList.filter((e) => {
@@ -61,15 +74,13 @@ export default class DSCharacter extends Actor {
 
       let SchutzArray = Array.from(
         armorList.map((a) => {
-          return a.data.data.protection;
+          return a.data.data.mk;
         })
       );
       SchutzArray.push(0);
 
-      let addedArmors = Math.min(Math.max(StrukturArray.length - 2, 0), 2);
-
       data.Struktur = Math.max(...StrukturArray);
-      data.Schutz = Math.max(...SchutzArray) + addedArmors;
+      data.Schutz = Math.max(...SchutzArray);
 
       data.unarmedName = "Waffenloser Kampf";
     }
@@ -272,6 +283,7 @@ export default class DSCharacter extends Actor {
   }
   async _preCreate() {
     // Player character configuration
+    const actorData = this.data;
     if (this.type === "Charakter") {
       actorData.token.update({ vision: true, actorLink: true, disposition: 1 });
     }
