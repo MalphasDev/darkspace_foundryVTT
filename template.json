@@ -189,6 +189,12 @@
           "skill": {
             "Sozial": 0
           }
+        },
+        "Kybernese": {
+          "attribut": 1,
+          "skill": {
+            "Synthese": 0
+          }
         }
       },
 
@@ -236,7 +242,6 @@
       "attackWith": "Schusswaffen",
       "range": "0-10/20/100",
       "rangeBonus": 0,
-      "dmgtype": "B",
       "templates": ["itemBase"]
     },
     "Werkzeug": {

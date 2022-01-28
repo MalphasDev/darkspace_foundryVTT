@@ -8,19 +8,12 @@
     <div class="sheet-content"> <!--Itemsheet-Body-->
         <div class="grid col4-2211 gridcenter">
             
-            <div class="grid col2-12 nogap gridcenter"> <!-- Box für Schaden -->
+            <div class="grid col2-12 nogap gridcenter"> <!-- Box für Durchschlag -->
                 <i class="fas fa-bolt cell_c doublesize"></i>
                 <div>
-                    <span class="flex">Schaden</span>
+                    <span class="flex">Durchschlag</span>
                     <div class="container_center">
-                        <span class="derivedValue">{{data.data.dmg}}</span>
-                        <select name="data.dmgtype">
-                            {{#select data.data.dmgtype}}
-                            {{#each config.dmgtype}}
-                            <option name="data.dmgtype" value="{{@key}}" type="text">{{this}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
+                        <span class="derivedValue"></i>{{data.data.dmg}}</span>
                     </div>
                 </div>
             </div>

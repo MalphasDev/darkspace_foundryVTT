@@ -1,48 +1,44 @@
 <section>
-    
-    <div class="grid col2-13">
+    <h1 class="charname">
+        <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
+    </h1>
+    <div class="grid col3-232">
         
         <!--Spalte 1-->
         <div class="grid">
-            <h2 class="charname">
-                <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
-            </h2>
+            
             <img class="actorimg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
             
         </div>
         
-        <div>
-            <div class="grid col2">
-                <!--Spalte 2-->
-            <div class="cell_t">
-                <h2>Schnellwahl</h2>
-                {{> "systems/darkspace/templates/partials/sub-partials/combat-initiative.html"}} 
-                <hr>
-                {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
-                <hr>
-                {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
-            </div>
+
+        <!--Spalte 2-->
+        <div class="cell_t">
+            <h2>Schnellwahl</h2>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-initiative.html"}} 
+            <hr>
+            {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
+            <hr>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
+        </div>
             
-            <!--Spalte 3-->
-            <div class="cell_t">
+        <!--Spalte 3-->
+        <div class="cell_t">
                 
-                <div>
-                    <h2>Erfahrung</h2>
-                    <div class="flex between">
-                        <span>EP</span> 
-                        <div>
-                            <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
-                            <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
-                        </div>     
-                        
-                    </div>
+            <div>
+                <h2>Erfahrung</h2>
+                <div class="flex between">
+                    <span>EP</span> 
+                    <div>
+                        <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
+                        <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
+                    </div>                     
                 </div>
-                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
             </div>
-            </div>
+            {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
         </div>
     </div>
-
+</section>
     <div>
             
         
@@ -54,6 +50,4 @@
             <a class="item" data-tab="downtime">Downtime</a>
         </nav>
     </div>
-    
 
-</section>

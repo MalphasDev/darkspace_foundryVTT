@@ -23,12 +23,7 @@ export default class DSCharacter extends Actor {
     data.conditionList = Object.entries(config.conditions).map((i) => {
       return i;
     });
-    CONFIG.darkspace.update({
-      test2: "testing",
-    });
-    console.log(CONFIG.darkspace);
 
-    console.log("data.conditions.length: " + data.conditions.length);
     var activeConditions = [];
     for (var i = 0; data.conditionList.length > i; i++) {
       activeConditions.push(data.conditionList[i][1].active);
@@ -86,31 +81,6 @@ export default class DSCharacter extends Actor {
     }
 
     if (this.type === "Charakter") {
-      data.charattribut.Ressourcen.ress.max = 10; // Nach Aktualisierung entfernen
-
-      data.bruises.value < 0 ? (data.bruises.value = 0) : data.bruises.value;
-      data.wounds.value < 0 ? (data.wounds.value = 0) : data.wounds.value;
-
-      data.bruises.value > data.bruises.max
-        ? (data.bruises.value = data.bruises.max)
-        : data.bruises.value;
-      data.wounds.value > 10 ? (data.wounds.value = 10) : data.wounds.value;
-
-      data.bruises.max =
-        5 +
-        data.bruises.bonus +
-        Math.floor(data.charattribut.Konzentration.attribut / 6);
-      data.wounds.max =
-        5 +
-        data.wounds.bonus +
-        Math.floor(data.charattribut.Konstitution.attribut / 6);
-
-      data.bruises.remaining = Math.max(
-        data.bruises.max - data.bruises.value,
-        0
-      );
-      data.wounds.remaining = Math.max(data.wounds.max - data.wounds.value, 0);
-
       data.initiative = Math.ceil(
         (data.charattribut.Aufmerksamkeit.attribut +
           data.charattribut.Geschick.attribut +
@@ -185,11 +155,10 @@ export default class DSCharacter extends Actor {
       //   0
       // );
 
-      // Waffenloser Schaden
+      // Waffenloser Durchschlag
 
       data.unarmedDmg =
         2 + Math.floor(data.charattribut.Konstitution.attribut / 6);
-      data.unarmedDmgType = "B";
     }
 
     if (this.type === "Nebencharakter") {
@@ -202,10 +171,9 @@ export default class DSCharacter extends Actor {
         data.wounds.bonus +
         Math.floor(data.charattribut.Körperlich.attribut / 6);
 
-      // Waffenloser Schaden
+      // Waffenloser Durchschlag
       data.unarmedDmg =
         2 + Math.floor(data.charattribut.Körperlich.attribut / 6);
-      data.unarmedDmgType = "B";
 
       data.initiative = data.Bedrohungsstufe;
 
@@ -256,7 +224,7 @@ export default class DSCharacter extends Actor {
       data.Struktur = data.structure;
       data.Schutz = Math.ceil(data.mk / 2);
 
-      // Waffenloser Schaden
+      // Waffenloser Durchschlag
       data.unarmedHide = true;
 
       // Handling

@@ -81,7 +81,9 @@ export function rollDice(rollDiceData) {
     unEvalDice: unEvalDice,
   };
 
-  let merits = rollDiceData.object.data.items
+  console.log(rollDiceData);
+
+  var merits = rollDiceData.object.data.items
     .filter((i) => {
       return i.type === "Eigenschaft";
     })
@@ -91,7 +93,7 @@ export function rollDice(rollDiceData) {
     .filter((k) => {
       return k.data.data.attribut === roleData.attribute;
     });
-  let handicaps = rollDiceData.object.data.items
+  var handicaps = rollDiceData.object.data.items
     .filter((i) => {
       return i.type === "Eigenschaft";
     })
@@ -101,7 +103,7 @@ export function rollDice(rollDiceData) {
     .filter((k) => {
       return k.data.data.attribut === roleData.attribute;
     });
-  let cybernetics = rollDiceData.object.data.items
+  var cybernetics = rollDiceData.object.data.items
     .filter((i) => {
       return i.type === "Artifizierung";
     })

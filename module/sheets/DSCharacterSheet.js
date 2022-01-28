@@ -43,7 +43,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     );
 
     for (let i = 0; i < itemType.length; i++) {
-      data[itemType[i]] = data.items.filter(function (item) {
+      data[itemType[i]] = data.items.filter((item) => {
         return item.type == itemType[i];
       });
     }
@@ -93,7 +93,9 @@ export default class DSCharakcterSheet extends ActorSheet {
       actorId: this.actor.id,
       actorData: actorData,
       removehighest: element.className.includes("disadv"),
+      object: this.object,
     };
+
     return inputData;
   }
 
@@ -155,7 +157,6 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynattr: dynattr,
       dynskill: dynskill,
       roleData: roleData,
-      object: this.object,
     };
 
     DSMechanics._resolveDice(inputData, event);
@@ -168,13 +169,13 @@ export default class DSCharakcterSheet extends ActorSheet {
     if (this.object.data.type === "Charakter") {
       var dynattr = actorData.charattribut.Geschick.attribut;
       var dynskill = actorData.charattribut.Geschick.skill.Kampftechnik;
+      var roleData = { attribute: "Geschick", skill: "Kampftechnik" };
     }
     if (this.object.data.type === "Nebencharakter") {
       var dynattr = actorData.charattribut.Nahkampf.attribut;
       var dynskill = actorData.charattribut.Nahkampf.skill.Kampftechnik;
+      var roleData = { attribute: "Nahkampf", skill: "Kampftechnik" };
     }
-
-    var roleData = { attribute: "", skill: "Bonus" };
 
     let preCreatedInput = this.createInputData(event);
     let inputData = {
@@ -182,6 +183,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynattr: dynattr,
       dynskill: dynskill,
       roleData: roleData,
+      type: "unarmedAttack",
     };
 
     DSMechanics.modRolls(inputData, event);
@@ -193,8 +195,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
     let dynattr = parseInt(dataset.dice);
     let dynskill = parseInt(dataset.bonus);
-
-    var roleData = { attribute: "", skill: dataset.rollname };
+    var roleData = { attribute: dataset.attr, skill: dataset.rollname };
 
     let preCreatedInput = this.createInputData(event);
     let inputData = {
@@ -324,8 +325,6 @@ export default class DSCharakcterSheet extends ActorSheet {
             if (element.dataset.type === "Waffe") {
               newItemData = {
                 ...newItemData,
-                dmgtype: html.find("[name=newDamageType]")[0].selectedOptions[0]
-                  .innerHTML,
                 ranged: html.find("[name=newRange]")[0].checked,
               };
             }

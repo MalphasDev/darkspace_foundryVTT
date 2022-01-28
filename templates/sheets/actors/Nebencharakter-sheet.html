@@ -2,10 +2,10 @@
     
     
     
+    <h3 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h3>
     <div class="grid col3">
         <div>
             <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-            <h3 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h3>
             <div class="grid col2 gridcenter">
                 <div>
                     <span>BS</span>
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+        
         <div>
             <h2>Schnellwahl</h2>
             {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
@@ -23,14 +23,17 @@
             {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
 
         </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
     </div>
+</div>
 
     {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
 
-    <div class="grid col2">
-        {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
-        {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
-        {{> "systems/darkspace/templates/partials/sub-partials/stat-property.html"}}
+    <div>
+        <div class="grid col2">
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
+        </div>
         {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
     </div>
     
