@@ -2,9 +2,13 @@ export default class DSCombatTracker extends CombatTracker {
   get template() {
     return "systems/darkspace/templates/sidebar/combat-tracker.html";
   }
-  getData(html) {
-    var data = super.getData(html);
+  async getData(options) {
+    const context = await super.getData(options);
     const combat = this.viewed;
+
+    context.turns.forEach((turn) => {
+      turn.flags = context.combat.combatants.get(turn.id)?.data.flags;
+    });
 
     if (combat != null) {
       if (combat.sendAE == undefined) {
@@ -20,9 +24,9 @@ export default class DSCombatTracker extends CombatTracker {
       }
     }
 
-    return data;
+    return context;
   }
-  get turns() {}
+
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".aeCost").change(this._increaseAE.bind(this));
@@ -72,36 +76,54 @@ export default class DSCombatTracker extends CombatTracker {
 
     var aeCost;
 
-    if (game.settings.get("darkspace", "ae_input") == "ae_button") {
+    if (game.settings.get("darkspace", "ae_input") === "ae_button") {
       if (event.currentTarget.className.includes("aeCostCustom")) {
         aeCost = parseInt(document.getElementById("customAE").value);
       } else {
         aeCost = parseInt(event.currentTarget.dataset.aecost);
       }
 
+      // Zurücksetzen oder nicht zurücksetzen. Das wird hier gefragt!
       if (aeCost === 0) {
+        // Wenn aeCost === 0 bzw. +0 Ae übergeben wird entspricht einem Reset
         combat.sendAE = 0;
+        // for (var i = 0; Array.from(combat.data.combatants).length > i; i++) {
+        //   combat.data.combatants
+        //     .map((j) => {
+        //       return j;
+        //     })
+        //     [i].setFlag("darkspace", "target", false);
+        // }
       } else {
         combat.sendAE += parseInt(aeCost);
       }
     }
 
-    if (game.settings.get("darkspace", "ae_input") == "ae_slider") {
+    if (game.settings.get("darkspace", "ae_input") === "ae_slider") {
       combat.sendAE = parseInt(event.currentTarget.value);
     }
 
     // TODO: ++++ FEATURE: Combatants denen eine Reflexaktion zusteht erkennen ++++
 
-    // var newIni = currentCombatantIni + combat.sendAE;
+    var newIni = currentCombatantIni + combat.sendAE;
 
     // for (var i = 0; combatantList.length > i; i++) {
-    //   console.log(parseInt(combatantList[i][1]) < parseInt(newIni));
     //   if (parseInt(combatantList[i][1]) < parseInt(newIni)) {
     //     combat.data.combatants
     //       .get(combatantList[i][0])
     //       .setFlag("darkspace", "target", true);
     //   }
     // }
+    console.log(combat.turns);
+    combat.turns.forEach((combatant) => {
+      combatant.data.flags.darkspace.target =
+        combatant.initiative <= parseInt(newIni);
+
+      // console.log(combatant.initiative + " <= " + newIni);
+      // console.log(targetState);
+      // console.log(combatant.getFlag("darkspace", "target"));
+      // console.log(combatant.data.flags.darkspace.target);
+    });
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

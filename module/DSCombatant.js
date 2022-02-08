@@ -21,8 +21,5 @@ export default class DSCombatant extends Combatant {
   }
   async _onUpdate(data, options, userID) {
     await super._onCreate(data, options, userID);
-    console.log(
-      this.data.document.name + ": " + this.data.flags.darkspace.target
-    );
   }
 }

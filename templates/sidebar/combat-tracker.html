@@ -58,8 +58,12 @@
 
     <ol id="combat-tracker" class="directory-list">
         {{#each turns}}
-        
-        <li class="combatant actor directory-item flexrow {{this.css}}" data-combatant-id="{{this.id}}">
+        {{log this}}
+        {{#if this.flags.darkspace.target}}
+            <li class="combatant actor directory-item flexrow {{this.css}} target" data-combatant-id="{{this.id}}">
+            {{else}}
+            <li class="combatant actor directory-item flexrow {{this.css}}" data-combatant-id="{{this.id}}">
+        {{/if}}
             <img class="token-image" data-src="{{this.img}}" title="{{this.name}}"/>
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
