@@ -81,36 +81,35 @@ export function rollDice(rollDiceData) {
     unEvalDice: unEvalDice,
   };
 
-  console.log(rollDiceData);
-
-  var merits = rollDiceData.object.data.items
-    .filter((i) => {
-      return i.type === "Eigenschaft";
-    })
-    .filter((j) => {
-      return j.data.data.handicap === false;
-    })
-    .filter((k) => {
-      return k.data.data.attribut === roleData.attribute;
-    });
-  var handicaps = rollDiceData.object.data.items
-    .filter((i) => {
-      return i.type === "Eigenschaft";
-    })
-    .filter((j) => {
-      return j.data.data.handicap === true;
-    })
-    .filter((k) => {
-      return k.data.data.attribut === roleData.attribute;
-    });
-  var cybernetics = rollDiceData.object.data.items
-    .filter((i) => {
-      return i.type === "Artifizierung";
-    })
-    .filter((k) => {
-      return k.data.data.attribut === roleData.attribute;
-    });
-
+  if (Object.keys(rollDiceData.object).length != 0) {
+    var merits = rollDiceData.object.data.items
+      .filter((i) => {
+        return i.type === "Eigenschaft";
+      })
+      .filter((j) => {
+        return j.data.data.handicap === false;
+      })
+      .filter((k) => {
+        return k.data.data.attribut === roleData.attribute;
+      });
+    var handicaps = rollDiceData.object.data.items
+      .filter((i) => {
+        return i.type === "Eigenschaft";
+      })
+      .filter((j) => {
+        return j.data.data.handicap === true;
+      })
+      .filter((k) => {
+        return k.data.data.attribut === roleData.attribute;
+      });
+    var cybernetics = rollDiceData.object.data.items
+      .filter((i) => {
+        return i.type === "Artifizierung";
+      })
+      .filter((k) => {
+        return k.data.data.attribut === roleData.attribute;
+      });
+  }
   let cardData = {
     ...roleData,
     ...rollResult,

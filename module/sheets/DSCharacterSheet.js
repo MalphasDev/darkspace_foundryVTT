@@ -87,7 +87,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     event.preventDefault();
     const element = event.currentTarget;
     const actorData = this.object.data.data;
-
     let inputData = {
       eventData: element,
       actorId: this.actor.id,
@@ -96,6 +95,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       object: this.object,
     };
 
+    console.log(inputData);
     return inputData;
   }
 
@@ -192,7 +192,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
-
     let dynattr = parseInt(dataset.dice);
     let dynskill = parseInt(dataset.bonus);
     var roleData = { attribute: dataset.attr, skill: dataset.rollname };

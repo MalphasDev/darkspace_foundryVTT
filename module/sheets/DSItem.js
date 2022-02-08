@@ -11,12 +11,11 @@ export default class DSItem extends Item {
 
     data.attrList = configData.attr;
 
-    data.mkHalf = Math.ceil(data.mk * 0.5);
-
     // Struktur und Schutz //
-    data.baseStructure = parseInt(data.mk) + parseInt(data.size);
-    data.structure = data.baseStructure < 1 ? 1 : data.baseStructure;
-    data.protection = Math.floor(data.mk / 2);
+    data.structure =
+      parseInt(data.mk) + parseInt(data.size) < 1
+        ? 1
+        : parseInt(data.mk) + parseInt(data.size);
 
     // Senorreichweite //
     data.sensorRange = Math.pow(data.mk, 2) * 10;
@@ -25,12 +24,7 @@ export default class DSItem extends Item {
     data.keep = Math.max(data.mk, data.size, 0);
 
     // Waffen //
-    data.mkdmg = Math.ceil(data.mk * 1, 5);
-    data.sizedmg = Math.ceil(data.size / 2);
-    if (data.dmgBonus === undefined) {
-      data.dmgBonus = 0;
-    }
-    data.dmg = Math.max(data.mkdmg + data.sizedmg + data.dmgBonus, 1);
+    data.dmg = data.mk;
 
     if (data.ranged === true) {
       data.sizeRange = Math.max(data.size, -3) + 4;

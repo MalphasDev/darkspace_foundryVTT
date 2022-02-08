@@ -1,1 +1,11 @@
-<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56.69 56.69"><defs><style>.cls-1{fill:#87433a;}</style></defs><path class="cls-1" d="M28.35,1.47A26.93,26.93,0,1,0,55.28,28.39,26.92,26.92,0,0,0,28.35,1.47ZM48.82,36.08l-5.56,5.56H13.43L7.87,36.08V27.73H19l4.32,4.33H33.42l4.32-4.33H48.82ZM37.21,24.73l-4.33,4.33H23.81l-4.32-4.33H7.87v-4l5.56-5.56H43.26l5.56,5.56v4Z"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 56.7 56.7" style="enable-background:new 0 0 56.7 56.7;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#00A7F5;}
+</style>
+<path class="st0" d="M28.4,1.5C13.5,1.5,1.4,13.5,1.4,28.4s12.1,26.9,26.9,26.9s26.9-12.1,26.9-26.9c0,0,0,0,0,0
+	C55.3,13.5,43.2,1.5,28.4,1.5C28.4,1.5,28.4,1.5,28.4,1.5z M48.8,36.1l-5.6,5.6H13.4l-5.6-5.6v-8.4H19l4.3,4.3h10.1l4.3-4.3h11.1
+	V36.1z M37.2,24.7l-4.3,4.3h-9.1l-4.3-4.3H7.9v-4l5.6-5.6h29.8l5.6,5.6v4H37.2z"/>
+</svg>

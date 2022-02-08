@@ -22,6 +22,7 @@ export default class DSCombatTracker extends CombatTracker {
 
     return data;
   }
+  get turns() {}
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".aeCost").change(this._increaseAE.bind(this));
@@ -34,7 +35,15 @@ export default class DSCombatTracker extends CombatTracker {
     const combat = this.viewed;
     var currentTargetId = this.getCurrentTargetId();
     var aeCost = combat.sendAE;
+
     combat.increaseAE(currentTargetId, aeCost);
+    for (var i = 0; Array.from(combat.data.combatants).length > i; i++) {
+      combat.data.combatants
+        .map((j) => {
+          return j;
+        })
+        [i].setFlag("darkspace", "target", false);
+    }
   }
 
   getCurrentTargetId(event) {
@@ -48,16 +57,21 @@ export default class DSCombatTracker extends CombatTracker {
   async _increaseAE(event) {
     //event.preventDefault();
     const combat = this.viewed;
+    var combatantList = this.combatantList();
+    const currentCombatantId = combatantList.filter((r) => {
+      return r[1];
+    })[0][0];
+    const currentCombatantIni = combatantList.filter((r) => {
+      return r[1];
+    })[0][1];
+
     if (combat.sendAE >= 0) {
     } else {
       combat.sendAE = 0;
     }
-    var currentTargetId = this.getCurrentTargetId();
 
     var aeCost;
 
-    //combat.sendAE = parseInt(event.currentTarget.dataset.aeCost);
-    //combat.update({sendAE: combat.sendAE})
     if (game.settings.get("darkspace", "ae_input") == "ae_button") {
       if (event.currentTarget.className.includes("aeCostCustom")) {
         aeCost = parseInt(document.getElementById("customAE").value);
@@ -71,9 +85,26 @@ export default class DSCombatTracker extends CombatTracker {
         combat.sendAE += parseInt(aeCost);
       }
     }
+
     if (game.settings.get("darkspace", "ae_input") == "ae_slider") {
       combat.sendAE = parseInt(event.currentTarget.value);
     }
+
+    // TODO: ++++ FEATURE: Combatants denen eine Reflexaktion zusteht erkennen ++++
+
+    // var newIni = currentCombatantIni + combat.sendAE;
+
+    // for (var i = 0; combatantList.length > i; i++) {
+    //   console.log(parseInt(combatantList[i][1]) < parseInt(newIni));
+    //   if (parseInt(combatantList[i][1]) < parseInt(newIni)) {
+    //     combat.data.combatants
+    //       .get(combatantList[i][0])
+    //       .setFlag("darkspace", "target", true);
+    //   }
+    // }
+
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     this.render();
   }
 
@@ -82,5 +113,16 @@ export default class DSCombatTracker extends CombatTracker {
     var currentTargetId = this.getCurrentTargetId();
     var options = {};
     combat._waitCombat(currentTargetId, options, event);
+  }
+  combatantList() {
+    const combat = this.viewed;
+    let combatantList = combat.data.combatants
+      .map((i) => {
+        return [i.id, i.data.initiative];
+      })
+      .sort((a, b) => {
+        return a[1] - b[1];
+      });
+    return combatantList;
   }
 }

@@ -1,3 +1,4 @@
+import * as DSMechanics from "./DSMechanics.js";
 export default class DSCombat extends Combat {
   _sortCombatants(a, b) {
     let aeA = parseInt(a.initiative) || 99999;
@@ -47,10 +48,11 @@ export default class DSCombat extends Combat {
   }
 
   rollInitiative(ids, options) {
-    var actorData = this.data.combatants;
+    const actorData = this.data.combatants;
     let preSortetCombatants = this.preSortetCombatants().filter((c) => {
       return c.data.initiative != undefined;
     });
+
     var isCombatStarted = this.getFlag("darkspace", "isCombatStarted")
       ? true
       : false;
@@ -79,24 +81,40 @@ export default class DSCombat extends Combat {
           })
         )[0];
         var actorByCombatantId = currentCombatant._actor.data;
-        var initRoll;
 
-        initRoll = new Roll(
-          actorByCombatantId.data.initiative + "d10xkh2",
-          {}
-        ).evaluate();
+        let dynattr = actorByCombatantId.data.initiative;
+        let dynskill = 0;
+        let roleData = { attribute: "Initiative", skill: "Initiative" };
+
+        let inputData = {
+          eventData: {},
+          actorId: currentCombatant.id,
+          actorData: actorData,
+          removehighest: false,
+          object: {},
+          dynattr: dynattr,
+          dynskill: dynskill,
+          roleData: roleData,
+        };
+
+        let outputData = DSMechanics.rollDice(inputData);
+        let messageData = outputData.messageData;
+        let cardData = outputData.cardData;
+        let currentRollClass = event.currentTarget.className;
+        let currentRoll;
+        console.log(outputData.cardData._total);
+
         this.updateCombatant({
           _id: id,
-          initiative: initRoll.total,
+          initiative: outputData.cardData._total,
         });
-
-        let chatdata = {
-          user: game.user.id,
-          speaker: { actor: currentCombatant.data.actorId },
-          roll: initRoll,
-          flavor: "würfelt Initiative",
-        };
-        initRoll.toMessage(chatdata, {});
+        // TODO: Template für Ini Wurf bauen
+        // let chatTempPath = {
+        //   Custom: "systems/darkspace/templates/dice/chatCustom.html",
+        // };
+        // messageData.content = renderTemplate(chatTempPath.Custom, cardData);
+        AudioHelper.play({ src: CONFIG.sounds.dice });
+        return ChatMessage.create(messageData);
       });
     }
 

@@ -4,6 +4,7 @@ import DSItem from "./module/sheets/DSItem.js";
 import DSCharacter from "./module/sheets/DSCharacter.js";
 import DSCharacterSheet from "./module/sheets/DSCharacterSheet.js";
 import DSCombat from "./module/DSCombat.js";
+import DSCombatant from "./module/DSCombatant.js";
 import DSCombatTracker from "./module/DSCombatTracker.js";
 import DSNebencharakter from "./module/sheets/DSNebencharakter.js";
 
@@ -79,6 +80,7 @@ Hooks.once("init", function () {
   console.log("DS | Initialisierung System");
 
   CONFIG.Combat.entityClass = DSCombat;
+  CONFIG.Combatant.documentClass = DSCombatant;
   CONFIG.ui.combat = DSCombatTracker;
   CONFIG.darkspace = darkspace;
   CONFIG.Actor.entityClass = DSCharacter;

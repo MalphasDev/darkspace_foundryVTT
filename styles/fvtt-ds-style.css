@@ -324,7 +324,7 @@ ul {
 }
 
 .col-weapons {
-  grid-template-columns: 45px 1fr 50px 130px 35px 45px 80px;
+  grid-template-columns: 45px 1fr 70px 110px 35px 45px 80px;
   gap: 0;
   align-items: center;
 }
@@ -337,6 +337,9 @@ ul {
 }
 .span4 {
   grid-column: 1 / span4;
+}
+.span23 {
+  grid-column: 2 / span2;
 }
 
 .cell_c {
@@ -533,4 +536,10 @@ input[id="newRanged"] + label[for="newRanged"]:after {
 }
 .opacity50 {
   opacity: 0.5;
+}
+.target {
+  color: red;
+}
+.test {
+  color: blue;
 }
