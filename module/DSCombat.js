@@ -1,7 +1,6 @@
 import * as DSMechanics from "./DSMechanics.js";
 export default class DSCombat extends Combat {
   _sortCombatants(a, b) {
-    console.log("Sortiere");
     let aeA = parseInt(a.initiative) || 99999;
     let aeB = parseInt(b.initiative) || 99999;
 
@@ -48,7 +47,7 @@ export default class DSCombat extends Combat {
     });
   }
 
-  rollInitiative(ids, options) {
+  async rollInitiative(ids, options) {
     const actorData = this.data.combatants;
     let preSortetCombatants = this.preSortetCombatants().filter((c) => {
       return c.data.initiative != undefined;
@@ -75,7 +74,7 @@ export default class DSCombat extends Combat {
         });
       }
     } else {
-      ids.forEach((id) => {
+      ids.forEach(async (id) => {
         var currentCombatant = Array.from(
           actorData.filter((d) => {
             return d.data._id == id;
@@ -99,21 +98,18 @@ export default class DSCombat extends Combat {
         };
 
         let outputData = DSMechanics.rollDice(inputData);
-        let messageData = outputData.messageData;
         let cardData = outputData.cardData;
-        let currentRollClass = event.currentTarget.className;
-        let currentRoll;
-        console.log(outputData.cardData._total);
+        let messageData = outputData.messageData;
 
         this.updateCombatant({
           _id: id,
           initiative: outputData.cardData._total,
         });
-        // TODO: Template für Ini Wurf bauen
-        // let chatTempPath = {
-        //   Custom: "systems/darkspace/templates/dice/chatCustom.html",
-        // };
-        // messageData.content = renderTemplate(chatTempPath.Custom, cardData);
+
+        messageData.content = await renderTemplate(
+          "systems/darkspace/templates/dice/chatInitiative.html",
+          cardData
+        );
         AudioHelper.play({ src: CONFIG.sounds.dice });
         return ChatMessage.create(messageData);
       });
@@ -143,7 +139,6 @@ export default class DSCombat extends Combat {
 
   _waitCombat(id) {
     const Combatant = this.combatant;
-    //debugger;
     return Combatant.update({
       _id: id,
       initiative: null,

@@ -1,4 +1,5 @@
 export function rollDice(rollDiceData) {
+  console.log("+++ Start rolling Dice +++");
   const actorData = rollDiceData.actorData;
   const actorId = rollDiceData.actorId;
   const element = rollDiceData.eventData;
@@ -139,7 +140,7 @@ export function rollDice(rollDiceData) {
     messageData: messageData,
     cardData: cardData,
   };
-
+  console.log("Sending roll outputData");
   return outputData;
 }
 
@@ -211,9 +212,14 @@ export async function _resolveDice(inputData, event) {
   let outputData = this.rollDice(inputData);
   let messageData = outputData.messageData;
   let cardData = outputData.cardData;
-  let currentRollClass = event.currentTarget.className;
-  let currentRoll;
 
+  // +++++++++++++ Die Art des aktuellen Würfelwurfes identifizieren +++++++++++++
+  if (event.currentTarget === null) {
+    var currentRollClass = "";
+  } else {
+    var currentRollClass = event.currentTarget.className;
+  }
+  let currentRoll;
   currentRollClass.includes("roleSkill") ? (currentRoll = "Skill") : "";
   currentRollClass.includes("roll-btn") ? (currentRoll = "Custom") : "";
   currentRollClass.includes("unarmedCombat") ? (currentRoll = "Unarmed") : "";
@@ -221,10 +227,10 @@ export async function _resolveDice(inputData, event) {
     ? (currentRoll = inputData.item.data.type)
     : "";
   currentRollClass.includes("protection") ? (currentRoll = "Skill") : "";
-
   if (currentRoll === undefined) {
     currentRoll = "Skill";
   }
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",

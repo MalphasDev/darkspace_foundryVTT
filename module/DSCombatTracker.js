@@ -62,9 +62,7 @@ export default class DSCombatTracker extends CombatTracker {
     //event.preventDefault();
     const combat = this.viewed;
     var combatantList = this.combatantList();
-    const currentCombatantId = combatantList.filter((r) => {
-      return r[1];
-    })[0][0];
+
     const currentCombatantIni = combatantList.filter((r) => {
       return r[1];
     })[0][1];
@@ -103,8 +101,6 @@ export default class DSCombatTracker extends CombatTracker {
       combat.sendAE = parseInt(event.currentTarget.value);
     }
 
-    // TODO: ++++ FEATURE: Combatants denen eine Reflexaktion zusteht erkennen ++++
-
     var newIni = currentCombatantIni + combat.sendAE;
 
     // for (var i = 0; combatantList.length > i; i++) {
@@ -114,18 +110,18 @@ export default class DSCombatTracker extends CombatTracker {
     //       .setFlag("darkspace", "target", true);
     //   }
     // }
-    console.log(combat.turns);
+    //console.log(combat.turns);
     combat.turns.forEach((combatant) => {
+      //let targetState = combatant.initiative <= parseInt(newIni);
       combatant.data.flags.darkspace.target =
         combatant.initiative <= parseInt(newIni);
+      //combatant.setFlag("darkspace", "target", targetState);
 
       // console.log(combatant.initiative + " <= " + newIni);
       // console.log(targetState);
       // console.log(combatant.getFlag("darkspace", "target"));
       // console.log(combatant.data.flags.darkspace.target);
     });
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     this.render();
   }

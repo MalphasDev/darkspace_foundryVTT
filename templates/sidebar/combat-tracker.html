@@ -58,7 +58,6 @@
 
     <ol id="combat-tracker" class="directory-list">
         {{#each turns}}
-        {{log this}}
         {{#if this.flags.darkspace.target}}
             <li class="combatant actor directory-item flexrow {{this.css}} target" data-combatant-id="{{this.id}}">
             {{else}}
@@ -99,14 +98,14 @@
         {{/each}}
     </ol>
 
-    <nav id="combat-controls" class="directory-footer flexrow">
+    <nav id="combat-controls" class="directory-footer">
     {{#if hasCombat}}
         {{#if user.isGM}}
             {{#if round}}
 
             {{>"systems/darkspace/templates/sidebar/customAE.html"}}
-
-            <div>
+            <hr>
+            <div class="flex">
                 <a class="combat-control" title="{{localize 'COMBAT.TurnPrev'}}" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
                 <a class="combat-control center" title="{{localize 'COMBAT.End'}}" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
                 <a class="combat-control" title="{{localize 'COMBAT.TurnNext'}}" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>

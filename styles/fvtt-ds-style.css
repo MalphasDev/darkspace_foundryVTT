@@ -79,8 +79,9 @@ a:hover {
   line-height: initial;
   border: none;
 }
-.tabs .item {
+.sheet .tabs .item {
   height: 33px;
+  background-color: #bec8ce;
 }
 .tabs .item.active {
   text-shadow: 0 0 10px #fff;
@@ -129,13 +130,6 @@ input:disabled {
   border: none;
 }
 
-#combat-controls {
-  display: block;
-}
-#combat-controls > * {
-  display: flex;
-  justify-content: center;
-}
 .customAE {
   padding: 5px;
   border: solid;
@@ -248,7 +242,9 @@ ul {
   font-size: 1.5em;
   font-weight: bold;
 }
-
+.block {
+  display: block;
+}
 .grid {
   display: grid;
   grid-gap: 0 1em;
@@ -279,6 +275,9 @@ ul {
 }
 .col2-23 {
   grid-template-columns: 2fr 3fr;
+}
+.col2-13 {
+  grid-template-columns: 1fr 3fr;
 }
 .col3 {
   grid-template-columns: repeat(3, 1fr);
@@ -538,8 +537,8 @@ input[id="newRanged"] + label[for="newRanged"]:after {
   opacity: 0.5;
 }
 .target {
-  color: red;
+  background: linear-gradient(45deg, #943000, transparent);
 }
-.test {
-  color: blue;
+.target.active {
+  background: linear-gradient(45deg, #005194, transparent);
 }
