@@ -232,7 +232,8 @@
         "ress": {
           "bots": 0
         },
-        "equipped": true
+        "equipped": true,
+        "properties": ""
       }
     },
     "Waffe": {

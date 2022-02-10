@@ -43,6 +43,13 @@ export default class DSItem extends Item {
     } else {
       data.range = "Nahkampf";
     }
+    // Eigenschaften anzeigen
+    let propList = data.properties;
+
+    if (propList === undefined || propList === "") {
+    } else {
+      data.propArray = data.properties.split(",");
+    }
 
     //Alles außer Eigenschaft und Besonderheiten
     if (itemData.type != "Eigenschaft" && itemData.type != "Besonderheiten") {

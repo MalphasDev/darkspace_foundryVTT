@@ -8,4 +8,14 @@
         <span class="chatStats"><i class="fas fa-bolt"></i>{{data.dmg}}</span>
         <span class="chatStats">{{data.range}}</span>
     </div>
+    <hr>
+<div>
+    <ul>
+        {{#each this.data.propArray}}
+        <li class="inline_block">
+            <p class="iconbox">{{this}}</p>
+        </li>
+        {{/each}}
+    </ul>
+</div>
 </div>

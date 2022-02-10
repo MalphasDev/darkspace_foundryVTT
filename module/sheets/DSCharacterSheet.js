@@ -95,7 +95,6 @@ export default class DSCharakcterSheet extends ActorSheet {
       object: this.object,
     };
 
-    console.log(inputData);
     return inputData;
   }
 
@@ -318,7 +317,6 @@ export default class DSCharakcterSheet extends ActorSheet {
                 ...newItemData,
                 mk: html.find("[name=newMK]")[0].value,
                 size: html.find("[name=newSize]")[0].value,
-                modules: html.find("[name=newMods]")[0].value,
               };
             }
             if (element.dataset.type === "Waffe") {
@@ -330,14 +328,6 @@ export default class DSCharakcterSheet extends ActorSheet {
             if (element.dataset.type === "Artifizierung") {
               newItemData = {
                 ...newItemData,
-              };
-            }
-            if (element.dataset.type === "Panzerung") {
-              newItemData = {
-                ...newItemData,
-                bodyPart:
-                  html.find("[name=newBodyPart]")[0].selectedOptions[0]
-                    .innerHTML,
               };
             }
             if (element.dataset.type === "Unterbringung") {
@@ -360,13 +350,17 @@ export default class DSCharakcterSheet extends ActorSheet {
                 type: html.find("[name=newType]")[0].value,
               };
             }
+
             if (element.dataset.type === "TerminalsWerkzeuge") {
+              let newItemType;
+              Array.from(html.find("[name=newItem]")).forEach((item) => {
+                newItemType = item.checked ? item.value : newItemType;
+              });
               newItemData = {
                 ...newItemData,
-                type: html.find("[name=itemType]")[0].value,
+                type: newItemType,
               };
             }
-
             let itemData = {
               name: html.find("[name=newName]")[0].value,
               type: newItemData.type,

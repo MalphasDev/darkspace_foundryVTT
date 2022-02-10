@@ -26,7 +26,8 @@
 </div>
 {{/if}}
 <hr>
-<div class="flex strech doublesize">
+
+<div class="flex strech doublesize {{#ifGE combat.sendAE 5}}target{{/ifGE}}">
     {{combat.sendAE}} AE
 </div>
 <hr>

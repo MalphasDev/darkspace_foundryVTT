@@ -426,7 +426,7 @@ label > *:hover {
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
-.propertyListElement {
+.inline_block {
   display: inline-block;
 }
 .propertyListElement > div > p,
@@ -523,16 +523,29 @@ label > *:hover {
   font-size: 9pt;
 }
 input[type="checkbox"].item-quick-edit,
-input[type="checkbox"].symbol {
+input[type="checkbox"].symbol,
+input[type="radio"] {
   display: none;
 }
-
+input[type="radio"] + label {
+  padding: 5px 10px;
+}
+input[type="radio"]:not(:checked) + label {
+  opacity: 0.5;
+}
+input[type="radio"]:checked + label {
+  opacity: 1;
+  background-color: var(--dark-blue);
+  color: #fff;
+  border-radius: 5px;
+}
+/* 
 input[id="newRanged"]:checked + label[for="newRanged"]:after {
   content: "Fernkampf";
 }
 input[id="newRanged"] + label[for="newRanged"]:after {
   content: "Nahkampf";
-}
+} */
 .opacity50 {
   opacity: 0.5;
 }

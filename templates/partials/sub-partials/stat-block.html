@@ -88,7 +88,7 @@
                 {{#ifEquals data.attribut attrname}}
 
                 {{#unless data.handicap}}
-                <li class="propertyListElement">
+                <li class="inline_block propertyListElement">
                     <div class="item" data-item-id="{{this._id}}">
                         <p class="Eigenschaftname item-control item-edit {{#if data.handicap}}handicap{{/if}}"><i
                                 class="fas fa-dna"></i> {{this.name}}</p>
@@ -103,7 +103,7 @@
                 {{#ifEquals data.attribut attrname}}
 
                 {{#if data.handicap}}
-                <li class="propertyListElement">
+                <li class="inline_block propertyListElement">
                     <div class="item" data-item-id="{{this._id}}">
                         <p class="Eigenschaftname item-control item-edit {{#if data.handicap}}handicap{{/if}}"><i
                                 class="fas fa-dna"></i> {{this.name}}</p>
@@ -116,7 +116,7 @@
                 <!--Artifizierungen-->    
                 {{#each ../Artifizierung}}
                 {{#ifEquals data.attribut attrname}}
-                <li class="propertyListElement">
+                <li class="inline_block propertyListElement">
                     <div class="item" data-item-id="{{this._id}}">
                         <p class="Eigenschaftname item-control item-edit artifizierung"><i class="fas fa-user-cog"></i>
                             {{this.name}}</p>

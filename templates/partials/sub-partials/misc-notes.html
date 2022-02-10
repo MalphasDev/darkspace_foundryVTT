@@ -1,3 +1,15 @@
+<hr>
+<div class="grid col2-13">
+    <h3 class="addProp changeProp inline_block"><i class="fas fa-cog"></i> Eigenschaften</h3>    
+    <ul>
+        {{#each this.data.data.propArray}}
+        <li class="inline_block">
+            <p class="iconbox">{{this}}</p>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+<hr>
 <div class="desc-content">
     <h2>Beschreibung</h2>
     {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}

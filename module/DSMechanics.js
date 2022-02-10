@@ -1,5 +1,4 @@
 export function rollDice(rollDiceData) {
-  console.log("+++ Start rolling Dice +++");
   const actorData = rollDiceData.actorData;
   const actorId = rollDiceData.actorId;
   const element = rollDiceData.eventData;
@@ -140,7 +139,6 @@ export function rollDice(rollDiceData) {
     messageData: messageData,
     cardData: cardData,
   };
-  console.log("Sending roll outputData");
   return outputData;
 }
 

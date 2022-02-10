@@ -77,6 +77,12 @@ export default class DSCharacter extends Actor {
       data.Struktur = Math.max(...StrukturArray);
       data.Schutz = Math.max(...SchutzArray);
 
+      // Eigenschaften von Panzerung
+      data.armorProps = armorListEquipped.map((p) => {
+        return p.data.data.propArray;
+      })[0];
+
+      // Waffenloser Kampf
       data.unarmedName = "Waffenloser Kampf";
     }
 

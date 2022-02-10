@@ -110,9 +110,12 @@ export default class DSCombatTracker extends CombatTracker {
     //       .setFlag("darkspace", "target", true);
     //   }
     // }
-    //console.log(combat.turns);
+
     combat.turns.forEach((combatant) => {
       //let targetState = combatant.initiative <= parseInt(newIni);
+      if (combatant.getFlag("darkspace", "target") === undefined) {
+        combatant.setFlag("darkspace", "target", false);
+      }
       combatant.data.flags.darkspace.target =
         combatant.initiative <= parseInt(newIni);
       //combatant.setFlag("darkspace", "target", targetState);

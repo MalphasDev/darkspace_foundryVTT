@@ -34,6 +34,7 @@ export default class DSItemSheet extends ItemSheet {
     html.find(".directRoll").click(this._onDirectRoll.bind(this));
     html.find(".ressPoints").click(this._ressPoints.bind(this));
     html.find(".incRess, .decRess").click(this._onModRess.bind(this));
+    html.find(".addProp").click(this._addProperty.bind(this));
   }
 
   createInputData(event) {
@@ -109,5 +110,27 @@ export default class DSItemSheet extends ItemSheet {
       id: this.object.id,
       [attrKey]: newInc,
     });
+  }
+  async _addProperty(event) {
+    var content = await renderTemplate(
+      "systems/darkspace/templates/createNewItem/dialogAddProp.html",
+      this.object.data.data
+    );
+    new Dialog({
+      title: "Eigenschaften hinzufügen",
+      content: content,
+      buttons: {
+        ok: {
+          icon: '<i class="fas fa-check"></i>',
+          label: "OK",
+          callback: (html) => {
+            let propList = html.find(".propList")[0].value.replace(/\s/g, "");
+            this.object.update({
+              "data.properties": propList,
+            });
+          },
+        },
+      },
+    }).render(true);
   }
 }

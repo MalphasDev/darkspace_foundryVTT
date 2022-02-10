@@ -1,9 +1,15 @@
 import * as DSMechanics from "./DSMechanics.js";
+import * as DSCombatant from "./DSCombatant.js";
 export default class DSCombat extends Combat {
   _sortCombatants(a, b) {
     let aeA = parseInt(a.initiative) || 99999;
     let aeB = parseInt(b.initiative) || 99999;
-
+    if (parseInt(a.initiative) === null) {
+      aeA = 99999;
+    }
+    if (parseInt(b.initiative) === null) {
+      aeB = 99999;
+    }
     var isCombatStarted = a.parent.getFlag("darkspace", "isCombatStarted")
       ? 1
       : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.

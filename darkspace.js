@@ -62,7 +62,6 @@ async function preloadHandlebarsTemplates() {
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogDescMod.html",
 
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogWeapon.html",
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogArmor.html",
 
     //Chat
     "systems/darkspace/templates/dice/chatWeapon.html",
@@ -130,6 +129,9 @@ Hooks.once("init", function () {
   });
   Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
     return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+  });
+  Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
+    return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
   });
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen
