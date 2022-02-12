@@ -1,6 +1,7 @@
 export const darkspace = {};
 import * as DSCharakter from "./sheets/DSCharacter.js";
 console.log(CONFIG);
+console.log(darkspace);
 console.log(foundry);
 darkspace.attackTypes = {
   none: "",
@@ -36,34 +37,25 @@ darkspace.attr = [
   "Netzwerk",
   "Ressourcen",
 ];
+const conditionList = [
+  "Außer Gefecht",
+  "Blutung",
+  "Bewusstlos",
+  "Tod",
+  "Niederhalten",
+  "Verkrüppelt",
+  "Verwundet",
+  "Angeschlagen",
+].sort();
 
-darkspace.conditions = {
-  con0: {
-    value: "Außer Gefecht",
-    active: false,
-  },
-  con1: {
-    value: "Blutung",
-    active: false,
-  },
-  con2: {
-    value: "Bewusstlos",
-    active: false,
-  },
-  con3: {
-    value: "Tod",
-    active: false,
-  },
-  con4: {
-    value: "Niederhalten",
-    active: false,
-  },
-  con5: {
-    value: "Verkrüppelt",
-    active: false,
-  },
-  con6: {
-    value: "Verwundet",
-    active: false,
-  },
+const convertArrayToObject = (array) => {
+  const initialValue = {};
+  return array.reduce((obj, item) => {
+    return {
+      ...obj,
+      [Object.keys(obj).length]: { value: item, active: false },
+    };
+  }, initialValue);
 };
+
+darkspace.conditions = convertArrayToObject(conditionList);

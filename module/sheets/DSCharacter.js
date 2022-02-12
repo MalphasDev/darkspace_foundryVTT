@@ -261,5 +261,6 @@ export default class DSCharacter extends Actor {
     if (this.type === "Charakter") {
       actorData.token.update({ vision: true, actorLink: true, disposition: 1 });
     }
+    actorData.token.update({ dimSight: 5 });
   }
 }
