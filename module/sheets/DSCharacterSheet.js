@@ -42,11 +42,11 @@ export default class DSCharakcterSheet extends ActorSheet {
       })
     );
 
-    for (let i = 0; i < itemType.length; i++) {
-      data[itemType[i]] = data.items.filter((item) => {
-        return item.type == itemType[i];
+    itemType.forEach((itemType) => {
+      data[itemType] = data.items.filter((item) => {
+        return item.type == itemType;
       });
-    }
+    });
 
     // /|\
     //  --- Das da sind die Zeilen unten  ---  drunter als FOR-Schleife
@@ -574,13 +574,14 @@ export default class DSCharakcterSheet extends ActorSheet {
           button1: {
             label: "OK",
             callback: (html) => {
-              for (var i = 0; html.find("[type=checkbox]").length > i; i++) {
-                if (html.find("[type=checkbox]")[i].checked == true) {
+              console.log(html.find("[type=checkbox]"));
+              Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
+                if (checkbox.checked == true) {
                   this.actor.deleteOwnedItem(
-                    html.find("[type=checkbox]")[i].dataset.itemId //Es wird nur das letzte Item gelöscht???
+                    checkbox.dataset.itemId //Es wird nur das letzte Item gelöscht???
                   );
                 }
-              }
+              });
             },
             icon: `<i class="fas fa-check"></i>`,
           },

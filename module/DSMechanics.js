@@ -54,9 +54,9 @@ export function rollDice(rollDiceData) {
   };
 
   let dices = [];
-  for (var i = 0; i < rollResult.terms[0].results.length; i++) {
-    dices.push(rollResult.terms[0].results[i].result);
-  }
+  rollResult.terms[0].results.forEach((rollResult) => {
+    dices.push(rollResult.result);
+  });
 
   // ------------------------------ //
   // Zusammenstellen der Chat-Daten //

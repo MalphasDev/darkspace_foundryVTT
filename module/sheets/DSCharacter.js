@@ -25,13 +25,14 @@ export default class DSCharacter extends Actor {
     });
 
     var activeConditions = [];
-    for (var i = 0; data.conditionList.length > i; i++) {
-      activeConditions.push(data.conditionList[i][1].active);
-      data.conditionList[i][1].active = false;
-    }
-    for (var i = 0; data.conditions.length > i; i++) {
-      data.conditionList[data.conditions[i]][1].active = true;
-    }
+    data.conditionList.forEach((conditions) => {
+      activeConditions.push(conditions[1].active);
+      conditions[1].active = false;
+    });
+    data.conditions.forEach((conditions) => {
+      data.conditionList[conditions][1].active = true;
+    });
+
     data.activeConditions = activeConditions;
     data.activeConditionList = data.conditionList
       .filter((a) => {

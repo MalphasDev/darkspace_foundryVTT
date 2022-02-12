@@ -41,6 +41,7 @@ export default class DSCombatTracker extends CombatTracker {
     var aeCost = combat.sendAE;
 
     combat.increaseAE(currentTargetId, aeCost);
+
     for (var i = 0; Array.from(combat.data.combatants).length > i; i++) {
       combat.data.combatants
         .map((j) => {
