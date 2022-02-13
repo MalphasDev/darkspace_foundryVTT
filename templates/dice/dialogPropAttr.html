@@ -1,17 +1,20 @@
 <div>
     
     <ul>
-        <li class="grid col3-211">
+        {{log this}}  
+        <li class="grid col2">
             <span>Name</span>
-            <span class="cell_c"><i class="fas fa-edit"></i></span>
+            <!-- <span class="cell_c"><i class="fas fa-edit"></i></span> -->
             <span class="cell_c"><i class="fas fa-trash"></i></span>
         </li>
-        {{#each this}}        
+        {{#each this}}      
+        
         <li class="item grid col3-211" data-item-id="{{this.id}}">
             <span class="itemname" draggable="true">{{this.name}}</span>
-            <span></span>
+            <!-- <span></span> -->
             <input type="checkbox" class="cell_c" data-item-id="{{this.id}}">
         </li>
         {{/each}}
+        
     </ul>
 </div>

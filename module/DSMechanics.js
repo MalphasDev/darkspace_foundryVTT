@@ -218,8 +218,8 @@ export async function _resolveDice(inputData, event) {
     var currentRollClass = event.currentTarget.className;
   }
   let currentRoll;
-  currentRollClass.includes("roleSkill") ? (currentRoll = "Skill") : "";
-  currentRollClass.includes("roll-btn") ? (currentRoll = "Custom") : "";
+  currentRollClass.includes("rollSkill") ? (currentRoll = "Skill") : "";
+  currentRollClass.includes("customRoll") ? (currentRoll = "Custom") : "";
   currentRollClass.includes("unarmedCombat") ? (currentRoll = "Unarmed") : "";
   currentRollClass.includes("rollItem")
     ? (currentRoll = inputData.item.data.type)

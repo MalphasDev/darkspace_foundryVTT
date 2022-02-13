@@ -16,7 +16,7 @@ export default class DSItem extends Item {
       parseInt(data.mk) + parseInt(data.size) < 1
         ? 1
         : parseInt(data.mk) + parseInt(data.size);
-
+    data.protection = Math.floor(data.structure / 2);
     // Senorreichweite //
     data.sensorRange = Math.pow(data.mk, 2) * 10;
 
@@ -25,13 +25,13 @@ export default class DSItem extends Item {
 
     // Waffen //
     data.dmg = data.mk;
+    data.sizeRange = Math.max(data.size, -3) + 4;
+    data.autoRangeBase = Math.pow(data.sizeRange, 2) * 10;
+    data.autoRangeShort = data.autoRangeBase / 10;
+    data.autoRangeExtr = data.autoRangeBase * 2;
+    data.autoRangeMax = data.autoRangeBase * 10;
 
     if (data.ranged === true) {
-      data.sizeRange = Math.max(data.size, -3) + 4;
-      data.autoRangeBase = Math.pow(data.sizeRange + data.rangeBonus, 2) * 10;
-      data.autoRangeShort = data.autoRangeBase / 10;
-      data.autoRangeExtr = data.autoRangeBase * 2;
-      data.autoRangeMax = data.autoRangeBase * 10;
       data.range =
         data.autoRangeShort +
         "-" +
@@ -57,9 +57,6 @@ export default class DSItem extends Item {
       data.botsRemaining = data.mk - data.ress.bots;
     }
 
-    if (this.type === "Panzerung") {
-      data.armor = data.structure;
-    }
     switch (data.size) {
       case -5:
         data.sizeKat = "Winzig";

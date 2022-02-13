@@ -23,8 +23,7 @@
 
             <!--ATTRIBUTE für Charaktere-->
             <div class="grid col2-21">
-                <span class="attrname"><i class="fas fa-cog changeProp" data-fieldtype="editAttr"
-                        data-parentAttr="{{attrname}}"></i> {{attrname}}</span>
+                <span class="attrname changeProp" data-fieldtype="editAttr" data-parentAttr="{{attrname}}"><i class="fas fa-cog" ></i> {{attrname}}</span>
                 <span class="attrvalue">
                     <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}"
                         type="number" {{disabled ../data.data.Bedrohungsstufe}}>
@@ -44,9 +43,9 @@
 
                         <input class="value_box" name="data.charattribut.{{attrname}}.skill.{{fertname}}"
                             value="{{this}}" type="number" {{disabled ../../data.data.Bedrohungsstufe}}>
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="{{attrname}}"
+                        <img class="d10-symbol rollSkill" data-rolltype="skill" data-attr="{{attrname}}"
                             data-skill="{{fertname}}" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                        <img class="d10-symbol roleSkill" data-rolltype="skill" data-attr="{{attrname}}"
+                        <img class="d10-symbol rollSkill" data-rolltype="skill" data-attr="{{attrname}}"
                             data-skill="{{fertname}}" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
                     </div>
                 </li>
@@ -56,16 +55,11 @@
 
 
 
-            {{#if this.ress.exists}}
+            <!-- {{#if this.ress.exists}}
             <hr>
             <ul class="fertfeld">
                 <li>
                     <span>{{this.ress.ressname}}</span>
-                    <!-- <div class="flex">
-                        <i class="fas fa-caret-left decRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
-                        <input type="range" min="0" max={{this.ress.max}} value="{{this.ress.value}}" name="data.charattribut.{{attrname}}.ress.value" data-type="Number" class="slider">
-                        <i class="fas fa-caret-right incRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
-                    </div> -->
 
                     <div class="span2">
                         <i class="fas fa-caret-left decRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
@@ -81,7 +75,9 @@
                 </li>
 
             </ul>
-            {{/if}}
+            {{/if}} -->
+
+            
             <ul class="item-list">
                 <!--EIGENSCHAFTEN-->
                 {{#each ../Eigenschaft}}
@@ -90,7 +86,7 @@
                 {{#unless data.handicap}}
                 <li class="inline_block propertyListElement">
                     <div class="item" data-item-id="{{this._id}}">
-                        <p class="Eigenschaftname item-control item-edit {{#if data.handicap}}handicap{{/if}}"><i
+                        <p class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"><i
                                 class="fas fa-dna"></i> {{this.name}}</p>
                     </div>
                 </li>
@@ -105,7 +101,7 @@
                 {{#if data.handicap}}
                 <li class="inline_block propertyListElement">
                     <div class="item" data-item-id="{{this._id}}">
-                        <p class="Eigenschaftname item-control item-edit {{#if data.handicap}}handicap{{/if}}"><i
+                        <p class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"><i
                                 class="fas fa-dna"></i> {{this.name}}</p>
                     </div>
                 </li>
@@ -118,7 +114,7 @@
                 {{#ifEquals data.attribut attrname}}
                 <li class="inline_block propertyListElement">
                     <div class="item" data-item-id="{{this._id}}">
-                        <p class="Eigenschaftname item-control item-edit artifizierung"><i class="fas fa-user-cog"></i>
+                        <p class="Eigenschaftname item-control itemEdit artifizierung"><i class="fas fa-user-cog"></i>
                             {{this.name}}</p>
                     </div>
                 </li>

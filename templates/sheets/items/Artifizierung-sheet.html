@@ -15,5 +15,35 @@
         </div>
         </div>
     </div>
+
+    <hr>
+    <div class="flex evenly">
+        <input type="checkbox" class="symbol" id="isArmor" {{checked this.data.data.armor}} name="data.armor">
+        <label for="isArmor"><i class="fas fa-shield-alt"></i> Kybernitsche Rüstung</label>
+        <input type="checkbox" class="symbol" id="isWeapon" {{checked this.data.data.weapon}} name="data.weapon">
+        <label for="isWeapon"><i class="fas fa-bolt"></i> Kybernitsche Waffe</label>
+    </div>
+    
+    {{#if this.data.data.weapon}}
+    <hr>
+    <div class="grid col2 gridcenter">
+        
+        {{> "systems/darkspace/templates/partials/sub-partials/items-weapons.html"}}  
+    </div>
+    {{/if}}
+    {{#if this.data.data.armor}}
+    <hr>
+    <div class="container_center">
+        <h3>Panzerung und Schutz</h3>
+        <input name="data.range" type="text" value="{{data.data.structure}}W + {{data.data.protection}}" disabled>
+    </div>
+    {{/if}}
+    </div>
+
+    
+
+    
+    
+    
     {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

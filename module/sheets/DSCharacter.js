@@ -61,15 +61,22 @@ export default class DSCharacter extends Actor {
       let armorListEquipped = armorList.filter((e) => {
         return e.data.data.equipped === true;
       });
+      let cyberarmorListEquipped = artList.filter((a) => {
+        return a.data.data.armor === true;
+      });
+      let allArmorEquipped = [].concat(
+        armorListEquipped,
+        cyberarmorListEquipped
+      );
       let StrukturArray = Array.from(
-        armorListEquipped.map((a) => {
+        allArmorEquipped.map((a) => {
           return a.data.data.structure;
         })
       );
       StrukturArray.push(0);
 
       let SchutzArray = Array.from(
-        armorList.map((a) => {
+        allArmorEquipped.map((a) => {
           return a.data.data.mk;
         })
       );

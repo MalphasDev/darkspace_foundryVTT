@@ -527,13 +527,15 @@ input[type="checkbox"].symbol,
 input[type="radio"] {
   display: none;
 }
-input[type="radio"] + label {
+input[type="radio"] + label,
+input[type="checkbox"] + label {
   padding: 5px 10px;
 }
 input[type="radio"]:not(:checked) + label {
   opacity: 0.5;
 }
-input[type="radio"]:checked + label {
+input[type="radio"]:checked + label,
+input[type="checkbox"]:checked + label {
   opacity: 1;
   background-color: var(--dark-blue);
   color: #fff;

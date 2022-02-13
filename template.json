@@ -253,6 +253,8 @@
     },
     "Artifizierung": {
       "attribut": "",
+      "weapon": false,
+      "armor": false,
       "templates": ["itemBase"]
     },
     "Panzerung": {

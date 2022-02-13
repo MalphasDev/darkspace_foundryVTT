@@ -68,19 +68,33 @@ export default class DSCharakcterSheet extends ActorSheet {
     /* html.find(cssSelector).event(this._someCallBack.bind(this)); <---- Template */
 
     super.activateListeners(html);
-    html.find(".createItem").click(this._onCreateItem.bind(this));
-    html.find(".item-edit").click(this._onItemEdit.bind(this));
-    html.find(".item-delete").click(this._onItemDelete.bind(this));
-    html.find(".itemToChat").click(this._itemToChat.bind(this));
-    html.find(".roleSkill").click(this._onRollSkill.bind(this));
-    html.find(".rollItem").click(this._onRollItem.bind(this));
-    html.find(".roll-btn").click(this._onCustomRoll.bind(this));
-    html.find(".incRess, .decRess").click(this._onModRess.bind(this));
-    html.find(".changeProp").click(this._onChangeProp.bind(this));
-    html.find(".unarmedCombat").click(this._onUnarmedCombat.bind(this));
-    html.find(".directRoll").click(this._onDirectRoll.bind(this));
-    html.find(".ressPoints").click(this._ressPoints.bind(this));
-    html.find(".item-quick-edit").change(this._onItemQuickEdit.bind(this));
+
+    html.find(".incRess, .decRess").click(this._modRess.bind(this));
+    html.find(".item-quick-edit").change(this._itemQuickEdit.bind(this));
+
+    //find and bind
+
+    const classIdent = [
+      ".createItem",
+      ".itemEdit",
+      ".itemDelete",
+      ".itemToChat",
+      ".rollSkill",
+      ".rollItem",
+      ".customRoll",
+      ".changeProp",
+      ".unarmedCombat",
+      ".directRoll",
+      ".ressPoints",
+    ];
+
+    classIdent.forEach((ident) => {
+      eval(
+        `html.find("${ident}").click(this.${
+          "_" + ident.substring(1)
+        }.bind(this))`
+      );
+    });
   }
 
   createInputData(event) {
@@ -98,7 +112,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     return inputData;
   }
 
-  async _onRollSkill(event) {
+  async _rollSkill(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
@@ -140,7 +154,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     DSMechanics.modRolls(inputData, event);
   }
 
-  async _onCustomRoll(event) {
+  async _customRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const actorData = this.object.data.data;
@@ -161,7 +175,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     DSMechanics._resolveDice(inputData, event);
   }
 
-  async _onUnarmedCombat(event) {
+  async _unarmedCombat(event) {
     event.preventDefault();
     const actorData = this.object.data.data;
 
@@ -187,7 +201,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
     DSMechanics.modRolls(inputData, event);
   }
-  async _onDirectRoll(event) {
+  async _directRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
@@ -210,7 +224,7 @@ export default class DSCharakcterSheet extends ActorSheet {
   // -------- ITEMS -------- //
   // ----------------------- //
 
-  async _onRollItem(event) {
+  async _rollItem(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
@@ -286,7 +300,7 @@ export default class DSCharakcterSheet extends ActorSheet {
   // Item Creation //
   // ------------- //
 
-  async _onCreateItem(event) {
+  async _createItem(event) {
     event.preventDefault();
     const element = event.currentTarget;
     var dialogNewItem = await renderTemplate(
@@ -374,14 +388,14 @@ export default class DSCharakcterSheet extends ActorSheet {
     }).render(true);
   }
 
-  _onItemEdit(event) {
+  _itemEdit(event) {
     event.preventDefault();
     const element = event.currentTarget;
     let itemId = element.closest(".item").dataset.itemId;
     let item = this.actor.items.get(itemId);
     item.sheet.render(true);
   }
-  _onItemDelete(event) {
+  _itemDelete(event) {
     event.preventDefault();
     const element = event.currentTarget;
     let itemId = element.closest(".item").dataset.itemId;
@@ -497,7 +511,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     return ChatMessage.create(messageData);
   }
 
-  async _onModRess(event) {
+  async _modRess(event) {
     let ressAttr = event.currentTarget.dataset.attr;
     let attrKey = "data.charattribut." + ressAttr + ".ress.value";
     let ressMod = 0;
@@ -515,7 +529,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       [attrKey]: newInc,
     });
   }
-  async _onChangeProp(event) {
+  async _changeProp(event) {
     const actordata = this.actor.data.data;
     const element = event.currentTarget;
 
@@ -525,15 +539,14 @@ export default class DSCharakcterSheet extends ActorSheet {
     );
 
     const parentAttr = element.dataset.parentattr;
-    const parentProp = this.actor.data.items.filter((p) => {
-      return p.data.data.attribut === parentAttr;
-    });
-    const propList = parentProp.filter((a) => {
-      return a.type === "Eigenschaft";
-    });
+    console.log(parentAttr);
+    const parentProp = this.actor.data.items.filter(
+      (p) => p.data.data.attribut === parentAttr
+    );
+
     const editAttr = await renderTemplate(
       "systems/darkspace/templates/dice/dialogPropAttr.html",
-      propList
+      parentProp
     );
     //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
@@ -567,6 +580,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
 
     if (element.dataset.fieldtype === "editAttr") {
+      console.log("test");
       new Dialog({
         title: "Eigenschaften",
         content: editAttr,
@@ -574,12 +588,9 @@ export default class DSCharakcterSheet extends ActorSheet {
           button1: {
             label: "OK",
             callback: (html) => {
-              console.log(html.find("[type=checkbox]"));
               Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
                 if (checkbox.checked == true) {
-                  this.actor.deleteOwnedItem(
-                    checkbox.dataset.itemId //Es wird nur das letzte Item gelöscht???
-                  );
+                  this.actor.deleteOwnedItem(checkbox.dataset.itemId);
                 }
               });
             },
@@ -595,7 +606,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
   }
 
-  async _onItemQuickEdit(event) {
+  async _itemQuickEdit(event) {
     const id = $(event.currentTarget).parents(".item").attr("data-item-id");
     const target = $(event.currentTarget).attr("data-target");
     const item = duplicate(this.actor.getEmbeddedDocument("Item", id));

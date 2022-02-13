@@ -15,7 +15,6 @@ async function preloadHandlebarsTemplates() {
     "systems/darkspace/templates/partials/character-sheet-items.html",
     "systems/darkspace/templates/partials/character-sheet-combat.html",
     "systems/darkspace/templates/partials/character-sheet-downtime.html",
-
     "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html",
 
     //Sub-Partials
@@ -39,6 +38,7 @@ async function preloadHandlebarsTemplates() {
     "systems/darkspace/templates/partials/sub-partials/items-medkits.html",
     "systems/darkspace/templates/partials/sub-partials/items-tools.html",
     "systems/darkspace/templates/partials/sub-partials/items-terminals.html",
+    "systems/darkspace/templates/partials/sub-partials/items-weapons.html",
 
     //NPCs
     "systems/darkspace/templates/sheets/actors/Nebencharakter-sheet.html",
