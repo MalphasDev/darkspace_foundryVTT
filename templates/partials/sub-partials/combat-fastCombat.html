@@ -9,7 +9,6 @@
                 <!-- <img class="directRoll d10-symbol disadv" data-attr="Struktur" data-rollname="Schutz" data-dice="{{this.data.data.Struktur}}" data-bonus="{{this.data.data.Schutz}}" src="systems/darkspace/icons/d10disadv.svg"> -->
             </div>
             <span>Schutzprobe</span>
-            {{log this}}
             <span class="derivedValue"><i class="fas fa-shield-alt"></i> {{this.data.data.Struktur}}W + {{this.data.data.Schutz}}</span>
             <span></span>
             <span></span>
@@ -75,7 +74,6 @@
         {{/each}}
         {{#each Artifizierung}}
         {{#if this.data.weapon}}
-        {{log this}}
         <li class="item" data-item-id="{{this._id}}">
             <div>
                 <div class="grid col-weapons">

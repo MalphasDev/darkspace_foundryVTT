@@ -86,6 +86,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       ".unarmedCombat",
       ".directRoll",
       ".ressPoints",
+      ".ressReset",
     ];
 
     classIdent.forEach((ident) => {
@@ -539,7 +540,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     );
 
     const parentAttr = element.dataset.parentattr;
-    console.log(parentAttr);
     const parentProp = this.actor.data.items.filter(
       (p) => p.data.data.attribut === parentAttr
     );
@@ -580,7 +580,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
 
     if (element.dataset.fieldtype === "editAttr") {
-      console.log("test");
       new Dialog({
         title: "Eigenschaften",
         content: editAttr,
@@ -643,5 +642,17 @@ export default class DSCharakcterSheet extends ActorSheet {
         [ValueAdress]: currentAttrData.ress.value + currentIndex,
       });
     }
+  }
+  _ressReset(event) {
+    const actorData = this.object.data.data;
+    const element = event.currentTarget;
+
+    let currentAttr = element.dataset.thisattr;
+    let currentAttrData = actorData.charattribut[currentAttr];
+    let ValueAdress = "data.charattribut." + currentAttr + ".ress.value";
+
+    this.actor.update({
+      [ValueAdress]: currentAttrData.attribut,
+    });
   }
 }

@@ -2,7 +2,7 @@ export const darkspace = {};
 import * as DSCharakter from "./sheets/DSCharacter.js";
 console.log(CONFIG);
 console.log(darkspace);
-console.log(foundry);
+console.log();
 darkspace.attackTypes = {
   none: "",
   Schusswaffen: "Schusswaffen",
@@ -37,6 +37,39 @@ darkspace.attr = [
   "Netzwerk",
   "Ressourcen",
 ];
+darkspace.skills = [
+  "Fahrzeuge",
+  "Fokus",
+  "Menschenkenntnis",
+  "Wahrnehmen",
+  "Charisma",
+  "Einschüchtern",
+  "Überzeugen",
+  "Verhandeln",
+  "Heimlichkeit",
+  "Motorik",
+  "Kampftechnik",
+  "Schusswaffen",
+  "Athletik",
+  "Fitness",
+  "Nahkampfwaffen",
+  "Unterstützungswaffen",
+  "Bildung",
+  "Logik",
+  "Medizin",
+  "Raumfahrt",
+  "Cortex",
+  "Kreativität",
+  "Kultur",
+  "Polytronik",
+  "Glück",
+  "Willenskraft",
+  "Synthese",
+  "Kontakte",
+  "Finanzen",
+];
+darkspace.skillList = darkspace.skills.sort();
+
 const conditionList = [
   "Außer Gefecht",
   "Blutung",

@@ -80,7 +80,6 @@ export function rollDice(rollDiceData) {
     evalDiceD: evalDiceD,
     unEvalDice: unEvalDice,
   };
-
   if (Object.keys(rollDiceData.object).length != 0) {
     var merits = rollDiceData.object.data.items
       .filter((i) => {
@@ -90,7 +89,7 @@ export function rollDice(rollDiceData) {
         return j.data.data.handicap === false;
       })
       .filter((k) => {
-        return k.data.data.attribut === roleData.attribute;
+        return k.data.data.skill === roleData.skill;
       });
     var handicaps = rollDiceData.object.data.items
       .filter((i) => {
@@ -100,14 +99,14 @@ export function rollDice(rollDiceData) {
         return j.data.data.handicap === true;
       })
       .filter((k) => {
-        return k.data.data.attribut === roleData.attribute;
+        return k.data.data.skill === roleData.skill;
       });
     var cybernetics = rollDiceData.object.data.items
       .filter((i) => {
         return i.type === "Artifizierung";
       })
       .filter((k) => {
-        return k.data.data.attribut === roleData.attribute;
+        return k.data.data.skill === roleData.skill;
       });
   }
   let cardData = {
@@ -210,6 +209,7 @@ export async function _resolveDice(inputData, event) {
   let outputData = this.rollDice(inputData);
   let messageData = outputData.messageData;
   let cardData = outputData.cardData;
+  console.log(cardData);
 
   // +++++++++++++ Die Art des aktuellen Würfelwurfes identifizieren +++++++++++++
   if (event.currentTarget === null) {

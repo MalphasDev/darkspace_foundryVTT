@@ -73,11 +73,10 @@ export default class DSCharacter extends Actor {
           return a.data.data.structure;
         })
       );
-      StrukturArray.push(0);
 
       let SchutzArray = Array.from(
         allArmorEquipped.map((a) => {
-          return a.data.data.mk;
+          return a.data.data.protection;
         })
       );
       SchutzArray.push(0);
@@ -144,17 +143,6 @@ export default class DSCharacter extends Actor {
       data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
 
       // Erholung
-
-      let geistespunkte = data.charattribut.Konzentration.ress.value;
-      if (geistespunkte <= 3) {
-        data.comfortCr = 20;
-      }
-      if (geistespunkte > 3 && geistespunkte < 7) {
-        data.comfortCr = 18;
-      }
-      if (geistespunkte >= 7) {
-        data.comfortCr = 16;
-      }
 
       // // Kybernese
       // data.miscData.Kybernese.mk = actorData.items

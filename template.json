@@ -93,26 +93,12 @@
           "attribut": 1,
           "skill": {
             "Willenskraft": 0
-          },
-          "ress": {
-            "exists": true,
-            "ressname": "Geistespunkte",
-            "value": 0,
-            "min": 0,
-            "max": 10
           }
         },
         "Kybernese": {
           "attribut": 1,
           "skill": {
             "Synthese": 0
-          },
-          "ress": {
-            "exists": true,
-            "ressname": "Energiepunkte",
-            "value": 0,
-            "min": 0,
-            "max": 10
           }
         },
         "Netzwerk": {
@@ -252,7 +238,7 @@
       "templates": ["itemBase"]
     },
     "Artifizierung": {
-      "attribut": "",
+      "skill": "",
       "weapon": false,
       "armor": false,
       "templates": ["itemBase"]
@@ -272,7 +258,7 @@
     },
     "Eigenschaft": {
       "type": "",
-      "attribut": "",
+      "skill": "",
       "handicap": false,
       "description": ""
     }
