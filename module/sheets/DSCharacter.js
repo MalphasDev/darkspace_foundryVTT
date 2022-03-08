@@ -5,7 +5,18 @@ export default class DSCharacter extends Actor {
     super.prepareData();
 
     const event = new Event("click");
+    console.log(this);
+    let effectLabel = this.data.effects
+      .map((e) => {
+        return e;
+      })
+      .forEach((effect) => {
+        console.log(effect.data);
+        console.log(effect.data.icon);
+        console.log(effect.data.label);
+      });
 
+    console.log(effectLabel);
     const actorData = this.data;
     const data = actorData.data;
     const flags = actorData.flags;

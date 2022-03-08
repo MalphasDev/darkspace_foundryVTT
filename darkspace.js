@@ -60,8 +60,8 @@ async function preloadHandlebarsTemplates() {
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogMkSize.html",
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogName.html",
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogDescMod.html",
-
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogWeapon.html",
+    "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html",
 
     //Chat
     "systems/darkspace/templates/dice/chatWeapon.html",

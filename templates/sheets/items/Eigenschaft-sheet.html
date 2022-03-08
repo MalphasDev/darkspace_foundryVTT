@@ -2,15 +2,8 @@
     <div class="grid col2-21">
         {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
         <div class="cell_c">
-            <div>
-            {{#select data.data.skill}}
-            <select name="data.skill" class="container_center">
-                {{#each config.skillList}}
-                <option value="{{this}}" type="text">{{this}}</option>
-                {{/each}}
-            </select>
-            {{/select}}
-        </div>
+            
+            {{> "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html"}}
         <div class="handlicapCheck {{#if data.data.handicap}}handicap{{/if}} {{#unless data.data.handicap}}merit{{/unless}}">
             <input type="checkbox" invisible {{checked data.data.handicap}} class="item-quick-edit" name="data.handicap" id="{{id}}prop">
             {{#if data.data.handicap}}

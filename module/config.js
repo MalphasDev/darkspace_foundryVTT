@@ -72,10 +72,7 @@ darkspace.skillList = darkspace.skills.sort();
 
 const conditionList = [
   "Außer Gefecht",
-  "Blutung",
-  "Bewusstlos",
   "Tod",
-  "Niederhalten",
   "Verkrüppelt",
   "Verwundet",
   "Angeschlagen",

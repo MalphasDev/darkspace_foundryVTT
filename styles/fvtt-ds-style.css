@@ -227,6 +227,9 @@ ul {
 .flex.strech {
   align-items: strech;
 }
+.flex.verticalalign {
+  align-items: center;
+}
 .column {
   flex-direction: column;
 }
@@ -415,7 +418,7 @@ ul {
 }
 .fa-caret-left:hover,
 .fa-caret-right:hover,
-.fas:hover,
+.button:hover,
 .d10-symbol:hover,
 .changeProp:hover,
 label:hover,
@@ -430,6 +433,7 @@ label > *:hover {
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
+.inline_block,
 li .inline_block {
   display: inline-block;
 }

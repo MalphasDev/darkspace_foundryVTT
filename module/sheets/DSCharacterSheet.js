@@ -19,7 +19,7 @@ export default class DSCharakcterSheet extends ActorSheet {
         "systems/darkspace/templates/sheets/actors/Character-sheet.html",
       classes: ["darkspace", "sheet", "Charakter"],
       width: 800,
-      height: 600,
+      height: 800,
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -308,9 +308,8 @@ export default class DSCharakcterSheet extends ActorSheet {
       "systems/darkspace/templates/createNewItem/dialogNew" +
         element.dataset.type +
         ".html",
-      CONFIG.darkspace
+      { ...CONFIG.darkspace }
     );
-
     new Dialog({
       title: "Neuer Gegenstand",
       content: dialogNewItem,
@@ -319,21 +318,21 @@ export default class DSCharakcterSheet extends ActorSheet {
           icon: '<i class="fas fa-check"></i>',
           label: "OK",
           callback: (html) => {
+            console.log("1");
             var newItemData = {
               name: html.find("[name=newName]")[0].value,
               type: element.dataset.type,
               description: html.find("[name=newDesc]")[0].value,
             };
-            if (
-              element.dataset.type != "Eigenschaft" &&
-              element.dataset.type != "Besonderheiten"
-            ) {
+            console.log("2");
+            if (element.dataset.type != "Eigenschaft") {
               newItemData = {
                 ...newItemData,
                 mk: html.find("[name=newMK]")[0].value,
                 size: html.find("[name=newSize]")[0].value,
               };
             }
+            console.log("3");
             if (element.dataset.type === "Waffe") {
               newItemData = {
                 ...newItemData,
@@ -341,8 +340,10 @@ export default class DSCharakcterSheet extends ActorSheet {
               };
             }
             if (element.dataset.type === "Artifizierung") {
+              console.log("Artifizierung Daten sammeln");
               newItemData = {
                 ...newItemData,
+                skill: html.find("[name=skillRef]")[0].value,
               };
             }
             if (element.dataset.type === "Unterbringung") {
@@ -354,11 +355,9 @@ export default class DSCharakcterSheet extends ActorSheet {
             if (element.dataset.type === "Eigenschaft") {
               newItemData = {
                 ...newItemData,
-                skill: html.find("[name=newSkillReq]")[0].value,
-                requirement: html.find("[name=newReqVal]")[0].value,
+                skill: html.find("[name=skillRef]")[0].value,
               };
             }
-
             if (element.dataset.type === "Besonderheiten") {
               newItemData = {
                 ...newItemData,
@@ -376,12 +375,13 @@ export default class DSCharakcterSheet extends ActorSheet {
                 type: newItemType,
               };
             }
+
             let itemData = {
               name: html.find("[name=newName]")[0].value,
               type: newItemData.type,
               data: newItemData,
             };
-
+            console.log(itemData);
             return this.actor.createOwnedItem(itemData);
           },
         },
@@ -534,27 +534,24 @@ export default class DSCharakcterSheet extends ActorSheet {
     const actordata = this.actor.data.data;
     const element = event.currentTarget;
 
-    const conditions = await renderTemplate(
-      "systems/darkspace/templates/dice/dialogConditions.html",
-      { config: CONFIG.darkspace, data: actordata }
-    );
-
     const parentAttr = element.dataset.parentattr;
-    const parentProp = this.actor.data.items.filter(
-      (p) => p.data.data.attribut === parentAttr
-    );
 
-    const editAttr = await renderTemplate(
-      "systems/darkspace/templates/dice/dialogPropAttr.html",
-      parentProp
-    );
+    // i.type === "Artifizierung"
+    // console.log(parentAttr);
+    // console.log(Object.keys(actordata.charattribut[parentAttr].skill));
+    // console.log(this.actor.data.items.filter((i) => i.data.data.skill));
+
     //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
     // Testet welcher Property-Button gedrückt wurde //
     if (element.dataset.fieldtype === "conditions") {
+      const conditions = await renderTemplate(
+        "systems/darkspace/templates/dice/dialogConditions.html",
+        { config: CONFIG.darkspace, data: actordata }
+      );
       var newConditionList = [];
       new Dialog({
-        title: "Gesundheit modifizieren",
+        title: "Zustand ändern",
         content: conditions,
         buttons: {
           button1: {
@@ -580,28 +577,46 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
 
     if (element.dataset.fieldtype === "editAttr") {
-      new Dialog({
-        title: "Eigenschaften",
-        content: editAttr,
-        buttons: {
-          button1: {
-            label: "OK",
-            callback: (html) => {
-              Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
-                if (checkbox.checked == true) {
-                  this.actor.deleteOwnedItem(checkbox.dataset.itemId);
-                }
-              });
+      const parentSkill = Object.keys(actordata.charattribut[parentAttr].skill);
+      var parentProp = {};
+      parentSkill.forEach((skill) => {
+        parentProp = {
+          ...parentProp,
+          [skill]: this.actor.data.items.filter(
+            (i) => i.data.data.skill === skill
+          ),
+        };
+      });
+      const editAttr = await renderTemplate(
+        "systems/darkspace/templates/dice/dialogPropAttr.html",
+        parentProp
+      );
+      new Dialog(
+        {
+          title: "Eigenschaften",
+          content: editAttr,
+
+          buttons: {
+            button1: {
+              label: "OK",
+              callback: (html) => {
+                Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
+                  if (checkbox.checked == true) {
+                    this.actor.deleteOwnedItem(checkbox.dataset.itemId);
+                  }
+                });
+              },
+              icon: `<i class="fas fa-check"></i>`,
             },
-            icon: `<i class="fas fa-check"></i>`,
           },
-        },
-        close: () => {
-          this.actor.update({
-            id: this.actor.id,
-          });
-        },
-      }).render(true);
+          close: () => {
+            this.actor.update({
+              id: this.actor.id,
+            });
+          },
+        }
+        //{ width: 80 }
+      ).render(true);
     }
   }
 

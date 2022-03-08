@@ -1,9 +1,7 @@
-<div>
-    <ul>
+<div class="flex wrap">
         {{#each data.conditionList}}
-        <li><input type="checkbox" {{checked [1].active}} name="data.conditions.active" value="{{@index}}">
-            {{[1].value}}</li>
+        <input type="checkbox" class="symbol"  {{checked [1].active}} name="data.conditions.active" value="{{@index}}" id="{{[1].value}}">
+            <label for="{{[1].value}}">{{[1].value}}</label>
         {{/each}}
-    </ul>
 
 </div>

@@ -1,18 +1,9 @@
 <div>
     {{> "systems/darkspace/templates/dice/dialog-sub-partials/dialogName.html"}}
-    test
-    <p>Voraussetzung</p>
-    <div class="grid col2-31">
-        <h3>Typ</h3>
-        <select name="newType" class="container_center">
-
-            <option value="Vorteil" type="text">Vorteil</option>
-        </select>
-    </div>
-
-    
-    <div>
-        <span>Beschreibung</span>
-        <textarea name="newDesc"></textarea>
-    </div>
+    <select class="container_center" name="skillRef">
+        {{#each skillList}}
+        <option value="{{this}}" type="text">{{this}}</option>
+        {{/each}}
+    </select>
+    {{> "systems/darkspace/templates/dice/dialog-sub-partials/dialogDescMod.html"}}
 </div>
