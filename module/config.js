@@ -2,7 +2,6 @@ export const darkspace = {};
 import * as DSCharakter from "./sheets/DSCharacter.js";
 console.log(CONFIG);
 console.log(darkspace);
-console.log();
 darkspace.attackTypes = {
   none: "",
   Schusswaffen: "Schusswaffen",
@@ -22,61 +21,33 @@ darkspace.iniSend = 0;
 
 darkspace.dice = "systems/darkspace/icons/d10.svg";
 darkspace.diceEdit = "systems/darkspace/icons/d10edit.svg";
-darkspace.test = "Test";
 
-darkspace.attr = [
-  "Aufmerksamkeit",
-  "Ausstrahlung",
-  "Geschick",
-  "Konstitution",
-  "Intelligenz",
-  "Intuition",
-  "Anomalie",
-  "Konzentration",
-  "Kybernese",
-  "Netzwerk",
-  "Ressourcen",
-];
-darkspace.skills = [
-  "Fahrzeuge",
-  "Fokus",
-  "Menschenkenntnis",
-  "Wahrnehmen",
-  "Charisma",
-  "Einschüchtern",
-  "Überzeugen",
-  "Verhandeln",
-  "Heimlichkeit",
-  "Motorik",
-  "Kampftechnik",
-  "Schusswaffen",
-  "Athletik",
-  "Fitness",
-  "Nahkampfwaffen",
-  "Unterstützungswaffen",
-  "Bildung",
-  "Logik",
-  "Medizin",
-  "Raumfahrt",
-  "Cortex",
-  "Kreativität",
-  "Kultur",
-  "Polytronik",
-  "Glück",
-  "Willenskraft",
-  "Synthese",
-  "Kontakte",
-  "Finanzen",
-];
-darkspace.skillList = darkspace.skills.sort();
+const tempTree = fetch("systems/darkspace/template.json")
+  .then((response) => response.json())
+  .then((tempData) => {
+    return tempData;
+  });
+console.log(
+  tempTree.then((a) => {
+    return a;
+  })
+);
+const accessTempTree = () => {
+  tempTree.then((a) => {
+    console.log(a);
+    let attrList = Object.keys(a.Actor.Charakter.charattribut);
+    let skillList = [];
+    darkspace.attr = attrList;
 
-const conditionList = [
-  "Außer Gefecht",
-  "Tod",
-  "Verkrüppelt",
-  "Verwundet",
-  "Angeschlagen",
-].sort();
+    attrList.forEach((attr) => {
+      skillList = skillList.concat(
+        Object.keys(a.Actor.Charakter.charattribut[attr].skill)
+      );
+    });
+    darkspace.skillList = skillList.sort();
+  });
+};
+accessTempTree();
 
 const convertArrayToObject = (array) => {
   const initialValue = {};
@@ -88,4 +59,6 @@ const convertArrayToObject = (array) => {
   }, initialValue);
 };
 
-darkspace.conditions = convertArrayToObject(conditionList);
+darkspace.conditions = convertArrayToObject(
+  ["Außer Gefecht", "Tod", "Verkrüppelt", "Verwundet", "Angeschlagen"].sort()
+);
