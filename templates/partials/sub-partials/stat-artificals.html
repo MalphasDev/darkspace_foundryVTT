@@ -1,44 +1,65 @@
 <div>
-    <h2 class="flex between"><span>Artifizierungen</span><i class="fas fa-plus createItem" data-type="Artifizierung"></i></h2>
-    <div class="flex between">
-        <span class="attrname">
-            <img class="d10-symbol rollSkill" data-rolltype="cybernetic" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-            Kybernese
-        </span>
-        <span>
-            <input class="value_box" name="data.miscData.Kybernese.attribut" value="{{data.data.miscData.Kybernese.attribut}}" type="number">
-            +{{data.data.miscData.Kybernese.bonus}}
-        </span>
+  <h2 class="flex between">
+    <span>Artifizierungen</span
+    ><i class="fas fa-plus createItem" data-type="Artifizierung"></i>
+  </h2>
+  <div class="flex between">
+    <span class="attrname">
+      <img
+        class="d10-symbol rollSkill"
+        data-rolltype="cybernetic"
+        data-modroll="false"
+        src="systems/darkspace/icons/d10.svg"
+      />
+      Kybernese
+    </span>
+    <span>
+      <input
+        class="value_box"
+        name="data.miscData.Kybernese.attribut"
+        value="{{data.data.miscData.Kybernese.attribut}}"
+        type="number"
+      />
+      +{{data.data.miscData.Kybernese.bonus}}
+    </span>
+  </div>
+  <hr />
 
-    </div>
-    <hr>
-    
-            <section>
-                <ul class="item-list">
-                {{#each Artifizierung}}
-                    <li>
-                        <div class="item" data-item-id="{{this._id}}">
-                            
-                            <div class="grid col2-21">
-                                <div>
-                                    <div class="Eigenschaftname flex start">
-                                        <img class="d10-symbol rollItem" data-rolltype="cybernetic" data-skill="{{this.data.mk}}" src="systems/darkspace/icons/d10.svg">
-                                        
-                                        <a class="itemToChat">{{this.name}}</a>
-                                    </div>
-                                    
-                                    <p class="anmerkung">GM {{this.data.size}} | MK {{this.data.mk}}</p>
-                                </div>
-                                <div class="cell_c">
-                                    <a class="item-control itemEdit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                    <a class="item-control itemDelete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
-                    </li>
-                {{/each}}
-                </ul>
-            </section>
+  <section>
+    <ul class="item-list">
+      {{#each Artifizierung}}
+      <li>
+        <div class="item" data-item-id="{{this.id}}">
+          <div class="grid col2-21">
+            <div>
+              <div class="Eigenschaftname flex start">
+                <img
+                  class="d10-symbol rollItem"
+                  data-rolltype="cybernetic"
+                  data-skill="{{this.data.mk}}"
+                  src="systems/darkspace/icons/d10.svg"
+                />
+
+                <a class="itemToChat">{{this.name}}</a>
+              </div>
+
+              <p class="anmerkung">
+                GM {{this.data.size}} | MK {{this.data.mk}}
+              </p>
+            </div>
+            <div class="cell_c">
+              <a class="item-control itemEdit" title="Edit Item"
+                ><i class="fas fa-edit"></i
+              ></a>
+              <a class="item-control itemDelete" title="Delete Item"
+                ><i class="fas fa-trash"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
+      </li>
+      {{/each}}
+    </ul>
+  </section>
 </div>

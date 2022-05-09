@@ -44,7 +44,7 @@ export default class DSItemSheet extends ItemSheet {
 
     let inputData = {
       eventData: element,
-      itemId: this.object._id,
+      itemId: this.object.id,
       itemrData: itemData,
       removehighest: element.className.includes("disadv"),
     };
@@ -84,12 +84,12 @@ export default class DSItemSheet extends ItemSheet {
 
     if (currentActive === 1) {
       this.object.update({
-        id: this.object._id,
+        id: this.object.id,
         [ValueAdress]: currentIndex,
       });
     } else {
       this.object.update({
-        id: this.object._id,
+        id: this.object.id,
         [ValueAdress]: currentAttrData + currentIndex,
       });
     }

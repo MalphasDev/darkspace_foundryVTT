@@ -1,46 +1,50 @@
 <div class="flexDice">
-    
-    <span class="{{#if disadv}}unEvalDice{{else}}evalDice{{/if}}">{{evalDiceA}}</span>
-    <span class="evalDice">{{evalDiceB}}</span>
-    
-    <span class="{{#unless disadv}}unEvalDice{{else}}evalDice {{/unless}} {{#unless disadv}}{{#if msg}}kritDice{{/if}}{{/unless}}">{{evalDiceC}}</span>
-    <span class="{{#if disadv}}{{#if msg}} kritDice{{/if}}{{/if}} unEvalDice">{{evalDiceD}}</span>
-    
-    
-    {{#each unEvalDice}}
-    <span class="unEvalDice">{{this}}</span>
-    {{/each}}
+  <span class="{{#if disadv}}unEvalDice{{else}}evalDice{{/if}}"
+    >{{evalDiceA}}</span
+  >
+  <span class="evalDice">{{evalDiceB}}</span>
 
-    <span>( + {{terms.[2].number}})</span>
+  <span
+    class="{{#unless disadv}}unEvalDice{{else}}evalDice {{/unless}} {{#unless disadv}}{{#if msg}}kritDice{{/if}}{{/unless}}"
+    >{{evalDiceC}}</span
+  >
+  <span class="{{#if disadv}}{{#if msg}} kritDice{{/if}}{{/if}} unEvalDice"
+    >{{evalDiceD}}</span
+  >
+
+  {{#each unEvalDice}}
+  <span class="unEvalDice">{{this}}</span>
+  {{/each}}
+
+  <span>( + {{terms.[2].number}})</span>
 </div>
 
-<hr>    
+<hr />
 
 <div class="flexResult">{{_total}}</div>
 
 <ul>
-    {{#each merits}}
-    <li class="inline_block propertyListElement">
-        <div class="item" data-item-id="{{this._id}}">
-            <p class="Eigenschaftname"><i
-                    class="fas fa-dna"></i> {{name}}</p>
-        </div>
-    </li>
-    {{/each}}
-    {{#each handicaps}}
-    <li class="inline_block propertyListElement">
-        <div class="item" data-item-id="{{this._id}}">
-            <p class="Eigenschaftname handicap"><i
-                    class="fas fa-dna"></i> {{name}}</p>
-        </div>
-    </li>
-    {{/each}}
-    {{#each cybernetics}}
-    <li class="inline_block propertyListElement">
-        <div class="item" data-item-id="{{this._id}}">
-            <p class="Eigenschaftname artifizierung"><i
-                    class="fas fa-user-cog"></i> {{name}}</p>
-        </div>
-    </li>
-    {{/each}}
+  {{#each merits}}
+  <li class="inline_block propertyListElement">
+    <div class="item" data-item-id="{{this.id}}">
+      <p class="Eigenschaftname"><i class="fas fa-dna"></i> {{name}}</p>
+    </div>
+  </li>
+  {{/each}} {{#each handicaps}}
+  <li class="inline_block propertyListElement">
+    <div class="item" data-item-id="{{this.id}}">
+      <p class="Eigenschaftname handicap">
+        <i class="fas fa-dna"></i> {{name}}
+      </p>
+    </div>
+  </li>
+  {{/each}} {{#each cybernetics}}
+  <li class="inline_block propertyListElement">
+    <div class="item" data-item-id="{{this.id}}">
+      <p class="Eigenschaftname artifizierung">
+        <i class="fas fa-user-cog"></i> {{name}}
+      </p>
+    </div>
+  </li>
+  {{/each}}
 </ul>

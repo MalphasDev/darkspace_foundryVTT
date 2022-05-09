@@ -26,7 +26,9 @@ export function rollDice(rollDiceData) {
   } else {
     rollformular = attr + "d10x10kh3dh1+" + skill;
   }
-  var rollResult = new Roll(rollformular, actorData).roll();
+  var rollResult = new Roll(rollformular, actorData);
+  rollResult.evaluate();
+
   // --------------------- //
   // Krit und Patzer Logik //
   // --------------------- //
@@ -49,7 +51,7 @@ export function rollDice(rollDiceData) {
   }
 
   let messageData = {
-    user: game.user._id,
+    user: game.user.id,
     speaker: ChatMessage.getSpeaker({ actor: this.actor }),
   };
 

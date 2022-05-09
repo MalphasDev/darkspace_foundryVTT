@@ -78,12 +78,12 @@ async function preloadHandlebarsTemplates() {
 Hooks.once("init", function () {
   console.log("DS | Initialisierung System");
 
-  CONFIG.Combat.entityClass = DSCombat;
+  CONFIG.Combat.documentClass = DSCombat;
   CONFIG.Combatant.documentClass = DSCombatant;
   CONFIG.ui.combat = DSCombatTracker;
   CONFIG.darkspace = darkspace;
-  CONFIG.Actor.entityClass = DSCharacter;
-  CONFIG.Item.entityClass = DSItem;
+  CONFIG.Actor.documentClass = DSCharacter;
+  CONFIG.Item.documentClass = DSItem;
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("darkspace", DSItemSheet, { makeDefault: true });

@@ -1,62 +1,60 @@
 <form class="{{cssClass}}" autocomplete="off">
-    
-    
-    
-    <!--Info-Header-->
-    {{>"systems/darkspace/templates/partials/character-sheet-header.html"}}
-    
+  <!--Info-Header-->
+  {{>"systems/darkspace/templates/partials/character-sheet-header.html"}}
 
-    <!--Sheetbody-->
-    <section class="sheet-body">
-
-        <!--Statblock-->
-        <section class="tab stats" data-group="primary" data-tab="stats">
-            {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
-        </section>
-
-        <!--Kampfrelevante Werte-->
-        <section class="tab combat" data-group="primary" data-tab="combat">
-            {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
-        </section>
-    
-        <!--downtime-->
-        <section class="tab items" data-group="primary" data-tab="downtime">
-            {{>"systems/darkspace/templates/partials/character-sheet-downtime.html"}}
-        </section>
-
-        <!--Items-->
-        <section class="tab items" data-group="primary" data-tab="items">
-            {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
-        </section>
-        
-        <!--Notizen-->
-        
-        <section class="tab notes sheet-content" data-group="primary" data-tab="notes">
-            
-            <div class="flex fcol2">
-                <div class="desc-content">
-                    <h2>Beschreibung</h2>
-                    {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
-                </div>
-                <div class="desc-content">
-                    <h2>Notizen</h2>
-                    {{editor content=data.data.notes target="data.notes" button=true owner=owner editable=editable rollData=rollData}}
-                </div>
-               
-            </div>
-            <div>
-                <ul class="item-list">
-                    {{#each items}}
-                    <li class="item" data-item-id="{{this._id}}">
-                        {{name}} <a class="item-control itemDelete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
-            
-            
-        </section>
+  <!--Sheetbody-->
+  <section class="sheet-body">
+    <!--Statblock-->
+    <section class="tab stats" data-group="primary" data-tab="stats">
+      {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
     </section>
-    
-    
+
+    <!--Kampfrelevante Werte-->
+    <section class="tab combat" data-group="primary" data-tab="combat">
+      {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
+    </section>
+
+    <!--downtime-->
+    <section class="tab items" data-group="primary" data-tab="downtime">
+      {{>"systems/darkspace/templates/partials/character-sheet-downtime.html"}}
+    </section>
+
+    <!--Items-->
+    <section class="tab items" data-group="primary" data-tab="items">
+      {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
+    </section>
+
+    <!--Notizen-->
+
+    <section
+      class="tab notes sheet-content"
+      data-group="primary"
+      data-tab="notes"
+    >
+      <div class="flex fcol2">
+        <div class="desc-content">
+          <h2>Beschreibung</h2>
+          {{editor content=data.data.description target="data.description"
+          button=true owner=owner editable=editable rollData=rollData}}
+        </div>
+        <div class="desc-content">
+          <h2>Notizen</h2>
+          {{editor content=data.data.notes target="data.notes" button=true
+          owner=owner editable=editable rollData=rollData}}
+        </div>
+      </div>
+      <div>
+        <ul class="item-list">
+          {{#each items}}
+          <li class="item" data-item-id="{{this.id}}">
+            {{name}}
+            <a class="item-control itemDelete" title="Delete Item"
+              ><i class="fas fa-trash"></i
+            ></a>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+    </section>
+  </section>
 </form>

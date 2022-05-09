@@ -31,17 +31,17 @@ export default class DSCombat extends Combat {
           return c.data.initiative === undefined;
         })
         .map((c) => {
-          return c.data._id;
+          return c.data.id;
         }),
       {}
-    ); // Map wird benutzt, um aus dem gefilterten Array die _id mit RETURN auszugeben
+    ); // Map wird benutzt, um aus dem gefilterten Array die id mit RETURN auszugeben
 
     let preSortetCombatants = this.preSortetCombatants();
 
     let startAE = 1; // Setzt erstes "Feld des Initiativ-Boards"
     preSortetCombatants.forEach((c) => {
       this.updateCombatant({
-        _id: c.data._id,
+        id: c.data.id,
         initiative: startAE++,
       });
     });
@@ -67,14 +67,14 @@ export default class DSCombat extends Combat {
       if (preSortetCombatants.length != 0) {
         ids.forEach((id) => {
           this.updateCombatant({
-            _id: id,
+            id: id,
             initiative: preSortetCombatants[0].data.initiative + 1,
           });
         });
       } else {
         ids.forEach((id) => {
           this.updateCombatant({
-            _id: id,
+            id: id,
             initiative: 1,
           });
         });
@@ -86,7 +86,8 @@ export default class DSCombat extends Combat {
             return d.data._id == id;
           })
         )[0];
-        var actorByCombatantId = currentCombatant._actor.data;
+        console.log(currentCombatant);
+        var actorByCombatantId = currentCombatant.actor.data;
 
         let dynattr = actorByCombatantId.data.initiative;
         let dynskill = 0;
@@ -107,8 +108,10 @@ export default class DSCombat extends Combat {
         let cardData = outputData.cardData;
         let messageData = outputData.messageData;
 
-        this.updateCombatant({
-          _id: id,
+        /* TODO */
+
+        DSCombatant.data.update({
+          id: id,
           initiative: outputData.cardData._total,
         });
 
@@ -138,7 +141,7 @@ export default class DSCombat extends Combat {
     }
     this.sendAE = 0;
     return Combatant.update({
-      _id: id,
+      id: id,
       initiative: ae,
     });
   }
@@ -146,7 +149,7 @@ export default class DSCombat extends Combat {
   _waitCombat(id) {
     const Combatant = this.combatant;
     return Combatant.update({
-      _id: id,
+      id: id,
       initiative: null,
     });
   }

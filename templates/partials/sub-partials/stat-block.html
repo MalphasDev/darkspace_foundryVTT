@@ -1,114 +1,137 @@
 <div>
-    <h2 class="flex between">Attribute und Fertigkeiten 
-        <div>
-            <a class="button createItem" data-type="Eigenschaft">
-                <i class="fas fa-dna"></i><i class="fas fa-plus"></i>
-            </a>
-            <a class="button createItem" data-type="Artifizierung">
-                <i class="fas fa-user-cog"></i><i class="fas fa-plus"></i>
-            </a>
+  <h2 class="flex between">
+    Attribute und Fertigkeiten
+    <div>
+      <a class="button createItem" data-type="Eigenschaft">
+        <i class="fas fa-dna"></i><i class="fas fa-plus"></i>
+      </a>
+      <a class="button createItem" data-type="Artifizierung">
+        <i class="fas fa-user-cog"></i><i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </h2>
+
+  <ul class="grid col3" id="statFeld">
+    {{#each data.data.charattribut as |attrobj attrname|}}
+    <li class="attrfeld">
+      {{#if ../data.data.Bedrohungsstufe}}
+      <div class="grid col2-21">
+        <div class="container_center">
+          <input
+            type="checkbox"
+            class="checkbox symbol"
+            id="{{attrname}}_prio"
+            data-field="{{attrname}}"
+            name="data.charattribut.{{attrname}}.prio"
+            {{checked
+            this.prio}}
+          />
+          <label for="{{attrname}}_prio">Verstärkt</label>
         </div>
-    </h2>
+        <div class="container_center">
+          <input
+            type="checkbox"
+            class="checkbox symbol"
+            id="{{attrname}}_deprio"
+            data-field="{{attrname}}"
+            name="data.charattribut.{{attrname}}.dePrio"
+            {{checked
+            this.dePrio}}
+          />
+          <label for="{{attrname}}_deprio">Abgeschwächt</label>
+        </div>
+      </div>
 
-    <ul class="grid col3" id="statFeld">
+      {{/if}}
 
-        {{#each data.data.charattribut as |attrobj attrname|}}
-        <li class="attrfeld">
-            {{#if ../data.data.Bedrohungsstufe}}
-            <div class="grid col2-21">
-                <div class="container_center">
-                    <input type="checkbox" class="checkbox symbol" id="{{attrname}}_prio" data-field="{{attrname}}"
-                        name="data.charattribut.{{attrname}}.prio" {{checked this.prio}}>
-                    <label for="{{attrname}}_prio">Verstärkt</label>
-                </div>
-                <div class="container_center">
-                    <input type="checkbox" class="checkbox symbol" id="{{attrname}}_deprio" data-field="{{attrname}}"
-                        name="data.charattribut.{{attrname}}.dePrio" {{checked this.dePrio}}>
-                    <label for="{{attrname}}_deprio">Abgeschwächt</label>
-                </div>
+      <!--ATTRIBUTE für Charaktere-->
+      <div class="grid col2-21">
+        <span
+          class="attrname changeProp"
+          data-fieldtype="editAttr"
+          data-parentAttr="{{attrname}}"
+          ><i class="fas fa-cog"></i> {{attrname}}</span
+        >
+        <span class="attrvalue">
+          <input class="value_box"
+          name="data.charattribut.{{attrname}}.attribut"
+          value="{{attrobj.attribut}}" type="number" {{disabled
+          ../data.data.Bedrohungsstufe}}>
+          <span>W</span>
+        </span>
+      </div>
+
+      <ul class="fertfeld">
+        {{#each this.skill as |fertval fertname|}}
+
+        <li class="gridleftcenter fertname">
+          <p>{{fertname}}</p>
+
+          <div class="skillbox">
+            <input class="value_box"
+            name="data.charattribut.{{attrname}}.skill.{{fertname}}"
+            value="{{this}}" type="number" {{disabled
+            ../../data.data.Bedrohungsstufe}}>
+            <img
+              class="d10-symbol rollSkill"
+              data-rolltype="skill"
+              data-attr="{{attrname}}"
+              data-skill="{{fertname}}"
+              data-modroll="false"
+              src="systems/darkspace/icons/d10.svg"
+            />
+            <img
+              class="d10-symbol rollSkill"
+              data-rolltype="skill"
+              data-attr="{{attrname}}"
+              data-skill="{{fertname}}"
+              data-modroll="true"
+              src="systems/darkspace/icons/d10edit.svg"
+            />
+          </div>
+        </li>
+        <ul class="item-list">
+          <!--EIGENSCHAFTEN-->
+          {{#each ../../Eigenschaft}} {{#ifEquals data.skill fertname}}
+          {{#unless data.handicap}}
+          <li class="inline_block propertyListElement wrap">
+            <div class="item" data-item-id="{{this.id}}">
+              <p
+                class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
+              >
+                <i class="fas fa-dna"></i> {{this.name}}
+              </p>
             </div>
-
-            {{/if}}
-
-            <!--ATTRIBUTE für Charaktere-->
-            <div class="grid col2-21">
-                <span class="attrname changeProp" data-fieldtype="editAttr" data-parentAttr="{{attrname}}"><i class="fas fa-cog" ></i> {{attrname}}</span>
-                <span class="attrvalue">
-                    <input class="value_box" name="data.charattribut.{{attrname}}.attribut" value="{{attrobj.attribut}}"
-                        type="number" {{disabled ../data.data.Bedrohungsstufe}}>
-                    <span>W</span>
-                </span>
+          </li>
+          {{/unless}} {{/ifEquals}} {{/each}}
+          <!--HANDICAPS-->
+          {{#each ../../Eigenschaft}} {{#ifEquals data.skill fertname}} {{#if
+          data.handicap}}
+          <li class="inline_block propertyListElement wrap">
+            <div class="item" data-item-id="{{this.id}}">
+              <p
+                class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
+              >
+                <i class="fas fa-dna"></i> {{this.name}}
+              </p>
             </div>
+          </li>
+          {{/if}} {{/ifEquals}} {{/each}}
+          <!--Artifizierungen-->
+          {{#each ../../Artifizierung}} {{#ifEquals data.skill fertname}}
+          <li class="inline_block propertyListElement wrap">
+            <div class="item" data-item-id="{{this.id}}">
+              <p class="Eigenschaftname item-control itemEdit artifizierung">
+                <i class="fas fa-user-cog"></i> {{this.name}}
+              </p>
+            </div>
+          </li>
+          {{/ifEquals}} {{/each}}
+        </ul>
+        {{/each}}
+      </ul>
 
-
-
-            <ul class="fertfeld">
-                {{#each this.skill as |fertval fertname|}}
-
-                <li class="gridleftcenter fertname">
-                    <p>{{fertname}}</p>
-
-                    <div class="skillbox">
-
-                        <input class="value_box" name="data.charattribut.{{attrname}}.skill.{{fertname}}"
-                            value="{{this}}" type="number" {{disabled ../../data.data.Bedrohungsstufe}}>
-                        <img class="d10-symbol rollSkill" data-rolltype="skill" data-attr="{{attrname}}"
-                            data-skill="{{fertname}}" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                        <img class="d10-symbol rollSkill" data-rolltype="skill" data-attr="{{attrname}}"
-                            data-skill="{{fertname}}" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                    </div>
-
-                    
-
-                </li>
-                <ul class="item-list">
-                    <!--EIGENSCHAFTEN-->
-                    {{#each ../../Eigenschaft}}
-                    {{#ifEquals data.skill fertname}}
-                    
-                    {{#unless data.handicap}}
-                    <li class="inline_block propertyListElement wrap">
-                        <div class="item" data-item-id="{{this._id}}">
-                            <p class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"><i
-                                class="fas fa-dna"></i> {{this.name}}</p>
-                            </div>
-                        </li>
-                        {{/unless}}
-                        
-                        {{/ifEquals}}
-                        {{/each}}
-                    <!--HANDICAPS-->
-                    {{#each ../../Eigenschaft}}
-                    {{#ifEquals data.skill fertname}}
-                    {{#if data.handicap}}
-                    <li class="inline_block propertyListElement wrap">
-                        <div class="item" data-item-id="{{this._id}}">
-                            <p class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"><i
-                                    class="fas fa-dna"></i> {{this.name}}</p>
-                        </div>
-                    </li>
-                    {{/if}}
-                    
-                    {{/ifEquals}}
-                    {{/each}}
-                    <!--Artifizierungen-->    
-                    {{#each ../../Artifizierung}}
-                    {{#ifEquals data.skill fertname}}
-                    <li class="inline_block propertyListElement wrap">
-                        <div class="item" data-item-id="{{this._id}}">
-                            <p class="Eigenschaftname item-control itemEdit artifizierung"><i class="fas fa-user-cog"></i>
-                                {{this.name}}</p>
-                        </div>
-                    </li>
-                    {{/ifEquals}}
-                    {{/each}}
-                </ul>
-                {{/each}}
-            </ul>
-
-
-
-            <!-- {{#if this.ress.exists}}
+      <!-- {{#if this.ress.exists}}
             <hr>
             <ul class="fertfeld">
                 <li>
@@ -130,58 +153,46 @@
             </ul>
             {{/if}} -->
 
-            
-            <ul class="item-list">
-                <!--EIGENSCHAFTEN-->
-                {{#each ../Eigenschaft}}
-                {{#ifEquals data.attribut attrname}}
-
-                {{#unless data.handicap}}
-                <li class="inline_block propertyListElement">
-                    <div class="item" data-item-id="{{this._id}}">
-                        <p class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"><i
-                                class="fas fa-dna"></i> {{this.name}}</p>
-                    </div>
-                </li>
-                {{/unless}}
-                
-                {{/ifEquals}}
-                {{/each}}
-                <!--HANDICAPS-->
-                {{#each ../Eigenschaft}}
-                {{#ifEquals data.attribut attrname}}
-
-                {{#if data.handicap}}
-                <li class="inline_block propertyListElement">
-                    <div class="item" data-item-id="{{this._id}}">
-                        <p class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"><i
-                                class="fas fa-dna"></i> {{this.name}}</p>
-                    </div>
-                </li>
-                {{/if}}
-                
-                {{/ifEquals}}
-                {{/each}}
-                <!--Artifizierungen-->    
-                {{#each ../Artifizierung}}
-                {{#ifEquals data.attribut attrname}}
-                <li class="inline_block propertyListElement">
-                    <div class="item" data-item-id="{{this._id}}">
-                        <p class="Eigenschaftname item-control itemEdit artifizierung"><i class="fas fa-user-cog"></i>
-                            {{this.name}}</p>
-                    </div>
-                </li>
-                {{/ifEquals}}
-                {{/each}}
-            </ul>
-
+      <ul class="item-list">
+        <!--EIGENSCHAFTEN-->
+        {{#each ../Eigenschaft}} {{#ifEquals data.attribut attrname}} {{#unless
+        data.handicap}}
+        <li class="inline_block propertyListElement">
+          <div class="item" data-item-id="{{this.id}}">
+            <p
+              class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
+            >
+              <i class="fas fa-dna"></i> {{this.name}}
+            </p>
+          </div>
         </li>
+        {{/unless}} {{/ifEquals}} {{/each}}
+        <!--HANDICAPS-->
+        {{#each ../Eigenschaft}} {{#ifEquals data.attribut attrname}} {{#if
+        data.handicap}}
+        <li class="inline_block propertyListElement">
+          <div class="item" data-item-id="{{this.id}}">
+            <p
+              class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
+            >
+              <i class="fas fa-dna"></i> {{this.name}}
+            </p>
+          </div>
+        </li>
+        {{/if}} {{/ifEquals}} {{/each}}
+        <!--Artifizierungen-->
+        {{#each ../Artifizierung}} {{#ifEquals data.attribut attrname}}
+        <li class="inline_block propertyListElement">
+          <div class="item" data-item-id="{{this.id}}">
+            <p class="Eigenschaftname item-control itemEdit artifizierung">
+              <i class="fas fa-user-cog"></i> {{this.name}}
+            </p>
+          </div>
+        </li>
+        {{/ifEquals}} {{/each}}
+      </ul>
+    </li>
 
-        {{/each}}
-
-
-    </ul>
-
-
-
+    {{/each}}
+  </ul>
 </div>

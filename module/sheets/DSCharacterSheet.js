@@ -47,20 +47,6 @@ export default class DSCharakcterSheet extends ActorSheet {
         return item.type == itemType;
       });
     });
-
-    // /|\
-    //  --- Das da sind die Zeilen unten  ---  drunter als FOR-Schleife
-    //                                   \|/
-
-    // data.Waffe = data.items.filter(function (item) {return item.type == "Waffe"});
-    // data.Artifizierung = data.items.filter(function (item) {return item.type == "Artifizierung"});
-    // data.Panzerung = data.items.filter(function (item) {return item.type == "Panzerung"});
-    // data.Eigenschaft = data.items.filter(function (item) {return item.type == "Eigenschaft"});
-    // data.Module = data.items.filter(function (item) {return item.type == "Module"});
-    // data.Unterbringung = data.items.filter(function (item) {return item.type == "Unterbringung"});
-    // data.Gegenstand = data.items.filter(function (item) {return item.type == "Gegenstand"});
-    // data.Besonderheiten = data.items.filter(function (item) {return item.type == "Besonderheiten"});
-
     return data;
   }
 
@@ -72,7 +58,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     html.find(".incRess, .decRess").click(this._modRess.bind(this));
     html.find(".item-quick-edit").change(this._itemQuickEdit.bind(this));
 
-    //find and bind
+    // Find and Bind
 
     const classIdent = [
       ".createItem",
@@ -210,6 +196,8 @@ export default class DSCharakcterSheet extends ActorSheet {
     let dynskill = parseInt(dataset.bonus);
     var roleData = { attribute: dataset.attr, skill: dataset.rollname };
 
+    console.log(dataset);
+
     let preCreatedInput = this.createInputData(event);
     let inputData = {
       ...preCreatedInput,
@@ -234,8 +222,9 @@ export default class DSCharakcterSheet extends ActorSheet {
     const actorData = this.object.data.data;
 
     const itemId = element.closest(".item").dataset.itemId;
-    const item = this.actor.getOwnedItem(itemId);
-
+    const item = this.actor.items.filter((item) => {
+      return item.id === itemId;
+    })[0];
     // -------------------------------- //
     // Charakterdaten für Angriffswürfe //
     // -------------------------------- //
@@ -318,13 +307,11 @@ export default class DSCharakcterSheet extends ActorSheet {
           icon: '<i class="fas fa-check"></i>',
           label: "OK",
           callback: (html) => {
-            console.log("1");
             var newItemData = {
               name: html.find("[name=newName]")[0].value,
               type: element.dataset.type,
               description: html.find("[name=newDesc]")[0].value,
             };
-            console.log("2");
             if (element.dataset.type != "Eigenschaft") {
               newItemData = {
                 ...newItemData,
@@ -332,7 +319,6 @@ export default class DSCharakcterSheet extends ActorSheet {
                 size: html.find("[name=newSize]")[0].value,
               };
             }
-            console.log("3");
             if (element.dataset.type === "Waffe") {
               newItemData = {
                 ...newItemData,
@@ -382,7 +368,7 @@ export default class DSCharakcterSheet extends ActorSheet {
               data: newItemData,
             };
             console.log(itemData);
-            return this.actor.createOwnedItem(itemData);
+            return this.actor.createEmbeddedDocuments("Item", [itemData]);
           },
         },
       },
@@ -401,17 +387,18 @@ export default class DSCharakcterSheet extends ActorSheet {
     const element = event.currentTarget;
     let itemId = element.closest(".item").dataset.itemId;
     let itemInfo = this.object.data.items.filter((item) => {
-      return item._id == itemId;
+      return item.id == itemId;
     })[0];
 
+    console.log(itemInfo);
     Dialog.confirm({
       title: "Gegenstand entfernen",
       content: "Möchtest du " + itemInfo.name + " wirklich löschen?",
       yes: () => {
         ui.notifications.info("Gegenstand gelöscht");
-        return this.actor.deleteOwnedItem(
-          itemId
-        ); /* <-- Wird in Foundry VTT 9.x ersetzt */
+        return this.actor.deleteEmbeddedDocuments("Item", [
+          itemId,
+        ]); /* <-- Wird in Foundry VTT 9.x ersetzt */
       },
       no: () => {},
       defaultYes: true,
@@ -422,7 +409,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     let itemId = element.closest(".item").dataset.itemId;
     let itemList = this.object.data.items;
     let itemClicked = itemList.filter((i) => {
-      return i.data._id == itemId;
+      return i.data.id == itemId;
     });
 
     let itemType = String(
@@ -497,7 +484,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       };
     }
     let messageData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
     };
     let cardData = {
@@ -602,7 +589,9 @@ export default class DSCharakcterSheet extends ActorSheet {
               callback: (html) => {
                 Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
                   if (checkbox.checked == true) {
-                    this.actor.deleteOwnedItem(checkbox.dataset.itemId);
+                    this.actor.deleteEmbeddedDocuments("Item", [
+                      checkbox.dataset.itemId,
+                    ]);
                   }
                 });
               },
