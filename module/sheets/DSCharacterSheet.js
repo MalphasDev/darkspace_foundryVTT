@@ -376,10 +376,15 @@ export default class DSCharakcterSheet extends ActorSheet {
   }
 
   _itemEdit(event) {
+    console.log("Start ItemEdit");
     event.preventDefault();
     const element = event.currentTarget;
     let itemId = element.closest(".item").dataset.itemId;
+    console.log(element);
+    console.log(element.closest(".item").dataset);
+    console.log("Item ID: " + itemId);
     let item = this.actor.items.get(itemId);
+    console.log("Item: " + item);
     item.sheet.render(true);
   }
   _itemDelete(event) {
@@ -589,6 +594,10 @@ export default class DSCharakcterSheet extends ActorSheet {
               callback: (html) => {
                 Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
                   if (checkbox.checked == true) {
+                    console.log(checkbox);
+                    console.log(
+                      "Delete selected Item: " + checkbox.dataset.itemId
+                    );
                     this.actor.deleteEmbeddedDocuments("Item", [
                       checkbox.dataset.itemId,
                     ]);

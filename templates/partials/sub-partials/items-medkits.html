@@ -5,7 +5,7 @@
   </h2>
   <ul class="item-list">
     {{#each Gegenstand}}
-    <li class="item" data-item-id="{{this.id}}">
+    <li class="item" data-item-id="{{this._id}}">
       <div class="flex between">
         <span class="itemname itemToChat" draggable="true">{{this.name}}</span>
         <span>GM {{this.data.size}}</span>

@@ -17,35 +17,36 @@ export default class DSCombat extends Combat {
     return (aeA - aeB) * isCombatStarted;
   }
 
-  async startCombat() {
-    await this.setupTurns();
-    this.setFlag("darkspace", "isCombatStarted", true); //Muss unbeding aufgerufen werden bevor die ini gerollt wird
-    this.rollFirstInitiative();
-    this.sendAE = 0;
-    return this.update({ round: 1, turn: 0 });
-  }
-  rollFirstInitiative() {
-    this.rollInitiative(
-      Array.from(this.data.combatants.values())
-        .filter((c) => {
-          return c.data.initiative === undefined;
-        })
-        .map((c) => {
-          return c.data.id;
-        }),
-      {}
-    ); // Map wird benutzt, um aus dem gefilterten Array die id mit RETURN auszugeben
+  // async startCombat() {
+  //   await this.setupTurns();
+  //   this.setFlag("darkspace", "isCombatStarted", true); //Muss unbeding aufgerufen werden bevor die ini gerollt wird
+  //   this.rollFirstInitiative();
+  //   this.sendAE = 0;
+  //   return this.update({ round: 1, turn: 0 });
+  // }
 
-    let preSortetCombatants = this.preSortetCombatants();
+  // rollFirstInitiative() {
+  //   this.rollInitiative(
+  //     Array.from(this.data.combatants.values())
+  //       .filter((c) => {
+  //         return c.data.initiative === undefined;
+  //       })
+  //       .map((c) => {
+  //         return c.data.id;
+  //       }),
+  //     {}
+  //   ); // Map wird benutzt, um aus dem gefilterten Array die id mit RETURN auszugeben
 
-    let startAE = 1; // Setzt erstes "Feld des Initiativ-Boards"
-    preSortetCombatants.forEach((c) => {
-      this.updateCombatant({
-        id: c.data.id,
-        initiative: startAE++,
-      });
-    });
-  }
+  //   let preSortetCombatants = this.preSortetCombatants();
+
+  //   let startAE = 1; // Setzt erstes "Feld des Initiativ-Boards"
+  //   preSortetCombatants.forEach((c) => {
+  //     DSCombatant.update({
+  //       id: c.data.id,
+  //       initiative: startAE++,
+  //     });
+  //   });
+  // }
 
   preSortetCombatants() {
     return Array.from(this.data.combatants.values()).sort((a, b) => {
@@ -66,14 +67,14 @@ export default class DSCombat extends Combat {
     if (isCombatStarted) {
       if (preSortetCombatants.length != 0) {
         ids.forEach((id) => {
-          this.updateCombatant({
+          DSCombatant.update({
             id: id,
             initiative: preSortetCombatants[0].data.initiative + 1,
           });
         });
       } else {
         ids.forEach((id) => {
-          this.updateCombatant({
+          DSCombatant.update({
             id: id,
             initiative: 1,
           });
@@ -83,6 +84,7 @@ export default class DSCombat extends Combat {
       ids.forEach(async (id) => {
         var currentCombatant = Array.from(
           actorData.filter((d) => {
+            console.log(d);
             return d.data._id == id;
           })
         )[0];
@@ -110,10 +112,8 @@ export default class DSCombat extends Combat {
 
         /* TODO */
 
-        DSCombatant.data.update({
-          id: id,
-          initiative: outputData.cardData._total,
-        });
+        console.log(outputData.cardData._total);
+        this.setInitiative(id, outputData.cardData._total);
 
         messageData.content = await renderTemplate(
           "systems/darkspace/templates/dice/chatInitiative.html",

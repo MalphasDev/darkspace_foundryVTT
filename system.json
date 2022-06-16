@@ -12,7 +12,6 @@
   "languages": [],
   "gridDistance:": 1,
   "gridUnits": "m",
-  "initiative": "1",
   "url": "https://dark-space-rpg.de",
   "manifest": "https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/main/system.json",
   "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/v0.6.zip"

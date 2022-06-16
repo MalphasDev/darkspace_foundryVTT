@@ -1,4 +1,3 @@
-import * as DSMechanics from "../DSMechanics.js";
 import * as config from "../config.js";
 export default class DSItem extends Item {
   prepareData() {

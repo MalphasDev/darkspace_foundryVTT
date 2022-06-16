@@ -1,5 +1,4 @@
 export const darkspace = {};
-import * as DSCharakter from "./sheets/DSCharacter.js";
 console.log(CONFIG);
 console.log(darkspace);
 darkspace.attackTypes = {

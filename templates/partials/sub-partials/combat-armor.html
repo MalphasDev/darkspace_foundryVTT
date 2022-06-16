@@ -6,11 +6,11 @@
 
   <ul class="item-list">
     {{#each Panzerung}}
-    <li class="item" data-item-id="{{this.id}}">
+    <li class="item" data-item-id="{{this._id}}">
       <div class="flex between">
         <h3>{{this.name}}</h3>
         <div>
-          <label for="equippedGear{{this.id}}">
+          <label for="equippedGear{{this._id}}">
             {{#if data.equipped}}
             <i class="fas fa-fist-raised"></i>
             {{/if}} {{#unless data.equipped}}
@@ -23,7 +23,7 @@
             {{checked
             data.equipped}}
             class="item-quick-edit"
-            id="equippedGear{{this.id}}"
+            id="equippedGear{{this._id}}"
             data-target="data.equipped"
           />
           <a class="item-control itemEdit" title="Edit Item"

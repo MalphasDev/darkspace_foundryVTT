@@ -1,4 +1,4 @@
-export function rollDice(rollDiceData) {
+export async function rollDice(rollDiceData) {
   const actorData = rollDiceData.actorData;
   const actorId = rollDiceData.actorId;
   const element = rollDiceData.eventData;
@@ -27,7 +27,7 @@ export function rollDice(rollDiceData) {
     rollformular = attr + "d10x10kh3dh1+" + skill;
   }
   var rollResult = new Roll(rollformular, actorData);
-  rollResult.evaluate();
+  await rollResult.evaluate({ async: true });
 
   // --------------------- //
   // Krit und Patzer Logik //
@@ -111,9 +111,9 @@ export function rollDice(rollDiceData) {
         return k.data.data.skill === roleData.skill;
       });
   }
+
   let cardData = {
     ...roleData,
-    ...rollResult,
     ...diceResult,
     ...resultMessage,
     ...disadvMessage,
@@ -121,6 +121,7 @@ export function rollDice(rollDiceData) {
     handicaps: handicaps,
     cybernetics: cybernetics,
     owner: actorId,
+    ...rollResult,
   };
 
   if (rollDiceData.item != undefined) {
@@ -140,6 +141,7 @@ export function rollDice(rollDiceData) {
     messageData: messageData,
     cardData: cardData,
   };
+
   return outputData;
 }
 
@@ -209,8 +211,13 @@ export async function modRolls(inputData, event) {
 
 export async function _resolveDice(inputData, event) {
   let outputData = this.rollDice(inputData);
-  let messageData = outputData.messageData;
-  let cardData = outputData.cardData;
+  let messageData = {};
+  let cardData = {};
+  await outputData.then((a) => {
+    messageData = a.messageData;
+    cardData = a.cardData;
+  });
+
   console.log(cardData);
 
   // +++++++++++++ Die Art des aktuellen Würfelwurfes identifizieren +++++++++++++
@@ -242,7 +249,7 @@ export async function _resolveDice(inputData, event) {
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
     Unterbringung: "systems/darkspace/templates/dice/chatHousing.html",
   };
-
+  console.log(messageData);
   messageData.content = await renderTemplate(
     chatTempPath[currentRoll],
     cardData

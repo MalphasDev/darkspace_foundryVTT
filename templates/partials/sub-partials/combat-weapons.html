@@ -20,7 +20,7 @@
         {{/unless}}
 
         {{#each Waffe}}
-        <li class="item" data-item-id="{{this.id}}">
+        <li class="item" data-item-id="{{this._id}}">
             <div>
                 <div class="grid col-weapons">
                     <span>
@@ -36,7 +36,7 @@
                     <span>MK {{this.data.mk}}</span>
                     <div>
 
-                        <label for="equippedGear{{this.id}}">
+                        <label for="equippedGear{{this._id}}">
                             {{#if data.equipped}}
                             <i class="fas fa-fist-raised"></i>
                             {{/if}}
@@ -45,7 +45,7 @@
                             {{/unless}}
 
                         </i></label>
-                        <input type="checkbox" invisible {{checked data.equipped}} class="item-quick-edit" id="equippedGear{{this.id}}" data-target="data.equipped">
+                        <input type="checkbox" invisible {{checked data.equipped}} class="item-quick-edit" id="equippedGear{{this._id}}" data-target="data.equipped">
 
 
                         <a class="item-control itemEdit" title="Edit Item"><i class="fas fa-edit"></i></a>

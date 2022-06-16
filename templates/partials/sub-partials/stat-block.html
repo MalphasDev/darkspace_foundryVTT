@@ -95,7 +95,8 @@
           {{#each ../../Eigenschaft}} {{#ifEquals data.skill fertname}}
           {{#unless data.handicap}}
           <li class="inline_block propertyListElement wrap">
-            <div class="item" data-item-id="{{this.id}}">
+            {{log this}}
+            <div class="item" data-item-id="{{this._id}}">
               <p
                 class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
               >
@@ -108,7 +109,7 @@
           {{#each ../../Eigenschaft}} {{#ifEquals data.skill fertname}} {{#if
           data.handicap}}
           <li class="inline_block propertyListElement wrap">
-            <div class="item" data-item-id="{{this.id}}">
+            <div class="item" data-item-id="{{this._id}}">
               <p
                 class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
               >
@@ -120,7 +121,7 @@
           <!--Artifizierungen-->
           {{#each ../../Artifizierung}} {{#ifEquals data.skill fertname}}
           <li class="inline_block propertyListElement wrap">
-            <div class="item" data-item-id="{{this.id}}">
+            <div class="item" data-item-id="{{this._id}}">
               <p class="Eigenschaftname item-control itemEdit artifizierung">
                 <i class="fas fa-user-cog"></i> {{this.name}}
               </p>
@@ -158,7 +159,7 @@
         {{#each ../Eigenschaft}} {{#ifEquals data.attribut attrname}} {{#unless
         data.handicap}}
         <li class="inline_block propertyListElement">
-          <div class="item" data-item-id="{{this.id}}">
+          <div class="item" data-item-id="{{this._id}}">
             <p
               class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
             >
@@ -171,7 +172,7 @@
         {{#each ../Eigenschaft}} {{#ifEquals data.attribut attrname}} {{#if
         data.handicap}}
         <li class="inline_block propertyListElement">
-          <div class="item" data-item-id="{{this.id}}">
+          <div class="item" data-item-id="{{this._id}}">
             <p
               class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
             >
@@ -183,7 +184,7 @@
         <!--Artifizierungen-->
         {{#each ../Artifizierung}} {{#ifEquals data.attribut attrname}}
         <li class="inline_block propertyListElement">
-          <div class="item" data-item-id="{{this.id}}">
+          <div class="item" data-item-id="{{this._id}}">
             <p class="Eigenschaftname item-control itemEdit artifizierung">
               <i class="fas fa-user-cog"></i> {{this.name}}
             </p>
