@@ -17,110 +17,114 @@ export default class DSCombat extends Combat {
     return (aeA - aeB) * isCombatStarted;
   }
 
-  // async startCombat() {
-  //   await this.setupTurns();
-  //   this.setFlag("darkspace", "isCombatStarted", true); //Muss unbeding aufgerufen werden bevor die ini gerollt wird
-  //   this.rollFirstInitiative();
-  //   this.sendAE = 0;
-  //   return this.update({ round: 1, turn: 0 });
-  // }
+  async startCombat() {
+    console.log("STARTE KAMPF");
+    //await this.setupTurns();
+    // Offene Inititaiven Würfeln
 
-  // rollFirstInitiative() {
-  //   this.rollInitiative(
-  //     Array.from(this.data.combatants.values())
-  //       .filter((c) => {
-  //         return c.data.initiative === undefined;
-  //       })
-  //       .map((c) => {
-  //         return c.data.id;
-  //       }),
-  //     {}
-  //   ); // Map wird benutzt, um aus dem gefilterten Array die id mit RETURN auszugeben
+    const ids = Array.from(this.data.combatants.values())
+      .filter((c) => {
+        return c.data.initiative === undefined;
+      })
+      .map((c) => {
+        return c.data._id;
+      });
 
-  //   let preSortetCombatants = this.preSortetCombatants();
+    console.log("Laut setupTurns() vorhandende Combatants:");
+    console.log(this.setupTurns());
+    console.log("Zu übergebende IDs: " + ids);
+    this.rollInitiative(ids);
 
-  //   let startAE = 1; // Setzt erstes "Feld des Initiativ-Boards"
-  //   preSortetCombatants.forEach((c) => {
-  //     DSCombatant.update({
-  //       id: c.data.id,
-  //       initiative: startAE++,
-  //     });
-  //   });
-  // }
+    await this.setFlag("darkspace", "isCombatStarted", true);
 
-  preSortetCombatants() {
-    return Array.from(this.data.combatants.values()).sort((a, b) => {
-      return b.data.initiative - a.data.initiative;
+    console.log("Starte Zählschleife für Start-AE");
+    this.setupTurns().forEach((combatant, index, combatantList) => {
+      this.setInitiative(combatant.id, index + 1);
     });
+
+    this.sendAE = 0;
+
+    return this.update({ turn: 0, round: 1 }, { diff: false });
   }
 
   async rollInitiative(ids, options) {
+    console.log("Rolle Inititaive!");
+    console.log("Erhaltene IDs: " + ids);
     const actorData = this.data.combatants;
-    let preSortetCombatants = this.preSortetCombatants().filter((c) => {
+    const Combatant = this.combatant;
+
+    let preSortetCombatants = this.setupTurns().filter((c) => {
       return c.data.initiative != undefined;
     });
-
     var isCombatStarted = this.getFlag("darkspace", "isCombatStarted")
       ? true
       : false;
 
+    console.log("Läuft der Kampf schon? " + isCombatStarted);
     if (isCombatStarted) {
+      console.log("Kampf läuft.");
       if (preSortetCombatants.length != 0) {
         ids.forEach((id) => {
-          DSCombatant.update({
-            id: id,
-            initiative: preSortetCombatants[0].data.initiative + 1,
-          });
+          this.setInitiative(
+            id,
+            preSortetCombatants[preSortetCombatants.length - 1].data
+              .initiative + 1
+          );
+          console.log("Fall A1");
         });
       } else {
         ids.forEach((id) => {
-          DSCombatant.update({
-            id: id,
-            initiative: 1,
-          });
+          this.setInitiative(id, 1);
+          console.log("Fall A2");
         });
       }
     } else {
-      ids.forEach(async (id) => {
+      console.log("Kampf läuft nocht nicht.");
+      console.log("id-Liste: " + ids);
+      ids.forEach(async (id, index) => {
+        console.log("Schleifendurchlauf #" + index);
         var currentCombatant = Array.from(
           actorData.filter((d) => {
-            console.log(d);
             return d.data._id == id;
           })
         )[0];
-        console.log(currentCombatant);
+
         var actorByCombatantId = currentCombatant.actor.data;
-
-        let dynattr = actorByCombatantId.data.initiative;
-        let dynskill = 0;
-        let roleData = { attribute: "Initiative", skill: "Initiative" };
-
+        console.log("inputData fürs würfeln zusammenstellen");
         let inputData = {
           eventData: {},
           actorId: currentCombatant.id,
           actorData: actorData,
           removehighest: false,
           object: {},
-          dynattr: dynattr,
-          dynskill: dynskill,
-          roleData: roleData,
+          dynattr: actorByCombatantId.data.initiative,
+          dynskill: 0,
+          roleData: { attribute: "Initiative", skill: "Initiative" },
         };
 
-        let outputData = DSMechanics.rollDice(inputData);
-        let cardData = outputData.cardData;
-        let messageData = outputData.messageData;
+        let outputData = await DSMechanics.rollDice(inputData).then(
+          (result) => {
+            return result;
+          }
+        );
 
-        /* TODO */
-
-        console.log(outputData.cardData._total);
         this.setInitiative(id, outputData.cardData._total);
 
-        messageData.content = await renderTemplate(
-          "systems/darkspace/templates/dice/chatInitiative.html",
-          cardData
+        console.log(
+          "Inititaive fertig gewürfelt: " + outputData.cardData._total
         );
-        AudioHelper.play({ src: CONFIG.sounds.dice });
-        return ChatMessage.create(messageData);
+        console.log("Fall B");
+
+        // Chatausgabe
+
+        // let cardData = outputData.cardData;
+        // let messageData = outputData.messageData;
+        // messageData.content = await renderTemplate(
+        //   "systems/darkspace/templates/dice/chatInitiative.html",
+        //   cardData
+        // );
+        // AudioHelper.play({ src: CONFIG.sounds.dice });
+        // return ChatMessage.create(messageData);
       });
     }
 
@@ -140,10 +144,12 @@ export default class DSCombat extends Combat {
       ae++;
     }
     this.sendAE = 0;
-    return Combatant.update({
+
+    await Combatant.update({
       id: id,
       initiative: ae,
     });
+    return this.update({ turn: 0 }, { diff: false });
   }
 
   _waitCombat(id) {

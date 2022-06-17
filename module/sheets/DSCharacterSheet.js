@@ -196,8 +196,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     let dynskill = parseInt(dataset.bonus);
     var roleData = { attribute: dataset.attr, skill: dataset.rollname };
 
-    console.log(dataset);
-
     let preCreatedInput = this.createInputData(event);
     let inputData = {
       ...preCreatedInput,
@@ -326,7 +324,6 @@ export default class DSCharakcterSheet extends ActorSheet {
               };
             }
             if (element.dataset.type === "Artifizierung") {
-              console.log("Artifizierung Daten sammeln");
               newItemData = {
                 ...newItemData,
                 skill: html.find("[name=skillRef]")[0].value,
@@ -367,7 +364,6 @@ export default class DSCharakcterSheet extends ActorSheet {
               type: newItemData.type,
               data: newItemData,
             };
-            console.log(itemData);
             return this.actor.createEmbeddedDocuments("Item", [itemData]);
           },
         },
@@ -376,15 +372,12 @@ export default class DSCharakcterSheet extends ActorSheet {
   }
 
   _itemEdit(event) {
-    console.log("Start ItemEdit");
     event.preventDefault();
     const element = event.currentTarget;
     let itemId = element.closest(".item").dataset.itemId;
-    console.log(element);
-    console.log(element.closest(".item").dataset);
-    console.log("Item ID: " + itemId);
+
     let item = this.actor.items.get(itemId);
-    console.log("Item: " + item);
+
     item.sheet.render(true);
   }
   _itemDelete(event) {
@@ -395,7 +388,6 @@ export default class DSCharakcterSheet extends ActorSheet {
       return item.id == itemId;
     })[0];
 
-    console.log(itemInfo);
     Dialog.confirm({
       title: "Gegenstand entfernen",
       content: "Möchtest du " + itemInfo.name + " wirklich löschen?",
@@ -529,9 +521,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     const parentAttr = element.dataset.parentattr;
 
     // i.type === "Artifizierung"
-    // console.log(parentAttr);
-    // console.log(Object.keys(actordata.charattribut[parentAttr].skill));
-    // console.log(this.actor.data.items.filter((i) => i.data.data.skill));
 
     //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
@@ -594,10 +583,6 @@ export default class DSCharakcterSheet extends ActorSheet {
               callback: (html) => {
                 Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
                   if (checkbox.checked == true) {
-                    console.log(checkbox);
-                    console.log(
-                      "Delete selected Item: " + checkbox.dataset.itemId
-                    );
                     this.actor.deleteEmbeddedDocuments("Item", [
                       checkbox.dataset.itemId,
                     ]);

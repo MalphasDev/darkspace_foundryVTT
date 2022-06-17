@@ -218,8 +218,6 @@ export async function _resolveDice(inputData, event) {
     cardData = a.cardData;
   });
 
-  console.log(cardData);
-
   // +++++++++++++ Die Art des aktuellen Würfelwurfes identifizieren +++++++++++++
   if (event.currentTarget === null) {
     var currentRollClass = "";
@@ -249,7 +247,7 @@ export async function _resolveDice(inputData, event) {
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
     Unterbringung: "systems/darkspace/templates/dice/chatHousing.html",
   };
-  console.log(messageData);
+
   messageData.content = await renderTemplate(
     chatTempPath[currentRoll],
     cardData
