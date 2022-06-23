@@ -32,21 +32,24 @@ export default class DSCharakcterSheet extends ActorSheet {
   }
 
   getData() {
-    let data = super.getData();
+    let charData = super.getData();
 
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
 
     let itemType = Array.from(
-      data.items.map((i) => {
+      charData.items.map((i) => {
         return i.type;
       })
     );
 
     itemType.forEach((itemType) => {
-      data[itemType] = data.items.filter((item) => {
+      charData[itemType] = charData.items.filter((item) => {
         return item.type == itemType;
       });
     });
+
+    let data = { ...charData, ...CONFIG.darkspace };
+
     return data;
   }
 
@@ -525,37 +528,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
 
     // Testet welcher Property-Button gedrückt wurde //
-    if (element.dataset.fieldtype === "conditions") {
-      const conditions = await renderTemplate(
-        "systems/darkspace/templates/dice/dialogConditions.html",
-        { config: CONFIG.darkspace, data: actordata }
-      );
-      var newConditionList = [];
-      new Dialog({
-        title: "Zustand ändern",
-        content: conditions,
-        buttons: {
-          button1: {
-            label: "OK",
-            callback: (html) => {
-              for (var i = 0; html.find("[type=checkbox]").length > i; i++) {
-                if (html.find("[type=checkbox]")[i].checked == true) {
-                  newConditionList.push(i);
-                }
-              }
-            },
-
-            icon: `<i class="fas fa-check"></i>`,
-          },
-        },
-        close: () => {
-          this.actor.update({
-            id: this.actor.id,
-            "data.conditions": newConditionList,
-          });
-        },
-      }).render(true);
-    }
 
     if (element.dataset.fieldtype === "editAttr") {
       const parentSkill = Object.keys(actordata.charattribut[parentAttr].skill);

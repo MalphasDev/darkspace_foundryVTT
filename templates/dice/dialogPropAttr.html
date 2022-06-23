@@ -10,7 +10,6 @@
         {{#each this}}
         
         {{#each this}}
-        {{log this}}
         <li class="item grid col2" data-item-id="{{this._id}}">
             <span class="itemname" draggable="true">
                 
@@ -23,7 +22,6 @@
                 {{/ifEquals}}
                 {{this.name}}</span>
             <!-- <span></span> -->
-            {{log this}}
             <input type="checkbox" class="cell_c" data-item-id="{{this.id}}">
         </li>
         {{/each}}

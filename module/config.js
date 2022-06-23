@@ -21,16 +21,13 @@ darkspace.iniSend = 0;
 darkspace.dice = "systems/darkspace/icons/d10.svg";
 darkspace.diceEdit = "systems/darkspace/icons/d10edit.svg";
 
+// Stellt Liste mit Attributen und Fertigkeiten zusammen
 const tempTree = fetch("systems/darkspace/template.json")
   .then((response) => response.json())
   .then((tempData) => {
     return tempData;
   });
-console.log(
-  tempTree.then((a) => {
-    return a;
-  })
-);
+
 const accessTempTree = () => {
   tempTree.then((a) => {
     console.log(a);
@@ -48,6 +45,7 @@ const accessTempTree = () => {
 };
 accessTempTree();
 
+// Hilfsfunktion die ein Array in ein Objekt mit einem Wert und einem Boolean-Zustand umbaut.
 const convertArrayToObject = (array) => {
   const initialValue = {};
   return array.reduce((obj, item) => {
@@ -57,7 +55,3 @@ const convertArrayToObject = (array) => {
     };
   }, initialValue);
 };
-
-darkspace.conditions = convertArrayToObject(
-  ["Außer Gefecht", "Tod", "Verkrüppelt", "Verwundet", "Angeschlagen"].sort()
-);

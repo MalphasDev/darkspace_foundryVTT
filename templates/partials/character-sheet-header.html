@@ -1,15 +1,26 @@
 <section>
-    <h1 class="charname">
-        <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
-    </h1>
+    
     <div class="grid col3-232">
         
         <!--Spalte 1-->
         <div class="grid" style="grid-row: 1 / span 2;">
             
             <img class="actorimg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-            
+            <h2 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
+            </h2>
+            <div>
+                <h2>Erfahrung</h2>
+                <div class="flex between">
+                    <span>EP</span> 
+                    <div>
+                        <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
+                        <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
+                    </div>                     
+                </div>
+            </div>
         </div>
+        
         
 
         <!--Spalte 2-->
@@ -25,16 +36,7 @@
         <!--Spalte 3-->
         <div class="cell_t">
                 
-            <div>
-                <h2>Erfahrung</h2>
-                <div class="flex between">
-                    <span>EP</span> 
-                    <div>
-                        <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
-                        <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
-                    </div>                     
-                </div>
-            </div>
+           
             
             {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
         </div>

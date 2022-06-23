@@ -425,7 +425,6 @@ label:hover,
 label > *:hover {
   cursor: pointer;
   background-color: var(--primary-color);
-  box-shadow: 0 0 5px var(--effect-color);
   opacity: 1;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
 }
@@ -438,13 +437,18 @@ li .inline_block {
   display: inline-block;
 }
 .propertyListElement > div > p,
-.iconbox {
+.iconbox,
+li.pill {
   border: 1px solid;
   border-radius: 4px;
   width: max-content;
-  padding: 0px 4px;
   font-size: 8pt;
   background-color: #c7c7c7;
+}
+li input[type="checkbox"]:checked + label {
+  background-color: black;
+  border: none;
+  border-radius: 0;
 }
 .propertyListElement .handicap,
 .handicap {
@@ -464,6 +468,7 @@ li .inline_block {
 .iconbox .fas {
   padding: 0px 2px;
 }
+
 .handlicapCheck {
   padding: 5px 10px;
   border-radius: 5px;
@@ -532,7 +537,8 @@ li .inline_block {
 }
 input[type="checkbox"].item-quick-edit,
 input[type="checkbox"].symbol,
-input[type="radio"] {
+input[type="radio"],
+.noDisplay {
   display: none;
 }
 input[type="radio"] + label,
@@ -548,6 +554,13 @@ input[type="checkbox"]:checked + label {
   background-color: var(--dark-blue);
   color: #fff;
   border-radius: 5px;
+}
+.handicap input[type="checkbox"]:checked + label {
+  background-color: rgb(70, 0, 0);
+}
+input[type="checkbox"] + label[for="ranged"] {
+  background-color: initial;
+  color: initial;
 }
 /* 
 input[id="newRanged"]:checked + label[for="newRanged"]:after {

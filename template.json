@@ -7,7 +7,13 @@
           "dice": 2,
           "bonus": 0
         },
-        "conditions": [],
+        "conditions": {
+          "Angeschlagen": false,
+          "Außer Gefecht": false,
+          "Tod": false,
+          "Verkrüppelt": false,
+          "Verwundet": false
+        },
         "initMod": 0,
         "notes": ""
       }

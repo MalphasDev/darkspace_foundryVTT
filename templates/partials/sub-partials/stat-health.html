@@ -1,15 +1,16 @@
 <div>
-<h2 class="flex between">Zustände<i class="fas fa-cog changeProp" data-fieldtype="conditions"></i></h2>
+<h2 class="flex between">Zustände</h2>
 <div class="">
-    <ul>
-
-        {{#each data.data.activeConditionList}}
-        <li class="inline_block propertyListElement">
-            <div class="inline_block">
-                <p>{{this}}</p>
-            </div>
+    <ul class="flex wrap strech">
+        
+        
+        {{#each data.data.conditions as |value name|}}
+        <li class="flex pill">
+            <input type="checkbox" class="noDisplay"  {{checked value}} name="data.conditions.{{name}}" value="{{value}}" id="{{name}}">
+            <label for="{{name}}">{{name}}</label>
         </li>
         {{/each}}
     </ul>
+    
     
 </div>

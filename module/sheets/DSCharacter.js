@@ -18,27 +18,6 @@ export default class DSCharacter extends Actor {
     });
 
     // Zustand
-    data.conditionList = Object.entries(config.conditions).map((i) => {
-      return i;
-    });
-
-    var activeConditions = [];
-    data.conditionList.forEach((conditions) => {
-      activeConditions.push(conditions[1].active);
-      conditions[1].active = false;
-    });
-    data.conditions.forEach((conditions) => {
-      data.conditionList[conditions][1].active = true;
-    });
-
-    data.activeConditions = activeConditions;
-    data.activeConditionList = data.conditionList
-      .filter((a) => {
-        return a[1].active;
-      })
-      .map((b) => {
-        return b[1].value;
-      });
 
     if (this.type != "DrohneFahrzeug") {
       var weaponList = actorData.items.filter((f) => {
@@ -79,7 +58,10 @@ export default class DSCharacter extends Actor {
       );
       SchutzArray.push(0);
 
-      data.Struktur = Math.max(...StrukturArray);
+      StrukturArray.length == 0
+        ? (data.Struktur = 0)
+        : (data.Struktur = Math.max(...StrukturArray));
+
       data.Schutz = Math.max(...SchutzArray);
 
       // Eigenschaften von Panzerung
@@ -101,6 +83,7 @@ export default class DSCharacter extends Actor {
       data.finalinitiative = data.initiative + data.initMod;
 
       // Unterbringung
+
       let quarterListEquipped = quarterList.filter((e) => {
         return e.data.data.equipped === true;
       });
@@ -136,7 +119,14 @@ export default class DSCharacter extends Actor {
         })
       ).sort((a, b) => a - b);
 
-      data.keepOfItems = Math.max(...itemSizes) + Math.max(...itemMk);
+      console.log();
+
+      data.keepOfItems =
+        itemSizes.length == 0
+          ? 0
+          : Math.max(...itemSizes) + itemMk.length == 0
+          ? 0
+          : Math.max(...itemMk);
       data.wealth = data.charattribut.Ressourcen.attribut * 2;
       data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
 
@@ -249,6 +239,7 @@ export default class DSCharacter extends Actor {
       data.crewNumber = Math.min(absSize, data.mk);
     }
   }
+
   async _preCreate() {
     // Player character configuration
     const actorData = this.data;
