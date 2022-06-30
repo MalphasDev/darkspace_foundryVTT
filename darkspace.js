@@ -7,6 +7,7 @@ import DSCombat from "./module/DSCombat.js";
 import DSCombatant from "./module/DSCombatant.js";
 import DSCombatTracker from "./module/DSCombatTracker.js";
 import DSNebencharakter from "./module/sheets/DSNebencharakter.js";
+import DSSocketHandler from "./module/socket.js";
 
 async function preloadHandlebarsTemplates() {
   const templatePaths = [
@@ -132,6 +133,11 @@ Hooks.once("init", function () {
   });
   Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
     return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
+  });
+
+  game.socket.on("system.darkspace", (data) => {
+    if (data.operation === "updateInitRoll")
+      DSSocketHandler.updateInitRoll(data);
   });
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

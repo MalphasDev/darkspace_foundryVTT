@@ -18,8 +18,6 @@ export default class DSCombat extends Combat {
   }
 
   async startCombat() {
-    console.log("STARTE KAMPF");
-    //await this.setupTurns();
     // Offene Inititaiven Würfeln
 
     const ids = Array.from(this.data.combatants.values())
@@ -30,26 +28,26 @@ export default class DSCombat extends Combat {
         return c.data._id;
       });
 
-    console.log("Laut setupTurns() vorhandende Combatants:");
-    console.log(this.setupTurns());
-    console.log("Zu übergebende IDs: " + ids);
-    this.rollInitiative(ids);
+    if (ids.length === 0) {
+      this.setupTurns().forEach((combatant, index, combatantList) => {
+        this.setInitiative(combatant.id, index + 1);
+      });
+      this.sendAE = 0;
+      await this.setFlag("darkspace", "isCombatStarted", true);
+      await this.setupTurns();
 
-    await this.setFlag("darkspace", "isCombatStarted", true);
-
-    console.log("Starte Zählschleife für Start-AE");
-    this.setupTurns().forEach((combatant, index, combatantList) => {
-      this.setInitiative(combatant.id, index + 1);
-    });
-
-    this.sendAE = 0;
-
-    return this.update({ turn: 0, round: 1 }, { diff: false });
+      return this.update(
+        { turn: 0, round: 1 },
+        { diff: false },
+        { started: true }
+      );
+    } else {
+      this.rollAll();
+      ui.notifications.warn("Offene Initiativen wurden automatisch gewürfelt.");
+    }
   }
 
   async rollInitiative(ids, options) {
-    console.log("Rolle Inititaive!");
-    console.log("Erhaltene IDs: " + ids);
     const actorData = this.data.combatants;
     const Combatant = this.combatant;
 
@@ -60,9 +58,7 @@ export default class DSCombat extends Combat {
       ? true
       : false;
 
-    console.log("Läuft der Kampf schon? " + isCombatStarted);
     if (isCombatStarted) {
-      console.log("Kampf läuft.");
       if (preSortetCombatants.length != 0) {
         ids.forEach((id) => {
           this.setInitiative(
@@ -70,19 +66,14 @@ export default class DSCombat extends Combat {
             preSortetCombatants[preSortetCombatants.length - 1].data
               .initiative + 1
           );
-          console.log("Fall A1");
         });
       } else {
         ids.forEach((id) => {
           this.setInitiative(id, 1);
-          console.log("Fall A2");
         });
       }
     } else {
-      console.log("Kampf läuft nocht nicht.");
-      console.log("id-Liste: " + ids);
       ids.forEach(async (id, index) => {
-        console.log("Schleifendurchlauf #" + index);
         var currentCombatant = Array.from(
           actorData.filter((d) => {
             return d.data._id == id;
@@ -90,7 +81,6 @@ export default class DSCombat extends Combat {
         )[0];
 
         var actorByCombatantId = currentCombatant.actor.data;
-        console.log("inputData fürs würfeln zusammenstellen");
         let inputData = {
           eventData: {},
           actorId: currentCombatant.id,
@@ -110,11 +100,6 @@ export default class DSCombat extends Combat {
 
         this.setInitiative(id, outputData.cardData._total);
 
-        console.log(
-          "Inititaive fertig gewürfelt: " + outputData.cardData._total
-        );
-        console.log("Fall B");
-
         // Chatausgabe
 
         // let cardData = outputData.cardData;
@@ -133,21 +118,14 @@ export default class DSCombat extends Combat {
 
   async increaseAE(id, value) {
     const Combatant = this.combatant;
-    var ae = this.combatant.initiative + value || 0; // Aktuelle AE + AE-Kosten
 
-    // In-Combat Tie Breaker //
-    var iniList = this.turns.map((c) => {
-      return c.data.initiative;
-    }); // Stellt Array mit Initiative zusammen
-    while (ae === iniList[iniList.indexOf(ae)]) {
-      // Testet ob ein Element aus dem Array gleich der neuen Initiative ist
-      ae++;
-    }
     this.sendAE = 0;
+
+    console.log("Update Combatant");
 
     await Combatant.update({
       id: id,
-      initiative: ae,
+      initiative: this.newIni, // newIni wird vom CombatTracker erzeugt.
     });
     return this.update({ turn: 0 }, { diff: false });
   }

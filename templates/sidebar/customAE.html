@@ -26,9 +26,8 @@
 </div>
 {{/if}}
 <hr>
-
-<div class="flex strech doublesize {{#ifGE combat.sendAE 5}}target{{/ifGE}}">
-    {{combat.sendAE}} AE
+<div class="flex evenly doublesize {{#ifGE combat.sendAE 5}}target{{/ifGE}}">
+    <span>{{combat.sendAE}} AE</span> {{#if combat.newIni}}<span class="anmerkung" style="font-size: 0.75em;"><i class="fas fa-arrow-right"></i> {{combat.newIni}} AE</span>{{/if}}
 </div>
 <hr>
 <div class="grid col2">

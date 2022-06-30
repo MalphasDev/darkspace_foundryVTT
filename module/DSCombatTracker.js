@@ -1,3 +1,5 @@
+import * as DSCombatant from "./DSCombatant.js";
+import { darkspace } from "./config.js";
 export default class DSCombatTracker extends CombatTracker {
   get template() {
     return "systems/darkspace/templates/sidebar/combat-tracker.html";
@@ -38,17 +40,36 @@ export default class DSCombatTracker extends CombatTracker {
   _sendAE() {
     const combat = this.viewed;
     var currentTargetId = this.getCurrentTargetId();
-    var aeCost = combat.sendAE;
 
-    combat.increaseAE(currentTargetId, aeCost);
+    const currentCombatant = combat.turns[0];
+    let newIni = combat.newIni;
 
-    for (var i = 0; Array.from(combat.data.combatants).length > i; i++) {
-      combat.data.combatants
-        .map((j) => {
-          return j;
-        })
-        [i].setFlag("darkspace", "target", false);
-    }
+    combat.sendAE = 0;
+    combat.increaseAE(currentTargetId, newIni);
+
+    console.log("Start Socket");
+    game.socket.emit("system.darkspace", {
+      operation: "updateInitRoll",
+      id: currentTargetId,
+      initiative: newIni,
+    });
+
+    // combat.combatants.documentClass.prototype.updateIni(
+    //   currentCombatant,
+    //   newIni
+    // );
+
+    // combat.nextRound();
+
+    // for (var i = 0; Array.from(combat.data.combatants).length > i; i++) {
+    //   combat.data.combatants
+    //     .map((j) => {
+    //       return j;
+    //     })
+    //     [i].setFlag("darkspace", "target", false);
+    // }
+
+    return combat.update({ turn: 0 });
   }
 
   getCurrentTargetId(event) {
@@ -86,13 +107,6 @@ export default class DSCombatTracker extends CombatTracker {
       if (aeCost === 0) {
         // Wenn aeCost === 0 bzw. +0 Ae übergeben wird entspricht einem Reset
         combat.sendAE = 0;
-        // for (var i = 0; Array.from(combat.data.combatants).length > i; i++) {
-        //   combat.data.combatants
-        //     .map((j) => {
-        //       return j;
-        //     })
-        //     [i].setFlag("darkspace", "target", false);
-        // }
       } else {
         combat.sendAE += parseInt(aeCost);
       }
@@ -102,30 +116,36 @@ export default class DSCombatTracker extends CombatTracker {
       combat.sendAE = parseInt(event.currentTarget.value);
     }
 
-    var newIni = currentCombatantIni + combat.sendAE;
-
-    // for (var i = 0; combatantList.length > i; i++) {
-    //   if (parseInt(combatantList[i][1]) < parseInt(newIni)) {
-    //     combat.data.combatants
-    //       .get(combatantList[i][0])
-    //       .setFlag("darkspace", "target", true);
-    //   }
-    // }
-
-    combat.turns.forEach((combatant) => {
-      //let targetState = combatant.initiative <= parseInt(newIni);
-      if (combatant.getFlag("darkspace", "target") === undefined) {
-        combatant.setFlag("darkspace", "target", false);
-      }
-      combatant.data.flags.darkspace.target =
-        combatant.initiative <= parseInt(newIni);
-      //combatant.setFlag("darkspace", "target", targetState);
-
-      // console.log(combatant.initiative + " <= " + newIni);
-      // console.log(targetState);
-      // console.log(combatant.getFlag("darkspace", "target"));
-      // console.log(combatant.data.flags.darkspace.target);
+    var iniList = combat.turns.map((c) => {
+      return c.initiative;
     });
+
+    // Hier werden die nächsten 50 freien Felder ermittelt, die der Charakter auf dem Ini-Board erreichen kann
+    var nextAe = [];
+    for (let index = 0; index < 50; index++) {
+      nextAe.push(currentCombatantIni + index);
+    }
+
+    // Hier wird das Feld um alle besetzten Felder reduziert.
+    var legalFields = iniList
+      .filter((x) => !nextAe.includes(x))
+      .concat(nextAe.filter((x) => !iniList.includes(x)));
+
+    // Hier wird das neue Feld anhand der ausgegeben AE als Index ermittelt.
+    var newField = legalFields[combat.sendAE - 1];
+
+    combat.newIni = newField;
+
+    // combat.turns.forEach((combatant) => {
+    //   if (combatant.getFlag("darkspace", "target") === undefined) {
+    //     combatant.setFlag("darkspace", "target", false);
+    //   }
+    //   combatant.setFlag(
+    //     "darkspace",
+    //     "target",
+    //     combatant.initiative <= parseInt(newField)
+    //   ); // target Flagge wird auf true gesetzt
+    // });
 
     this.render();
   }

@@ -11,8 +11,15 @@ export default class DSCombatant extends Combatant {
         initiative: null,
       });
     }
-
-    console.log(this.name);
-    console.log(this.data.initiative);
+  }
+  updateIni(data, value) {
+    console.log("UpdateIni");
+    console.log(data);
+    data.update({
+      initiative: value,
+    });
+  }
+  test() {
+    console.log("Läuft");
   }
 }
