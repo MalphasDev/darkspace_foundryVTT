@@ -15,5 +15,9 @@
   "socket": true,
   "url": "https://dark-space-rpg.de",
   "manifest": "https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/main/system.json",
+<<<<<<< HEAD
   "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/v0.72.zip"
+=======
+  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/v0.71.zip"
+>>>>>>> 17f3420181bdba1c84a238b7e6290cd01bb39553
 }
