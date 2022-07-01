@@ -116,23 +116,29 @@ export default class DSCombat extends Combat {
     return this;
   }
 
-  async increaseAE(id, value) {
-    const Combatant = this.combatant;
+  // async increaseAE(id, value) {
+  //   const Combatant = this.combatant;
 
-    this.sendAE = 0;
+  //   this.sendAE = 0;
 
-    console.log("Update Combatant");
+  //   console.log("Update Combatant");
 
-    await Combatant.update({
-      id: id,
-      initiative: this.newIni, // newIni wird vom CombatTracker erzeugt.
-    });
-    return this.update({ turn: 0 }, { diff: false });
-  }
+  //   await Combatant.update({
+  //     id: id,
+  //     initiative: this.newIni, // newIni wird vom CombatTracker erzeugt.
+  //   });
+  //   return this.update({ turn: 0 }, { diff: false });
+  // }
 
   _waitCombat(id) {
-    const Combatant = this.combatant;
-    return Combatant.update({
+    // const Combatant = this.combatant;
+    // return Combatant.update({
+    //   id: id,
+    //   initiative: null,
+    // });
+
+    game.socket.emit("system.darkspace", {
+      operation: "updateInitRoll",
       id: id,
       initiative: null,
     });

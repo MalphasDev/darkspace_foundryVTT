@@ -12,14 +12,4 @@ export default class DSCombatant extends Combatant {
       });
     }
   }
-  updateIni(data, value) {
-    console.log("UpdateIni");
-    console.log(data);
-    data.update({
-      initiative: value,
-    });
-  }
-  test() {
-    console.log("Läuft");
-  }
 }

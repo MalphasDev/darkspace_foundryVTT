@@ -135,9 +135,11 @@ Hooks.once("init", function () {
     return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
   });
 
+  console.log(game);
   game.socket.on("system.darkspace", (data) => {
     if (data.operation === "updateInitRoll")
-      DSSocketHandler.updateInitRoll(data);
+      console.log("Starte DSSocketHandler.js");
+    DSSocketHandler.updateInitRoll(data);
   });
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

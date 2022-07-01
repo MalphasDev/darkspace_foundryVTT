@@ -45,9 +45,10 @@ export default class DSCombatTracker extends CombatTracker {
     let newIni = combat.newIni;
 
     combat.sendAE = 0;
-    combat.increaseAE(currentTargetId, newIni);
+    // combat.increaseAE(currentTargetId, newIni);
 
     console.log("Start Socket");
+
     game.socket.emit("system.darkspace", {
       operation: "updateInitRoll",
       id: currentTargetId,

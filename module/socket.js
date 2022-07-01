@@ -9,6 +9,8 @@ export default class DSSocketHandler {
         id: combatant.id,
         initiative: data.update.content,
       };
+      console.log("updateInitRoll update-Objekt");
+      console.log(update);
       await combatant.update(update);
     }
   }
