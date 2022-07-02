@@ -4,6 +4,8 @@ export default class DSCombat extends Combat {
   _sortCombatants(a, b) {
     let aeA = parseInt(a.initiative) || 99999;
     let aeB = parseInt(b.initiative) || 99999;
+
+    // Combatants ohne Initiative nach hinten sortieren.
     if (parseInt(a.initiative) === null) {
       aeA = 99999;
     }
@@ -14,11 +16,16 @@ export default class DSCombat extends Combat {
       ? 1
       : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.
 
+    console.log(
+      a.parent.getFlag("darkspace", "isCombatStarted") ? "Aufwärts" : "Abweärts"
+    );
+
     return (aeA - aeB) * isCombatStarted;
   }
 
   async startCombat() {
     // Offene Inititaiven Würfeln
+    // this.setupTurns()
 
     const ids = Array.from(this.data.combatants.values())
       .filter((c) => {
@@ -143,16 +150,14 @@ export default class DSCombat extends Combat {
       initiative: null,
     });
   }
+  _onUpdate(changed, options, userId) {
+    super._onUpdate(changed, options, userId);
 
-  eliminateDefeated() {
-    var combatantlist_length = document.querySelectorAll(
-      ".combatant",
-      ".defeated"
-    ).length;
-    var combatantlist = document.querySelectorAll(".combatant", ".defeated");
+    //console.log("_onUpdate Combat wird ausgeführt");
 
-    for (var i = 0; i < combatantlist_length; i++) {
-      deafeatedCombatant = combatantlist[i].dataset.combatantId;
-    }
+    this.setupTurns(); // Damit die Reiehnfolge beim Start bei GM und Spielern gleich bleibt
+
+    // Es wird bei jedem Combat-Update ein Test gemacht, ob turn = 0. Wenn nein, wird der turn auf 0 gesetzt = erster Charakter
+    if (this.turn !== 0) return this.update({ turn: 0 }, { diff: false });
   }
 }

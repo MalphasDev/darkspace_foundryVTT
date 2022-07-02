@@ -1,15 +1,15 @@
 export default class DSCombatant extends Combatant {
   async _onCreate(data, options, userID) {
     await super._onCreate(data, options, userID);
-    this.setFlag("darkspace", "target", false);
+    // this.setFlag("darkspace", "target", false);
   }
 
   async _onUpdate(data, options, userID) {
     await super._onUpdate(data, options, userID);
-    if (this.data.defeated) {
-      this.data.update({
-        initiative: null,
-      });
-    }
+    // if (this.data.defeated) {
+    //   this.data.update({
+    //     initiative: null,
+    //   });
+    // }
   }
 }

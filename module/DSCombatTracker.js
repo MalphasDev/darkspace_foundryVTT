@@ -38,6 +38,7 @@ export default class DSCombatTracker extends CombatTracker {
   }
 
   _sendAE() {
+    console.log("Starte _sendAE");
     const combat = this.viewed;
     var currentTargetId = this.getCurrentTargetId();
 
@@ -45,20 +46,21 @@ export default class DSCombatTracker extends CombatTracker {
     let newIni = combat.newIni;
 
     combat.sendAE = 0;
-    // combat.increaseAE(currentTargetId, newIni);
 
-    console.log("Start Socket");
+    combat.setInitiative(currentTargetId, newIni);
 
-    game.socket.emit("system.darkspace", {
-      operation: "updateInitRoll",
-      id: currentTargetId,
-      initiative: newIni,
-    });
-
-    // combat.combatants.documentClass.prototype.updateIni(
-    //   currentCombatant,
-    //   newIni
-    // );
+    // if (game.user.isGM) {
+    //   currentCombatant.update({
+    //     id: currentTargetId,
+    //     initiative: newIni,
+    //   });
+    // } else {
+    //   game.socket.emit("system.darkspace", {
+    //     operation: "updateInitRoll",
+    //     id: currentTargetId,
+    //     initiative: newIni,
+    //   });
+    // }
 
     // combat.nextRound();
 
@@ -70,7 +72,7 @@ export default class DSCombatTracker extends CombatTracker {
     //     [i].setFlag("darkspace", "target", false);
     // }
 
-    return combat.update({ turn: 0 });
+    // Es wird bei jedem Combat-Update ein Test gemacht, ob turn = 0. Wenn nein, wird der turn auf 0 gesetzt = erster Charakter
   }
 
   getCurrentTargetId(event) {
