@@ -1,0 +1,51 @@
+<section class="tab sidebar-tab directory flexcol" id="chat" data-tab="chat">
+    <ol id="chat-log">
+    </ol>
+
+    {{#unless isStream}}
+    <!-- <div id="chat-controls" class="flexrow">
+        <label class="chat-control-icon"><i class="fas fa-dice-d20"></i></label>
+        <select class="roll-type-select" name="rollMode">
+            <optgroup label="{{localize 'CHAT.RollDefault'}}">
+            {{#select rollMode}}
+            {{#each rollModes as |name rt|}}
+            <option value="{{rt}}">{{localize name}}</option>
+            {{/each}}
+            {{/select}}
+            </optgroup>
+        </select>
+
+        {{#if user.isGM}}
+        <div class="control-buttons">
+            <a class="export-log" title="{{localize 'CHAT.Export'}}"><i class="fas fa-save"></i></a>
+            <a class="delete chat-flush" title="{{localize 'CHAT.Clear'}}"><i class="fas fa-trash"></i></a>
+        </div>
+        {{/if}}
+    </div> -->
+    <div style="flex: 0 1; margin: 6px" class="customDiceBox">
+        <div>
+            <input type="number" class="customDicePool" value="2">W + <input type="number" class="customDiceBonus" value="0">
+        </div>
+        <div class="flex">
+            <button 
+                class="customRoll"             
+                data-disadv="false">
+                <img style="width: 30px;" src="systems/darkspace/icons/d10.svg"/>
+            </button>
+            <button 
+                class="customRoll d10disadv"             
+                data-disadv="true">
+                <img style="width: 30px;" src="systems/darkspace/icons/d10disadv.svg"/>
+            </button>
+        </div>
+        
+    </div>
+
+    <form id="chat-form">
+        <textarea id="chat-message" autocomplete="off" title="{{localize "CHAT.Chat"}}"></textarea>
+    </form>
+    {{/unless}}
+
+    
+
+</section>

@@ -1,19 +1,8 @@
 {
   "Actor": {
-    "types": ["Charakter", "Nebencharakter", "DrohneFahrzeug"],
+    "types": ["Charakter", "Nebencharakter", "DrohneFahrzeug", "KI"],
     "templates": {
       "commonStats": {
-        "customroll": {
-          "dice": 2,
-          "bonus": 0
-        },
-        "conditions": {
-          "Angeschlagen": false,
-          "Außer Gefecht": false,
-          "Tod": false,
-          "Verkrüppelt": false,
-          "Verwundet": false
-        },
         "initMod": 0,
         "notes": ""
       }
@@ -26,7 +15,13 @@
         "value": 0,
         "max": 0
       },
-
+      "conditions": {
+        "Angeschlagen": false,
+        "Außer Gefecht": false,
+        "Tod": false,
+        "Verkrüppelt": false,
+        "Verwundet": false
+      },
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
@@ -137,72 +132,129 @@
     },
 
     "Nebencharakter": {
-      "Bedrohungsstufe": 1,
-      "bruises": {
-        "value": 0,
-        "max": 5,
-        "bonus": 0
+      "Kompetenz": 1,
+      "Kampfkraft": 0,
+      "Tech": 0,
+      "conditions": {
+        "Angeschlagen": false,
+        "Außer Gefecht": false,
+        "Tod": false
       },
-      "wounds": {
-        "value": 0,
-        "max": 5,
-        "bonus": 0
-      },
-
-      "charattribut": {
-        "Fernkampf": {
-          "attribut": 0,
-          "skill": {
-            "Schusswaffen": 0,
-            "Unterstützungswaffen": 0
-          }
-        },
-        "Nahkampf": {
-          "attribut": 0,
-          "skill": {
-            "Kampftechnik": 0,
-            "Nahkampfwaffen": 0
-          }
-        },
-        "Körperlich": {
-          "attribut": 0,
-          "skill": {
-            "Sportlichkeit": 0
-          }
-        },
-        "Geistig": {
-          "attribut": 0,
-          "skill": {
-            "Intellekt": 0
-          }
-        },
-        "Gesellschaftlich": {
-          "attribut": 0,
-          "skill": {
-            "Sozial": 0
-          }
-        },
-        "Kybernese": {
-          "attribut": 1,
-          "skill": {
-            "Synthese": 0
-          }
-        }
-      },
-
       "templates": ["commonStats"]
     },
     "DrohneFahrzeug": {
       "mk": 1,
       "size": 1,
-      "initMod": 0,
 
-      "damages": {
-        "value": 0,
-        "max": 0
+      "conditions": {
+        "Defekt": false,
+        "Zerstört": false
       },
 
       "templates": ["commonStats"]
+    },
+    "KI": {
+      "mk": 1,
+      "conditions": {
+        "Defekt": false,
+        "Instabil": false,
+        "Fragmentiert": false
+      },
+      "charattribut": {
+        "Aufmerksamkeit": {
+          "attribut": 1,
+          "skill": {
+            "Fahrzeuge": 0,
+            "Fokus": 0,
+            "Menschenkenntnis": 0,
+            "Wahrnehmen": 0
+          }
+        },
+        "Ausstrahlung": {
+          "attribut": 1,
+          "skill": {
+            "Charisma": 0,
+            "Einschüchtern": 0,
+            "Überzeugen": 0,
+            "Verhandeln": 0
+          }
+        },
+        "Konzentration": {
+          "attribut": 1,
+          "skill": {
+            "Heimlichkeit": 0,
+            "Kampftechnik": 0,
+            "Schusswaffen": 0,
+            "Willlenskraft": 0
+          }
+        },
+        "Kybernese": {
+          "attribut": 1,
+          "skill": {
+            "Athletik": 0,
+            "Nahkampfwaffen": 0,
+            "Unterstützungswaffen": 0,
+            "Synthese": 0
+          }
+        },
+        "Intelligenz": {
+          "attribut": 1,
+          "skill": {
+            "Bildung": 0,
+            "Logik": 0,
+            "Medizin": 0,
+            "Raumfahrt": 0
+          }
+        },
+        "Intuition": {
+          "attribut": 1,
+          "skill": {
+            "Cortex": 0,
+            "Kreativität": 0,
+            "Kultur": 0,
+            "Polytronik": 0
+          }
+        },
+        "Anomalie": {
+          "attribut": 1,
+          "skill": {
+            "Glück": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Anomaliepunkte",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        },
+        "Netzwerk": {
+          "attribut": 1,
+          "skill": {
+            "Kontakte": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Netzwerkpunkte",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        },
+        "Ressourcen": {
+          "attribut": 1,
+          "skill": {
+            "Finanzen": 0
+          },
+          "ress": {
+            "exists": true,
+            "ressname": "Ressourcen-Punkte",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        }
+      }
     }
   },
   "Item": {

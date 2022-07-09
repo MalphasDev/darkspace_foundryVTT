@@ -7,7 +7,7 @@ import DSCombat from "./module/DSCombat.js";
 import DSCombatant from "./module/DSCombatant.js";
 import DSCombatTracker from "./module/DSCombatTracker.js";
 import DSNebencharakter from "./module/sheets/DSNebencharakter.js";
-import DSSocketHandler from "./module/socket.js";
+import DSCustomDice from "./module/DSCustomDice.js";
 
 async function preloadHandlebarsTemplates() {
   const templatePaths = [
@@ -16,7 +16,6 @@ async function preloadHandlebarsTemplates() {
     "systems/darkspace/templates/partials/character-sheet-items.html",
     "systems/darkspace/templates/partials/character-sheet-combat.html",
     "systems/darkspace/templates/partials/character-sheet-downtime.html",
-    "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html",
 
     //Sub-Partials
     //Stats
@@ -28,7 +27,6 @@ async function preloadHandlebarsTemplates() {
     //Combat
     "systems/darkspace/templates/partials/sub-partials/combat-armor.html",
     "systems/darkspace/templates/partials/sub-partials/combat-weapons.html",
-    "systems/darkspace/templates/partials/sub-partials/combat-initiative.html",
     "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html",
     "systems/darkspace/templates/partials/sub-partials/combat-protection.html",
 
@@ -72,6 +70,7 @@ async function preloadHandlebarsTemplates() {
     //Foundry UI-Overwrite
     "systems/darkspace/templates/sidebar/combat-tracker.html",
     "systems/darkspace/templates/sidebar/customAE.html",
+    "systems/darkspace/templates/sidebar/chat-log.html",
   ];
   return loadTemplates(templatePaths);
 }
@@ -82,6 +81,7 @@ Hooks.once("init", function () {
   CONFIG.Combat.documentClass = DSCombat;
   CONFIG.Combatant.documentClass = DSCombatant;
   CONFIG.ui.combat = DSCombatTracker;
+  CONFIG.ui.chat = DSCustomDice;
   CONFIG.darkspace = darkspace;
   CONFIG.Actor.documentClass = DSCharacter;
   CONFIG.Item.documentClass = DSItem;
@@ -133,12 +133,6 @@ Hooks.once("init", function () {
   });
   Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
     return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
-  });
-
-  game.socket.on("system.darkspace", (data) => {
-    if (data.operation === "updateInitRoll") {
-      DSSocketHandler.updateInitRoll(data);
-    }
   });
 });
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

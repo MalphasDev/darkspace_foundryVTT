@@ -38,7 +38,6 @@ export default class DSCombatTracker extends CombatTracker {
   }
 
   _sendAE() {
-    console.log("Starte _sendAE");
     const combat = this.viewed;
     var currentTargetId = this.getCurrentTargetId();
 

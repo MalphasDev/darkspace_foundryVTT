@@ -85,7 +85,9 @@ a:hover {
 }
 .tabs .item.active {
   text-shadow: 0 0 10px #fff;
+  border: solid 1px var(--dark-blue);
   border-top: solid 3px var(--dark-blue);
+  background-color: #9cb7c5;
 }
 
 .window-content a:hover {
@@ -291,6 +293,9 @@ ul {
 .col3-112 {
   grid-template-columns: 1fr 1fr 2fr;
 }
+.col3-121 {
+  grid-template-columns: 1fr 2fr 1fr;
+}
 .col3-211 {
   grid-template-columns: 2fr 1fr 1fr;
 }
@@ -324,12 +329,15 @@ ul {
 .col5-31111 {
   grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
 }
+.col5-22111 {
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr;;
+}
 .col6 {
   grid-template-columns: repeat(6, 1fr);
 }
 
 .col-weapons {
-  grid-template-columns: 45px 1fr 70px 110px 35px 45px 80px;
+  grid-template-columns: 45px 1fr 70px 110px 35px 35px 40px;
   gap: 0;
   align-items: center;
 }
@@ -436,7 +444,6 @@ label > *:hover {
 li .inline_block {
   display: inline-block;
 }
-.propertyListElement > div > p,
 .iconbox,
 li.pill {
   border: 1px solid;
@@ -445,12 +452,15 @@ li.pill {
   font-size: 8pt;
   background-color: #c7c7c7;
 }
+li.pill.padding {
+  padding: 1px 2px;
+}
 li input[type="checkbox"]:checked + label {
   background-color: black;
   border: none;
   border-radius: 0;
 }
-.propertyListElement .handicap,
+.pill .handicap,
 .handicap {
   background-color: rgb(70, 0, 0);
   color: #fff;
@@ -458,7 +468,7 @@ li input[type="checkbox"]:checked + label {
 .merit {
   background-color: var(--primary-color);
 }
-.propertyListElement .artifizierung {
+.pill .artifizierung {
   background-color: rgb(169, 202, 202);
 }
 .iconbox {

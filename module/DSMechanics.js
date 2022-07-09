@@ -140,6 +140,7 @@ export async function rollDice(rollDiceData) {
   let outputData = {
     messageData: messageData,
     cardData: cardData,
+    actor: actorData,
   };
 
   return outputData;
@@ -211,12 +212,16 @@ export async function modRolls(inputData, event) {
 
 export async function _resolveDice(inputData, event) {
   let outputData = this.rollDice(inputData);
+  let actor = {};
   let messageData = {};
   let cardData = {};
   await outputData.then((a) => {
     messageData = a.messageData;
     cardData = a.cardData;
+    actor = a.actor;
   });
+
+  cardData = { ...cardData, actor };
 
   // +++++++++++++ Die Art des aktuellen Würfelwurfes identifizieren +++++++++++++
   if (event.currentTarget === null) {

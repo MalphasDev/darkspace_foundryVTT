@@ -30,7 +30,6 @@ const tempTree = fetch("systems/darkspace/template.json")
 
 const accessTempTree = () => {
   tempTree.then((a) => {
-    console.log(a);
     let attrList = Object.keys(a.Actor.Charakter.charattribut);
     let skillList = [];
     darkspace.attr = attrList;
@@ -42,7 +41,21 @@ const accessTempTree = () => {
     });
     darkspace.skillList = skillList.sort();
   });
+
+  tempTree.then((a) => {
+    let attrListAi = Object.keys(a.Actor.KI.charattribut);
+    let skillListAi = [];
+    darkspace.attrAi = attrListAi;
+
+    attrListAi.forEach((attr) => {
+      skillListAi = skillListAi.concat(
+        Object.keys(a.Actor.KI.charattribut[attr].skill)
+      );
+    });
+    darkspace.skillListAi = skillListAi.sort();
+  });
 };
+
 accessTempTree();
 
 // Hilfsfunktion die ein Array in ein Objekt mit einem Wert und einem Boolean-Zustand umbaut.

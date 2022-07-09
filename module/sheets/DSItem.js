@@ -1,4 +1,5 @@
 import * as config from "../config.js";
+import DSCharacter from "./DSCharacter.js";
 export default class DSItem extends Item {
   prepareData() {
     super.prepareData();
@@ -23,14 +24,26 @@ export default class DSItem extends Item {
     data.keep = Math.max(data.mk, data.size, 0);
 
     // Waffen //
-    data.dmg = data.mk;
+
     data.sizeRange = Math.max(data.size, -3) + 4;
     data.autoRangeBase = Math.pow(data.sizeRange, 2) * 10;
     data.autoRangeShort = data.autoRangeBase / 10;
     data.autoRangeExtr = data.autoRangeBase * 2;
     data.autoRangeMax = data.autoRangeBase * 10;
 
+    let aeCostArray = [4, 6, 8, 10];
+
+    data.aeCost = aeCostArray[data.size + 3];
+    if (data.size < -3) {
+      data.aeCost = 4;
+    }
+    if (data.size > 0) {
+      data.aeCost = 10;
+    }
+
     if (data.ranged === true) {
+      data.attackWith = "Schusswaffen";
+      data.dmg = data.mk + Math.floor((data.size + 5) / 2);
       data.range =
         data.autoRangeShort +
         "-" +
@@ -41,6 +54,17 @@ export default class DSItem extends Item {
         data.autoRangeMax;
     } else {
       data.range = "Nahkampf";
+      if (actorData !== {} && actorData !== undefined) {
+        if (actorData.type === "Charakter") {
+          data.attackWith = "Nahkampfwaffen";
+        }
+        if (actorData.type === "Nebencharakter") {
+          data.attackWith = "Kampftechnik";
+        }
+      } else {
+      }
+      data.dmg = Math.floor(data.mk / 2) + (data.size + 5);
+      // actorData.data.charattribut.Konstitution.attribut
     }
     // Eigenschaften anzeigen
     let propList = data.properties;

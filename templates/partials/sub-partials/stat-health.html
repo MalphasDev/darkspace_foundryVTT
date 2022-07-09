@@ -1,5 +1,15 @@
 <div>
-<h2 class="flex between">Zustände</h2>
+<h2 class="flex between">
+    Zustände
+    
+</h2>
+{{#ifEquals this.data.type "DrohneFahrzeug"}}
+    <div class="grid col2-21 anmerkung">
+        <span>Struktur <span class="anmerkung">(MK + GM)</span></span>
+        <span class="text_c">{{data.data.structure}}</span>
+    </div>
+    <hr>
+    {{/ifEquals}}
 <div class="">
     <ul class="flex wrap strech">
         

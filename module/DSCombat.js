@@ -16,16 +16,11 @@ export default class DSCombat extends Combat {
       ? 1
       : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.
 
-    console.log(
-      a.parent.getFlag("darkspace", "isCombatStarted") ? "Aufwärts" : "Abweärts"
-    );
-
     return (aeA - aeB) * isCombatStarted;
   }
 
   async startCombat() {
     // Offene Inititaiven Würfeln
-    // this.setupTurns()
 
     const ids = Array.from(this.data.combatants.values())
       .filter((c) => {
@@ -123,27 +118,7 @@ export default class DSCombat extends Combat {
     return this;
   }
 
-  // async increaseAE(id, value) {
-  //   const Combatant = this.combatant;
-
-  //   this.sendAE = 0;
-
-  //   console.log("Update Combatant");
-
-  //   await Combatant.update({
-  //     id: id,
-  //     initiative: this.newIni, // newIni wird vom CombatTracker erzeugt.
-  //   });
-  //   return this.update({ turn: 0 }, { diff: false });
-  // }
-
   _waitCombat(id) {
-    // const Combatant = this.combatant;
-    // return Combatant.update({
-    //   id: id,
-    //   initiative: null,
-    // });
-
     game.socket.emit("system.darkspace", {
       operation: "updateInitRoll",
       id: id,
@@ -152,8 +127,6 @@ export default class DSCombat extends Combat {
   }
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
-
-    //console.log("_onUpdate Combat wird ausgeführt");
 
     this.setupTurns(); // Damit die Reiehnfolge beim Start bei GM und Spielern gleich bleibt
 

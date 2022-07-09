@@ -72,126 +72,177 @@ export default class DSCharacter extends Actor {
       // Waffenloser Kampf
       data.unarmedName = "Waffenloser Kampf";
     }
+    let attrEpTotal = 0;
+    let skillEpTotal = 0;
+    if (this.type === "Charakter" || this.type === "KI") {
+      if (this.type === "Charakter") {
+        data.initiative = Math.ceil(
+          (data.charattribut.Aufmerksamkeit.attribut +
+            data.charattribut.Geschick.attribut +
+            data.charattribut.Intuition.attribut) /
+            3
+        );
 
-    if (this.type === "Charakter") {
+        data.unarmedDmg =
+          2 +
+          Math.floor(
+            (data.charattribut.Konstitution.attribut +
+              data.charattribut.Geschick.attribut) /
+              3
+          );
+        data.weaponDmgBonus = Math.floor(
+          (data.charattribut.Konstitution.attribut +
+            data.charattribut.Geschick.attribut) /
+            4
+        );
+
+        config.attr.forEach((attrIdent) => {
+          let attributName = data.charattribut;
+          let attrWert = attributName[attrIdent].attribut;
+          let attrEp =
+            ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;
+          attrEpTotal += attrEp;
+
+          let skillSet = attributName[attrIdent].skill;
+
+          config.skillList.forEach((skillIdent) => {
+            if (skillSet[skillIdent] !== undefined) {
+              let skillWert = skillSet[skillIdent];
+              let skillEp =
+                ((skillWert * (skillWert + 1) * (2 * skillWert + 1)) / 6) * 4;
+              skillEpTotal += skillEp;
+            }
+          });
+        });
+      }
+    } else if (this.type === "KI") {
       data.initiative = Math.ceil(
         (data.charattribut.Aufmerksamkeit.attribut +
-          data.charattribut.Geschick.attribut +
+          data.charattribut.Konzentration.attribut +
           data.charattribut.Intuition.attribut) /
           3
       );
-      data.finalinitiative = data.initiative + data.initMod;
 
-      // Unterbringung
+      config.attrAi.forEach((attrIdent) => {
+        let attributName = data.charattribut;
+        let attrWert = attributName[attrIdent].attribut;
+        let attrEp =
+          ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;
+        attrEpTotal += attrEp;
 
-      let quarterListEquipped = quarterList.filter((e) => {
-        return e.data.data.equipped === true;
+        let skillSet = attributName[attrIdent].skill;
+
+        config.skillListAi.forEach((skillIdent) => {
+          if (skillSet[skillIdent] !== undefined) {
+            let skillWert = skillSet[skillIdent];
+            let skillEp =
+              ((skillWert * (skillWert + 1) * (2 * skillWert + 1)) / 6) * 4;
+            skillEpTotal += skillEp;
+          }
+        });
       });
+    }
+    data.finalinitiative = data.initiative + data.initMod;
+    data.totalAttrXp = attrEpTotal;
+    data.totalSkillXp = skillEpTotal;
+    data.totalPropXp = propertyList.length * 100;
+    data.totalXp = attrEpTotal + skillEpTotal + data.totalPropXp;
 
-      // Ressourcen
-      let attributNames = Object.keys(data.charattribut);
-      for (var i = 0; attributNames.length > i; i++) {
-        if (data.charattribut[attributNames[i]].ress != undefined) {
-          data.charattribut[attributNames[i]].ress.remaining =
-            data.charattribut[attributNames[i]].ress.max -
-            data.charattribut[attributNames[i]].ress.value;
-        }
+    // Unterbringung
+
+    let quarterListEquipped = quarterList.filter((e) => {
+      return e.data.data.equipped === true;
+    });
+
+    // Ressourcen
+    let attributNames = Object.keys(data.charattribut);
+    for (var i = 0; attributNames.length > i; i++) {
+      if (data.charattribut[attributNames[i]].ress != undefined) {
+        data.charattribut[attributNames[i]].ress.remaining =
+          data.charattribut[attributNames[i]].ress.max -
+          data.charattribut[attributNames[i]].ress.value;
       }
-
-      // Unterhalt und Wohlstand
-      let ownedItems = actorData.items.filter((i) => {
-        return (
-          i.type != "Eigenschaft" &&
-          i.type != "Besonderheiten" &&
-          i.type != "Unterbringung"
-        );
-      });
-      ownedItems = ownedItems.concat(quarterListEquipped);
-
-      let itemSizes = Array.from(
-        ownedItems.map((k) => {
-          return k.data.data.size;
-        })
-      ).sort((a, b) => a - b);
-      let itemMk = Array.from(
-        ownedItems.map((k) => {
-          return k.data.data.mk;
-        })
-      ).sort((a, b) => a - b);
-
-      console.log();
-
-      data.keepOfItems =
-        itemSizes.length == 0
-          ? 0
-          : Math.max(...itemSizes) + itemMk.length == 0
-          ? 0
-          : Math.max(...itemMk);
-      data.wealth = data.charattribut.Ressourcen.attribut * 2;
-      data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
-
-      // Erholung
-
-      // // Kybernese
-      // data.miscData.Kybernese.mk = actorData.items
-      //   .filter((i) => {
-      //     return i.type === "Artifizierung";
-      //   })
-      //   .map((j) => {
-      //     return j.data.data.mk;
-      //   });
-      // data.miscData.Kybernese.bonus = Math.min(
-      //   ...data.miscData.Kybernese.mk,
-      //   0
-      // );
-
-      // Waffenloser Durchschlag
-
-      data.unarmedDmg =
-        2 + Math.floor(data.charattribut.Konstitution.attribut / 6);
     }
 
+    // Unterhalt und Wohlstand
+    let ownedItems = actorData.items.filter((i) => {
+      return (
+        i.type != "Eigenschaft" &&
+        i.type != "Besonderheiten" &&
+        i.type != "Unterbringung"
+      );
+    });
+    ownedItems = ownedItems.concat(quarterListEquipped);
+
+    let itemSizes = Array.from(
+      ownedItems.map((k) => {
+        return k.data.data.size;
+      })
+    ).sort((a, b) => a - b);
+    let itemMk = Array.from(
+      ownedItems.map((k) => {
+        return k.data.data.mk;
+      })
+    ).sort((a, b) => a - b);
+
+    data.keepOfItems =
+      itemSizes.length == 0
+        ? 0
+        : Math.max(...itemSizes) + itemMk.length == 0
+        ? 0
+        : Math.max(...itemMk);
+    data.wealth = data.charattribut.Ressourcen.attribut * 2;
+    data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
+
+    // Erholung
+
+    // // Kybernese
+    // data.miscData.Kybernese.mk = actorData.items
+    //   .filter((i) => {
+    //     return i.type === "Artifizierung";
+    //   })
+    //   .map((j) => {
+    //     return j.data.data.mk;
+    //   });
+    // data.miscData.Kybernese.bonus = Math.min(
+    //   ...data.miscData.Kybernese.mk,
+    //   0
+    // );
+
+    // Waffenloser Durchschlag
+
+    // Erfahrung
+
     if (this.type === "Nebencharakter") {
-      data.bruises.max =
-        5 +
-        data.bruises.bonus +
-        Math.floor(data.charattribut.Geistig.attribut / 6);
-      data.wounds.max =
-        5 +
-        data.wounds.bonus +
-        Math.floor(data.charattribut.Körperlich.attribut / 6);
+      let combatAttr = Math.max(data.Kompetenz + data.Kampfkraft, 1);
+      let combatSkill = Math.floor(
+        Math.max(data.Kompetenz + data.Kampfkraft, 1) / 2
+      );
 
-      // Waffenloser Durchschlag
-      data.unarmedDmg =
-        2 + Math.floor(data.charattribut.Körperlich.attribut / 6);
+      let techAttr = Math.max(data.Kompetenz + data.Tech, 1);
+      let techSkill = Math.floor(Math.max(data.Kompetenz + data.Tech, 1) / 2);
 
-      data.initiative = data.Bedrohungsstufe;
+      let normalAttr = data.Kompetenz;
+      let normalSkill = Math.floor(data.Kompetenz / 2);
 
-      for (var prop in data.charattribut) {
-        let prioBonus;
-        if (data.charattribut[prop].prio) {
-          prioBonus = 1;
-        } else {
-          if (data.charattribut[prop].dePrio) {
-            prioBonus = -1;
-          } else {
-            prioBonus = 0;
-          }
-        }
+      data.charattribut = {
+        Kampf: {
+          attribut: combatAttr,
+          skill: { Angriff: combatSkill, Abwehr: normalSkill },
+        },
+        Körper: {
+          attribut: normalAttr,
+          skill: { Kraft: combatSkill, Ausdruck: normalSkill },
+        },
+        Intelligenz: {
+          attribut: techAttr,
+          skill: { Cortex: techSkill, Intellekt: normalSkill },
+        },
+      };
 
-        data.charattribut[prop].attribut = data.Bedrohungsstufe + prioBonus;
-
-        if (data.charattribut[prop].dePrio) {
-          for (var skill in data.charattribut[prop].skill) {
-            data.charattribut[prop].skill[skill] = 0;
-          }
-        } else {
-          for (var skill in data.charattribut[prop].skill) {
-            data.charattribut[prop].skill[skill] =
-              Math.ceil(data.Bedrohungsstufe / 2) + prioBonus;
-          }
-        }
-      }
+      data.initiative = Math.max(data.Kompetenz + data.Kampfkraft, 1);
+      data.unarmedDmg = 2 + Math.floor(combatAttr / 3);
+      data.weaponDmgBonus = Math.floor(combatAttr / 4);
     }
 
     if (this.type === "DrohneFahrzeug") {
@@ -199,9 +250,6 @@ export default class DSCharacter extends Actor {
 
       data.bruisesName = "Beschädigungen";
       data.woundsName = "Verletzungen";
-
-      data.damageFailure = data.structure + data.damages.max;
-      data.damageDestruction = data.damageFailure * 2;
 
       data.halbmk = Math.ceil(data.mk / 2);
       data.noMk = 0;
@@ -236,7 +284,7 @@ export default class DSCharacter extends Actor {
         Math.ceil(Math.pow(2, absSize) / sizeLength) * sizeLength * absSize;
       data.passenger = data.size > 0 ? passengerNumber + " Personen / " : "";
       data.cargo = data.size - 1;
-      data.crewNumber = Math.min(absSize, data.mk);
+      data.crewNumber = Math.floor(absSize / 2) + data.mk;
     }
   }
 

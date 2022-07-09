@@ -1,84 +1,52 @@
-<section>
-    
-    <div class="grid col3-232">
-        
+<section class="grid" style="grid-template-columns: 1fr 3fr">
+
         <!--Spalte 1-->
-        <div class="grid" style="grid-row: 1 / span 2;">
+        <div>
             
             <img class="actorimg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
             <h2 class="charname">
                 <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
             </h2>
-            <div>
-                <h2>Erfahrung</h2>
-                <div class="flex between">
-                    <span>EP</span> 
-                    <div>
-                        <input name="data.xp.value" value="{{data.data.xp.value}}" type="number">/
-                        <input name="data.xp.max" value="{{data.data.xp.max}}" type="number">
-                    </div>                     
-                </div>
-            </div>
         </div>
         
         
 
         <!--Spalte 2-->
         <div class="cell_t">
-            <h2>Schnellwahl</h2>
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-initiative.html"}} 
-            <hr>
-            {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
-            
-            
-        </div>
-            
-        <!--Spalte 3-->
-        <div class="cell_t">
-                
-           
-            
-            {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
-        </div>
-    </div>
-    <div class="span23">{{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}</div>
-    
-</section>
-<div>
-                <h2>Ressourcen</h2>
-                <ul class="flex between">
-                    {{#each data.data.charattribut as |attrobj attrname|}}
-                    {{#if ress.exists}}
-                    <li>
-                    <h3 class="flex between">{{ress.ressname}} <span class="ressReset" data-thisattr="{{attrname}}"><i class="fas fa-undo button"></i></span></h3>
-                    
-                    <div class="span2">
-                        <i class="fas fa-caret-left decRess" data-attr="{{attrname}}"></i>
-
-                        {{#times ress.value}}
-                        <i class="fas fa-circle ressPoints" data-active="1" data-thisattr="{{attrname}}"></i>
-                        {{/times}}
-
-                        {{#times ress.remaining}}
-                        <i class="far fa-circle ressPoints" data-active="0" data-thisattr="{{attrname}}"></i>
-                        {{/times}}
-
-                        <i class="fas fa-caret-right incRess" data-attr="{{attrname}}"></i>
-                    </div>
-                </li>
-                    {{/if}}
-                    {{/each}}
-                </ul>
+                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+                <h2>Schnellwahl</h2>
+                {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
             </div>
-    <div>
+        </div>
+ 
+</section>
+
+
+<!-- EP -->
+
+<section class="cell_t">
             
-        
-        <nav class="sheet-tabs tabs flex" data-group="primary">
-            <a class="item" data-tab="stats">Werte</a>
-            <a class="item" data-tab="combat">Waffen und Rüstung</a>
-            <a class="item" data-tab="items">Items</a>
-            <a class="item" data-tab="notes">Notizen</a>
-            <a class="item" data-tab="downtime">Downtime</a>
-        </nav>
-    </div>
+    <h2 class="flex between">
+        <span>Erfahrung</span>
+        <div>
+            <input name="data.xp.value" value="{{data.data.xp.value}}" type="number"style="width: 100px;">/
+            <input name="data.xp.max" value="{{data.data.xp.max}}" type="number" style="width: 100px;">
+        </div>
+    </h2>
+     
+    
+
+</section>
+
+
+
+<section>
+    <nav class="sheet-tabs tabs flex" data-group="primary">
+        <a class="item" data-tab="stats">Werte</a>
+        <a class="item" data-tab="combat">Waffen und Rüstung</a>
+        <a class="item" data-tab="items">Items</a>
+        <a class="item" data-tab="notes">Notizen</a>
+        <a class="item" data-tab="downtime">Downtime</a>
+    </nav>
+</section>
 

@@ -245,11 +245,17 @@ export default class DSCharakcterSheet extends ActorSheet {
       }
       // SKILLIDENTS FÜR NEBENCHARAKTERE
       if (this.object.data.type === "Nebencharakter") {
-        if (["Schusswaffen", "Unterstützungswaffen"].includes(skillident)) {
-          attrident = "Fernkampf";
-        }
-        if (["Kampftechnik", "Nahkampfwaffen"].includes(skillident)) {
-          attrident = "Nahkampf";
+        console.log(skillident);
+        if (
+          [
+            "Kampftechnik",
+            "Schusswaffen",
+            "Nahkampfwaffen",
+            "Unterstützungswaffen",
+          ].includes(skillident)
+        ) {
+          attrident = "Kampf";
+          skillident = "Angriff";
         }
       }
 

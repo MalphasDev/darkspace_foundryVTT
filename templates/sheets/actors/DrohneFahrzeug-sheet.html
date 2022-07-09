@@ -2,65 +2,59 @@
     
     
     
-    <div class="grid col3">
+    <div class="grid" style="grid-template-columns: 1fr 3fr;">
         <div>
+            <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
             <h2 class="charname">
                 <input name="name" type="text" value="{{actor.name}}" placeholder="Bezeichnung"/>
             </h2>
             
-            <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
 
             {{> "systems/darkspace/templates/partials/MKSize.html"}}
 
             
 
-            <div class="grid col2-21">
-                <span>Struktur <span class="anmerkung">(MK + GM)</span></span>
-                <span class="text_c">{{data.data.structure}}</span>
-            </div>
-        </div>
-
-        <!-- Mittlere Spalte -->
-        
-
-        <div>
-            <h2>Schnellwahl</h2>
-
-            <div>
-                <img class="directRoll d10-symbol" data-rollname="Initiative" data-dice="{{data.data.mk}}" data-bonus="0" src="systems/darkspace/icons/d10.svg">
-                <img class="directRoll d10-symbol disadv" data-rollname="Initiative" data-dice="{{data.data.mk}}" data-bonus="0" src="systems/darkspace/icons/d10disadv.svg">
-                <span>Initiative {{data.data.mk}}W</span>
-            </div>
-            <hr>
-            {{> "systems/darkspace/templates/partials/sub-partials/rollcustomdice.html"}}
-            <hr>
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
             
         </div>
 
-        <!-- Rechte Spalte -->
+        <!-- 2. Spalte -->
+        
+
         <div>
-            <h2>Kapazität</h2>
-            <h3 class="flex between">
-                <span>Besatzung</span>
-                <span>{{data.data.crewNumber}}</span>
-            </h3>
-            <h3 class="flex between">
-                <span>Kapazität</span>
-                <span>{{data.data.passenger}}GM {{data.data.cargo}}</span>
-            </h3>
-            <div>
-                <h2 class="flex between">
-                    <span>Handling</span>
-                    <span>{{data.data.handlingDesc}}</span>
-                </h2>
-                <span class="anmerkung">
-                    {{data.data.handling}} = {{data.data.mk}} - {{data.data.size}}
-                </span>
+            <div class="grid col3">
+                <div>
+                    <h2>
+                        <span>Min. Besatzung</span>
+                    </h2>
+                    <input type="number" value="{{data.data.crewNumber}}" disabled> 
+                    <h2>
+                        <span>Kapazität</span>
+                    </h2>
+                    <input type="text" value="{{data.data.passenger}}GM {{data.data.cargo}}" disabled>
+                </div>
+                <div>
+                    <h2 class="flex between">
+                        <span>Handling: {{data.data.handlingDesc}}</span>
+                    </h2>
+                    <div class="flex">
+                        {{data.data.handling}} <span class="anmerkung">= {{data.data.mk}} - {{data.data.size}}</span>
+                    </div>
+
+                    
+                </div>
+                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
             </div>
+            
+            
+            
         </div>
+        <h2>Schnellwahl</h2>
+        {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
+
         
         
+        
+        </div>
     </div>
 
     <div class="grid col2">
