@@ -9,7 +9,30 @@ import DSCombatTracker from "./module/DSCombatTracker.js";
 import DSNebencharakter from "./module/sheets/DSNebencharakter.js";
 import DSCustomDice from "./module/DSCustomDice.js";
 
+async function getFiles(target, extensions = ``, source = `user`) {
+  extensions = extensions instanceof Array ? extensions : [extensions];
+  let filePicker = await FilePicker.browse(source, target);
+  if (filePicker.files) return [...filePicker.files];
+  return [];
+}
+
 async function preloadHandlebarsTemplates() {
+  console.log("preloadHandlebarsTemplates()");
+
+  // const dsFolders = [
+  //   "/systems/darkspace/templates/createNewItem",
+  //   "/systems/darkspace/templates/dice",
+  //   "/systems/darkspace/templates/dice/dialog-sub-partials",
+  //   "/systems/darkspace/templates/dice/dice-sub-partials",
+  //   "/systems/darkspace/templates/partials",
+  //   "/systems/darkspace/templates/partials/chatMessages",
+  //   "/systems/darkspace/templates/partials/sub-partials",
+  //   "/systems/darkspace/templates/sheets",
+  //   "/systems/darkspace/templates/sheets/actors",
+  //   "/systems/darkspace/templates/sheets/items",
+  //   "/systems/darkspace/templates/sidebar",
+  // ];
+
   const templatePaths = [
     //Charakter-Partials
     "systems/darkspace/templates/partials/character-sheet-header.html",

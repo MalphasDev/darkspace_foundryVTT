@@ -115,6 +115,50 @@ export default class DSCharacter extends Actor {
           });
         });
       }
+      // Unterbringung
+
+      let quarterListEquipped = quarterList.filter((e) => {
+        return e.data.data.equipped === true;
+      });
+
+      // Unterhalt und Wohlstand
+      let ownedItems = actorData.items.filter((i) => {
+        return (
+          i.type != "Eigenschaft" &&
+          i.type != "Besonderheiten" &&
+          i.type != "Unterbringung"
+        );
+      });
+      let itemSizes = Array.from(
+        ownedItems.map((k) => {
+          return k.data.data.size;
+        })
+      ).sort((a, b) => a - b);
+      let itemMk = Array.from(
+        ownedItems.map((k) => {
+          return k.data.data.mk;
+        })
+      ).sort((a, b) => a - b);
+
+      ownedItems = ownedItems.concat(quarterListEquipped);
+
+      data.keepOfItems =
+        itemSizes.length == 0
+          ? 0
+          : Math.max(...itemSizes) + itemMk.length == 0
+          ? 0
+          : Math.max(...itemMk);
+      data.wealth = data.charattribut.Ressourcen.attribut * 2;
+      data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
+      // Ressourcen
+      let attributNames = Object.keys(data.charattribut);
+      for (var i = 0; attributNames.length > i; i++) {
+        if (data.charattribut[attributNames[i]].ress != undefined) {
+          data.charattribut[attributNames[i]].ress.remaining =
+            data.charattribut[attributNames[i]].ress.max -
+            data.charattribut[attributNames[i]].ress.value;
+        }
+      }
     } else if (this.type === "KI") {
       data.initiative = Math.ceil(
         (data.charattribut.Aufmerksamkeit.attribut +
@@ -147,52 +191,6 @@ export default class DSCharacter extends Actor {
     data.totalSkillXp = skillEpTotal;
     data.totalPropXp = propertyList.length * 100;
     data.totalXp = attrEpTotal + skillEpTotal + data.totalPropXp;
-
-    // Unterbringung
-
-    let quarterListEquipped = quarterList.filter((e) => {
-      return e.data.data.equipped === true;
-    });
-
-    // Ressourcen
-    let attributNames = Object.keys(data.charattribut);
-    for (var i = 0; attributNames.length > i; i++) {
-      if (data.charattribut[attributNames[i]].ress != undefined) {
-        data.charattribut[attributNames[i]].ress.remaining =
-          data.charattribut[attributNames[i]].ress.max -
-          data.charattribut[attributNames[i]].ress.value;
-      }
-    }
-
-    // Unterhalt und Wohlstand
-    let ownedItems = actorData.items.filter((i) => {
-      return (
-        i.type != "Eigenschaft" &&
-        i.type != "Besonderheiten" &&
-        i.type != "Unterbringung"
-      );
-    });
-    ownedItems = ownedItems.concat(quarterListEquipped);
-
-    let itemSizes = Array.from(
-      ownedItems.map((k) => {
-        return k.data.data.size;
-      })
-    ).sort((a, b) => a - b);
-    let itemMk = Array.from(
-      ownedItems.map((k) => {
-        return k.data.data.mk;
-      })
-    ).sort((a, b) => a - b);
-
-    data.keepOfItems =
-      itemSizes.length == 0
-        ? 0
-        : Math.max(...itemSizes) + itemMk.length == 0
-        ? 0
-        : Math.max(...itemMk);
-    data.wealth = data.charattribut.Ressourcen.attribut * 2;
-    data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
 
     // Erholung
 

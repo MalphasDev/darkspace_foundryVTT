@@ -2,15 +2,11 @@
 
         <!--Spalte 1-->
         <div>
-            
             <img class="actorimg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
             <h2 class="charname">
                 <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
             </h2>
         </div>
-        
-        
-
         <!--Spalte 2-->
         <div class="cell_t">
                 {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
@@ -18,7 +14,6 @@
                 {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
             </div>
         </div>
- 
 </section>
 
 
@@ -33,12 +28,7 @@
             <input name="data.xp.max" value="{{data.data.xp.max}}" type="number" style="width: 100px;">
         </div>
     </h2>
-     
-    
-
 </section>
-
-
 
 <section>
     <nav class="sheet-tabs tabs flex" data-group="primary">

@@ -337,7 +337,7 @@ ul {
 }
 
 .col-weapons {
-  grid-template-columns: 45px 1fr 70px 110px 35px 35px 40px;
+  grid-template-columns: 44px auto 60px 100px 30px 30px 40px;
   gap: 0;
   align-items: center;
 }
