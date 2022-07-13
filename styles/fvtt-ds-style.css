@@ -588,3 +588,26 @@ input[id="newRanged"] + label[for="newRanged"]:after {
 .target.active {
   background: linear-gradient(45deg, #005194, transparent);
 }
+.customRoll {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 9px;
+  border-radius: 6px;
+}
+.customDiceBox {
+  display: flex;
+  flex: 0 1; 
+  margin: 6px;
+}
+.customDiceBoxField {
+  display: flex;
+  flex: 0 1;
+  margin: 6px 0;
+  background: linear-gradient(0deg, rgb(179 188 193) 0%, rgb(231 244 253) 100%);
+  justify-content: center;
+  padding: 10px;
+  border-radius: 5px;
+  color: #000;
+  font-size: 13pt;
+}

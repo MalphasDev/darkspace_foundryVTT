@@ -3,8 +3,8 @@
     </ol>
 
     {{#unless isStream}}
-    <!-- <div id="chat-controls" class="flexrow">
-        <label class="chat-control-icon"><i class="fas fa-dice-d20"></i></label>
+    <div id="chat-controls" class="flexrow">
+        <!-- <label class="chat-control-icon"><i class="fas fa-dice-d20"></i></label> -->
         <select class="roll-type-select" name="rollMode">
             <optgroup label="{{localize 'CHAT.RollDefault'}}">
             {{#select rollMode}}
@@ -21,12 +21,12 @@
             <a class="delete chat-flush" title="{{localize 'CHAT.Clear'}}"><i class="fas fa-trash"></i></a>
         </div>
         {{/if}}
-    </div> -->
-    <div style="flex: 0 1; margin: 6px" class="customDiceBox">
-        <div>
-            <input type="number" class="customDicePool" value="2">W + <input type="number" class="customDiceBonus" value="0">
+    </div>
+    <div class="customDiceBox">
+        <div class="customDiceBoxField">
+            <input type="number" class="customDicePool" value="2"><img style="width: 20px;" src="systems/darkspace/icons/d10.svg"/> + <input type="number" class="customDiceBonus" value="0">
         </div>
-        <div class="flex">
+        <div class="flex" style="flex: 1;">
             <button 
                 class="customRoll"             
                 data-disadv="false">
