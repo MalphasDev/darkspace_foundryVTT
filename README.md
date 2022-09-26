@@ -4,7 +4,7 @@
 
 ## Installation
 
-Mit der Manifest-URL https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/main/system.json kann Dark Space via Foundry VTT installiert werden.
+Mit der Manifest-URL https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/main/system.json kann Dark Space via Foundry VTT installiert werden. Aktuell wird Foundry VTT v9.x unterstützt. Updates auf v10.x sind in Arbeit.
 
 ## English please?
 
