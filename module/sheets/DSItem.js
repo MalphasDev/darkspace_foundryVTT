@@ -1,5 +1,4 @@
 import * as config from "../config.js";
-import DSCharacter from "./DSCharacter.js";
 export default class DSItem extends Item {
   prepareData() {
     super.prepareData();
@@ -12,11 +11,8 @@ export default class DSItem extends Item {
     data.attrList = configData.attr;
 
     // Struktur und Schutz //
-    data.structure =
-      parseInt(data.mk) + parseInt(data.size) < 1
-        ? 1
-        : parseInt(data.mk) + parseInt(data.size);
-    data.protection = Math.floor(data.structure / 2);
+    data.structure = parseInt(data.size);
+    data.protection = Math.round(parseInt(data.mk) / 2);
     // Senorreichweite //
     data.sensorRange = Math.pow(data.mk, 2) * 10;
 
@@ -24,34 +20,26 @@ export default class DSItem extends Item {
     data.keep = Math.max(data.mk, data.size, 0);
 
     // Waffen //
+    data.sizeRange = data.size;
+    data.autoRangeBase = Math.pow(data.sizeRange, 2);
+    data.autoRangeShort = data.autoRangeBase * 5;
+    data.autoRangeExtr = data.autoRangeBase * 10;
+    data.autoRangeMax = data.autoRangeBase * 20;
 
-    data.sizeRange = Math.max(data.size, -3) + 4;
-    data.autoRangeBase = Math.pow(data.sizeRange, 2) * 10;
-    data.autoRangeShort = data.autoRangeBase / 10;
-    data.autoRangeExtr = data.autoRangeBase * 2;
-    data.autoRangeMax = data.autoRangeBase * 10;
+    data.range =
+      data.autoRangeShort +
+      "-" +
+      data.autoRangeBase +
+      "/" +
+      data.autoRangeExtr +
+      "/" +
+      data.autoRangeMax;
 
-    let aeCostArray = [4, 6, 8, 10];
-
-    data.aeCost = aeCostArray[data.size + 3];
-    if (data.size < -3) {
-      data.aeCost = 4;
-    }
-    if (data.size > 0) {
-      data.aeCost = 10;
-    }
+    data.aeCost = data.size * 2;
 
     if (data.ranged === true) {
       data.attackWith = "Schusswaffen";
-      data.dmg = data.mk + Math.floor((data.size + 5) / 2);
-      data.range =
-        data.autoRangeShort +
-        "-" +
-        data.autoRangeBase +
-        "/" +
-        data.autoRangeExtr +
-        "/" +
-        data.autoRangeMax;
+      data.dmg = data.mk * 2 + data.size * 6;
     } else {
       data.range = "Nahkampf";
       if (actorData !== {} && actorData !== undefined) {
@@ -63,7 +51,7 @@ export default class DSItem extends Item {
         }
       } else {
       }
-      data.dmg = Math.floor(data.mk / 2) + (data.size + 5);
+      data.dmg = data.mk * 2 + data.size * 4;
       // actorData.data.charattribut.Konstitution.attribut
     }
     // Eigenschaften anzeigen
@@ -81,76 +69,76 @@ export default class DSItem extends Item {
     }
 
     switch (data.size) {
-      case -5:
+      case 0:
         data.sizeKat = "Winzig";
         break;
-      case -4:
+      case 1:
         data.sizeKat = "Klein";
         break;
-      case -3:
+      case 2:
         data.sizeKat = "Handlich";
         break;
-      case -2:
+      case 3:
         data.sizeKat = "Mittelgroß";
         break;
-      case -1:
+      case 4:
         data.sizeKat = "Groß";
         break;
-      case 0:
+      case 5:
         data.sizeKat = "Personengroß";
         break;
-      case 1:
+      case 6:
         data.sizeKat = "Sperrig";
         break;
-      case 2:
+      case 7:
         data.sizeKat = "Sehr groß";
         break;
-      case 3:
+      case 8:
         data.sizeKat = "Riesig";
         break;
-      case 4:
+      case 9:
         data.sizeKat = "Enorm";
         break;
-      case 5:
+      case 10:
         data.sizeKat = "Immens";
         break;
-      case 6:
+      case 11:
         data.sizeKat = "Gewaltig";
         break;
-      case 7:
+      case 12:
         data.sizeKat = "Gigantisch";
         break;
-      case 8:
+      case 13:
         data.sizeKat = "Kolossal";
         break;
-      case 9:
+      case 14:
         data.sizeKat = "Titanisch";
         break;
     }
     if (this.type === "Waffe") {
       switch (data.size) {
-        case -3:
+        case 2:
           data.sizeKat = data.sizeKat + "/Pistole";
           break;
-        case -2:
+        case 3:
           data.sizeKat = data.sizeKat + "/Karabiner";
           break;
-        case -1:
+        case 4:
           data.sizeKat = data.sizeKat + "/Gewehr";
           break;
-        case 0:
+        case 5:
           data.sizeKat = data.sizeKat + "/Unterstützung";
           break;
-        case 1:
+        case 6:
           data.sizeKat = data.sizeKat + "/Kanone";
           break;
-        case 2:
+        case 7:
           data.sizeKat = data.sizeKat + "/Geschütz";
           break;
-        case 3:
+        case 8:
           data.sizeKat = data.sizeKat + "/Geschütz";
           break;
-        case 4:
+        case 9:
           data.sizeKat = data.sizeKat + "/Geschütz";
           break;
       }

@@ -151,7 +151,25 @@
         "Zerstört": false
       },
 
-      "templates": ["commonStats"]
+      "templates": ["commonStats"],
+      "charattribut": {
+        "Antrieb": {
+          "attribut": 1,
+          "skill": { "Beschleunigung": 0, "Handling": 0 }
+        },
+        "Energie": {
+          "attribut": 1,
+          "skill": { "Tarnen": 0, "Verteilung": 0 }
+        },
+        "KI": {
+          "attribut": 1,
+          "skill": { "Bots": 0, "Cortex": 0 }
+        },
+        "Sensoren": {
+          "attribut": 1,
+          "skill": { "Analyse": 0, "Scannen": 0 }
+        }
+      }
     },
     "KI": {
       "mk": 1,

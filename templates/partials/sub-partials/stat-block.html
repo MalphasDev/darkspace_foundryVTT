@@ -11,36 +11,31 @@
     </div>
   </h2>
 
-  {{#ifEquals this.data.type "Charakter"}}
   <div class="anmerkung flex between">
     <ul class="flex">
-        <li class="pill padding" style="margin: 0 2px;">
-            <span>Attribute</span>
-            <span>{{actor.data.data.totalAttrXp}} EP</span>
-        </li>
-        <li class="pill padding" style="margin: 0 2px;">
-            <span>Fertigkeiten</span>
-            <span>{{actor.data.data.totalSkillXp}} EP</span>
-        </li>
-        <li class="pill padding" style="margin: 0 2px;">
-            <span>Eigenschaften</span>
-            <span>{{actor.data.data.totalPropXp}} EP</span>
-        </li>
+      <li class="pill padding" style="margin: 0 2px">
+        <span>Attribute</span>
+        <span>{{actor.data.data.totalAttrXp}} EP</span>
+      </li>
+      <li class="pill padding" style="margin: 0 2px">
+        <span>Fertigkeiten</span>
+        <span>{{actor.data.data.totalSkillXp}} EP</span>
+      </li>
+      <li class="pill padding" style="margin: 0 2px">
+        <span>Eigenschaften</span>
+        <span>{{actor.data.data.totalPropXp}} EP</span>
+      </li>
     </ul>
-    <span class="pill padding" style="margin: 0 2px;">
-        <span>Gesamt</span>
-        <span>{{actor.data.data.totalXp}} EP</span>
+    <span class="pill padding" style="margin: 0 2px">
+      <span>Gesamt</span>
+      <span>{{actor.data.data.totalXp}} EP</span>
     </span>
-
-  </div> 
-  <hr>
-  {{/ifEquals}}
-
+  </div>
+  <hr />
 
   <ul class="grid col3" id="statFeld">
     {{#each data.data.charattribut as |attrobj attrname|}}
     <li class="attrfeld">
-
       <!--ATTRIBUTE für Charaktere-->
 
       <div class="grid col2-21">
@@ -195,30 +190,39 @@
   </ul>
   <!-- Ressourcen Bar -->
 
-<section>
-  <h2>Ressourcen</h2>
-      <ul class="flex between">
-          {{#each data.data.charattribut as |attrobj attrname|}}
-              {{#if ress.exists}}
-                  <li>
-                  <h3 class="flex between">{{ress.ressname}} <span class="ressReset" data-thisattr="{{attrname}}"><i class="fas fa-undo button"></i></span></h3>
-                  
-                  <div class="span2">
-                      <i class="fas fa-caret-left decRess" data-attr="{{attrname}}"></i>
+  <section>
+    <h2>Ressourcen</h2>
+    <ul class="flex between">
+      {{#each data.data.charattribut as |attrobj attrname|}} {{#if ress.exists}}
+      <li>
+        <h3 class="flex between">
+          {{ress.ressname}}
+          <span class="ressReset" data-thisattr="{{attrname}}"
+            ><i class="fas fa-undo button"></i
+          ></span>
+        </h3>
 
-                      {{#times ress.value}}
-                      <i class="fas fa-circle ressPoints" data-active="1" data-thisattr="{{attrname}}"></i>
-                      {{/times}}
+        <div class="span2">
+          <i class="fas fa-caret-left decRess" data-attr="{{attrname}}"></i>
 
-                      {{#times ress.remaining}}
-                      <i class="far fa-circle ressPoints" data-active="0" data-thisattr="{{attrname}}"></i>
-                      {{/times}}
+          {{#times ress.value}}
+          <i
+            class="fas fa-circle ressPoints"
+            data-active="1"
+            data-thisattr="{{attrname}}"
+          ></i>
+          {{/times}} {{#times ress.remaining}}
+          <i
+            class="far fa-circle ressPoints"
+            data-active="0"
+            data-thisattr="{{attrname}}"
+          ></i>
+          {{/times}}
 
-                      <i class="fas fa-caret-right incRess" data-attr="{{attrname}}"></i>
-                  </div>
-                 </li>
-              {{/if}}
-          {{/each}}
-      </ul>
-</section>
+          <i class="fas fa-caret-right incRess" data-attr="{{attrname}}"></i>
+        </div>
+      </li>
+      {{/if}} {{/each}}
+    </ul>
+  </section>
 </div>

@@ -5,79 +5,58 @@
     <div class="grid" style="grid-template-columns: 1fr 3fr;">
         <div>
             <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-            <h2 class="charname">
-                <input name="name" type="text" value="{{actor.name}}" placeholder="Bezeichnung"/>
-            </h2>
-            
-
-            {{> "systems/darkspace/templates/partials/MKSize.html"}}
-
-            
-
-            
-        </div>
-
-        <!-- 2. Spalte -->
-        
-
-        <div>
-            <div class="grid col3">
-                <div>
-                    <h2>
-                        <span>Min. Besatzung</span>
-                    </h2>
-                    <input type="number" value="{{data.data.crewNumber}}" disabled> 
-                    <h2>
-                        <span>Kapazität</span>
-                    </h2>
-                    <input type="text" value="{{data.data.passenger}} {{data.data.cargo}}" disabled>
+            <h3 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h3>
+            <div class="grid col2 gridcenter">
+                <div class="flex column">
+                    <span>Modulklasse</span>
+                    <input class="value-box" name="data.mk" value="{{data.data.mk}}" type="number">
                 </div>
-                <div>
-                    <h2 class="flex between">
-                        <span>Handling: {{data.data.handlingDesc}}</span>
-                    </h2>
-                    <div class="flex">
-                        {{data.data.handling}} <span class="anmerkung">= {{data.data.mk}} - {{data.data.size}}</span>
-                    </div>
-
+                <div class="flex column">
+                    <span>Größenmod.</span>
+                    <input class="value-box" name="data.size" value="{{data.data.size}}" type="number">
                     
                 </div>
-                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+
+                <div class="flex column">
+                    <span>Initiative</span>
+                    <input disabled value="{{data.data.initiative}}W" type="text"></input>
+                </div>
             </div>
-            
-            
-            
+
         </div>
-        <h2>Schnellwahl</h2>
-        {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
 
         
-        
-        
+        <div>
+
+            {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+            <hr>
+            <div class="grid col2 gridcenter">
+                <div class="flex column">
+                    <span>Min. Fertigkeitsstufe</span>
+                    <input disabled value="{{data.data.crewNumber}}" type="text"></input>
+                </div>
+                <div class="flex column">
+                    <span>Passagierzahl und Frachtraum</span>
+                    <input disabled value="{{data.data.passengerCargo}}" type="text"></input>
+                </div>
+            </div>
+            <hr>
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
+
         </div>
     </div>
+</div>
 
-    <div class="grid col2">
-        <div>
-            
+    {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
+
+    <div>
+        <div class="grid col2">
             {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
+            {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
         </div>
-
-        
-        <div>
-            {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
-        </div>
+        {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
     </div>
     
-    
-    
-    <div class="grid col2">
-    </div>
-    
-    <div class="sheet-content">
-        {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
-
-    </div>
 
     
     

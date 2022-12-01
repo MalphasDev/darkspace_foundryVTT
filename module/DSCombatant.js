@@ -2,6 +2,8 @@ export default class DSCombatant extends Combatant {
   async _onCreate(data, options, userID) {
     await super._onCreate(data, options, userID);
     // this.setFlag("darkspace", "target", false);
+    this.data.Ausgeschaltet = false;
+    console.log(this.data);
   }
 
   async _onUpdate(data, options, userID) {

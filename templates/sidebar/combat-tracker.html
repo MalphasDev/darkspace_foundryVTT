@@ -67,12 +67,15 @@
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
                 <div class="combatant-controls flexrow">
+                    {{log this}}
                     {{#if ../user.isGM}}
                     <a class="combatant-control {{#if this.hidden}}active{{/if}}" title="{{localize 'COMBAT.ToggleVis'}}" data-control="toggleHidden">
                         <i class="fas fa-eye-slash"></i></a>
                     <a class="combatant-control {{#if this.defeated}}active{{/if}}" title="{{localize 'COMBAT.ToggleDead'}}" data-control="toggleDefeated">
                         <i class="fas fa-skull"></i></a>
+
                     {{/if}}
+                    
                     <div class="token-effects">
                         {{#each this.effects}}
                         <img class="token-effect" src="{{this}}"/>
@@ -86,13 +89,19 @@
                 <span class="resource">{{this.resource}}</span>
             </div>
             {{/if}}
-
-            <div class="token-initiative">
-                {{#if this.hasRolled}}
-                <span class="initiative">{{this.initiative}}</span>
-                {{else if this.owner}}
-                <a class="combatant-control roll" title="{{localize 'COMBAT.InitiativeRoll'}}" data-control="rollInitiative"></a>
+            <div class="flex">
+                {{#if ../user.isGM}}
+                <div style="font-size: 1.3rem">
+                    <a class="hitTracker" data-combatant-id="{{this.id}}"><i class="fas fa-hand-rock"></i></a>
+                </div>
                 {{/if}}
+                <div class="token-initiative">
+                    {{#if this.hasRolled}}
+                    <span class="initiative">{{this.initiative}}</span>
+                    {{else if this.owner}}
+                    <a class="combatant-control roll" title="{{localize 'COMBAT.InitiativeRoll'}}" data-control="rollInitiative"></a>
+                    {{/if}}
+                </div>
             </div>
         </li>
         {{/each}}

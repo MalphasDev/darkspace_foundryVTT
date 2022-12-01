@@ -54,6 +54,19 @@ const accessTempTree = () => {
     });
     darkspace.skillListAi = skillListAi.sort();
   });
+
+  tempTree.then((a) => {
+    let attrListVehicle = Object.keys(a.Actor.DrohneFahrzeug.charattribut);
+    let skillListVehicle = [];
+    darkspace.attrVehicle = attrListVehicle;
+    console.log(attrListVehicle);
+    attrListVehicle.forEach((attr) => {
+      skillListVehicle = skillListVehicle.concat(
+        Object.keys(a.Actor.DrohneFahrzeug.charattribut[attr].skill)
+      );
+    });
+    darkspace.skillListVehicle = skillListVehicle.sort();
+  });
 };
 
 accessTempTree();

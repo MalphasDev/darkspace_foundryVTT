@@ -108,6 +108,18 @@ Hooks.once("init", function () {
   CONFIG.darkspace = darkspace;
   CONFIG.Actor.documentClass = DSCharacter;
   CONFIG.Item.documentClass = DSItem;
+  console.log(CONFIG.statusEffects);
+  const iconFolder = "systems/darkspace/icons/";
+
+  CONFIG.statusEffects = [
+    {
+      icon: iconFolder + "arti.svg",
+      id: "Test1",
+      label: "Testlabel1",
+    },
+    { icon: "icons/svg/mage-shield.svg", id: "Test2", label: "Testlabel2" },
+    { icon: "icons/svg/mage-shield.svg", id: "Test3", label: "Testlabel3" },
+  ];
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("darkspace", DSItemSheet, { makeDefault: true });

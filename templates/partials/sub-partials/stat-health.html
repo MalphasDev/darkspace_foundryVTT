@@ -1,26 +1,22 @@
 <div>
-<h2 class="flex between">
-    Zustände
-    
-</h2>
-{{#ifEquals this.data.type "DrohneFahrzeug"}}
-    <div class="grid col2-21 anmerkung">
-        <span>Struktur <span class="anmerkung">(<i class="fas fa-microchip"></i>+ GM)</span></span>
-        <span class="text_c">{{data.data.structure}}</span>
-    </div>
-    <hr>
-    {{/ifEquals}}
-<div class="">
+  <h2 class="flex between">Zustände</h2>
+
+  <div class="">
     <ul class="flex wrap strech">
-        
-        
-        {{#each data.data.conditions as |value name|}}
-        <li class="flex pill">
-            <input type="checkbox" class="noDisplay"  {{checked value}} name="data.conditions.{{name}}" value="{{value}}" id="{{name}}">
-            <label for="{{name}}">{{name}}</label>
-        </li>
-        {{/each}}
+      {{#each data.data.conditions as |value name|}}
+      <li class="flex pill">
+        <input
+          type="checkbox"
+          class="noDisplay"
+          {{checked
+          value}}
+          name="data.conditions.{{name}}"
+          value="{{value}}"
+          id="{{name}}"
+        />
+        <label for="{{name}}">{{name}}</label>
+      </li>
+      {{/each}}
     </ul>
-    
-    
+  </div>
 </div>

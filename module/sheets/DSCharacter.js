@@ -72,8 +72,7 @@ export default class DSCharacter extends Actor {
       // Waffenloser Kampf
       data.unarmedName = "Waffenloser Kampf";
     }
-    let attrEpTotal = 0;
-    let skillEpTotal = 0;
+
     if (this.type === "Charakter" || this.type === "KI") {
       if (this.type === "Charakter") {
         data.initiative = Math.ceil(
@@ -96,24 +95,7 @@ export default class DSCharacter extends Actor {
             4
         );
 
-        config.attr.forEach((attrIdent) => {
-          let attributName = data.charattribut;
-          let attrWert = attributName[attrIdent].attribut;
-          let attrEp =
-            ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;
-          attrEpTotal += attrEp;
-
-          let skillSet = attributName[attrIdent].skill;
-
-          config.skillList.forEach((skillIdent) => {
-            if (skillSet[skillIdent] !== undefined) {
-              let skillWert = skillSet[skillIdent];
-              let skillEp =
-                ((skillWert * (skillWert + 1) * (2 * skillWert + 1)) / 6) * 4;
-              skillEpTotal += skillEp;
-            }
-          });
-        });
+        this.expCounter();
       }
       // Unterbringung
 
@@ -186,11 +168,6 @@ export default class DSCharacter extends Actor {
         });
       });
     }
-    data.finalinitiative = data.initiative + data.initMod;
-    data.totalAttrXp = attrEpTotal;
-    data.totalSkillXp = skillEpTotal;
-    data.totalPropXp = propertyList.length * 100;
-    data.totalXp = attrEpTotal + skillEpTotal + data.totalPropXp;
 
     // Erholung
 
@@ -244,21 +221,15 @@ export default class DSCharacter extends Actor {
     }
 
     if (this.type === "DrohneFahrzeug") {
-      data.structure = Math.max(data.mk + data.size, 1);
-
-      data.bruisesName = "Beschädigungen";
-      data.woundsName = "Verletzungen";
-
-      data.halbmk = Math.ceil(data.mk / 2);
-      data.noMk = 0;
+      console.log(this);
 
       data.initiative = data.mk;
       data.finalinitiative = data.initiative + data.initMod;
       data.initBonus = Math.ceil(data.mk / 2);
 
       // Panzerung
-      data.Struktur = data.structure;
-      data.Schutz = Math.ceil(data.mk / 2);
+      data.Struktur = data.size;
+      data.Schutz = data.mk;
 
       // Waffenloser Durchschlag
       data.unarmedHide = true;
@@ -266,23 +237,24 @@ export default class DSCharacter extends Actor {
       // Handling
       data.handling = data.mk - data.size;
       if (data.handling < -1) {
-        data.handlingDesc = "Schwach";
+        data.handlingDesc = "Schwach (" + data.handling + ")";
       }
       if (data.handling >= -1 && data.handling <= 1) {
-        data.handlingDesc = "Normal";
+        data.handlingDesc = "Normal (" + data.handling + ")";
       }
       if (data.handling > 1) {
-        data.handlingDesc = "Gut";
+        data.handlingDesc = "Gut (" + data.handling + ")";
       }
 
       // Passagiere und Fracht
-      let absSize = Math.max(data.size, 0);
-      let sizeLength = Math.pow(10, absSize) / 100;
-      let passengerNumber =
-        Math.ceil(Math.pow(2, absSize) / sizeLength) * sizeLength * absSize;
+
+      let passengerNumber = Math.pow(5, Math.max(0, data.size - 5) - 1);
       data.passenger = data.size > 0 ? passengerNumber + " Personen / " : "";
-      data.cargo = data.size - 1;
-      data.crewNumber = Math.floor(absSize / 2) + data.mk;
+      data.cargo = "GM " + (data.size - 1);
+      data.passengerCargo = data.passenger + data.cargo;
+      data.crewNumber = "Fertigkeitsstufe " + Math.min(data.mk, data.size);
+
+      this.expCounter();
     }
   }
 
@@ -293,5 +265,58 @@ export default class DSCharacter extends Actor {
       actorData.token.update({ vision: true, actorLink: true, disposition: 1 });
     }
     actorData.token.update({ dimSight: 5 });
+  }
+  vehicleSkills(value) {
+    const actorData = this.data;
+    const data = actorData.data;
+    console.log(value);
+    let a = value[0];
+    let b = value[1];
+    let newValue = data.mk * a * ((data.size / 10) * b);
+    console.log(data.mk, a, data.size, b);
+    console.log(newValue);
+    return newValue;
+  }
+
+  expCounter() {
+    const actorData = this.data;
+    const data = actorData.data;
+    const flags = actorData.flags;
+    const config = CONFIG.darkspace;
+
+    let attrEpTotal = 0;
+    let skillEpTotal = 0;
+
+    console.log(config.attrVehicle);
+    console.log(config.skillListVehicle);
+
+    config.attrVehicle.forEach((attrIdent) => {
+      let attributName = data.charattribut;
+      let attrWert = attributName[attrIdent].attribut;
+      let attrEp =
+        ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;
+      attrEpTotal += attrEp;
+
+      let skillSet = attributName[attrIdent].skill;
+
+      config.skillListVehicle.forEach((skillIdent) => {
+        if (skillSet[skillIdent] !== undefined) {
+          let skillWert = skillSet[skillIdent];
+          let skillEp =
+            ((skillWert * (skillWert + 1) * (2 * skillWert + 1)) / 6) * 4;
+          skillEpTotal += skillEp;
+        }
+      });
+    });
+
+    var propertyList = actorData.items.filter((e) => {
+      return e.type === "Eigenschaft";
+    });
+
+    data.finalinitiative = data.initiative + data.initMod;
+    data.totalAttrXp = attrEpTotal;
+    data.totalSkillXp = skillEpTotal;
+    data.totalPropXp = propertyList.length * 100;
+    data.totalXp = attrEpTotal + skillEpTotal + data.totalPropXp;
   }
 }
