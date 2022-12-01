@@ -1,6 +1,4 @@
 export const darkspace = {};
-console.log(CONFIG);
-console.log(darkspace);
 darkspace.attackTypes = {
   none: "",
   Schusswaffen: "Schusswaffen",
@@ -32,7 +30,7 @@ const accessTempTree = () => {
   tempTree.then((a) => {
     let attrList = Object.keys(a.Actor.Charakter.charattribut);
     let skillList = [];
-    darkspace.attr = attrList;
+    darkspace.attrList = attrList;
 
     attrList.forEach((attr) => {
       skillList = skillList.concat(
@@ -59,7 +57,6 @@ const accessTempTree = () => {
     let attrListVehicle = Object.keys(a.Actor.DrohneFahrzeug.charattribut);
     let skillListVehicle = [];
     darkspace.attrVehicle = attrListVehicle;
-    console.log(attrListVehicle);
     attrListVehicle.forEach((attr) => {
       skillListVehicle = skillListVehicle.concat(
         Object.keys(a.Actor.DrohneFahrzeug.charattribut[attr].skill)

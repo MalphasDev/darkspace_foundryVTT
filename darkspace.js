@@ -17,8 +17,6 @@ async function getFiles(target, extensions = ``, source = `user`) {
 }
 
 async function preloadHandlebarsTemplates() {
-  console.log("preloadHandlebarsTemplates()");
-
   // const dsFolders = [
   //   "/systems/darkspace/templates/createNewItem",
   //   "/systems/darkspace/templates/dice",
@@ -99,8 +97,6 @@ async function preloadHandlebarsTemplates() {
 }
 
 Hooks.once("init", function () {
-  console.log("DS | Initialisierung System");
-
   CONFIG.Combat.documentClass = DSCombat;
   CONFIG.Combatant.documentClass = DSCombatant;
   CONFIG.ui.combat = DSCombatTracker;
@@ -108,7 +104,6 @@ Hooks.once("init", function () {
   CONFIG.darkspace = darkspace;
   CONFIG.Actor.documentClass = DSCharacter;
   CONFIG.Item.documentClass = DSItem;
-  console.log(CONFIG.statusEffects);
   const iconFolder = "systems/darkspace/icons/";
 
   CONFIG.statusEffects = [

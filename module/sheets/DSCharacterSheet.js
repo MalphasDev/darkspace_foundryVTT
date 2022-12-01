@@ -245,7 +245,6 @@ export default class DSCharakcterSheet extends ActorSheet {
       }
       // SKILLIDENTS FÜR NEBENCHARAKTERE
       if (this.object.data.type === "Nebencharakter") {
-        console.log(skillident);
         if (
           [
             "Kampftechnik",

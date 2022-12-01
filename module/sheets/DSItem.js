@@ -21,8 +21,9 @@ export default class DSItem extends Item {
 
     // Waffen //
     data.sizeRange = data.size;
-    data.autoRangeBase = Math.pow(data.sizeRange, 2);
-    data.autoRangeShort = data.autoRangeBase * 5;
+
+    data.autoRangeShort = Math.pow(data.sizeRange, 2) + data.mk;
+    data.autoRangeBase = data.autoRangeShort * 5;
     data.autoRangeExtr = data.autoRangeBase * 10;
     data.autoRangeMax = data.autoRangeBase * 20;
 
@@ -39,7 +40,7 @@ export default class DSItem extends Item {
 
     if (data.ranged === true) {
       data.attackWith = "Schusswaffen";
-      data.dmg = data.mk * 2 + data.size * 6;
+      data.dmg = 10 + data.size * 2;
     } else {
       data.range = "Nahkampf";
       if (actorData !== {} && actorData !== undefined) {
@@ -51,8 +52,16 @@ export default class DSItem extends Item {
         }
       } else {
       }
-      data.dmg = data.mk * 2 + data.size * 4;
-      // actorData.data.charattribut.Konstitution.attribut
+      data.dmg = 10 + data.size + " + Kon.";
+
+      itemData.type === "Waffe"
+        ? actorData === undefined
+          ? (data.dmg = 10 + data.size + " + Kon.")
+          : (data.dmg =
+              10 +
+              data.size +
+              actorData.data.charattribut.Konstitution.attribut)
+        : null;
     }
     // Eigenschaften anzeigen
     let propList = data.properties;

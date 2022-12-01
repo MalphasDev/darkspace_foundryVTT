@@ -72,29 +72,20 @@ export default class DSCharacter extends Actor {
       // Waffenloser Kampf
       data.unarmedName = "Waffenloser Kampf";
     }
-
+    //
     if (this.type === "Charakter" || this.type === "KI") {
       if (this.type === "Charakter") {
-        data.initiative = Math.ceil(
-          (data.charattribut.Aufmerksamkeit.attribut +
-            data.charattribut.Geschick.attribut +
-            data.charattribut.Intuition.attribut) /
-            3
-        );
+        data.initiative =
+          data.charattribut.Aufmerksamkeit.attribut +
+          "d10x10kh2+" +
+          data.charattribut.Aufmerksamkeit.skill.Fokus;
 
         data.unarmedDmg =
-          2 +
-          Math.floor(
-            (data.charattribut.Konstitution.attribut +
-              data.charattribut.Geschick.attribut) /
-              3
+          10 +
+          Math.max(
+            data.charattribut.Konstitution.attribut,
+            data.charattribut.Geschick.attribut
           );
-        data.weaponDmgBonus = Math.floor(
-          (data.charattribut.Konstitution.attribut +
-            data.charattribut.Geschick.attribut) /
-            4
-        );
-
         this.expCounter();
       }
       // Unterbringung
@@ -132,6 +123,7 @@ export default class DSCharacter extends Actor {
           : Math.max(...itemMk);
       data.wealth = data.charattribut.Ressourcen.attribut * 2;
       data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
+
       // Ressourcen
       let attributNames = Object.keys(data.charattribut);
       for (var i = 0; attributNames.length > i; i++) {
@@ -142,12 +134,10 @@ export default class DSCharacter extends Actor {
         }
       }
     } else if (this.type === "KI") {
-      data.initiative = Math.ceil(
-        (data.charattribut.Aufmerksamkeit.attribut +
-          data.charattribut.Konzentration.attribut +
-          data.charattribut.Intuition.attribut) /
-          3
-      );
+      data.initiative =
+        data.charattribut.Aufmerksamkeit.attribut +
+        "d10x10kh2+" +
+        data.charattribut.Aufmerksamkeit.skill.Fokus;
 
       config.attrAi.forEach((attrIdent) => {
         let attributName = data.charattribut;
@@ -215,15 +205,12 @@ export default class DSCharacter extends Actor {
         },
       };
 
-      data.initiative = Math.max(data.Kompetenz + data.Kampfkraft, 1);
-      data.unarmedDmg = 2 + Math.floor(combatAttr / 3);
-      data.weaponDmgBonus = Math.floor(combatAttr / 4);
+      data.initiative = data.Kompetenz + "d10x10kh2+" + data.Kampfkraft;
+      data.unarmedDmg = 10 + data.Kampfkraft;
     }
 
     if (this.type === "DrohneFahrzeug") {
-      console.log(this);
-
-      data.initiative = data.mk;
+      data.initiative = data.mk + "d10x10kh2+" + Math.ceil(data.mk / 2);
       data.finalinitiative = data.initiative + data.initMod;
       data.initBonus = Math.ceil(data.mk / 2);
 
@@ -269,12 +256,9 @@ export default class DSCharacter extends Actor {
   vehicleSkills(value) {
     const actorData = this.data;
     const data = actorData.data;
-    console.log(value);
     let a = value[0];
     let b = value[1];
     let newValue = data.mk * a * ((data.size / 10) * b);
-    console.log(data.mk, a, data.size, b);
-    console.log(newValue);
     return newValue;
   }
 
@@ -286,11 +270,18 @@ export default class DSCharacter extends Actor {
 
     let attrEpTotal = 0;
     let skillEpTotal = 0;
+    let attrList = [];
+    let skillList = [];
 
-    console.log(config.attrVehicle);
-    console.log(config.skillListVehicle);
+    if (actorData.type === "Charakter") {
+      attrList = config.attrList;
+      skillList = config.skillList;
+    } else if (actorData.type === "DrohneFahrzeug") {
+      attrList = config.attrVehicle;
+      skillList = config.skillListVehicle;
+    }
 
-    config.attrVehicle.forEach((attrIdent) => {
+    attrList.forEach((attrIdent) => {
       let attributName = data.charattribut;
       let attrWert = attributName[attrIdent].attribut;
       let attrEp =
@@ -299,7 +290,7 @@ export default class DSCharacter extends Actor {
 
       let skillSet = attributName[attrIdent].skill;
 
-      config.skillListVehicle.forEach((skillIdent) => {
+      skillList.forEach((skillIdent) => {
         if (skillSet[skillIdent] !== undefined) {
           let skillWert = skillSet[skillIdent];
           let skillEp =
@@ -312,11 +303,12 @@ export default class DSCharacter extends Actor {
     var propertyList = actorData.items.filter((e) => {
       return e.type === "Eigenschaft";
     });
-
-    data.finalinitiative = data.initiative + data.initMod;
+    var artList = actorData.items.filter((i) => {
+      return i.data.type === "Artifizierung";
+    });
     data.totalAttrXp = attrEpTotal;
     data.totalSkillXp = skillEpTotal;
-    data.totalPropXp = propertyList.length * 100;
+    data.totalPropXp = (propertyList.length + artList.length) * 100;
     data.totalXp = attrEpTotal + skillEpTotal + data.totalPropXp;
   }
 }

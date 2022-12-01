@@ -47,8 +47,6 @@ export default class DSCombatTracker extends CombatTracker {
 
     combat.sendAE = 0;
 
-    console.log(combat.newIni);
-
     combat.setInitiative(currentTargetId, combat.newIni);
 
     // if (game.user.isGM) {

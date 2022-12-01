@@ -1,48 +1,46 @@
 <div>
-    <h3>{{name}}</h3>
-    {{> "systems/darkspace/templates/dice/chatBase.html"}}
-    <hr>
-    <div class="grid col3-121 gridcenter">
-        <i class="fas fa-bolt cell_c doublesize"></i>
-        <span>
-            {{#if data.ranged}}
-            <i class="fas fa-arrows-alt-h cell_c doublesize"></i>
-            {{/if}}
-            {{#unless data.ranged}}
-            <i class="fas fa-fist-raised doublesize"></i>
-            {{/unless}}
-        </span>
-        <i class="fas fa-history cell_c doublesize"></i>
+  <h3>{{name}}</h3>
+  {{> "systems/darkspace/templates/dice/chatBase.html"}}
+  <hr />
+  <div class="grid col3-121 gridcenter">
+    <i class="fas fa-bolt cell_c doublesize"></i>
+    <span>
+      {{#if data.ranged}}
+      <i class="fas fa-arrows-alt-h cell_c doublesize"></i>
+      {{/if}} {{#unless data.ranged}}
+      <i class="fas fa-fist-raised doublesize"></i>
+      {{/unless}}
+    </span>
+    <i class="fas fa-history cell_c doublesize"></i>
 
-        <span>DS</span>
-        <span>Reichweite</span>
-        <span>Kosten</span>
+    <span>DS</span>
+    <span>Reichweite</span>
+    <span>Kosten</span>
 
-        <span class="chatStats">{{data.dmg}}{{#ifEquals this.data.range "Nahkampf"}}+{{this.actor.weaponDmgBonus}}{{/ifEquals}}</span>
-        {{#if data.ranged}}
-        <div class="grid col3-211 gridcenter nogap">
-            <span>{{data.autoRangeShort}}-{{data.autoRangeBase}}</span>
-            <span>{{data.autoRangeExtr}}</span>
-            <span>{{data.autoRangeMax}}</span>
-            <span>16</span>
-            <span>18</span>
-            <span>20</span>
-        </div>
-
-        {{/if}}
-        {{#unless data.ranged}}
-        <span class="chatStats">{{data.range}}</span>
-        {{/unless}}
-        <span class="chatStats">{{data.aeCost}} AE</span>
+    <span class="chatStats">{{data.dmg}}</span>
+    {{#if data.ranged}}
+    <div class="grid col3-211 gridcenter nogap">
+      <span>{{data.autoRangeShort}}-{{data.autoRangeBase}}</span>
+      <span>{{data.autoRangeExtr}}</span>
+      <span>{{data.autoRangeMax}}</span>
+      <span>16</span>
+      <span>18</span>
+      <span>20</span>
     </div>
-    <hr>
-<div>
+
+    {{/if}} {{#unless data.ranged}}
+    <span class="chatStats">{{data.range}}</span>
+    {{/unless}}
+    <span class="chatStats">{{data.aeCost}} AE</span>
+  </div>
+  <hr />
+  <div>
     <ul>
-        {{#each this.data.propArray}}
-        <li class="inline_block">
-            <p class="iconbox">{{this}}</p>
-        </li>
-        {{/each}}
+      {{#each this.data.propArray}}
+      <li class="inline_block">
+        <p class="iconbox">{{this}}</p>
+      </li>
+      {{/each}}
     </ul>
-</div>
+  </div>
 </div>
