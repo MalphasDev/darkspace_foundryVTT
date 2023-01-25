@@ -16,12 +16,13 @@
   <span class="unEvalDice">{{this}}</span>
   {{/each}}
 
-  <span>( + {{terms.[2].number}})</span>
+  <span>( + {{this.skillValue}})</span>
 </div>
 
 <hr />
-
-<div class="flexResult">{{_total}}</div>
+<div class="flexResult">
+  {{#if disadv}}{{this.total_BC}}{{else}}{{this.total_AB}}{{/if}}
+</div>
 
 <ul>
   {{#each merits}}

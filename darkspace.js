@@ -8,13 +8,7 @@ import DSCombatant from "./module/DSCombatant.js";
 import DSCombatTracker from "./module/DSCombatTracker.js";
 import DSNebencharakter from "./module/sheets/DSNebencharakter.js";
 import DSCustomDice from "./module/DSCustomDice.js";
-
-async function getFiles(target, extensions = ``, source = `user`) {
-  extensions = extensions instanceof Array ? extensions : [extensions];
-  let filePicker = await FilePicker.browse(source, target);
-  if (filePicker.files) return [...filePicker.files];
-  return [];
-}
+import * as DSMechanics from "./module/DSMechanics.js";
 
 async function preloadHandlebarsTemplates() {
   // const dsFolders = [
@@ -48,17 +42,13 @@ async function preloadHandlebarsTemplates() {
     //Combat
     "systems/darkspace/templates/partials/sub-partials/combat-armor.html",
     "systems/darkspace/templates/partials/sub-partials/combat-weapons.html",
-    "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html",
-    "systems/darkspace/templates/partials/sub-partials/combat-protection.html",
 
     //Items
     "systems/darkspace/templates/partials/sub-partials/items-header.html",
     "systems/darkspace/templates/partials/sub-partials/items-item.html",
     "systems/darkspace/templates/partials/sub-partials/items-quarter.html",
-    "systems/darkspace/templates/partials/sub-partials/items-medkits.html",
-    "systems/darkspace/templates/partials/sub-partials/items-tools.html",
-    "systems/darkspace/templates/partials/sub-partials/items-terminals.html",
     "systems/darkspace/templates/partials/sub-partials/items-weapons.html",
+    "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html",
 
     //NPCs
     "systems/darkspace/templates/sheets/actors/Nebencharakter-sheet.html",
@@ -70,7 +60,6 @@ async function preloadHandlebarsTemplates() {
 
     //Misc
     "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
-    "systems/darkspace/templates/partials/sub-partials/misc-properties.html",
     "systems/darkspace/templates/partials/sub-partials/misc-downtime.html",
 
     //Sub-Sub-Partials
@@ -115,6 +104,12 @@ Hooks.once("init", function () {
     { icon: "icons/svg/mage-shield.svg", id: "Test2", label: "Testlabel2" },
     { icon: "icons/svg/mage-shield.svg", id: "Test3", label: "Testlabel3" },
   ];
+
+  game.darkspace = {
+    DSCharacter,
+    DSItem,
+    rollItemMacro,
+  };
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("darkspace", DSItemSheet, { makeDefault: true });
@@ -165,4 +160,78 @@ Hooks.once("init", function () {
     return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
   });
 });
+
+Hooks.once("ready", async function () {
+  Hooks.on("hotbarDrop", (bar, data, slot) => createDSMacro(data, slot));
+});
+/* -------------------------------------------- */
+/*  Hotbar Macros                               */
+/* -------------------------------------------- */
+
+/**
+ * Create a Macro from an Item drop.
+ * Get an existing item macro if one exists, otherwise create a new one.
+ * @param {Object} data     The dropped data
+ * @param {number} slot     The hotbar slot to use
+ * @returns {Promise}
+ */
+async function createDSMacro(data, slot) {
+  if (data.type !== "Item") return;
+  if (!("data" in data))
+    return ui.notifications.warn(
+      "You can only create macro buttons for owned Items"
+    );
+  const item = data.data;
+
+  // Create the macro command
+  const command = `game.darkspace.rollItemMacro("${item.name}");`;
+  let macro = await Macro.create({
+    name: item.name,
+    type: "script",
+    img: item.img,
+    command: command,
+    flags: { "darkspace.itemMacro": true },
+  });
+  game.user.assignHotbarMacro(macro, slot);
+  return false;
+}
+
+/**
+ * Create a Macro from an Item drop.
+ * Get an existing item macro if one exists, otherwise create a new one.
+ * @param {string} itemName
+ * @return {Promise}
+ */
+function rollItemMacro(itemName) {
+  const speaker = ChatMessage.getSpeaker();
+  let actor;
+  if (speaker.token) actor = game.actors.tokens[speaker.token];
+  if (!actor) actor = game.actors.get(speaker.actor);
+  const item = actor ? actor.items.find((i) => i.name === itemName) : null;
+  if (!item)
+    return ui.notifications.warn(
+      `Your controlled Actor does not have an item named ${itemName}`
+    );
+
+  const activeItem = actor.items.filter((f) => {
+    return f.id === item.id;
+  })[0];
+
+  const dbAttr = actor.data.data.charattribut;
+  const stat = DSMechanics.getStat(item.data.data.useWith, dbAttr);
+
+  const inputData = {
+    actorData: actor,
+    actorId: actor.id,
+    item: item,
+    dynattr: stat.attr,
+    dynskill: stat.fert,
+    modroll: false,
+    object: {},
+    type: item.type,
+  };
+  // Trigger the item roll
+  DSMechanics.modRolls(inputData, {});
+}
+
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

@@ -1,42 +1,29 @@
-<section class="grid" style="grid-template-columns: 1fr 3fr">
+<section id="header">
+  <!-- Charakterportrait -->
+  <div class="cell_t">
+    <img
+      class="actorimg"
+      src="{{actor.img}}"
+      data-edit="img"
+      title="{{actor.name}}"
+    />
+  </div>
 
-        <!--Spalte 1-->
-        <div>
-            <img class="actorimg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-            <h2 class="charname">
-                <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername"/>
-            </h2>
-        </div>
-        <!--Spalte 2-->
-        <div class="cell_t">
-                {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
-                <h2>Schnellwahl</h2>
-                {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
-            </div>
-        </div>
-</section>
+  <!-- Charaktername -->
 
-
-<!-- EP -->
-
-<section class="cell_t">
-            
-    <h2 class="flex between">
-        <span>Erfahrung</span>
-        <div>
-            <input name="data.xp.value" value="{{data.data.xp.value}}" type="number"style="width: 100px;">/
-            <input name="data.xp.max" value="{{data.data.xp.max}}" type="number" style="width: 100px;">
-        </div>
+  <div class="cell_t">
+    <h2 class="charname">
+      <input
+        name="name"
+        type="text"
+        value="{{actor.name}}"
+        placeholder="Charaktername"
+      />
     </h2>
-</section>
+  </div>
 
-<section>
-    <nav class="sheet-tabs tabs flex" data-group="primary">
-        <a class="item" data-tab="stats">Werte</a>
-        <a class="item" data-tab="combat">Waffen und Rüstung</a>
-        <a class="item" data-tab="items">Items</a>
-        <a class="item" data-tab="notes">Notizen</a>
-        <a class="item" data-tab="downtime">Downtime</a>
-    </nav>
+  <!-- Zustandsmonitor -->
+  <div>
+    {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+  </div>
 </section>
-

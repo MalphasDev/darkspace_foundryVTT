@@ -6,7 +6,7 @@ export default class DSItemSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["darkspace", "sheet", "item"],
-      width: 520,
+      width: 320,
       height: 480,
       tabs: [
         {

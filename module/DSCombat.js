@@ -20,8 +20,6 @@ export default class DSCombat extends Combat {
   }
 
   async startCombat() {
-    // Offene Inititaiven Würfeln
-
     const ids = Array.from(this.data.combatants.values())
       .filter((c) => {
         return c.data.initiative === undefined;
@@ -49,7 +47,7 @@ export default class DSCombat extends Combat {
     }
   }
 
-  async rollInitiative(ids, options) {
+  async rollInitiative(ids) {
     const actorData = this.data.combatants;
     const Combatant = this.combatant;
 
@@ -82,16 +80,19 @@ export default class DSCombat extends Combat {
           })
         )[0];
 
-        var actorByCombatantId = currentCombatant.actor.data;
         let inputData = {
           eventData: {},
           actorId: currentCombatant.id,
           actorData: actorData,
           removehighest: false,
           object: {},
-          dynattr: actorByCombatantId.data.initiative,
-          dynskill: 0,
-          roleData: { attribute: "Initiative", skill: "Initiative" },
+          dynattr:
+            currentCombatant.actor.data.data.charattribut.Aufmerksamkeit
+              .attribut,
+          dynskill:
+            currentCombatant.actor.data.data.charattribut.Aufmerksamkeit.skill
+              .Fokus,
+          roleData: { attribute: "Aufmerksamkeit", skill: "Fokus" },
         };
 
         let outputData = await DSMechanics.rollDice(inputData).then(
@@ -100,7 +101,7 @@ export default class DSCombat extends Combat {
           }
         );
 
-        this.setInitiative(id, outputData.cardData._total);
+        this.setInitiative(id, outputData.cardData.total_AB);
 
         // Chatausgabe
 
@@ -110,7 +111,7 @@ export default class DSCombat extends Combat {
         //   "systems/darkspace/templates/dice/chatInitiative.html",
         //   cardData
         // );
-        // AudioHelper.play({ src: CONFIG.sounds.dice });
+        AudioHelper.play({ src: CONFIG.sounds.dice });
         // return ChatMessage.create(messageData);
       });
     }

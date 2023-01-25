@@ -1,18 +1,134 @@
-<div class="grid col2">
-    {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
-    
-    <div>
-        <h2 class="flex between">
-            <span>Werkzeug und Computer</span>
-            <i class="fas fa-plus createItem" data-type="TerminalsWerkzeuge"></i>
-        </h2>
-    
-        <ul class="item-list">
-            {{> "systems/darkspace/templates/partials/sub-partials/items-terminals.html"}}
-            {{> "systems/darkspace/templates/partials/sub-partials/items-tools.html"}}
-        </ul>
-    </div>
-    
-</div>
-    
+<div>
+  <h2>Gegenstände</h2>
+  <ul class="item-list">
+    {{#each Werkzeug}}
+    <li class="item" data-item-id="{{this._id}}">
+      <div class="grid col4-item">
+        <span>
+          <span>
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="false"
+              src="systems/darkspace/icons/d10.svg"
+            />
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="true"
+              src="systems/darkspace/icons/d10edit.svg"
+            />
+          </span>
 
+          <span class="itemname itemToChat" draggable="true"
+            ><i class="fas fa-toolbox"></i> {{this.name}} </span
+          ><span class="anmerkung">({{this.data.useWith}})</span>
+        </span>
+
+        <span><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}</span>
+        <span><i class="fas fa-microchip"></i>{{this.data.mk}}</span>
+        <div class="cell_r">
+          {{>
+          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+        </div>
+      </div>
+    </li>
+    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
+    {{/each}} {{#each Terminals}}
+    <li class="item" data-item-id="{{this._id}}">
+      <div class="grid col4-item">
+        <span>
+          <span>
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="false"
+              src="systems/darkspace/icons/d10.svg"
+            />
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="true"
+              src="systems/darkspace/icons/d10edit.svg"
+            />
+          </span>
+
+          <span class="itemname itemToChat" draggable="true"
+            ><i class="fas fa-tablet-alt"></i> {{this.name}}
+            <span class="anmerkung">({{this.data.useWith}})</span></span
+          >
+        </span>
+        <span><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}</span>
+        <span><i class="fas fa-microchip"></i>{{this.data.mk}}</span>
+        <div class="cell_r">
+          {{>
+          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+        </div>
+      </div>
+    </li>
+    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
+    {{/each}} {{#each Medkit}}
+    <li class="item" data-item-id="{{this._id}}">
+      <div class="grid col4-item">
+        <span
+          ><span>
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="false"
+              src="systems/darkspace/icons/d10.svg"
+            />
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="true"
+              src="systems/darkspace/icons/d10edit.svg"
+            /> </span
+          ><span class="itemname itemToChat" draggable="true"
+            ><i class="fas fa-first-aid"></i> {{this.name}}
+            <span class="anmerkung">({{this.data.useWith}})</span></span
+          ></span
+        >
+        <span><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}</span>
+        <span><i class="fas fa-microchip"></i>{{this.data.mk}}</span>
+        <div class="cell_r">
+          {{>
+          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+        </div>
+      </div>
+    </li>
+    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
+    {{/each}} {{#each Gegenstand}}
+    <li class="item" data-item-id="{{this._id}}">
+      <div class="grid col4-item">
+        <span>
+          <span>
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="false"
+              src="systems/darkspace/icons/d10.svg"
+            />
+            <img
+              class="d10-symbol rollItem"
+              data-itemid="{{this._id}}"
+              data-modroll="true"
+              src="systems/darkspace/icons/d10edit.svg"
+            /> </span
+          ><span class="itemname itemToChat" draggable="true"
+            >{{this.name}}</span
+          >
+          <span class="anmerkung">({{this.data.useWith}})</span>
+        </span>
+        <span><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}</span>
+        <span><i class="fas fa-microchip"></i>{{this.data.mk}}</span>
+        <div class="cell_r">
+          {{>
+          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+        </div>
+      </div>
+    </li>
+    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
+    {{/each}}
+  </ul>
+</div>

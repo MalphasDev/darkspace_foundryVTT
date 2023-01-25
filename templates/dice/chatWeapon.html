@@ -2,6 +2,7 @@
   <h3>{{name}}</h3>
   {{> "systems/darkspace/templates/dice/chatBase.html"}}
   <hr />
+  {{log this}}
   <div class="grid col3-121 gridcenter">
     <i class="fas fa-bolt cell_c doublesize"></i>
     <span>
@@ -13,25 +14,15 @@
     </span>
     <i class="fas fa-history cell_c doublesize"></i>
 
-    <span>DS</span>
-    <span>Reichweite</span>
-    <span>Kosten</span>
+    <span class="chatStats bigsize bold">{{dmg}}</span>
 
-    <span class="chatStats">{{data.dmg}}</span>
     {{#if data.ranged}}
-    <div class="grid col3-211 gridcenter nogap">
-      <span>{{data.autoRangeShort}}-{{data.autoRangeBase}}</span>
-      <span>{{data.autoRangeExtr}}</span>
-      <span>{{data.autoRangeMax}}</span>
-      <span>16</span>
-      <span>18</span>
-      <span>20</span>
-    </div>
-
+    <span class="chatStats bigsize bold">{{data.range}}</span>
     {{/if}} {{#unless data.ranged}}
-    <span class="chatStats">{{data.range}}</span>
+    <span class="chatStats bigsize bold">Nahkampf</span>
     {{/unless}}
-    <span class="chatStats">{{data.aeCost}} AE</span>
+
+    <span class="chatStats bigsize bold">{{data.aeCost}} AE</span>
   </div>
   <hr />
   <div>

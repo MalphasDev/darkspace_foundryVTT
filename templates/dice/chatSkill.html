@@ -1,14 +1,2 @@
 <h3>{{skill}}-Probe</h3>
 {{> "systems/darkspace/templates/dice/chatBase.html"}}
-
-
-{{#ifEquals skill "Schutz"}}
-<div>
-    <ul>
-        {{#each this.data.armorProps}}
-        <li class="inline_block">
-            <p class="iconbox">{{this}}</p>
-        </li>
-        {{/each}}
-    </ul>
-{{/ifEquals}}

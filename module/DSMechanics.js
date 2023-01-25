@@ -1,7 +1,6 @@
 export async function rollDice(rollDiceData) {
   const actorData = rollDiceData.actorData;
   const actorId = rollDiceData.actorId;
-  const element = rollDiceData.eventData;
   let dynattr = parseInt(rollDiceData.dynattr);
   let dynskill = parseInt(rollDiceData.dynskill);
   let attrModLocal = parseInt(rollDiceData.attrModLocal);
@@ -21,29 +20,41 @@ export async function rollDice(rollDiceData) {
   var attr = dynattr + attrModLocal;
   var skill = dynskill + fertModLocal;
 
-  if (removehighest != true) {
-    rollformular = attr + "d10x10kh2+" + skill;
-  } else {
-    rollformular = attr + "d10x10kh3dh1+" + skill;
-  }
+  rollformular = attr + "d10x";
+
   var rollResult = new Roll(rollformular, actorData);
   await rollResult.evaluate({ async: true });
+
+  const sortedResult = rollResult.terms[0].results
+    .map((c) => {
+      return c.result;
+    })
+    .sort((a, b) => b - a);
+
+  const total_AB =
+    sortedResult[0] +
+    (sortedResult[1] === undefined ? 0 : sortedResult[1]) +
+    skill;
+  const total_BC =
+    (sortedResult[1] === undefined ? 0 : sortedResult[1]) +
+    (sortedResult[2] === undefined ? 0 : sortedResult[2]) +
+    skill;
+  const total_AC =
+    sortedResult[0] +
+    (sortedResult[2] === undefined ? 0 : sortedResult[2]) +
+    skill;
 
   // --------------------- //
   // Krit und Patzer Logik //
   // --------------------- //
 
-  let krit = rollResult.terms[0].results
-    .map((c) => {
-      return c.result;
-    })
-    .sort((a, b) => b - a);
   let resultMessage = "";
   let disadvMessage = "";
-  if (krit[2] >= 9) {
+
+  if (sortedResult[2] >= 9) {
     resultMessage = { msg: "KRITISCHER ERFOLG" };
   }
-  if (rollResult.total <= 9) {
+  if (rollResult.total <= 5) {
     resultMessage = { msg: "PATZER" };
   }
   if (removehighest) {
@@ -64,12 +75,11 @@ export async function rollDice(rollDiceData) {
   // Zusammenstellen der Chat-Daten //
   // ------------------------------ //
 
-  let fullDice = dices.sort((a, b) => b - a);
-  let evalDiceA = fullDice[0];
-  let evalDiceB = fullDice[1];
-  let evalDiceC = fullDice[2];
-  let evalDiceD = fullDice[3];
-  let unEvalDice = fullDice.splice(4, 100);
+  let evalDiceA = sortedResult[0];
+  let evalDiceB = sortedResult[1];
+  let evalDiceC = sortedResult[2];
+  let evalDiceD = sortedResult[3];
+  let unEvalDice = sortedResult.splice(4, 100);
 
   let diceResult = {
     attr: dynattr,
@@ -82,6 +92,7 @@ export async function rollDice(rollDiceData) {
     evalDiceD: evalDiceD,
     unEvalDice: unEvalDice,
   };
+
   if (Object.keys(rollDiceData.object).length != 0) {
     var merits = rollDiceData.object.data.items
       .filter((i) => {
@@ -121,14 +132,18 @@ export async function rollDice(rollDiceData) {
     handicaps: handicaps,
     cybernetics: cybernetics,
     owner: actorId,
-    ...rollResult,
+    total_AB: total_AB,
+    total_BC: total_BC,
+    total_AC: total_AC,
   };
 
   if (rollDiceData.item != undefined) {
     item = rollDiceData.item.data;
     cardData = {
       ...roleData,
-      ...rollResult,
+      total_AB: total_AB,
+      total_BC: total_BC,
+      total_AC: total_AC,
       ...diceResult,
       ...resultMessage,
       ...disadvMessage,
@@ -142,21 +157,17 @@ export async function rollDice(rollDiceData) {
     cardData: cardData,
     actor: actorData,
   };
-
   return outputData;
 }
 
-export async function modRolls(inputData, event) {
-  event.preventDefault();
-  const element = event.currentTarget;
-
+export async function modRolls(inputData) {
   let attrModLocal;
   let fertModLocal;
 
   const dialogModRolls = await renderTemplate(
     "systems/darkspace/templates/dice/dialogModRolls.html"
   );
-  if (element.dataset.modroll === "true") {
+  if (inputData.modroll === "true") {
     new Dialog({
       title: "Modifizierte Probe",
       content: dialogModRolls,
@@ -175,7 +186,7 @@ export async function modRolls(inputData, event) {
               removehighest: ifRemoveHighest,
             };
 
-            this._resolveDice(inputData, event);
+            this._resolveDice(inputData);
           },
           icon: `<i class="fas fa-check"></i>`,
         },
@@ -193,7 +204,7 @@ export async function modRolls(inputData, event) {
               removehighest: ifRemoveHighest,
             };
 
-            this._resolveDice(inputData, event);
+            this._resolveDice(inputData);
           },
           icon: `<i class="fas fa-exclamation-triangle"></i>`,
         },
@@ -206,11 +217,12 @@ export async function modRolls(inputData, event) {
       attrModLocal: 0,
       fertModLocal: 0,
     };
-    this._resolveDice(inputData, event);
+
+    this._resolveDice(inputData);
   }
 }
 
-export async function _resolveDice(inputData, event) {
+export async function _resolveDice(inputData) {
   let outputData = this.rollDice(inputData);
   let actor = {};
   let messageData = {};
@@ -220,27 +232,7 @@ export async function _resolveDice(inputData, event) {
     cardData = a.cardData;
     actor = a.actor;
   });
-
-  cardData = { ...cardData, actor };
-
-  // +++++++++++++ Die Art des aktuellen Würfelwurfes identifizieren +++++++++++++
-  if (event.currentTarget === null) {
-    var currentRollClass = "";
-  } else {
-    var currentRollClass = event.currentTarget.className;
-  }
-  let currentRoll;
-  currentRollClass.includes("rollSkill") ? (currentRoll = "Skill") : "";
-  currentRollClass.includes("customRoll") ? (currentRoll = "Custom") : "";
-  currentRollClass.includes("unarmedCombat") ? (currentRoll = "Unarmed") : "";
-  currentRollClass.includes("rollItem")
-    ? (currentRoll = inputData.item.data.type)
-    : "";
-  currentRollClass.includes("protection") ? (currentRoll = "Skill") : "";
-  if (currentRoll === undefined) {
-    currentRoll = "Skill";
-  }
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  cardData = { ...cardData, actor, dmg: cardData.data.dmg + cardData.total_BC };
 
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
@@ -251,13 +243,27 @@ export async function _resolveDice(inputData, event) {
     Panzerung: "systems/darkspace/templates/dice/chatArmor.html",
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
     Unterbringung: "systems/darkspace/templates/dice/chatHousing.html",
+    Werkzeug: "systems/darkspace/templates/dice/chatItem.html",
+    Terminals: "systems/darkspace/templates/dice/chatItem.html",
+    Medkit: "systems/darkspace/templates/dice/chatItem.html",
+    Gegenstand: "systems/darkspace/templates/dice/chatItem.html",
   };
-
   messageData.content = await renderTemplate(
-    chatTempPath[currentRoll],
+    chatTempPath[inputData.type],
     cardData
   );
 
   AudioHelper.play({ src: CONFIG.sounds.dice });
   return ChatMessage.create(messageData);
+}
+export function getStat(fert, dbAttr) {
+  const attrMap = new Map(Object.entries(dbAttr));
+  let stat = [];
+  attrMap.forEach((value, key) => {
+    if (value.skill[fert] != undefined) {
+      stat = { attr: dbAttr[key].attribut, fert: value.skill[fert] };
+    }
+  });
+
+  return stat;
 }

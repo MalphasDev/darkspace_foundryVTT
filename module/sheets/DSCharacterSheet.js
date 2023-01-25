@@ -48,7 +48,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       });
     });
 
-    let data = { ...charData, ...CONFIG.darkspace };
+    const data = { ...charData, ...CONFIG.darkspace };
 
     return data;
   }
@@ -64,7 +64,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     // Find and Bind
 
     const classIdent = [
-      ".createItem",
       ".itemEdit",
       ".itemDelete",
       ".itemToChat",
@@ -85,6 +84,17 @@ export default class DSCharakcterSheet extends ActorSheet {
         }.bind(this))`
       );
     });
+    if (this.actor.owner) {
+      let handler = (ev) => this._onDragStart(ev);
+      // Find all items on the character sheet.
+      html.find("li.item").each((i, li) => {
+        // Ignore for the header row.
+        if (li.classList.contains("item-header")) return;
+        // Add draggable attribute and dragstart listener.
+        li.setAttribute("draggable", true);
+        li.addEventListener("dragstart", handler, false);
+      });
+    }
   }
 
   createInputData(event) {
@@ -140,8 +150,9 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynskill: dynskill,
       roleData: roleData,
       object: this.object,
+      type: "Skill",
     };
-    DSMechanics.modRolls(inputData, event);
+    DSMechanics.modRolls(inputData);
   }
 
   async _customRoll(event) {
@@ -160,6 +171,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynattr: dynattr,
       dynskill: dynskill,
       roleData: roleData,
+      type: "Custom",
     };
 
     DSMechanics._resolveDice(inputData, event);
@@ -175,8 +187,8 @@ export default class DSCharakcterSheet extends ActorSheet {
       var roleData = { attribute: "Geschick", skill: "Kampftechnik" };
     }
     if (this.object.data.type === "Nebencharakter") {
-      var dynattr = actorData.charattribut.Nahkampf.attribut;
-      var dynskill = actorData.charattribut.Nahkampf.skill.Kampftechnik;
+      var dynattr = actorData.charattribut.Kampf.attribut;
+      var dynskill = actorData.charattribut.Kampf.skill.Angriff;
       var roleData = { attribute: "Nahkampf", skill: "Kampftechnik" };
     }
 
@@ -186,10 +198,10 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynattr: dynattr,
       dynskill: dynskill,
       roleData: roleData,
-      type: "unarmedAttack",
+      type: "Unarmed",
     };
 
-    DSMechanics.modRolls(inputData, event);
+    DSMechanics.modRolls(inputData);
   }
   async _directRoll(event) {
     event.preventDefault();
@@ -205,9 +217,10 @@ export default class DSCharakcterSheet extends ActorSheet {
       dynattr: dynattr,
       dynskill: dynskill,
       roleData: roleData,
+      type: "Custom",
     };
 
-    DSMechanics.modRolls(inputData, event);
+    DSMechanics.modRolls(inputData);
   }
 
   // ----------------------- //
@@ -218,165 +231,35 @@ export default class DSCharakcterSheet extends ActorSheet {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
-    var dynattr = 0;
-    var dynskill = 0;
-    const actorData = this.object.data.data;
+
+    const actorData = this.object.data;
 
     const itemId = element.closest(".item").dataset.itemId;
     const item = this.actor.items.filter((item) => {
       return item.id === itemId;
     })[0];
-    // -------------------------------- //
-    // Charakterdaten für Angriffswürfe //
-    // -------------------------------- //
+    const activeItem = actorData.items.filter((f) => {
+      return f.id === dataset.itemid;
+    })[0];
+    var skillident = activeItem.data.data.useWith; // Holt den benötigten Skill aus dem Waffenbutton
+    var attrident = ""; // Legt Identifikator für Attribut an
 
-    if (dataset.rolltype == "combat") {
-      var skillident = dataset.skill; // Holt den benötigten Skill aus dem Waffenbutton
-      var attrident = ""; // Legt Identifikator für Attribut an
-
-      // SKILLIDENTS FÜR CHARAKTERE
-      if (this.object.data.type === "Charakter") {
-        if (["Kampftechnik", "Schusswaffen"].includes(skillident)) {
-          attrident = "Geschick";
-        }
-        if (["Nahkampfwaffen", "Unterstützungswaffen"].includes(skillident)) {
-          attrident = "Konstitution";
-        }
-      }
-      // SKILLIDENTS FÜR NEBENCHARAKTERE
-      if (this.object.data.type === "Nebencharakter") {
-        if (
-          [
-            "Kampftechnik",
-            "Schusswaffen",
-            "Nahkampfwaffen",
-            "Unterstützungswaffen",
-          ].includes(skillident)
-        ) {
-          attrident = "Kampf";
-          skillident = "Angriff";
-        }
-      }
-
-      dynattr = actorData.charattribut[attrident].attribut;
-      dynskill = actorData.charattribut[attrident].skill[skillident];
-    }
-
-    // ----------------- //
-    // Daten für Komfort //
-    // ----------------- //
-
-    if (dataset.rolltype === "quarter") {
-      dynattr = dataset.attr;
-      dynskill = dataset.skill;
-    }
-
-    // ------------------------ //
-    // Daten für Kybernesewürfe //
-    // ------------------------ //
-
-    if (dataset.rolltype == "cybernetic") {
-      dynattr = actorData.miscData.Kybernese.attribut;
-      dynskill = parseInt(dataset.skill);
-    }
     var roleData = { attribute: attrident, skill: skillident };
+    const stat = DSMechanics.getStat(skillident, actorData.data.charattribut);
 
     let preCreatedInput = this.createInputData(event);
+
     let inputData = {
       ...preCreatedInput,
-      dynattr: dynattr,
-      dynskill: dynskill,
+      dynattr: stat.attr,
+      dynskill: stat.fert,
       roleData: roleData,
+      modroll: element.dataset.modroll,
       item: item,
+      type: item.type,
     };
-    DSMechanics.modRolls(inputData, event);
-  }
 
-  // ------------- //
-  // Item Creation //
-  // ------------- //
-
-  async _createItem(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    var dialogNewItem = await renderTemplate(
-      "systems/darkspace/templates/createNewItem/dialogNew" +
-        element.dataset.type +
-        ".html",
-      { ...CONFIG.darkspace }
-    );
-    new Dialog({
-      title: "Neuer Gegenstand",
-      content: dialogNewItem,
-      buttons: {
-        ok: {
-          icon: '<i class="fas fa-check"></i>',
-          label: "OK",
-          callback: (html) => {
-            var newItemData = {
-              name: html.find("[name=newName]")[0].value,
-              type: element.dataset.type,
-              description: html.find("[name=newDesc]")[0].value,
-            };
-            if (element.dataset.type != "Eigenschaft") {
-              newItemData = {
-                ...newItemData,
-                mk: html.find("[name=newMK]")[0].value,
-                size: html.find("[name=newSize]")[0].value,
-              };
-            }
-            if (element.dataset.type === "Waffe") {
-              newItemData = {
-                ...newItemData,
-                ranged: html.find("[name=newRange]")[0].checked,
-              };
-            }
-            if (element.dataset.type === "Artifizierung") {
-              newItemData = {
-                ...newItemData,
-                skill: html.find("[name=skillRef]")[0].value,
-              };
-            }
-            if (element.dataset.type === "Unterbringung") {
-              newItemData = {
-                ...newItemData,
-                comfort: html.find("[name=newKomfort]")[0].value,
-              };
-            }
-            if (element.dataset.type === "Eigenschaft") {
-              newItemData = {
-                ...newItemData,
-                skill: html.find("[name=skillRef]")[0].value,
-              };
-            }
-            if (element.dataset.type === "Besonderheiten") {
-              newItemData = {
-                ...newItemData,
-                type: html.find("[name=newType]")[0].value,
-              };
-            }
-
-            if (element.dataset.type === "TerminalsWerkzeuge") {
-              let newItemType;
-              Array.from(html.find("[name=newItem]")).forEach((item) => {
-                newItemType = item.checked ? item.value : newItemType;
-              });
-              newItemData = {
-                ...newItemData,
-                type: newItemType,
-              };
-            }
-
-            let itemData = {
-              name: html.find("[name=newName]")[0].value,
-              type: newItemData.type,
-              data: newItemData,
-            };
-            return this.actor.createEmbeddedDocuments("Item", [itemData]);
-          },
-        },
-      },
-    }).render(true);
+    DSMechanics.modRolls(inputData);
   }
 
   _itemEdit(event) {
@@ -501,6 +384,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       this.chatTemplate["Item"],
       cardData
     ); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
+
     return ChatMessage.create(messageData);
   }
 

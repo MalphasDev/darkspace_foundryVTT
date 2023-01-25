@@ -12,7 +12,6 @@ export default class DSItem extends Item {
 
     // Struktur und Schutz //
     data.structure = parseInt(data.size);
-    data.protection = Math.round(parseInt(data.mk) / 2);
     // Senorreichweite //
     data.sensorRange = Math.pow(data.mk, 2) * 10;
 
@@ -20,49 +19,18 @@ export default class DSItem extends Item {
     data.keep = Math.max(data.mk, data.size, 0);
 
     // Waffen //
-    data.sizeRange = data.size;
 
-    data.autoRangeShort = Math.pow(data.sizeRange, 2) + data.mk;
-    data.autoRangeBase = data.autoRangeShort * 5;
-    data.autoRangeExtr = data.autoRangeBase * 10;
-    data.autoRangeMax = data.autoRangeBase * 20;
+    const rangeArray = [
+      Math.pow(data.size, 2),
+      Math.pow(data.size, 2) * 5,
+      Math.pow(data.size, 2) * 10,
+    ];
 
-    data.range =
-      data.autoRangeShort +
-      "-" +
-      data.autoRangeBase +
-      "/" +
-      data.autoRangeExtr +
-      "/" +
-      data.autoRangeMax;
+    data.range = rangeArray[0] + "-" + rangeArray[1] + "/" + rangeArray[2];
 
     data.aeCost = data.size * 2;
 
-    if (data.ranged === true) {
-      data.attackWith = "Schusswaffen";
-      data.dmg = 10 + data.size * 2;
-    } else {
-      data.range = "Nahkampf";
-      if (actorData !== {} && actorData !== undefined) {
-        if (actorData.type === "Charakter") {
-          data.attackWith = "Nahkampfwaffen";
-        }
-        if (actorData.type === "Nebencharakter") {
-          data.attackWith = "Kampftechnik";
-        }
-      } else {
-      }
-      data.dmg = 10 + data.size + " + Kon.";
-
-      itemData.type === "Waffe"
-        ? actorData === undefined
-          ? (data.dmg = 10 + data.size + " + Kon.")
-          : (data.dmg =
-              10 +
-              data.size +
-              actorData.data.charattribut.Konstitution.attribut)
-        : null;
-    }
+    data.dmg = data.size * 2 + data.mk;
     // Eigenschaften anzeigen
     let propList = data.properties;
 
@@ -74,7 +42,8 @@ export default class DSItem extends Item {
     //Alles außer Eigenschaft und Besonderheiten
     if (itemData.type != "Eigenschaft" && itemData.type != "Besonderheiten") {
       // Ressourcen
-      data.botsRemaining = data.mk - data.ress.bots;
+      data.botsTotal = data.mk * data.size;
+      data.botsRemaining = data.botsTotal - data.ress.bots;
     }
 
     switch (data.size) {

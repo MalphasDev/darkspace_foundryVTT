@@ -1,8 +1,5 @@
 <div>
-  <h2 class="flex between">
-    <span>Gegenstände</span>
-    <i class="fas fa-plus createItem" data-type="Gegenstand"></i>
-  </h2>
+  <h2>Gegenstände</h2>
   <ul class="item-list">
     {{#each Gegenstand}}
     <li class="item" data-item-id="{{this._id}}">
@@ -10,14 +7,10 @@
         <span class="itemname itemToChat" draggable="true">{{this.name}}</span>
         <span><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}</span>
         <span><i class="fas fa-microchip"></i>{{this.data.mk}}</span>
-        <span>
-          <a class="item-control itemEdit" title="Edit Item"
-            ><i class="fas fa-edit"></i
-          ></a>
-          <a class="item-control itemDelete" title="Delete Item"
-            ><i class="fas fa-trash"></i
-          ></a>
-        </span>
+        <div class="cell_r">
+          {{>
+          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+        </div>
       </div>
     </li>
     {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}

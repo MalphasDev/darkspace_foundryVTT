@@ -1,12 +1,16 @@
 //import { darkspace } from "../config";
+import * as DSMechanics from "../DSMechanics.js";
 
 export default class DSCharacter extends Actor {
+  getStat(fert) {
+    return DSMechanics.getStat(fert, this.data.data.charattribut);
+  }
+
   prepareData() {
     super.prepareData();
-
     const actorData = this.data;
     const data = actorData.data;
-    const flags = actorData.flags;
+    const attr = this.data.data.charattribut;
     const config = CONFIG.darkspace;
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
@@ -35,39 +39,42 @@ export default class DSCharacter extends Actor {
 
       // Panzerung
 
-      let armorListEquipped = armorList.filter((e) => {
-        return e.data.data.equipped === true;
-      });
-      let cyberarmorListEquipped = artList.filter((a) => {
-        return a.data.data.armor === true;
-      });
-      let allArmorEquipped = [].concat(
-        armorListEquipped,
-        cyberarmorListEquipped
-      );
-      let StrukturArray = Array.from(
-        allArmorEquipped.map((a) => {
-          return a.data.data.structure;
-        })
-      );
-
-      let SchutzArray = Array.from(
-        allArmorEquipped.map((a) => {
-          return a.data.data.protection;
-        })
-      );
-      SchutzArray.push(0);
-
-      StrukturArray.length == 0
-        ? (data.Struktur = 0)
-        : (data.Struktur = Math.max(...StrukturArray));
-
-      data.Schutz = Math.max(...SchutzArray);
-
-      // Eigenschaften von Panzerung
-      data.armorProps = armorListEquipped.map((p) => {
-        return p.data.data.propArray;
+      const armorRating =
+        this.getStat("Fitness").attr * 2 + this.getStat("Fitness").fert;
+      const armorSize = [
+        armorList
+          .map((e) => {
+            return e.data.data.size;
+          })
+          .sort((a, b) => {
+            return b - a;
+          })[0],
+        0,
+      ].sort((a, b) => {
+        return b - a;
       })[0];
+      const armorMk = [
+        armorList
+          .map((e) => {
+            return e.data.data.mk;
+          })
+          .sort((a, b) => {
+            return b - a;
+          })[0],
+        0,
+      ].sort((a, b) => {
+        return b - a;
+      })[0];
+
+      data.hitArray = [
+        armorRating,
+        armorRating + armorSize + armorMk,
+        armorRating + (armorSize + armorMk) * 2,
+        armorRating + (armorSize + armorMk) * 3,
+        armorRating + (armorSize + armorMk) * 4,
+      ];
+
+      console.log(data.hitArray);
 
       // Waffenloser Kampf
       data.unarmedName = "Waffenloser Kampf";
@@ -75,17 +82,9 @@ export default class DSCharacter extends Actor {
     //
     if (this.type === "Charakter" || this.type === "KI") {
       if (this.type === "Charakter") {
-        data.initiative =
-          data.charattribut.Aufmerksamkeit.attribut +
-          "d10x10kh2+" +
-          data.charattribut.Aufmerksamkeit.skill.Fokus;
-
         data.unarmedDmg =
           10 +
-          Math.max(
-            data.charattribut.Konstitution.attribut,
-            data.charattribut.Geschick.attribut
-          );
+          Math.max(this.getStat("Fitness").attr, this.getStat("Motorik").attr);
         this.expCounter();
       }
       // Unterbringung
@@ -121,26 +120,23 @@ export default class DSCharacter extends Actor {
           : Math.max(...itemSizes) + itemMk.length == 0
           ? 0
           : Math.max(...itemMk);
-      data.wealth = data.charattribut.Ressourcen.attribut * 2;
+      data.wealth = this.getStat("Finanzen").attr * 2;
       data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
 
       // Ressourcen
-      let attributNames = Object.keys(data.charattribut);
+      let attributNames = Object.keys(attr);
       for (var i = 0; attributNames.length > i; i++) {
-        if (data.charattribut[attributNames[i]].ress != undefined) {
-          data.charattribut[attributNames[i]].ress.remaining =
-            data.charattribut[attributNames[i]].ress.max -
-            data.charattribut[attributNames[i]].ress.value;
+        if (attr[attributNames[i]].ress != undefined) {
+          attr[attributNames[i]].ress.remaining =
+            attr[attributNames[i]].ress.max - attr[attributNames[i]].ress.value;
         }
       }
     } else if (this.type === "KI") {
       data.initiative =
-        data.charattribut.Aufmerksamkeit.attribut +
-        "d10x10kh2+" +
-        data.charattribut.Aufmerksamkeit.skill.Fokus;
+        this.getStat("Fokus").attr + "d10x10kh2+" + this.getStat("Fokus").fert;
 
       config.attrAi.forEach((attrIdent) => {
-        let attributName = data.charattribut;
+        let attributName = attr;
         let attrWert = attributName[attrIdent].attribut;
         let attrEp =
           ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;
@@ -190,7 +186,7 @@ export default class DSCharacter extends Actor {
       let normalAttr = data.Kompetenz;
       let normalSkill = Math.floor(data.Kompetenz / 2);
 
-      data.charattribut = {
+      attr = {
         Kampf: {
           attribut: combatAttr,
           skill: { Angriff: combatSkill, Abwehr: normalSkill },
@@ -213,10 +209,6 @@ export default class DSCharacter extends Actor {
       data.initiative = data.mk + "d10x10kh2+" + Math.ceil(data.mk / 2);
       data.finalinitiative = data.initiative + data.initMod;
       data.initBonus = Math.ceil(data.mk / 2);
-
-      // Panzerung
-      data.Struktur = data.size;
-      data.Schutz = data.mk;
 
       // Waffenloser Durchschlag
       data.unarmedHide = true;
@@ -265,7 +257,7 @@ export default class DSCharacter extends Actor {
   expCounter() {
     const actorData = this.data;
     const data = actorData.data;
-    const flags = actorData.flags;
+    const attr = actorData.data.charattribut;
     const config = CONFIG.darkspace;
 
     let attrEpTotal = 0;
@@ -282,7 +274,7 @@ export default class DSCharacter extends Actor {
     }
 
     attrList.forEach((attrIdent) => {
-      let attributName = data.charattribut;
+      let attributName = attr;
       let attrWert = attributName[attrIdent].attribut;
       let attrEp =
         ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;

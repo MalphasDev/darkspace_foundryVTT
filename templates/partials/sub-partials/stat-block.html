@@ -1,16 +1,4 @@
 <div>
-  <h2 class="flex between">
-    Attribute und Fertigkeiten
-    <div>
-      <a class="button createItem" data-type="Eigenschaft">
-        <i class="fas fa-dna"></i><i class="fas fa-plus"></i>
-      </a>
-      <a class="button createItem" data-type="Artifizierung">
-        <i class="fas fa-user-cog"></i><i class="fas fa-plus"></i>
-      </a>
-    </div>
-  </h2>
-
   <div class="anmerkung flex between">
     <ul class="flex">
       <li class="pill padding" style="margin: 0 2px">
@@ -27,15 +15,22 @@
       </li>
     </ul>
     <span class="pill padding" style="margin: 0 2px">
-      <span>Gesamt</span>
-      <span>{{actor.data.data.totalXp}} EP</span>
+      <span>Erfahrung</span>
+      <span>{{actor.data.data.totalXp}} /</span>
+      <input
+        name="data.xp.max"
+        value="{{data.data.xp.max}}"
+        type="number"
+        style="flex: 1"
+      />
+      EP
     </span>
   </div>
   <hr />
 
-  <ul class="grid col3" id="statFeld">
+  <ul class="grid col2" id="statFeld">
     {{#each data.data.charattribut as |attrobj attrname|}}
-    <li class="attrfeld">
+    <li class="borderbox round">
       <!--ATTRIBUTE für Charaktere-->
 
       <div class="grid col2-21">
@@ -124,27 +119,40 @@
         {{/each}}
       </ul>
 
-      <!-- {{#if this.ress.exists}}
-            <hr>
-            <ul class="fertfeld">
-                <li>
-                    <span>{{this.ress.ressname}}</span>
+      {{#if this.ress.exists}}
+      <hr />
+      <ul class="fertfeld">
+        <li>
+          <span>{{attrname}}-Punkte</span>
 
-                    <div class="span2">
-                        <i class="fas fa-caret-left decRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
-                        {{#times this.ress.value}}
-                        <i class="fas fa-circle ressPoints" data-active="1" data-thisattr="{{attrname}}"></i>
-                        {{/times}}
-
-                        {{#times this.ress.remaining}}
-                        <i class="far fa-circle ressPoints" data-active="0" data-thisattr="{{attrname}}"></i>
-                        {{/times}}
-                        <i class="fas fa-caret-right incRess" data-attr="{{attrname}}" data-skill="{{fertname}}"></i>
-                    </div>
-                </li>
-
-            </ul>
-            {{/if}} -->
+          <div class="span2">
+            <i
+              class="fas fa-caret-left decRess"
+              data-attr="{{attrname}}"
+              data-skill="{{fertname}}"
+            ></i>
+            {{#times this.ress.value}}
+            <i
+              class="fas fa-circle ressPoints"
+              data-active="1"
+              data-thisattr="{{attrname}}"
+            ></i>
+            {{/times}} {{#times this.ress.remaining}}
+            <i
+              class="far fa-circle ressPoints"
+              data-active="0"
+              data-thisattr="{{attrname}}"
+            ></i>
+            {{/times}}
+            <i
+              class="fas fa-caret-right incRess"
+              data-attr="{{attrname}}"
+              data-skill="{{fertname}}"
+            ></i>
+          </div>
+        </li>
+      </ul>
+      {{/if}}
 
       <ul class="item-list">
         <!--EIGENSCHAFTEN-->
@@ -189,40 +197,4 @@
     {{/each}}
   </ul>
   <!-- Ressourcen Bar -->
-
-  <section>
-    <h2>Ressourcen</h2>
-    <ul class="flex between">
-      {{#each data.data.charattribut as |attrobj attrname|}} {{#if ress.exists}}
-      <li>
-        <h3 class="flex between">
-          {{ress.ressname}}
-          <span class="ressReset" data-thisattr="{{attrname}}"
-            ><i class="fas fa-undo button"></i
-          ></span>
-        </h3>
-
-        <div class="span2">
-          <i class="fas fa-caret-left decRess" data-attr="{{attrname}}"></i>
-
-          {{#times ress.value}}
-          <i
-            class="fas fa-circle ressPoints"
-            data-active="1"
-            data-thisattr="{{attrname}}"
-          ></i>
-          {{/times}} {{#times ress.remaining}}
-          <i
-            class="far fa-circle ressPoints"
-            data-active="0"
-            data-thisattr="{{attrname}}"
-          ></i>
-          {{/times}}
-
-          <i class="fas fa-caret-right incRess" data-attr="{{attrname}}"></i>
-        </div>
-      </li>
-      {{/if}} {{/each}}
-    </ul>
-  </section>
 </div>

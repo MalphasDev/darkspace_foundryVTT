@@ -1,43 +1,31 @@
 
-<div class="grid col2-12 nogap gridcenter"> <!-- Box für Durchschlag -->
-    <i class="fas fa-bolt cell_c doublesize"></i>
-    <div>
-        <span class="flex">Durchschlag</span>
-        <div class="container_center">
-            <span class="derivedValue"></i>{{data.data.dmg}}</span>
-        </div>
-    </div>
+ <!-- Durchschlag -->
+<div class="marginx">
+    <i class="fas fa-bolt cell_c "></i>
+    <span class="derivedValue"></i>{{data.data.dmg}}</span>
 </div>
 
-<div class="grid col2-12 nogap gridcenter"> <!--Box für Reichweite-->
+<!-- Reichweite -->
+<div class="marginx">
     <div>
         <input type="checkbox" class="symbol" id="ranged" {{checked data.data.ranged}} name="data.ranged">
-        <label for="ranged" class="container_center">
+        <label style="text-align: left; margin: 0; padding: 0" for="ranged" class="container_center">
             <span>
             {{#if data.data.ranged}}
-            <i class="fas fa-arrows-alt-h cell_c doublesize"></i>
+            <i class="fas fa-arrows-alt-h cell_c "></i>
             {{/if}}
             {{#unless data.data.ranged}}
-            <i class="fas fa-fist-raised doublesize"></i>
+            <i class="fas fa-fist-raised "></i>
             {{/unless}}
             
-            </span>
+            </span><span>{{data.data.range}}</span>
         </label>
     </div>
-    <div>
-        <span>Reichweite</span>
-        <input name="data.range" type="text" value="{{data.data.range}}" disabled>
-    </div>
-    
-    <!-- <p class="flex cell_c">Rw-Bonus: <input name="data.rangeBonus" type="number" value="{{data.data.rangeBonus}}"></p> -->
+
 </div>
 
-<div class="grid col2-12 nogap gridcenter"> <!-- Box für AE Kosten -->
-    <i class="fas fa-history cell_c doublesize"></i>
-    <div>
-        <span class="flex">Kosten</span>
-        <div class="container_center">
-            <span class="derivedValue">{{data.data.aeCost}} AE</span>
-        </div>
-    </div>
+<!-- AE Kosten -->
+<div class="marginx">
+    <i class="fas fa-history cell_c "></i>
+    <span class="derivedValue">{{data.data.aeCost}} AE</span>   
 </div>

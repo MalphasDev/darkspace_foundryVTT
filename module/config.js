@@ -6,16 +6,8 @@ darkspace.attackTypes = {
   Kampftechnik: "Kampftechnik",
   Unterstützungswaffen: "Unterstützungswaffen",
 };
-darkspace.bodyPart = {
-  Körper: "Körper",
-  Kopf: "Kopf",
-  Torso: "Torso",
-  Arme: "Arme",
-  Beine: "Beine",
-  Ganzkörper: "Ganzkörper",
-};
-darkspace.iniSend = 0;
 
+darkspace.iniSend = 0;
 darkspace.dice = "systems/darkspace/icons/d10.svg";
 darkspace.diceEdit = "systems/darkspace/icons/d10edit.svg";
 

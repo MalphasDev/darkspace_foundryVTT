@@ -1,22 +1,176 @@
 <div>
-  <h2 class="flex between">Zustände</h2>
-
   <div class="">
-    <ul class="flex wrap strech">
+    <ul class="flex">
       {{#each data.data.conditions as |value name|}}
-      <li class="flex pill">
+
+      <li
+        class="flex borderbox round"
+        style="
+          height: 40px;
+          width: 40px;
+          border-radius: 5px;
+          margin: 0;
+          padding: 0;
+        "
+      >
         <input
           type="checkbox"
           class="noDisplay"
           {{checked
-          value}}
-          name="data.conditions.{{name}}"
-          value="{{value}}"
+          value.status}}
+          name="data.conditions.{{name}}.status"
+          value="{{value.status}}"
           id="{{name}}"
         />
-        <label for="{{name}}">{{name}}</label>
+
+        <label
+          class="flex center borderbox"
+          style="height: 100%; border-radius: 5px"
+          for="{{name}}"
+        >
+          <div class="tooltip">
+            <i class="{{value.fontsymbol}}"></i> {{lookup ../data.data.hitArray
+            @index}}
+            <span class="tooltiptext top">{{value.name}}</span>
+          </div>
+        </label>
       </li>
       {{/each}}
     </ul>
+  </div>
+  <hr />
+  <h3><i class="fas fa-running"></i> Aufrappeln</h3>
+  <div>
+    <div class="grid col3 gridcenter">
+      <div class="borderbox round text_c">
+        <img
+          class="directRoll d10-symbol"
+          data-attr="Konstitution"
+          data-rollname="Aufrappeln Fitness"
+          data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
+          data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+          src="systems/darkspace/icons/d10.svg"
+        />
+        <img
+          class="directRoll d10-symbol"
+          data-attr="Konstitution"
+          data-rollname="Aufrappeln Fitness"
+          data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
+          data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+          data-modroll="true"
+          src="systems/darkspace/icons/d10edit.svg"
+        />
+        <span>FIT</span>
+        <span class="anmerkung"
+          >{{this.data.data.charattribut.Konstitution.attribut}}W+{{this.data.data.charattribut.Konstitution.skill.Fitness}}</span
+        >
+      </div>
+
+      <div class="borderbox round text_c">
+        <img
+          class="directRoll d10-symbol"
+          data-attr="Kybernese"
+          data-rollname="Aufrappeln Synthese"
+          data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
+          data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+          src="systems/darkspace/icons/d10.svg"
+        />
+        <img
+          class="directRoll d10-symbol"
+          data-attr="Kybernese"
+          data-rollname="Aufrappeln Synthese"
+          data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
+          data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+          data-modroll="true"
+          src="systems/darkspace/icons/d10edit.svg"
+        /><span>SYN</span>
+        <span class="anmerkung"
+          >{{this.data.data.charattribut.Kybernese.attribut}}W+{{this.data.data.charattribut.Kybernese.skill.Synthese}}</span
+        >
+      </div>
+
+      <div class="borderbox round text_c">
+        <img
+          class="directRoll d10-symbol"
+          data-attr="Konzentration"
+          data-rollname="Fitness Schutz"
+          data-dice="{{this.data.data.charattribut.Konzentration.attribut}}"
+          data-bonus="{{this.data.data.charattribut.Konzentration.skill.Willenskraft}}"
+          src="systems/darkspace/icons/d10.svg"
+        />
+        <img
+          class="directRoll d10-symbol"
+          data-attr="Konzentration"
+          data-rollname="Fitness Schutz"
+          data-dice="{{this.data.data.charattribut.Konzentration.attribut}}"
+          data-bonus="{{this.data.data.charattribut.Konzentration.skill.Willenskraft}}"
+          data-modroll="true"
+          src="systems/darkspace/icons/d10edit.svg"
+        /><span>WIL</span>
+        <span class="anmerkung"
+          >{{this.data.data.charattribut.Konzentration.attribut}}W+{{this.data.data.charattribut.Konzentration.skill.Willenskraft}}</span
+        >
+      </div>
+    </div>
+  </div>
+  <hr />
+  <h3><i class="fas fa-shield-alt"></i> Schutzprobe</h3>
+  <div class="grid col2 gridcenter">
+    <div class="borderbox round text_c" style="width: 100%">
+      <div>
+        <div>
+          <img
+            class="directRoll d10-symbol"
+            data-attr="Struktur"
+            data-rollname="Fitness Schutz"
+            data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
+            data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+            src="systems/darkspace/icons/d10.svg"
+          />
+          <img
+            class="directRoll d10-symbol"
+            data-attr="Struktur"
+            data-rollname="Fitness Schutz"
+            data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
+            data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+            data-modroll="true"
+            src="systems/darkspace/icons/d10edit.svg"
+          />
+        </div>
+        <span>FIT</span>
+        <span class="anmerkung block">
+          {{this.data.data.charattribut.Konstitution.attribut}}W +
+          {{this.data.data.charattribut.Konstitution.skill.Fitness}}
+        </span>
+      </div>
+    </div>
+    <div class="borderbox round text_c" style="width: 100%">
+      <div>
+        <div>
+          <img
+            class="directRoll d10-symbol"
+            data-attr="Struktur"
+            data-rollname="Synthese Schutz"
+            data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
+            data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+            src="systems/darkspace/icons/d10.svg"
+          />
+          <img
+            class="directRoll d10-symbol"
+            data-attr="Struktur"
+            data-rollname="Synthese Schutz"
+            data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
+            data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+            data-modroll="true"
+            src="systems/darkspace/icons/d10edit.svg"
+          />
+        </div>
+        <span>SYN</span>
+        <div class="anmerkung block">
+          {{this.data.data.charattribut.Kybernese.attribut}}W +
+          {{this.data.data.charattribut.Kybernese.skill.Synthese}}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

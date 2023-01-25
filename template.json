@@ -16,11 +16,31 @@
         "max": 0
       },
       "conditions": {
-        "Angeschlagen": false,
-        "Außer Gefecht": false,
-        "Tod": false,
-        "Verkrüppelt": false,
-        "Verwundet": false
+        "struck": {
+          "name": "Angeschlagen",
+          "status": false,
+          "fontsymbol": "fas fa-dizzy"
+        },
+        "ko": {
+          "name": "Außer Gefecht",
+          "status": false,
+          "fontsymbol": "fas fa-times-circle"
+        },
+        "wounded": {
+          "name": "Verwundet",
+          "status": false,
+          "fontsymbol": "fas fa-band-aid"
+        },
+        "crippled": {
+          "name": "Verkrüppelt",
+          "status": false,
+          "fontsymbol": "fas fa-user-injured"
+        },
+        "dead": {
+          "name": "Tod",
+          "status": false,
+          "fontsymbol": "fas fa-skull"
+        }
       },
       "charattribut": {
         "Aufmerksamkeit": {
@@ -84,7 +104,6 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Anomaliepunkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -94,12 +113,24 @@
           "attribut": 1,
           "skill": {
             "Willenskraft": 0
+          },
+          "ress": {
+            "exists": true,
+            "value": 0,
+            "min": 0,
+            "max": 10
           }
         },
         "Kybernese": {
           "attribut": 1,
           "skill": {
             "Synthese": 0
+          },
+          "ress": {
+            "exists": true,
+            "value": 0,
+            "min": 0,
+            "max": 10
           }
         },
         "Netzwerk": {
@@ -109,7 +140,6 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Netzwerkpunkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -122,7 +152,6 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Ressourcen-Punkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -136,9 +165,31 @@
       "Kampfkraft": 0,
       "Tech": 0,
       "conditions": {
-        "Angeschlagen": false,
-        "Außer Gefecht": false,
-        "Tod": false
+        "struck": {
+          "name": "Angeschlagen",
+          "status": false,
+          "fontsymbol": "fas fa-dizzy"
+        },
+        "ko": {
+          "name": "Außer Gefecht",
+          "status": false,
+          "fontsymbol": "fas fa-times-circle"
+        },
+        "wounded": {
+          "name": "Verwundet",
+          "status": false,
+          "fontsymbol": "fas fa-band-aid"
+        },
+        "crippled": {
+          "name": "Verkrüppelt",
+          "status": false,
+          "fontsymbol": "fas fa-user-injured"
+        },
+        "dead": {
+          "name": "Tod",
+          "status": false,
+          "fontsymbol": "fas fa-skull"
+        }
       },
       "templates": ["commonStats"]
     },
@@ -240,7 +291,6 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Anomaliepunkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -253,7 +303,6 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Netzwerkpunkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -266,7 +315,6 @@
           },
           "ress": {
             "exists": true,
-            "ressname": "Ressourcen-Punkte",
             "value": 0,
             "min": 0,
             "max": 10
@@ -281,6 +329,7 @@
       "Panzerung",
       "Werkzeug",
       "Terminals",
+      "Medkit",
       "Artifizierung",
       "Gegenstand",
       "Unterbringung",
@@ -289,7 +338,7 @@
     "templates": {
       "itemBase": {
         "mk": 1,
-        "size": -1,
+        "size": 2,
         "description": "",
         "ress": {
           "bots": 0
@@ -300,32 +349,38 @@
     },
     "Waffe": {
       "dmg": 1,
-      "size": -3,
+      "size": 2,
       "ranged": true,
-      "attackWith": "Schusswaffen",
+      "useWith": "Schusswaffen",
       "range": "0-10/20/100",
       "rangeBonus": 0,
       "templates": ["itemBase"]
     },
     "Werkzeug": {
-      "templates": ["itemBase"]
+      "templates": ["itemBase"],
+      "useWith": "Polytronik"
     },
     "Terminals": {
+      "useWith": "Cortex",
+      "templates": ["itemBase"]
+    },
+    "Medkit": {
+      "useWith": "Medizin",
       "templates": ["itemBase"]
     },
     "Artifizierung": {
-      "skill": "",
+      "useWith": "Synthese",
       "weapon": false,
       "armor": false,
       "templates": ["itemBase"]
     },
     "Panzerung": {
-      "armor": 0,
-      "protection": 0,
-      "bodyPart": "Körper",
+      "size": 4,
+      "useWith": "Fitness",
       "templates": ["itemBase"]
     },
     "Gegenstand": {
+      "useWith": "Logik",
       "templates": ["itemBase"]
     },
     "Unterbringung": {

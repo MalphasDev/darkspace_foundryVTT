@@ -24,6 +24,26 @@ export default class DSCombatTracker extends CombatTracker {
         combat.uiButton = false;
         combat.uiSlider = true;
       }
+      if (combat.turns.length !== 0) {
+        // Letzten Actor finden
+        let fristActorIni = combat.turns[0].initiative;
+        let lastActorIni = combat.turns[combat.turns.length - 1].initiative;
+
+        // Alle freien Felder zwischen den Charakteren finden
+        const range = (start, stop, step) =>
+          Array.from(
+            { length: (stop - start) / step + 1 },
+            (_, i) => start + i * step
+          );
+        combat.inbetween = range(fristActorIni, lastActorIni, 1).filter(
+          (x) =>
+            !combat.turns
+              .map((c) => {
+                return c.initiative;
+              })
+              .includes(x)
+        );
+      }
     }
 
     return context;
@@ -38,7 +58,7 @@ export default class DSCombatTracker extends CombatTracker {
     html.find(".hitTracker").click(this._hitTracker.bind(this));
   }
 
-  _sendAE(options) {
+  _sendAE() {
     const combat = this.viewed;
     var currentTargetId = combat.targetCombatant;
     if (combat.targetCombatant === undefined) {
@@ -75,7 +95,7 @@ export default class DSCombatTracker extends CombatTracker {
     // Es wird bei jedem Combat-Update ein Test gemacht, ob turn = 0. Wenn nein, wird der turn auf 0 gesetzt = erster Charakter
   }
 
-  getCurrentTargetId(event) {
+  getCurrentTargetId() {
     return Array.from(
       this.viewed.turns.map((c) => {
         return c.id;
@@ -150,31 +170,21 @@ export default class DSCombatTracker extends CombatTracker {
     })[0].data.initiative;
 
     // Hier werden die nächsten 100 freien Felder ermittelt, die der Charakter auf dem Ini-Board erreichen kann
-    var nextAe = [];
+    let nextAe = [];
     for (let index = 0; index < 100; index++) {
       nextAe.push(currentCombatantIni + index);
     }
-    var iniList = combat.turns.map((c) => {
+    let iniList = combat.turns.map((c) => {
       return c.initiative;
     });
 
     // Die eigene Position finden
 
     // Hier wird das Feld um alle besetzten Felder reduziert.
-
     combat.legalFields = nextAe.filter((x) => !iniList.includes(x));
 
-    // combat.legalFields = iniList
-    //   .filter((x) => !nextAe.includes(x))
-    //   .concat(nextAe.filter((x) => !iniList.includes(x)));
-
     // Hier wird das neue Feld anhand der ausgegeben AE als Index ermittelt.
-
-    if (combat.newIni === undefined) {
-      combat.newIni = combat.legalFields[0];
-    } else {
-      combat.newIni = combat.legalFields[combat.sendAE - 1];
-    }
+    combat.newIni = combat.legalFields[combat.sendAE - 1];
   }
 
   async _preWaitCombat(event) {

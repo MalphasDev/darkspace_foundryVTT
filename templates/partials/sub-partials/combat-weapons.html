@@ -1,61 +1,50 @@
 <div>
-    <h2 class="flex between">Waffen <i class="fas fa-plus createItem" data-type="Waffe"></i></h2>
+  <h2>Waffen</h2>
 
-    <ul class="item-list">
-        
-        {{#unless data.data.unarmedHide}}
-        <li class="item">
-            <div>
-                <div class="grid col-weapons">
-                    <span>
-                        <img class="d10-symbol unarmedCombat" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                        <img class="d10-symbol unarmedCombat" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                    </span>
-                    <span>{{data.data.unarmedName}}</span>
-                    <span class="derivedValue"><i class="fas fa-bolt"></i> {{data.data.unarmedDmg}}</span>
-                <span class="derivedValue"><i class="fas fa-arrows-alt-h"></i> Nahkampf</span>
-                </div>
-            </div>
-        </li>
-        {{/unless}}
+  <ul class="item-list">
+    {{#each Waffe}}
+    <li class="item" data-item-id="{{this._id}}">
+      <div>
+        <div class="grid col-weapons">
+          <span>
+            <img
+              class="d10-symbol rollItem"
+              data-rolltype="combat"
+              data-itemid="{{this._id}}"
+              data-modroll="false"
+              src="systems/darkspace/icons/d10.svg"
+            />
+            <img
+              class="d10-symbol rollItem"
+              data-rolltype="combat"
+              data-itemid="{{this._id}}"
+              data-modroll="true"
+              src="systems/darkspace/icons/d10edit.svg"
+            />
+          </span>
 
-        {{#each Waffe}}
-        <li class="item" data-item-id="{{this._id}}">
-            <div>
-                <div class="grid col-weapons">
-                    <span>
-                        <img class="d10-symbol rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}" data-modroll="false" src="systems/darkspace/icons/d10.svg">
-                        <img class="d10-symbol rollItem" data-rolltype="combat" data-itemType="Waffe" data-skill="{{data.attackWith}}" data-label="{{fertname}}" data-dmg="{{this.data.dmg}}" data-range="{{this.data.range}}" data-modroll="true" src="systems/darkspace/icons/d10edit.svg">
-                    </span>
-                        
-                    <span>{{this.name}}</span>
-                    
-                    <span class="derivedValue"><i class="fas fa-bolt"></i> {{this.data.dmg}}</span>
-                    <span class="derivedValue"><i class="fas fa-arrows-alt-h"></i> {{this.data.range}}</span>
-                    <span><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}</span>
-                    <span><i class="fas fa-microchip"></i>{{this.data.mk}}</span>
-                    <div>
+          <span>{{this.name}}</span>
 
-                        <label for="equippedGear{{this._id}}">
-                            {{#if data.equipped}}
-                            <i class="fas fa-fist-raised"></i>
-                            {{/if}}
-                            {{#unless data.equipped}}
-                            <i class="fas fa-hand-paper"></i>
-                            {{/unless}}
-
-                        </i></label>
-                        <input type="checkbox" invisible {{checked data.equipped}} class="item-quick-edit" id="equippedGear{{this._id}}" data-target="data.equipped">
-
-
-                        <a class="item-control itemEdit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                        <a class="item-control itemDelete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                    </div>
-                </div>
-            </div>
-        </li>
-        {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
-        {{/each}}
-        
-    </ul>
+          <span class="derivedValue"
+            ><i class="fas fa-bolt"></i> {{this.data.dmg}}</span
+          >
+          <span class="derivedValue"
+            ><i class="fas fa-arrows-alt-h"></i> {{this.data.range}}</span
+          >
+          <span class="text_c"
+            ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
+              class="fas fa-microchip"
+            ></i
+            >{{this.data.mk}}</span
+          >
+          <div class="cell_r">
+            {{>
+            "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+          </div>
+        </div>
+      </div>
+    </li>
+    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
+    {{/each}}
+  </ul>
 </div>

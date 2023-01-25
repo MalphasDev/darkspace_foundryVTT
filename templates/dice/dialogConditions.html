@@ -1,7 +1,14 @@
 <div class="flex wrap">
-        {{#each data.conditionList}}
-        <input type="checkbox" class="symbol"  {{checked [1].active}} name="data.conditions.active" value="{{@index}}" id="{{[1].value}}">
-            <label for="{{[1].value}}">{{[1].value}}</label>
-        {{/each}}
-
+  {{#each data.conditionList}}
+  <input
+    type="checkbox"
+    class="symbol"
+    {{checked
+    [1].active}}
+    name="data.conditions.active"
+    value="{{@index}}"
+    id="{{[1].value}}"
+  />
+  <label for="{{[1].value}}">{{[1].value}}</label>
+  {{/each}}
 </div>
