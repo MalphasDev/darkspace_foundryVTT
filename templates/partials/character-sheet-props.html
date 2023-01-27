@@ -1,0 +1,36 @@
+<section class="grid col2">
+  <div>
+    <h2><i class="fas fa-dna"></i> Eigenschaften</h2>
+    <ul class="item-list">
+      {{#each Eigenschaft}}
+      <li class="item flex between item" data-item-id="{{this._id}}">
+        <a class="item-control itemEdit" title="Edit Item"
+          >{{#if data.handicap}}<i class="fas fa-minus-circle handicap"></i>
+          {{/if}}{{name}} <span class="anmerkung">{{data.useWith}}</span></a
+        >
+        <a class="item-control itemDelete" title="Delete Item"
+          ><i class="fas fa-trash"></i
+        ></a>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+  <div>
+    <h2><i class="fas fa-microchip"></i> Artifizierungen</h2>
+    <ul class="item-list">
+      {{#each Artifizierung}}
+      <li class="item flex between item" data-item-id="{{this._id}}">
+        <a class="item-control itemEdit" title="Edit Item"
+          >{{name}}
+          <span class="anmerkung"
+            ><i class="fas fa-caret-right"></i>{{data.useAktion}}</span
+          ></a
+        >
+        <a class="item-control itemDelete" title="Delete Item"
+          ><i class="fas fa-trash"></i
+        ></a>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</section>

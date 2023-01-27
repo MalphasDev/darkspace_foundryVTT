@@ -66,7 +66,6 @@ export default class DSCharakcterSheet extends ActorSheet {
     const classIdent = [
       ".itemEdit",
       ".itemDelete",
-      ".itemToChat",
       ".rollSkill",
       ".rollItem",
       ".customRoll",
@@ -118,26 +117,33 @@ export default class DSCharakcterSheet extends ActorSheet {
     const dataset = element.dataset;
     const actorData = this.object.data.data;
 
-    var dynattr = 0;
-    var dynskill = 0;
+    var roleData = {
+      attribute: DSMechanics.getStat(dataset.skill, actorData.charattribut)
+        .attrName,
+      skill: DSMechanics.getStat(dataset.skill, actorData.charattribut)
+        .fertName,
+      rollname: false,
+    };
 
-    var roleData = { attribute: dataset.attr, skill: dataset.skill };
-
-    if (this.actor.type === "DrohneFahrzeug") {
-      dynattr = actorData[dataset.attr];
-      dynskill = actorData[dataset.skill];
-
-      roleData = { attribute: "", skill: "Modulklasse" };
-    } else {
-      if (dataset.rolltype != "cybernetic") {
-        dynattr = actorData.charattribut[dataset.attr].attribut;
-        dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
-      } else {
-        dynattr = actorData.miscData.Kybernese.attribut;
-        dynskill = actorData.miscData.Kybernese.bonus;
-        roleData = { attribute: "Kybernese", skill: "Artfizierung" };
-      }
+    if (dataset.rollname) {
+      roleData = { ...roleData, rollname: dataset.rollname };
     }
+
+    // if (this.actor.type === "DrohneFahrzeug") {
+    //   dynattr = actorData[dataset.attr];
+    //   dynskill = actorData[dataset.skill];
+
+    //   roleData = { attribute: "", skill: "Modulklasse" };
+    // } else {
+    //   if (dataset.rolltype != "cybernetic") {
+    //     dynattr = actorData.charattribut[dataset.attr].attribut;
+    //     dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
+    //   } else {
+    //     dynattr = actorData.miscData.Kybernese.attribut;
+    //     dynskill = actorData.miscData.Kybernese.bonus;
+    //     roleData = { attribute: "Kybernese", skill: "Artfizierung" };
+    //   }
+    // }
 
     // ------------------------- //
     // Bau des Übergabe-Objektes //
@@ -146,8 +152,8 @@ export default class DSCharakcterSheet extends ActorSheet {
     let preCreatedInput = this.createInputData(event);
     var inputData = {
       ...preCreatedInput,
-      dynattr: dynattr,
-      dynskill: dynskill,
+      dynattr: DSMechanics.getStat(dataset.skill, actorData.charattribut).attr,
+      dynskill: DSMechanics.getStat(dataset.skill, actorData.charattribut).fert,
       roleData: roleData,
       object: this.object,
       type: "Skill",
@@ -163,7 +169,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
     let dynattr = actorData.customroll.dice;
     let dynskill = actorData.customroll.bonus;
-    let roleData = { attribute: "", skill: "Bonus" };
+    let roleData = { attribute: "", skill: "" };
 
     let preCreatedInput = this.createInputData(event);
     let inputData = {
@@ -291,101 +297,6 @@ export default class DSCharakcterSheet extends ActorSheet {
       no: () => {},
       defaultYes: true,
     });
-  }
-  async _itemToChat(event) {
-    const element = event.currentTarget;
-    let itemId = element.closest(".item").dataset.itemId;
-    let itemList = this.object.data.items;
-    let itemClicked = itemList.filter((i) => {
-      return i.data.id == itemId;
-    });
-
-    let itemType = String(
-      itemClicked.map((i) => {
-        return i.data.type;
-      })
-    );
-    let itemDefaultData = {
-      itemName: itemClicked.map((i) => {
-        return i.data.name;
-      }),
-      itemType: itemType,
-      itemImg: itemClicked.map((i) => {
-        return i.data.img;
-      }),
-      itemDesc: itemClicked.map((i) => {
-        return i.data.data.description;
-      }),
-    };
-    let itemChatData = itemDefaultData;
-    if (itemType === "Besonderheiten") {
-      itemChatData = {
-        ...itemDefaultData,
-        type: itemClicked.map((i) => {
-          return i.data.data.type;
-        }),
-      };
-    }
-    if (itemType === "Eigenschaft") {
-      itemChatData = {
-        ...itemDefaultData,
-        attribut: itemClicked.map((i) => {
-          return i.data.data.attribut;
-        }),
-        skill: itemClicked.map((i) => {
-          return i.data.data.skill;
-        }),
-        requirement: itemClicked.map((i) => {
-          return i.data.data.requirement;
-        }),
-      };
-    }
-    if (itemType === "Gegenstand" || "Artifizierung") {
-      itemChatData = {
-        ...itemDefaultData,
-        itemModules: itemClicked.map((i) => {
-          return i.data.data.modules;
-        }),
-        itemMk: itemClicked.map((i) => {
-          return i.data.data.mk;
-        }),
-        itemSize: itemClicked.map((i) => {
-          return i.data.data.size;
-        }),
-      };
-    }
-    if (itemType === "Unterbringung") {
-      itemChatData = {
-        ...itemDefaultData,
-        comfort: itemClicked.map((i) => {
-          return i.data.data.comfort;
-        }),
-        ressourcen: itemClicked.map((i) => {
-          return i.data.data.ressourcen;
-        }),
-        crime: itemClicked.map((i) => {
-          return i.data.data.crime;
-        }),
-        polution: itemClicked.map((i) => {
-          return i.data.data.polution;
-        }),
-      };
-    }
-    let messageData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-    };
-    let cardData = {
-      ...this.data,
-      ...itemChatData,
-      owner: this.actor.id,
-    };
-    messageData.content = await renderTemplate(
-      this.chatTemplate["Item"],
-      cardData
-    ); // this.chatTemplate[this.type] --> "this.type" bezieht sich auf die Auswahl von Templates
-
-    return ChatMessage.create(messageData);
   }
 
   async _modRess(event) {

@@ -24,11 +24,12 @@
   {{#if disadv}}{{this.total_BC}}{{else}}{{this.total_AB}}{{/if}}
 </div>
 
-<ul>
+<ul class="meritbox">
   {{#each merits}}
   <li class="inline_block pill padding">
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname"><i class="fas fa-dna"></i> {{name}}</p>
+      <div style="max-width: 267px">{{{this.data.data.description}}}</div>
     </div>
   </li>
   {{/each}} {{#each handicaps}}
@@ -36,6 +37,7 @@
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname handicap">
         <i class="fas fa-dna"></i> {{name}}
+        <div style="max-width: 267px">{{{this.data.data.description}}}</div>
       </p>
     </div>
   </li>
@@ -44,6 +46,8 @@
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname artifizierung">
         <i class="fas fa-user-cog"></i> {{name}}
+        <span><i class="fas fa-caret-right"></i> {{data.data.useAktion}}</span>
+        <div style="max-width: 267px">{{{this.data.data.description}}}</div>
       </p>
     </div>
   </li>

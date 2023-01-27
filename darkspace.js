@@ -7,8 +7,8 @@ import DSCombat from "./module/DSCombat.js";
 import DSCombatant from "./module/DSCombatant.js";
 import DSCombatTracker from "./module/DSCombatTracker.js";
 import DSNebencharakter from "./module/sheets/DSNebencharakter.js";
-import DSCustomDice from "./module/DSCustomDice.js";
 import * as DSMechanics from "./module/DSMechanics.js";
+import DSChatlog from "./module/DSChatlog.js";
 
 async function preloadHandlebarsTemplates() {
   // const dsFolders = [
@@ -30,13 +30,12 @@ async function preloadHandlebarsTemplates() {
     "systems/darkspace/templates/partials/character-sheet-header.html",
     "systems/darkspace/templates/partials/character-sheet-items.html",
     "systems/darkspace/templates/partials/character-sheet-combat.html",
+    "systems/darkspace/templates/partials/character-sheet-props.html",
     "systems/darkspace/templates/partials/character-sheet-downtime.html",
 
     //Sub-Partials
     //Stats
-    "systems/darkspace/templates/partials/sub-partials/stat-artificals.html",
     "systems/darkspace/templates/partials/sub-partials/stat-block.html",
-    "systems/darkspace/templates/partials/sub-partials/stat-property.html",
     "systems/darkspace/templates/partials/sub-partials/stat-health.html",
 
     //Combat
@@ -45,8 +44,6 @@ async function preloadHandlebarsTemplates() {
 
     //Items
     "systems/darkspace/templates/partials/sub-partials/items-header.html",
-    "systems/darkspace/templates/partials/sub-partials/items-item.html",
-    "systems/darkspace/templates/partials/sub-partials/items-quarter.html",
     "systems/darkspace/templates/partials/sub-partials/items-weapons.html",
     "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html",
 
@@ -86,25 +83,42 @@ async function preloadHandlebarsTemplates() {
 }
 
 Hooks.once("init", function () {
+  /* Setting the default classes for the different types of objects in the game. */
   CONFIG.Combat.documentClass = DSCombat;
   CONFIG.Combatant.documentClass = DSCombatant;
   CONFIG.ui.combat = DSCombatTracker;
-  CONFIG.ui.chat = DSCustomDice;
   CONFIG.darkspace = darkspace;
   CONFIG.Actor.documentClass = DSCharacter;
   CONFIG.Item.documentClass = DSItem;
+  CONFIG.ui.chat = DSChatlog;
   const iconFolder = "systems/darkspace/icons/";
 
+  /* Defining the status effects that can be applied to tokens. */
   CONFIG.statusEffects = [
     {
-      icon: iconFolder + "arti.svg",
-      id: "Test1",
-      label: "Testlabel1",
+      icon: iconFolder + "dizzy-solid.svg",
+      id: "struck",
+      label: "Angeschlagen",
     },
-    { icon: "icons/svg/mage-shield.svg", id: "Test2", label: "Testlabel2" },
-    { icon: "icons/svg/mage-shield.svg", id: "Test3", label: "Testlabel3" },
+    {
+      icon: iconFolder + "times-circle-solid.svg",
+      id: "ko",
+      label: "Außer Gefecht",
+    },
+    {
+      icon: iconFolder + "band-aid-solid.svg",
+      id: "wounded",
+      label: "Verwundet",
+    },
+    {
+      icon: iconFolder + "user-injured-solid.svg",
+      id: "crippled",
+      label: "Verkrüppelt",
+    },
+    { icon: iconFolder + "skull-solid.svg", id: "dead", label: "Tod" },
   ];
 
+  /* A way to make the functions available to the game. */
   game.darkspace = {
     DSCharacter,
     DSItem,
@@ -156,6 +170,9 @@ Hooks.once("init", function () {
   Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
     return arg1 == arg2 ? options.fn(this) : options.inverse(this);
   });
+  Handlebars.registerHelper("unlessEquals", function (arg1, arg2, options) {
+    return arg1 != arg2 ? options.fn(this) : options.inverse(this);
+  });
   Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
     return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
   });
@@ -205,6 +222,10 @@ async function createDSMacro(data, slot) {
 function rollItemMacro(itemName) {
   const speaker = ChatMessage.getSpeaker();
   let actor;
+  /* Checking if the speaker has a token and if not, it is checking if the speaker has an actor. If the
+  speaker has an actor, it is checking if the actor has an item with the name of the itemName. If
+  the actor has an item with the name of the itemName, it is returning a warning that the actor does
+  not have an item with the name of the itemName. */
   if (speaker.token) actor = game.actors.tokens[speaker.token];
   if (!actor) actor = game.actors.get(speaker.actor);
   const item = actor ? actor.items.find((i) => i.name === itemName) : null;

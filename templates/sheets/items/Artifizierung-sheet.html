@@ -1,13 +1,19 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
+  {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+  <hr />
+  <div class="grid col2 gridcenter">
+    {{>"systems/darkspace/templates/partials/MKSize.html"}}
+  </div>
 
-    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-    <div class="grid col3 gridcenter">
-        {{>"systems/darkspace/templates/partials/MKSize.html"}}
-        <div class="cell_c">
-            {{> "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html"}}
-        </div>
-    </div>
+  <hr />
 
+  <div class="grid col2">
+    <input type="text" name="data.useAktion" value="{{data.data.useAktion}}" />
+    {{>
+    "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html"}}
+  </div>
+
+  <!--
     <hr>
     <div class="flex evenly">
         <input type="checkbox" class="symbol" id="isArmor" {{checked this.data.data.armor}} name="data.armor">
@@ -15,6 +21,7 @@
         <input type="checkbox" class="symbol" id="isWeapon" {{checked this.data.data.weapon}} name="data.weapon">
         <label for="isWeapon"><i class="fas fa-bolt"></i> Kybernitsche Waffe</label>
     </div>
+
     
     {{#if this.data.data.weapon}}
     <hr>
@@ -27,9 +34,6 @@
     </div>
 
     
-
-    
-    
-    
-    {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+-->
+  {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

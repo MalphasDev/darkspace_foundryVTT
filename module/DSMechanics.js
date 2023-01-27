@@ -1,3 +1,8 @@
+/**
+ * It takes an inputData object, rolls dice, and returns a chat message.
+ * @param rollDiceData - {
+ * @returns An object with the following properties:
+ */
 export async function rollDice(rollDiceData) {
   const actorData = rollDiceData.actorData;
   const actorId = rollDiceData.actorId;
@@ -102,7 +107,7 @@ export async function rollDice(rollDiceData) {
         return j.data.data.handicap === false;
       })
       .filter((k) => {
-        return k.data.data.skill === roleData.skill;
+        return k.data.data.useWith === roleData.skill;
       });
     var handicaps = rollDiceData.object.data.items
       .filter((i) => {
@@ -112,14 +117,14 @@ export async function rollDice(rollDiceData) {
         return j.data.data.handicap === true;
       })
       .filter((k) => {
-        return k.data.data.skill === roleData.skill;
+        return k.data.data.useWith === roleData.skill;
       });
     var cybernetics = rollDiceData.object.data.items
       .filter((i) => {
         return i.type === "Artifizierung";
       })
       .filter((k) => {
-        return k.data.data.skill === roleData.skill;
+        return k.data.data.useWith === roleData.skill;
       });
   }
 
@@ -222,6 +227,11 @@ export async function modRolls(inputData) {
   }
 }
 
+/**
+ * It takes an inputData object, rolls dice, and returns a chat message.
+ * @param inputData - {
+ * @returns an object with the following properties:
+ */
 export async function _resolveDice(inputData) {
   let outputData = this.rollDice(inputData);
   let actor = {};
@@ -232,17 +242,25 @@ export async function _resolveDice(inputData) {
     cardData = a.cardData;
     actor = a.actor;
   });
-  cardData = { ...cardData, actor, dmg: cardData.data.dmg + cardData.total_BC };
+  if (inputData.item === undefined) {
+    cardData = { ...cardData, actor };
+  } else {
+    cardData = {
+      ...cardData,
+      actor,
+      dmg: cardData.data.dmg + cardData.total_BC,
+    };
+  }
 
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
     Custom: "systems/darkspace/templates/dice/chatCustom.html",
-    Item: "systems/darkspace/templates/dice/chatItem.html",
     Unarmed: "systems/darkspace/templates/dice/chatUnarmed.html",
     Waffe: "systems/darkspace/templates/dice/chatWeapon.html",
     Panzerung: "systems/darkspace/templates/dice/chatArmor.html",
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
     Unterbringung: "systems/darkspace/templates/dice/chatHousing.html",
+    Item: "systems/darkspace/templates/dice/chatItem.html",
     Werkzeug: "systems/darkspace/templates/dice/chatItem.html",
     Terminals: "systems/darkspace/templates/dice/chatItem.html",
     Medkit: "systems/darkspace/templates/dice/chatItem.html",
@@ -261,7 +279,12 @@ export function getStat(fert, dbAttr) {
   let stat = [];
   attrMap.forEach((value, key) => {
     if (value.skill[fert] != undefined) {
-      stat = { attr: dbAttr[key].attribut, fert: value.skill[fert] };
+      stat = {
+        attr: dbAttr[key].attribut,
+        fert: value.skill[fert],
+        attrName: key,
+        fertName: fert,
+      };
     }
   });
 

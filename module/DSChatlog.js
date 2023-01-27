@@ -1,4 +1,4 @@
-export default class DSCustomDice extends ChatLog {
+export default class DSChatlog extends ChatLog {
   get template() {
     return "systems/darkspace/templates/sidebar/chat-log.html";
   }
@@ -21,11 +21,14 @@ export default class DSCustomDice extends ChatLog {
     let removehighest = false;
 
     if (diceBtn.dataset.disadv === "false") {
+      console.log("Normale Probe");
       rollformular = dicePool + "d10x10kh2+" + diceBonus;
     } else if (diceBtn.dataset.disadv === "true") {
+      console.log("Erschwerte Probe");
       rollformular = dicePool + "d10x10kh3dh1+" + diceBonus;
       removehighest = true;
     }
+
     var rollResult = new Roll(rollformular);
     await rollResult.evaluate({ async: true });
 
@@ -53,6 +56,7 @@ export default class DSCustomDice extends ChatLog {
     if (removehighest) {
       disadvMessage = { disadv: "Erschwert" };
     }
+    console.log(resultMessage);
     let messageData = {};
     let cardData = {
       attr: dicePool,

@@ -161,9 +161,6 @@
     },
 
     "Nebencharakter": {
-      "Kompetenz": 1,
-      "Kampfkraft": 0,
-      "Tech": 0,
       "conditions": {
         "struck": {
           "name": "Angeschlagen",
@@ -191,15 +188,64 @@
           "fontsymbol": "fas fa-skull"
         }
       },
-      "templates": ["commonStats"]
+      "templates": ["commonStats"],
+      "charattribut": {
+        "Kampf": {
+          "attribut": 1,
+          "skill": { "Angriff": 0, "Abwehr": 0 }
+        },
+        "Körper": {
+          "attribut": 1,
+          "skill": { "Kraft": 0, "Ausdruck": 0 }
+        },
+        "Intelligenz": {
+          "attribut": 0,
+          "skill": { "Cortex": 0, "Intellekt": 0 }
+        },
+        "Kybernese": {
+          "attribut": 1,
+          "skill": {
+            "Synthese": 0
+          },
+          "ress": {
+            "exists": true,
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        }
+      }
     },
     "DrohneFahrzeug": {
       "mk": 1,
       "size": 1,
 
       "conditions": {
-        "Defekt": false,
-        "Zerstört": false
+        "struck": {
+          "name": "Angekratzt",
+          "status": false,
+          "fontsymbol": "fas fa-exclamation-triangle"
+        },
+        "ko": {
+          "name": "Instabil",
+          "status": false,
+          "fontsymbol": "fas fa-times-circle"
+        },
+        "wounded": {
+          "name": "Ausgeschaltet",
+          "status": false,
+          "fontsymbol": "fas fa-battery-quarter"
+        },
+        "crippled": {
+          "name": "Defekt",
+          "status": false,
+          "fontsymbol": "fas fa-car-crash"
+        },
+        "dead": {
+          "name": "Zerstört",
+          "status": false,
+          "fontsymbol": "fas fa-ban"
+        }
       },
 
       "templates": ["commonStats"],
@@ -214,7 +260,15 @@
         },
         "KI": {
           "attribut": 1,
-          "skill": { "Bots": 0, "Cortex": 0 }
+          "skill": {
+            "Cortex": 0
+          },
+          "ress": {
+            "exists": true,
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
         },
         "Sensoren": {
           "attribut": 1,
@@ -332,7 +386,6 @@
       "Medkit",
       "Artifizierung",
       "Gegenstand",
-      "Unterbringung",
       "Eigenschaft"
     ],
     "templates": {
@@ -370,6 +423,7 @@
     },
     "Artifizierung": {
       "useWith": "Synthese",
+      "useAktion": "Aktion",
       "weapon": false,
       "armor": false,
       "templates": ["itemBase"]
@@ -383,15 +437,10 @@
       "useWith": "Logik",
       "templates": ["itemBase"]
     },
-    "Unterbringung": {
-      "comfort": 0,
-      "templates": ["itemBase"]
-    },
     "Eigenschaft": {
-      "type": "",
-      "skill": "",
-      "handicap": false,
-      "description": ""
+      "useWith": "",
+      "useAktion": "",
+      "handicap": false
     }
   }
 }

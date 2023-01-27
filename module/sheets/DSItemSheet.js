@@ -29,8 +29,6 @@ export default class DSItemSheet extends ItemSheet {
     /* html.find(cssSelector).event(this._someCallBack.bind(this)); <---- Template */
 
     super.activateListeners(html);
-    //html.find(".itemToChat").click(this._itemToChat.bind(this));
-    //html.find(".rollItem").click(this._onRollItem.bind(this));
     html.find(".directRoll").click(this._onDirectRoll.bind(this));
     html.find(".ressPoints").click(this._ressPoints.bind(this));
     html.find(".incRess, .decRess").click(this._onModRess.bind(this));
@@ -113,7 +111,7 @@ export default class DSItemSheet extends ItemSheet {
   }
   async _addProperty(event) {
     var content = await renderTemplate(
-      "systems/darkspace/templates/createNewItem/dialogAddProp.html",
+      "systems/darkspace/templates/dice/dialogAddProp.html",
       this.object.data.data
     );
     new Dialog({

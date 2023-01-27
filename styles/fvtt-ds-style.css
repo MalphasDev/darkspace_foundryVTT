@@ -344,9 +344,6 @@ ul {
 .col4 {
   grid-template-columns: repeat(4, 1fr);
 }
-.col4-item {
-  grid-template-columns: 1fr 40px 40px 60px;
-}
 .col4-2211 {
   grid-template-columns: 2fr 2fr 1fr 1fr;
 }
@@ -502,10 +499,9 @@ li input[type="checkbox"]:checked + label {
   border: none;
   border-radius: 0;
 }
-.pill .handicap,
+
 .handicap {
-  background-color: rgb(70, 0, 0);
-  color: #fff;
+  color: #940000;
 }
 .merit {
   background-color: var(--primary-color);
@@ -527,7 +523,6 @@ li input[type="checkbox"]:checked + label {
   text-align: center;
   width: 100%;
   border: 1px solid;
-  margin: 5px 0 0 0;
 }
 .anmerkung {
   opacity: 0.75;
@@ -559,16 +554,14 @@ li input[type="checkbox"]:checked + label {
   max-height: 150px;
   overflow: scroll;
 }
+.pointer,
 .collapsible {
   cursor: pointer;
 }
 .einzug_ul {
   margin-left: 4ch;
 }
-.displaySkill:hover,
-.itemToChat:hover {
-  cursor: help;
-}
+
 .evalDice,
 .bold {
   font-weight: bold;
@@ -688,4 +681,8 @@ input[type="checkbox"] + label[for="ranged"]:hover {
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+.meritbox li:not(.pill) {
+  list-style: disc;
+  margin: 0 0 0px 20px;
 }

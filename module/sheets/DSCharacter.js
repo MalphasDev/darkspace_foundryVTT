@@ -3,7 +3,16 @@ import * as DSMechanics from "../DSMechanics.js";
 
 export default class DSCharacter extends Actor {
   getStat(fert) {
-    return DSMechanics.getStat(fert, this.data.data.charattribut);
+    let dbAttr;
+    if (
+      this.data.data.charattribut === undefined ||
+      this.data.data.charattribut === null
+    ) {
+      dbAttr = {};
+    } else {
+      dbAttr = this.data.data.charattribut;
+    }
+    return DSMechanics.getStat(fert, dbAttr);
   }
 
   prepareData() {
@@ -21,6 +30,15 @@ export default class DSCharacter extends Actor {
       return e.type === "Eigenschaft";
     });
 
+    // Ressourcen
+    let attributNames = Object.keys(attr);
+    for (var i = 0; attributNames.length > i; i++) {
+      if (attr[attributNames[i]].ress != undefined) {
+        attr[attributNames[i]].ress.remaining =
+          attr[attributNames[i]].ress.max - attr[attributNames[i]].ress.value;
+      }
+    }
+
     // Zustand
 
     if (this.type != "DrohneFahrzeug") {
@@ -30,8 +48,8 @@ export default class DSCharacter extends Actor {
       var armorList = actorData.items.filter((i) => {
         return i.data.type === "Panzerung";
       });
-      var quarterList = actorData.items.filter((i) => {
-        return i.data.type === "Unterbringung";
+      var artList = actorData.items.filter((i) => {
+        return i.data.type === "Artifizierung";
       });
       var artList = actorData.items.filter((i) => {
         return i.data.type === "Artifizierung";
@@ -39,8 +57,14 @@ export default class DSCharacter extends Actor {
 
       // Panzerung
 
-      const armorRating =
-        this.getStat("Fitness").attr * 2 + this.getStat("Fitness").fert;
+      let armorId;
+      if (this.type === "Charakter") {
+        armorId = "Fitness";
+      }
+      if (this.type === "Nebencharakter") {
+        armorId = "Kraft";
+      }
+
       const armorSize = [
         armorList
           .map((e) => {
@@ -66,15 +90,30 @@ export default class DSCharacter extends Actor {
         return b - a;
       })[0];
 
-      data.hitArray = [
-        armorRating,
-        armorRating + armorSize + armorMk,
-        armorRating + (armorSize + armorMk) * 2,
-        armorRating + (armorSize + armorMk) * 3,
-        armorRating + (armorSize + armorMk) * 4,
-      ];
+      let armorMultiplier = [1, 2, 4, 6, 8];
 
-      console.log(data.hitArray);
+      data.hitArray = [
+        this.getStat(armorId).attr * armorMultiplier[0] +
+          this.getStat(armorId).fert +
+          armorSize +
+          armorMk,
+        this.getStat(armorId).attr * armorMultiplier[1] +
+          this.getStat(armorId).fert +
+          armorSize +
+          armorMk,
+        this.getStat(armorId).attr * armorMultiplier[2] +
+          this.getStat(armorId).fert +
+          armorSize +
+          armorMk,
+        this.getStat(armorId).attr * armorMultiplier[3] +
+          this.getStat(armorId).fert +
+          armorSize +
+          armorMk,
+        this.getStat(armorId).attr * armorMultiplier[4] +
+          this.getStat(armorId).fert +
+          armorSize +
+          armorMk,
+      ];
 
       // Waffenloser Kampf
       data.unarmedName = "Waffenloser Kampf";
@@ -85,13 +124,7 @@ export default class DSCharacter extends Actor {
         data.unarmedDmg =
           10 +
           Math.max(this.getStat("Fitness").attr, this.getStat("Motorik").attr);
-        this.expCounter();
       }
-      // Unterbringung
-
-      let quarterListEquipped = quarterList.filter((e) => {
-        return e.data.data.equipped === true;
-      });
 
       // Unterhalt und Wohlstand
       let ownedItems = actorData.items.filter((i) => {
@@ -112,8 +145,6 @@ export default class DSCharacter extends Actor {
         })
       ).sort((a, b) => a - b);
 
-      ownedItems = ownedItems.concat(quarterListEquipped);
-
       data.keepOfItems =
         itemSizes.length == 0
           ? 0
@@ -122,15 +153,6 @@ export default class DSCharacter extends Actor {
           : Math.max(...itemMk);
       data.wealth = this.getStat("Finanzen").attr * 2;
       data.needKeep = data.wealth - data.keepOfItems < 0 ? true : false;
-
-      // Ressourcen
-      let attributNames = Object.keys(attr);
-      for (var i = 0; attributNames.length > i; i++) {
-        if (attr[attributNames[i]].ress != undefined) {
-          attr[attributNames[i]].ress.remaining =
-            attr[attributNames[i]].ress.max - attr[attributNames[i]].ress.value;
-        }
-      }
     } else if (this.type === "KI") {
       data.initiative =
         this.getStat("Fokus").attr + "d10x10kh2+" + this.getStat("Fokus").fert;
@@ -157,73 +179,32 @@ export default class DSCharacter extends Actor {
 
     // Erholung
 
-    // // Kybernese
-    // data.miscData.Kybernese.mk = actorData.items
-    //   .filter((i) => {
-    //     return i.type === "Artifizierung";
-    //   })
-    //   .map((j) => {
-    //     return j.data.data.mk;
-    //   });
-    // data.miscData.Kybernese.bonus = Math.min(
-    //   ...data.miscData.Kybernese.mk,
-    //   0
-    // );
-
     // Waffenloser Durchschlag
 
     // Erfahrung
 
     if (this.type === "Nebencharakter") {
-      let combatAttr = Math.max(data.Kompetenz + data.Kampfkraft, 1);
-      let combatSkill = Math.floor(
-        Math.max(data.Kompetenz + data.Kampfkraft, 1) / 2
-      );
-
-      let techAttr = Math.max(data.Kompetenz + data.Tech, 1);
-      let techSkill = Math.floor(Math.max(data.Kompetenz + data.Tech, 1) / 2);
-
-      let normalAttr = data.Kompetenz;
-      let normalSkill = Math.floor(data.Kompetenz / 2);
-
-      attr = {
-        Kampf: {
-          attribut: combatAttr,
-          skill: { Angriff: combatSkill, Abwehr: normalSkill },
-        },
-        Körper: {
-          attribut: normalAttr,
-          skill: { Kraft: combatSkill, Ausdruck: normalSkill },
-        },
-        Intelligenz: {
-          attribut: techAttr,
-          skill: { Cortex: techSkill, Intellekt: normalSkill },
-        },
-      };
-
-      data.initiative = data.Kompetenz + "d10x10kh2+" + data.Kampfkraft;
-      data.unarmedDmg = 10 + data.Kampfkraft;
+      data.initiative =
+        this.getStat("Angriff").attr +
+        "d10x10kh2+" +
+        this.getStat("Angriff").fert;
     }
 
     if (this.type === "DrohneFahrzeug") {
-      data.initiative = data.mk + "d10x10kh2+" + Math.ceil(data.mk / 2);
-      data.finalinitiative = data.initiative + data.initMod;
-      data.initBonus = Math.ceil(data.mk / 2);
+      data.initiative =
+        this.getStat("Bots").attr + "d10x10kh2+" + this.getStat("Bots").fert;
 
       // Waffenloser Durchschlag
       data.unarmedHide = true;
 
-      // Handling
-      data.handling = data.mk - data.size;
-      if (data.handling < -1) {
-        data.handlingDesc = "Schwach (" + data.handling + ")";
-      }
-      if (data.handling >= -1 && data.handling <= 1) {
-        data.handlingDesc = "Normal (" + data.handling + ")";
-      }
-      if (data.handling > 1) {
-        data.handlingDesc = "Gut (" + data.handling + ")";
-      }
+      let armorMultiplier = [1, 2, 4, 6, 8];
+      data.vehicleArmor = [
+        (data.size + data.mk) * armorMultiplier[0],
+        (data.size + data.mk) * armorMultiplier[1],
+        (data.size + data.mk) * armorMultiplier[2],
+        (data.size + data.mk) * armorMultiplier[3],
+        (data.size + data.mk) * armorMultiplier[4],
+      ];
 
       // Passagiere und Fracht
 
@@ -232,9 +213,8 @@ export default class DSCharacter extends Actor {
       data.cargo = "GM " + (data.size - 1);
       data.passengerCargo = data.passenger + data.cargo;
       data.crewNumber = "Fertigkeitsstufe " + Math.min(data.mk, data.size);
-
-      this.expCounter();
     }
+    this.expCounter();
   }
 
   async _preCreate() {
@@ -268,11 +248,13 @@ export default class DSCharacter extends Actor {
     if (actorData.type === "Charakter") {
       attrList = config.attrList;
       skillList = config.skillList;
+    } else if (actorData.type === "Nebencharakter") {
+      attrList = config.attrNpc;
+      skillList = config.skillListNpc;
     } else if (actorData.type === "DrohneFahrzeug") {
       attrList = config.attrVehicle;
       skillList = config.skillListVehicle;
     }
-
     attrList.forEach((attrIdent) => {
       let attributName = attr;
       let attrWert = attributName[attrIdent].attribut;

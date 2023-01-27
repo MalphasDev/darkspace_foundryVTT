@@ -41,37 +41,67 @@
           ><i class="fas fa-cog"></i> {{attrname}}</span
         >
         <span class="attrvalue">
-          <input class="value_box"
-          name="data.charattribut.{{attrname}}.attribut"
-          value="{{attrobj.attribut}}" type="number" {{disabled
-          ../data.data.Kompetenz}}>
+          <input
+            class="value_box"
+            name="data.charattribut.{{attrname}}.attribut"
+            value="{{attrobj.attribut}}"
+            type="number"
+          />
           <span>W</span>
         </span>
       </div>
-
+      <!--FERTIGKEITEN-->
       <ul class="fertfeld">
         {{#each this.skill as |fertval fertname|}}
 
         <li class="gridleftcenter fertname">
-          <p>{{fertname}}</p>
+          <p>
+            {{fertname}}
+            <span class="anmerkung"
+              >{{#each ../../Eigenschaft}} {{#ifEquals data.useWith fertname}}
+              {{#unless data.handicap}}
 
+              <span class="tooltip">
+                <i class="fas fa-dna"></i>
+
+                <span class="tooltiptext top">{{this.name}}</span>
+              </span>
+
+              {{/unless}} {{/ifEquals}} {{/each}}</span
+            >
+            <span class="anmerkung">
+              {{#each ../../Eigenschaft}} {{#ifEquals data.useWith fertname}}
+              {{#if data.handicap}}<span class="tooltip">
+                <i class="fas fa-minus-circle handicap"></i>
+
+                <span class="tooltiptext top">{{this.name}}</span> </span
+              >{{/if}} {{/ifEquals}} {{/each}}
+            </span>
+            <span class="anmerkung">
+              {{#each ../../Artifizierung}} {{#ifEquals data.useWith fertname}}
+              <span class="tooltip">
+                <i class="fas fa-microchip"></i>
+
+                <span class="tooltiptext top">{{this.name}}</span>
+              </span>
+              {{/ifEquals}} {{/each}}
+            </span>
+          </p>
           <div class="skillbox">
-            <input class="value_box"
-            name="data.charattribut.{{attrname}}.skill.{{fertname}}"
-            value="{{this}}" type="number" {{disabled
-            ../../data.data.Kompetenz}}>
+            <input
+              class="value_box"
+              name="data.charattribut.{{attrname}}.skill.{{fertname}}"
+              value="{{this}}"
+              type="number"
+            />
             <img
               class="d10-symbol rollSkill"
-              data-rolltype="skill"
-              data-attr="{{attrname}}"
               data-skill="{{fertname}}"
               data-modroll="false"
               src="systems/darkspace/icons/d10.svg"
             />
             <img
               class="d10-symbol rollSkill"
-              data-rolltype="skill"
-              data-attr="{{attrname}}"
               data-skill="{{fertname}}"
               data-modroll="true"
               src="systems/darkspace/icons/d10edit.svg"
@@ -80,7 +110,9 @@
         </li>
         <ul class="item-list">
           <!--EIGENSCHAFTEN-->
-          {{#each ../../Eigenschaft}} {{#ifEquals data.skill fertname}}
+
+          <!--
+          {{#each ../../Eigenschaft}} {{#ifEquals data.useWith fertname}}
           {{#unless data.handicap}}
           <li class="inline_block pill padding wrap">
             <div class="item" data-item-id="{{this._id}}">
@@ -92,8 +124,12 @@
             </div>
           </li>
           {{/unless}} {{/ifEquals}} {{/each}}
+        -->
+
           <!--HANDICAPS-->
-          {{#each ../../Eigenschaft}} {{#ifEquals data.skill fertname}} {{#if
+
+          <!--
+          {{#each ../../Eigenschaft}} {{#ifEquals data.useWith fertname}} {{#if
           data.handicap}}
           <li class="inline_block pill padding wrap">
             <div class="item" data-item-id="{{this._id}}">
@@ -105,17 +141,7 @@
             </div>
           </li>
           {{/if}} {{/ifEquals}} {{/each}}
-          <!--Artifizierungen-->
-          {{#each ../../Artifizierung}} {{#ifEquals data.skill fertname}}
-          <li class="inline_block pill padding wrap">
-            <div class="item" data-item-id="{{this._id}}">
-              <p class="Eigenschaftname item-control itemEdit artifizierung">
-                <i class="fas fa-user-cog"></i> {{this.name}}
-              </p>
-            </div>
-          </li>
-          {{/ifEquals}} {{/each}}
-        </ul>
+        --></ul>
         {{/each}}
       </ul>
 
@@ -123,7 +149,13 @@
       <hr />
       <ul class="fertfeld">
         <li>
-          <span>{{attrname}}-Punkte</span>
+          <span
+            ><i
+              class="fas fa-undo button ressReset"
+              data-thisattr="{{attrname}}"
+            ></i>
+            <span>{{attrname}}-Punkte </span></span
+          >
 
           <div class="span2">
             <i
@@ -153,45 +185,6 @@
         </li>
       </ul>
       {{/if}}
-
-      <ul class="item-list">
-        <!--EIGENSCHAFTEN-->
-        {{#each ../Eigenschaft}} {{#ifEquals data.attribut attrname}} {{#unless
-        data.handicap}}
-        <li class="inline_block pill padding">
-          <div class="item" data-item-id="{{this._id}}">
-            <p
-              class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
-            >
-              <i class="fas fa-dna"></i> {{this.name}}
-            </p>
-          </div>
-        </li>
-        {{/unless}} {{/ifEquals}} {{/each}}
-        <!--HANDICAPS-->
-        {{#each ../Eigenschaft}} {{#ifEquals data.attribut attrname}} {{#if
-        data.handicap}}
-        <li class="inline_block pill padding">
-          <div class="item" data-item-id="{{this._id}}">
-            <p
-              class="Eigenschaftname item-control itemEdit {{#if data.handicap}}handicap{{/if}}"
-            >
-              <i class="fas fa-dna"></i> {{this.name}}
-            </p>
-          </div>
-        </li>
-        {{/if}} {{/ifEquals}} {{/each}}
-        <!--Artifizierungen-->
-        {{#each ../Artifizierung}} {{#ifEquals data.attribut attrname}}
-        <li class="inline_block pill padding">
-          <div class="item" data-item-id="{{this._id}}">
-            <p class="Eigenschaftname item-control itemEdit artifizierung">
-              <i class="fas fa-user-cog"></i> {{this.name}}
-            </p>
-          </div>
-        </li>
-        {{/ifEquals}} {{/each}}
-      </ul>
     </li>
 
     {{/each}}

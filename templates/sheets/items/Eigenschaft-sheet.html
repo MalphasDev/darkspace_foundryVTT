@@ -1,24 +1,31 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
-    <div class="grid col2-21">
-        {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-        <div class="cell_c">
-            
-            {{> "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html"}}
-        <div class="handlicapCheck {{#if data.data.handicap}}handicap{{/if}} {{#unless data.data.handicap}}merit{{/unless}}">
-            <input type="checkbox" invisible {{checked data.data.handicap}} class="item-quick-edit" name="data.handicap" id="{{id}}prop">
-            {{#if data.data.handicap}}
-            <label for="{{id}}prop">Handicap</label>
-            {{/if}}
+  {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+  <hr />
 
-            {{#unless data.data.handicap}}
-            <label for="{{id}}prop">Vorteil</label>
-            {{/unless}}
-        </div>
-
+  <div class="grid col2" style="align-items: center">
+    <div
+      class="handlicapCheck  {{#unless data.data.handicap}}merit{{/unless}}" {{#if data.data.handicap}}style="background-color: rgb(70, 0, 0);
+      color: #fff;"{{/if}}
+    >
+      <input
+        type="checkbox"
+        invisible
+        {{checked
+        data.data.handicap}}
+        class="item-quick-edit"
+        name="data.handicap"
+        id="{{id}}prop"
+      />
+      {{#if data.data.handicap}}
+      <label {{#if data.data.handicap}}style="background-color: rgb(70, 0, 0);
+      color: #fff;"{{/if}} for="{{id}}prop">Handicap</label>
+      {{/if}} {{#unless data.data.handicap}}
+      <label for="{{id}}prop">Vorteil</label>
+      {{/unless}}
     </div>
-    </div>
+    {{>
+    "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html"}}
+  </div>
 
-    
-
-    {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+  {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

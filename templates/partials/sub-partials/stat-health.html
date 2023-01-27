@@ -29,8 +29,10 @@
           for="{{name}}"
         >
           <div class="tooltip">
-            <i class="{{value.fontsymbol}}"></i> {{lookup ../data.data.hitArray
-            @index}}
+            <i class="{{value.fontsymbol}}"></i> 
+            
+            {{#unlessEquals ../data.type "DrohneFahrzeug"}}{{lookup ../data.data.hitArray @index}}{{/unlessEquals}}
+            {{#ifEquals ../data.type "DrohneFahrzeug"}}{{lookup ../data.data.vehicleArmor @index}}{{/ifEquals}}
             <span class="tooltiptext top">{{value.name}}</span>
           </div>
         </label>
@@ -41,136 +43,206 @@
   <hr />
   <h3><i class="fas fa-running"></i> Aufrappeln</h3>
   <div>
-    <div class="grid col3 gridcenter">
-      <div class="borderbox round text_c">
+    <div class="grid col3 gridcenter" >
+      <div class="borderbox round text_c" style="width: 100%;">
         <img
-          class="directRoll d10-symbol"
-          data-attr="Konstitution"
-          data-rollname="Aufrappeln Fitness"
-          data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
-          data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+          class="rollSkill d10-symbol"
+          data-skill={{#ifEquals this.data.type
+            "Charakter"}}"Fitness"{{/ifEquals}}
+            {{#ifEquals this.data.type
+            "Nebencharakter"}}"Kraft"{{/ifEquals}}
+            {{#ifEquals this.data.type
+            "DrohneFahrzeug"}}"Verteilung"{{/ifEquals}}
+          data-rollname="Aufrappeln"
+          data-modroll="false"
           src="systems/darkspace/icons/d10.svg"
         />
         <img
-          class="directRoll d10-symbol"
-          data-attr="Konstitution"
-          data-rollname="Aufrappeln Fitness"
-          data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
-          data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+          class="rollSkill d10-symbol"
+          data-skill={{#ifEquals this.data.type
+            "Charakter"}}"Fitness"{{/ifEquals}}
+            {{#ifEquals this.data.type
+            "Nebencharakter"}}"Kraft"{{/ifEquals}}
+            {{#ifEquals this.data.type
+              "DrohneFahrzeug"}}"Verteilung"{{/ifEquals}}
+          data-rollname="Aufrappeln"
           data-modroll="true"
           src="systems/darkspace/icons/d10edit.svg"
         />
-        <span>FIT</span>
-        <span class="anmerkung"
-          >{{this.data.data.charattribut.Konstitution.attribut}}W+{{this.data.data.charattribut.Konstitution.skill.Fitness}}</span
+        <div
+          >{{#ifEquals this.data.type "Charakter"}}FIT{{/ifEquals}} {{#ifEquals
+          this.data.type "Nebencharakter"}}KRA{{/ifEquals}} {{#ifEquals
+          this.data.type "DrohneFahrzeug"}}VER{{/ifEquals}}</div
         >
+        <div class="anmerkung">
+          {{#ifEquals this.data.type
+          "Charakter"}}{{this.data.data.charattribut.Konstitution.attribut}}W+{{this.data.data.charattribut.Konstitution.skill.Fitness}}{{/ifEquals}}
+          {{#ifEquals this.data.type
+          "Nebencharakter"}}{{this.data.data.charattribut.Körper.attribut}}W+{{this.data.data.charattribut.Körper.skill.Kraft}}{{/ifEquals}}
+          {{#ifEquals this.data.type
+          "DrohneFahrzeug"}}{{this.data.data.charattribut.Energie.attribut}}W+{{this.data.data.charattribut.Energie.skill.Verteilung}}{{/ifEquals}}
+        </div>
       </div>
 
-      <div class="borderbox round text_c">
+{{#unlessEquals this.data.type "DrohneFahrzeug"}}
+      <div class="borderbox round text_c" style="width: 100%;">
         <img
-          class="directRoll d10-symbol"
-          data-attr="Kybernese"
-          data-rollname="Aufrappeln Synthese"
-          data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
-          data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+          class="rollSkill d10-symbol"
+          data-skill="Synthese"
+          data-rollname="Aufrappeln"
+          data-modroll="false"
           src="systems/darkspace/icons/d10.svg"
         />
         <img
-          class="directRoll d10-symbol"
-          data-attr="Kybernese"
-          data-rollname="Aufrappeln Synthese"
-          data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
-          data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+          class="rollSkill d10-symbol"
+          data-skill="Synthese"
+          data-rollname="Aufrappeln"
           data-modroll="true"
           src="systems/darkspace/icons/d10edit.svg"
-        /><span>SYN</span>
-        <span class="anmerkung"
-          >{{this.data.data.charattribut.Kybernese.attribut}}W+{{this.data.data.charattribut.Kybernese.skill.Synthese}}</span
-        >
-      </div>
+        /><div>SYN</div>
+        <div class="anmerkung">
+          {{this.data.data.charattribut.Kybernese.attribut}}W+{{this.data.data.charattribut.Kybernese.skill.Synthese}}
+          
+        </div></div>
+        
 
-      <div class="borderbox round text_c">
+      <div class="borderbox round text_c" style="width: 100%;">
         <img
-          class="directRoll d10-symbol"
-          data-attr="Konzentration"
-          data-rollname="Fitness Schutz"
-          data-dice="{{this.data.data.charattribut.Konzentration.attribut}}"
-          data-bonus="{{this.data.data.charattribut.Konzentration.skill.Willenskraft}}"
+          class="rollSkill d10-symbol"
+          data-skill={{#ifEquals this.data.type
+            "Charakter"}}"Willenskraft"{{/ifEquals}}
+            {{#ifEquals this.data.type
+            "Nebencharakter"}}"Abwehr"{{/ifEquals}}
+          data-rollname="Aufrappeln"
+          data-modroll="false"
           src="systems/darkspace/icons/d10.svg"
         />
         <img
-          class="directRoll d10-symbol"
-          data-attr="Konzentration"
-          data-rollname="Fitness Schutz"
-          data-dice="{{this.data.data.charattribut.Konzentration.attribut}}"
-          data-bonus="{{this.data.data.charattribut.Konzentration.skill.Willenskraft}}"
+          class="rollSkill d10-symbol"
+          data-skill={{#ifEquals this.data.type
+            "Charakter"}}"Willenskraft"{{/ifEquals}}
+            {{#ifEquals this.data.type
+            "Nebencharakter"}}"Abwehr"{{/ifEquals}}
+          data-rollname="Aufrappeln"
           data-modroll="true"
           src="systems/darkspace/icons/d10edit.svg"
-        /><span>WIL</span>
-        <span class="anmerkung"
-          >{{this.data.data.charattribut.Konzentration.attribut}}W+{{this.data.data.charattribut.Konzentration.skill.Willenskraft}}</span
-        >
+        /><div>
+          {{#ifEquals this.data.type "Charakter"}}WIL{{/ifEquals}} {{#ifEquals
+          this.data.type "Nebencharakter"}}ABW{{/ifEquals}}
+          </div>
+
+        <div class="anmerkung">
+          {{#ifEquals this.data.type
+          "Charakter"}}{{this.data.data.charattribut.Konzentration.attribut}}W+{{this.data.data.charattribut.Konzentration.skill.Willenskraft}}{{/ifEquals}}
+          {{#ifEquals this.data.type
+          "Nebencharakter"}}{{this.data.data.charattribut.Kampf.attribut}}W+{{this.data.data.charattribut.Kampf.skill.Abwehr}}{{/ifEquals}}
+        </div>
+      </div>
+      {{/unlessEquals}}
       </div>
     </div>
   </div>
   <hr />
   <h3><i class="fas fa-shield-alt"></i> Schutzprobe</h3>
+
+  {{#ifEquals this.data.type "DrohneFahrzeug"}}
+
+  <div class="grid col2 gridcenter">
+
+    <div class="borderbox round text_c" style="width: 100%">
+      <div>
+        <div>
+          <img
+            class="rollSkill d10-symbol"
+            data-skill="Synthese"
+            data-rollname="Schutzprobe"
+            data-modroll="false"
+            src="systems/darkspace/icons/d10.svg"
+          />
+          <img
+            class="rollSkill d10-symbol"
+            data-skill="Synthese"
+            data-rollname="Schutzprobe"
+            data-modroll="true"
+            src="systems/darkspace/icons/d10edit.svg"
+          />
+        </div>
+        <div>SYN</div>
+        <div class="anmerkung block">
+          {{data.data.size}}W +
+          {{data.data.size}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/ifEquals}}
+
+  {{#unlessEquals this.data.type "DrohneFahrzeug"}}
   <div class="grid col2 gridcenter">
     <div class="borderbox round text_c" style="width: 100%">
       <div>
         <div>
           <img
-            class="directRoll d10-symbol"
-            data-attr="Struktur"
-            data-rollname="Fitness Schutz"
-            data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
-            data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+            class="rollSkill d10-symbol"
+            data-skill={{#ifEquals this.data.type
+              "Charakter"}}"Fitness"{{/ifEquals}}
+              {{#ifEquals this.data.type
+              "Nebencharakter"}}"Kraft"{{/ifEquals}}
+            data-rollname="Schutzprobe"
+            data-modroll="false"
             src="systems/darkspace/icons/d10.svg"
           />
           <img
-            class="directRoll d10-symbol"
-            data-attr="Struktur"
-            data-rollname="Fitness Schutz"
-            data-dice="{{this.data.data.charattribut.Konstitution.attribut}}"
-            data-bonus="{{this.data.data.charattribut.Konstitution.skill.Fitness}}"
+            class="rollSkill d10-symbol"
+            data-skill={{#ifEquals this.data.type
+              "Charakter"}}"Fitness"{{/ifEquals}}
+              {{#ifEquals this.data.type
+              "Nebencharakter"}}"Kraft"{{/ifEquals}}
+            data-rollname="Schutzprobe"
             data-modroll="true"
             src="systems/darkspace/icons/d10edit.svg"
           />
         </div>
-        <span>FIT</span>
-        <span class="anmerkung block">
-          {{this.data.data.charattribut.Konstitution.attribut}}W +
-          {{this.data.data.charattribut.Konstitution.skill.Fitness}}
-        </span>
+        <div
+          >{{#ifEquals this.data.type "Charakter"}}FIT{{/ifEquals}} {{#ifEquals
+          this.data.type "Nebencharakter"}}KRA{{/ifEquals}}</div
+        >
+        <div class="anmerkung">
+          {{#ifEquals this.data.type
+          "Charakter"}}{{this.data.data.charattribut.Konstitution.attribut}}W+{{this.data.data.charattribut.Konstitution.skill.Fitness}}{{/ifEquals}}
+          {{#ifEquals this.data.type
+          "Nebencharakter"}}{{this.data.data.charattribut.Körper.attribut}}W+{{this.data.data.charattribut.Körper.skill.Kraft}}{{/ifEquals}}
+          {{#ifEquals this.data.type
+          "DrohneFahrzeug"}}{{this.data.data.charattribut.Körper.attribut}}W+{{this.data.data.charattribut.Körper.skill.Kraft}}{{/ifEquals}}
+          </div>
       </div>
     </div>
+    
     <div class="borderbox round text_c" style="width: 100%">
       <div>
         <div>
           <img
-            class="directRoll d10-symbol"
-            data-attr="Struktur"
-            data-rollname="Synthese Schutz"
-            data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
-            data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+            class="rollSkill d10-symbol"
+            data-skill="Synthese"
+            data-rollname="Schutzprobe"
+            data-modroll="false"
             src="systems/darkspace/icons/d10.svg"
           />
           <img
-            class="directRoll d10-symbol"
-            data-attr="Struktur"
-            data-rollname="Synthese Schutz"
-            data-dice="{{this.data.data.charattribut.Kybernese.attribut}}"
-            data-bonus="{{this.data.data.charattribut.Kybernese.skill.Synthese}}"
+            class="rollSkill d10-symbol"
+            data-skill="Synthese"
+            data-rollname="Schutzprobe"
             data-modroll="true"
             src="systems/darkspace/icons/d10edit.svg"
           />
         </div>
-        <span>SYN</span>
+        <div>SYN</div>
         <div class="anmerkung block">
           {{this.data.data.charattribut.Kybernese.attribut}}W +
           {{this.data.data.charattribut.Kybernese.skill.Synthese}}
         </div>
       </div>
     </div>
+    {{/unlessEquals}}
   </div>
 </div>

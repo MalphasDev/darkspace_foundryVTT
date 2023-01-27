@@ -1,3 +1,4 @@
+
 <section class="tab sidebar-tab directory flexcol" id="chat" data-tab="chat">
     <ol id="chat-log">
     </ol>
@@ -22,6 +23,7 @@
         </div>
         {{/if}}
     </div>
+    
     <div class="customDiceBox">
         <div class="customDiceBoxField">
             <input type="number" class="customDicePool" value="2"><img style="width: 20px;" src="systems/darkspace/icons/d10.svg"/> + <input type="number" class="customDiceBonus" value="0">
@@ -39,6 +41,23 @@
             </button>
         </div>
         
+    </div>
+
+    <div id="chat-controls" class="flexrow">
+        <label class="chat-control-icon"><i class="fas fa-dice-d20"></i></label>
+        <select class="roll-type-select" name="rollMode">
+            <optgroup label="Default Roll Mode">
+            <option value="publicroll" selected="">Public Roll</option>
+            <option value="gmroll">Private GM Roll</option>
+            <option value="blindroll">Blind GM Roll</option>
+            <option value="selfroll">Self Roll</option>
+            </optgroup>
+        </select>
+
+        <div class="control-buttons">
+            <a class="export-log" title="Export Chat Log"><i class="fas fa-save"></i></a>
+            <a class="delete chat-flush" title="Clear Chat Log"><i class="fas fa-trash"></i></a>
+        </div>
     </div>
 
     <form id="chat-form">

@@ -1,55 +1,86 @@
-<form class="{{cssClass}}" autocomplete="off">
-    
-    
-    
-    <div class="grid" style="grid-template-columns: 1fr 3fr;">
+<form
+  class="{{cssClass}} grid"
+  style="grid-template-columns: 250px 1fr; overflow: auto"
+  autocomplete="off"
+>
+  <!--Info-Header-->
+  {{>"systems/darkspace/templates/partials/character-sheet-header.html"}}
+
+  <!--Sheetbody-->
+  <section class="sheet-body">
+    <section id="navbar">
+      <nav class="sheet-tabs tabs flex" data-group="primary">
+        <a class="item" data-tab="stats">
+          <span class="tooltip"
+            ><i class="fas fa-dna"></i
+            ><span class="tooltiptext bottom"
+              >Attribute, Fertigkeiten</span
+            ></span
+          >
+        </a>
+
+        <a class="item" data-tab="items">
+          <span class="tooltip"
+            ><i class="fas fa-suitcase"></i><i class="fas fa-fist-raised"></i
+            ><span class="tooltiptext bottom"
+              >Ausrüstung und Inventar</span
+            ></span
+          >
+        </a>
+        <a class="item" data-tab="notes"
+          ><span class="tooltip"
+            ><i class="fas fa-book"></i
+            ><span class="tooltiptext bottom">Notizen</span></span
+          ></a
+        >
+      </nav>
+    </section>
+
+    <!--Statblock-->
+    <section class="tab stats" data-group="primary" data-tab="stats">
+      {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
+    </section>
+
+    <!--Items-->
+    <section class="tab items" data-group="primary" data-tab="items">
+      {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
+      {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
+    </section>
+
+    <!--Notizen-->
+
+    <section
+      class="tab notes sheet-content"
+      data-group="primary"
+      data-tab="notes"
+    >
+      <div class="flex fcol2">
+        <div class="desc-content">
+          <h2>Beschreibung</h2>
+          {{editor content=data.data.description target="data.description"
+          button=true owner=owner editable=editable rollData=rollData}}
+        </div>
+        <div class="desc-content">
+          <h2>Notizen</h2>
+          {{editor content=data.data.notes target="data.notes" button=true
+          owner=owner editable=editable rollData=rollData}}
+        </div>
+      </div>
+
+      <!-- DEBUG ITEM LIST -->
+      <!-- 
         <div>
-            <img class="actorimg" style="max-width: 100px;" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-            <h3 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h3>
-            <div class="grid col2 gridcenter">
-                <div class="flex column">
-                    <span>Kompetenz</span>
-                    <input class="value-box" name="data.Kompetenz" value="{{data.data.Kompetenz}}" type="number">
-                </div>
-                <div class="flex column">
-                    <span>Kampfkraft</span>
-                    <input class="value-box" name="data.Kampfkraft" value="{{data.data.Kampfkraft}}" type="number">
-                    
-                </div>
-                <div class="flex column">
-                    <span>Tech</span>
-                    <input class="value-box" name="data.Tech" value="{{data.data.Tech}}" type="number">
-                    
-                </div>
-                <div class="flex column">
-                    <span>Initiative</span>
-                    <input disabled value="{{data.data.initiative}}W" type="text"></input>
-                </div>
-            </div>
-        </div>
-
-        
-        <div>
-
-            {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-fastCombat.html"}}
-
-        </div>
-    </div>
-</div>
-
-    {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
-
-    <div>
-        <div class="grid col2">
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-weapons.html"}}
-            {{> "systems/darkspace/templates/partials/sub-partials/combat-armor.html"}}
-        </div>
-        {{> "systems/darkspace/templates/partials/sub-partials/items-item.html"}}
-    </div>
-    
-
-    
-    
-    
+        <ul class="item-list">
+          {{#each items}}
+          <li class="item" data-item-id="{{this._id}}">
+            {{name}}
+            <a class="item-control itemDelete" title="Delete Item"
+              ><i class="fas fa-trash"></i
+            ></a>
+          </li>
+          {{/each}}
+        </ul>
+      </div> -->
+    </section>
+  </section>
 </form>

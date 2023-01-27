@@ -1,31 +1,23 @@
 <div>
-    
-    <hr>
-    <ul>
-        <li class="grid col2">
-            <span></span>
-            <!-- <span class="cell_c"><i class="fas fa-edit"></i></span> -->
-            <span class="cell_c"><i class="fas fa-trash"></i></span>
-        </li>
-        {{#each this}}
-        
-        {{#each this}}
-        <li class="item grid col2" data-item-id="{{this._id}}">
-            <span class="itemname" draggable="true">
-                
-                {{#ifEquals data.type "Eigenschaft"}}
-                <i class="fas fa-dna"></i>
-                {{/ifEquals}}
-
-                {{#ifEquals data.type "Artifizierung"}}
-                <i class="fas fa-user-cog"></i>
-                {{/ifEquals}}
-                {{this.name}}</span>
-            <!-- <span></span> -->
-            <input type="checkbox" class="cell_c" data-item-id="{{this.id}}">
-        </li>
-        {{/each}}
-        {{/each}}
-        
-    </ul>
+  <hr />
+  <ul>
+    <li class="grid col2">
+      <span></span>
+      <!-- <span class="cell_c"><i class="fas fa-edit"></i></span> -->
+      <span class="cell_c"><i class="fas fa-trash"></i></span>
+    </li>
+    {{#each this}} {{#each this}}
+    <li class="item grid col2" data-item-id="{{this._id}}">
+      <span class="itemname" draggable="true">
+        {{#ifEquals data.type "Eigenschaft"}}
+        <i class="fas fa-dna"></i>
+        {{/ifEquals}} {{#ifEquals data.type "Artifizierung"}}
+        <i class="fas fa-user-cog"></i>
+        {{/ifEquals}} {{this.name}}</span
+      >
+      <!-- <span></span> -->
+      <input type="checkbox" class="cell_c" data-item-id="{{this.id}}" />
+    </li>
+    {{/each}} {{/each}}
+  </ul>
 </div>

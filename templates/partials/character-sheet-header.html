@@ -21,7 +21,11 @@
       />
     </h2>
   </div>
-
+  {{#ifEquals data.type "DrohneFahrzeug"}}
+  <div class="grid col2 borderbox round">
+    {{>"systems/darkspace/templates/partials/MKSize.html"}}
+  </div>
+  {{/ifEquals}}
   <!-- Zustandsmonitor -->
   <div>
     {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}

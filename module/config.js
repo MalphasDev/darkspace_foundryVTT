@@ -33,6 +33,19 @@ const accessTempTree = () => {
   });
 
   tempTree.then((a) => {
+    let attrListNpc = Object.keys(a.Actor.Nebencharakter.charattribut);
+    let skillListNpc = [];
+    darkspace.attrNpc = attrListNpc;
+
+    attrListNpc.forEach((attr) => {
+      skillListNpc = skillListNpc.concat(
+        Object.keys(a.Actor.Nebencharakter.charattribut[attr].skill)
+      );
+    });
+    darkspace.skillListNpc = skillListNpc.sort();
+  });
+
+  tempTree.then((a) => {
     let attrListAi = Object.keys(a.Actor.KI.charattribut);
     let skillListAi = [];
     darkspace.attrAi = attrListAi;

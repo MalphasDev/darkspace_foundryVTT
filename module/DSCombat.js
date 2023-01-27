@@ -80,18 +80,34 @@ export default class DSCombat extends Combat {
           })
         )[0];
 
+        let iniId;
+        if (currentCombatant.actor.data.type === "Charakter") {
+          iniId = "Fokus";
+        }
+        if (currentCombatant.actor.data.type === "Nebencharakter") {
+          iniId = "Angriff";
+        }
+        if (currentCombatant.actor.data.type === "DrohneFahrzeug") {
+          iniId = "Cortex";
+        }
+        if (currentCombatant.actor.data.type === "KI") {
+          iniId = "Fokus";
+        }
+
         let inputData = {
           eventData: {},
           actorId: currentCombatant.id,
           actorData: actorData,
           removehighest: false,
           object: {},
-          dynattr:
-            currentCombatant.actor.data.data.charattribut.Aufmerksamkeit
-              .attribut,
-          dynskill:
-            currentCombatant.actor.data.data.charattribut.Aufmerksamkeit.skill
-              .Fokus,
+          dynattr: DSMechanics.getStat(
+            iniId,
+            currentCombatant.actor.data.data.charattribut
+          ).attr,
+          dynskill: DSMechanics.getStat(
+            iniId,
+            currentCombatant.actor.data.data.charattribut
+          ).fert,
           roleData: { attribute: "Aufmerksamkeit", skill: "Fokus" },
         };
 

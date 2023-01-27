@@ -1,33 +1,43 @@
 <form class="{{cssClass}} item" autocomplete="off">
-<header class="sheet-header">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
-    <h1><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-
-</header>
-<div class="sheet-content">
+  <header class="sheet-header">
+    <img
+      class="profile-img"
+      src="{{item.img}}"
+      data-edit="img"
+      title="{{item.name}}"
+      height="64"
+      width="64"
+    />
+    <h1>
+      <input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+    </h1>
+  </header>
+  <div class="sheet-content">
     <div class="grid col2 gridcenter">
-        
-        <select name="data.attribut">
-            {{#select data.data.attribut}}
-                {{#each config.attr as |name attrname|}}
-                    <option value="{{attrname}}" type="text">{{name}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-        <div>
-            <h3>Voraussetzung</h3>
-            <input style="width: 20ch" name="data.skill" type="text" value="{{data.data.skill}}">
-            <input name="data.requirement" type="number" value="{{data.data.requirement}}">
-
-        </div>
-
-
-        
+      <select name="data.attribut">
+        {{#select data.data.attribut}} {{#each config.attr as |name attrname|}}
+        <option value="{{attrname}}" type="text">{{name}}</option>
+        {{/each}} {{/select}}
+      </select>
+      <div>
+        <h3>Voraussetzung</h3>
+        <input
+          style="width: 20ch"
+          name="data.useWith"
+          type="text"
+          value="{{data.data.useWith}}"
+        />
+        <input
+          name="data.requirement"
+          type="number"
+          value="{{data.data.requirement}}"
+        />
+      </div>
     </div>
-    <hr>
+    <hr />
     <div class="desc-content">
-        {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
+      {{editor content=data.data.description target="data.description"
+      button=true owner=owner editable=editable rollData=rollData}}
     </div>
-    
-</div>
+  </div>
 </form>
