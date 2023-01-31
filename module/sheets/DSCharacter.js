@@ -22,6 +22,8 @@ export default class DSCharacter extends Actor {
     const attr = this.data.data.charattribut;
     const config = CONFIG.darkspace;
 
+    data.config = config;
+    const armorMultiplier = [1, 2, 4, 6, 8];
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
 
@@ -39,93 +41,57 @@ export default class DSCharacter extends Actor {
       }
     }
 
+    var weaponList = actorData.items.filter((f) => {
+      return f.type === "Waffe";
+    });
+    var armorList = actorData.items.filter((i) => {
+      return i.data.type === "Panzerung";
+    });
+    var artList = actorData.items.filter((i) => {
+      return i.data.type === "Artifizierung";
+    });
+    let armorId;
+    let armorCortex;
+
+    const armorSize = [
+      armorList
+        .map((e) => {
+          return e.data.data.size;
+        })
+        .sort((a, b) => {
+          return b - a;
+        })[0],
+      0,
+    ].sort((a, b) => {
+      return b - a;
+    })[0];
+    const armorMk = [
+      armorList
+        .map((e) => {
+          return e.data.data.mk;
+        })
+        .sort((a, b) => {
+          return b - a;
+        })[0],
+      0,
+    ].sort((a, b) => {
+      return b - a;
+    })[0];
     // Zustand
 
     if (this.type != "DrohneFahrzeug") {
-      var weaponList = actorData.items.filter((f) => {
-        return f.type === "Waffe";
-      });
-      var armorList = actorData.items.filter((i) => {
-        return i.data.type === "Panzerung";
-      });
-      var artList = actorData.items.filter((i) => {
-        return i.data.type === "Artifizierung";
-      });
-      var artList = actorData.items.filter((i) => {
-        return i.data.type === "Artifizierung";
-      });
-
       // Panzerung
 
-      let armorId;
       if (this.type === "Charakter") {
         armorId = "Fitness";
       }
       if (this.type === "Nebencharakter") {
         armorId = "Kraft";
       }
-
-      const armorSize = [
-        armorList
-          .map((e) => {
-            return e.data.data.size;
-          })
-          .sort((a, b) => {
-            return b - a;
-          })[0],
-        0,
-      ].sort((a, b) => {
-        return b - a;
-      })[0];
-      const armorMk = [
-        armorList
-          .map((e) => {
-            return e.data.data.mk;
-          })
-          .sort((a, b) => {
-            return b - a;
-          })[0],
-        0,
-      ].sort((a, b) => {
-        return b - a;
-      })[0];
-
-      let armorMultiplier = [1, 2, 4, 6, 8];
-
-      data.hitArray = [
-        this.getStat(armorId).attr * armorMultiplier[0] +
-          this.getStat(armorId).fert +
-          armorSize +
-          armorMk,
-        this.getStat(armorId).attr * armorMultiplier[1] +
-          this.getStat(armorId).fert +
-          armorSize +
-          armorMk,
-        this.getStat(armorId).attr * armorMultiplier[2] +
-          this.getStat(armorId).fert +
-          armorSize +
-          armorMk,
-        this.getStat(armorId).attr * armorMultiplier[3] +
-          this.getStat(armorId).fert +
-          armorSize +
-          armorMk,
-        this.getStat(armorId).attr * armorMultiplier[4] +
-          this.getStat(armorId).fert +
-          armorSize +
-          armorMk,
-      ];
-
-      // Waffenloser Kampf
-      data.unarmedName = "Waffenloser Kampf";
+      armorCortex = "Synthese";
     }
     //
     if (this.type === "Charakter" || this.type === "KI") {
-      if (this.type === "Charakter") {
-        data.unarmedDmg =
-          10 +
-          Math.max(this.getStat("Fitness").attr, this.getStat("Motorik").attr);
-      }
-
       // Unterhalt und Wohlstand
       let ownedItems = actorData.items.filter((i) => {
         return (
@@ -177,10 +143,6 @@ export default class DSCharacter extends Actor {
       });
     }
 
-    // Erholung
-
-    // Waffenloser Durchschlag
-
     // Erfahrung
 
     if (this.type === "Nebencharakter") {
@@ -190,21 +152,23 @@ export default class DSCharacter extends Actor {
         this.getStat("Angriff").fert;
     }
 
+    // +++++++++++++++++++
+    // ++++ Fahrzeuge ++++
+    // +++++++++++++++++++
+
     if (this.type === "DrohneFahrzeug") {
       data.initiative =
         this.getStat("Bots").attr + "d10x10kh2+" + this.getStat("Bots").fert;
 
-      // Waffenloser Durchschlag
-      data.unarmedHide = true;
-
-      let armorMultiplier = [1, 2, 4, 6, 8];
-      data.vehicleArmor = [
-        (data.size + data.mk) * armorMultiplier[0],
-        (data.size + data.mk) * armorMultiplier[1],
-        (data.size + data.mk) * armorMultiplier[2],
-        (data.size + data.mk) * armorMultiplier[3],
-        (data.size + data.mk) * armorMultiplier[4],
+      data.hitArrayTech = [
+        data.size * armorMultiplier[0] + data.mk,
+        data.size * armorMultiplier[1] + data.mk,
+        data.size * armorMultiplier[2] + data.mk,
+        data.size * armorMultiplier[3] + data.mk,
+        data.size * armorMultiplier[4] + data.mk,
       ];
+
+      armorCortex = "Cortex";
 
       // Passagiere und Fracht
 
@@ -214,6 +178,41 @@ export default class DSCharacter extends Actor {
       data.passengerCargo = data.passenger + data.cargo;
       data.crewNumber = "Fertigkeitsstufe " + Math.min(data.mk, data.size);
     }
+
+    data.hitArray = [
+      this.getStat(armorId).attr * armorMultiplier[0] +
+        this.getStat(armorId).fert +
+        armorSize +
+        armorMk,
+      this.getStat(armorId).attr * armorMultiplier[1] +
+        this.getStat(armorId).fert +
+        armorSize +
+        armorMk,
+      this.getStat(armorId).attr * armorMultiplier[2] +
+        this.getStat(armorId).fert +
+        armorSize +
+        armorMk,
+      this.getStat(armorId).attr * armorMultiplier[3] +
+        this.getStat(armorId).fert +
+        armorSize +
+        armorMk,
+      this.getStat(armorId).attr * armorMultiplier[4] +
+        this.getStat(armorId).fert +
+        armorSize +
+        armorMk,
+    ];
+    data.hitArrayCortex = [
+      this.getStat(armorCortex).attr * armorMultiplier[0] +
+        this.getStat(armorCortex).fert * 2,
+      this.getStat(armorCortex).attr * armorMultiplier[1] +
+        this.getStat(armorCortex).fert * 2,
+      this.getStat(armorCortex).attr * armorMultiplier[2] +
+        this.getStat(armorCortex).fert * 2,
+      this.getStat(armorCortex).attr * armorMultiplier[3] +
+        this.getStat(armorCortex).fert * 2,
+      this.getStat(armorCortex).attr * armorMultiplier[4] +
+        this.getStat(armorCortex).fert * 2,
+    ];
     this.expCounter();
   }
 
@@ -255,6 +254,7 @@ export default class DSCharacter extends Actor {
       attrList = config.attrVehicle;
       skillList = config.skillListVehicle;
     }
+
     attrList.forEach((attrIdent) => {
       let attributName = attr;
       let attrWert = attributName[attrIdent].attribut;

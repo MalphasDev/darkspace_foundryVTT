@@ -29,7 +29,6 @@ export default class DSItemSheet extends ItemSheet {
     /* html.find(cssSelector).event(this._someCallBack.bind(this)); <---- Template */
 
     super.activateListeners(html);
-    html.find(".directRoll").click(this._onDirectRoll.bind(this));
     html.find(".ressPoints").click(this._ressPoints.bind(this));
     html.find(".incRess, .decRess").click(this._onModRess.bind(this));
     html.find(".addProp").click(this._addProperty.bind(this));

@@ -63,7 +63,7 @@ async function preloadHandlebarsTemplates() {
     "systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html",
 
     //Dialog
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogMkSize.html",
+    "systems/darkspace/templates/dice/dialog-sub-partials/dialogMKSize.html",
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogName.html",
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogDescMod.html",
     "systems/darkspace/templates/dice/dialog-sub-partials/dialogWeapon.html",
@@ -92,6 +92,8 @@ Hooks.once("init", function () {
   CONFIG.Item.documentClass = DSItem;
   CONFIG.ui.chat = DSChatlog;
   const iconFolder = "systems/darkspace/icons/";
+
+  console.log({ ...DSItem, ...DSCharacter });
 
   /* Defining the status effects that can be applied to tokens. */
   CONFIG.statusEffects = [
@@ -167,14 +169,49 @@ Hooks.once("init", function () {
     }
     return result;
   });
-  Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
-    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
-  });
-  Handlebars.registerHelper("unlessEquals", function (arg1, arg2, options) {
-    return arg1 != arg2 ? options.fn(this) : options.inverse(this);
-  });
+
   Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
     return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
+  });
+  Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+    switch (operator) {
+      case "==":
+        return v1 == v2 ? options.fn(this) : options.inverse(this);
+      case "===":
+        return v1 === v2 ? options.fn(this) : options.inverse(this);
+      case "!=":
+        return v1 != v2 ? options.fn(this) : options.inverse(this);
+      case "!==":
+        return v1 !== v2 ? options.fn(this) : options.inverse(this);
+      case "<":
+        return v1 < v2 ? options.fn(this) : options.inverse(this);
+      case "<=":
+        return v1 <= v2 ? options.fn(this) : options.inverse(this);
+      case ">":
+        return v1 > v2 ? options.fn(this) : options.inverse(this);
+      case ">=":
+        return v1 >= v2 ? options.fn(this) : options.inverse(this);
+      case "&&":
+        return v1 && v2 ? options.fn(this) : options.inverse(this);
+      case "||":
+        return v1 || v2 ? options.fn(this) : options.inverse(this);
+      default:
+        return options.inverse(this);
+    }
+  });
+  Handlebars.registerHelper({
+    eq: (v1, v2) => v1 === v2,
+    ne: (v1, v2) => v1 !== v2,
+    lt: (v1, v2) => v1 < v2,
+    gt: (v1, v2) => v1 > v2,
+    lte: (v1, v2) => v1 <= v2,
+    gte: (v1, v2) => v1 >= v2,
+    and() {
+      return Array.prototype.every.call(arguments, Boolean);
+    },
+    or() {
+      return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+    },
   });
 });
 

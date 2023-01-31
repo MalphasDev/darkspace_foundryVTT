@@ -1,9 +1,19 @@
 <div>
   {{#select data.data.useWith}}
   <select name="data.useWith" class="container_center">
-    {{#each config.skillList}}
+    {{#ifCond this.item.parent.type "===" "Charakter"}} {{#each
+    config.skillList}}
     <option value="{{this}}" type="text">{{this}}</option>
-    {{/each}}
+    {{/each}} {{/ifCond}} {{#ifCond this.item.parent.type "==="
+    "Nebencharakter"}} {{#each config.skillListNpc}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}} {{/ifCond}} {{#ifCond this.item.parent.type "==="
+    "DrohneFahrzeug"}} {{#each config.skillListVehicle}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}} {{/ifCond}} {{#ifCond this.item.parent.type "===" "KI"}} {{#each
+    config.attrListAi}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}} {{/ifCond}}
   </select>
   {{/select}}
 </div>

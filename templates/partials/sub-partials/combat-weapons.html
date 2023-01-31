@@ -6,24 +6,15 @@
     <li class="item" data-item-id="{{this._id}}">
       <div>
         <div class="grid col-weapons">
-          <span>
-            <img
-              class="d10-symbol rollItem"
-              data-rolltype="combat"
-              data-itemid="{{this._id}}"
-              data-modroll="false"
-              src="systems/darkspace/icons/d10.svg"
-            />
-            <img
-              class="d10-symbol rollItem"
-              data-rolltype="combat"
-              data-itemid="{{this._id}}"
-              data-modroll="true"
-              src="systems/darkspace/icons/d10edit.svg"
-            />
-          </span>
 
-          <span class="itemEdit pointer">{{this.name}}</span>
+
+          <span
+          class="itemname rollItem"
+          draggable="true"
+          data-itemid="{{this._id}}"
+          ></i> {{this.name}}
+          <span class="anmerkung">({{this.data.useWith}})</span></span
+        >
 
           <span class="derivedValue"
             ><i class="fas fa-bolt"></i> {{this.data.dmg}}</span

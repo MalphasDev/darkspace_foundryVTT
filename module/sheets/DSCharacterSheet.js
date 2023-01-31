@@ -13,6 +13,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     Panzerung: "systems/darkspace/templates/dice/chatArmor.html",
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
   };
+
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       template:
@@ -68,22 +69,32 @@ export default class DSCharakcterSheet extends ActorSheet {
       ".itemDelete",
       ".rollSkill",
       ".rollItem",
-      ".customRoll",
-      ".changeProp",
-      ".unarmedCombat",
-      ".directRoll",
       ".ressPoints",
       ".ressReset",
     ];
-
+    window.oncontextmenu = (e) => {
+      e.preventDefault();
+      if (e.target.className.includes("rollSkill")) {
+        this._rollSkill(e, { rightClick: true });
+      }
+      if (e.target.className.includes("rollItem")) {
+        this._rollItem(e, { rightClick: true });
+      }
+    };
     classIdent.forEach((ident) => {
+      console.log("Start Class Ident");
       eval(
         `html.find("${ident}").click(this.${
           "_" + ident.substring(1)
         }.bind(this))`
       );
     });
+    /* A drag and drop function. */
     if (this.actor.owner) {
+      /**
+       * When the user starts dragging, call the _onDragStart function.
+       * @param ev - The event object
+       */
       let handler = (ev) => this._onDragStart(ev);
       // Find all items on the character sheet.
       html.find("li.item").each((i, li) => {
@@ -96,134 +107,73 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
   }
 
-  createInputData(event) {
+  createInputData(event, option) {
     event.preventDefault();
-    const element = event.currentTarget;
+    !option ? (option = {}) : option;
+    const element = option.rightClick ? event.target : event.currentTarget;
     const actorData = this.object.data.data;
-    let inputData = {
+    const dataset = element.dataset;
+
+    console.log(dataset.context);
+
+    console.log(this[dataset.context]);
+
+    const inputData = {
       eventData: element,
       actorId: this.actor.id,
+      dynattr: DSMechanics.getStat(dataset.skill, actorData.charattribut).attr,
+      dynskill: DSMechanics.getStat(dataset.skill, actorData.charattribut).fert,
       actorData: actorData,
+      roleData: {
+        attribute: DSMechanics.getStat(dataset.skill, actorData.charattribut)
+          .attrName,
+        skill: DSMechanics.getStat(dataset.skill, actorData.charattribut)
+          .fertName,
+        rollname: false,
+      },
       removehighest: element.className.includes("disadv"),
+      modroll: option.rightClick,
       object: this.object,
     };
 
     return inputData;
   }
 
-  async _rollSkill(event) {
+  async _rollSkill(event, option) {
     event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
-    const actorData = this.object.data.data;
+    const preCreatedInput = this.createInputData(event, option);
 
-    var roleData = {
-      attribute: DSMechanics.getStat(dataset.skill, actorData.charattribut)
-        .attrName,
-      skill: DSMechanics.getStat(dataset.skill, actorData.charattribut)
-        .fertName,
-      rollname: false,
-    };
-
-    if (dataset.rollname) {
-      roleData = { ...roleData, rollname: dataset.rollname };
-    }
-
-    // if (this.actor.type === "DrohneFahrzeug") {
-    //   dynattr = actorData[dataset.attr];
-    //   dynskill = actorData[dataset.skill];
-
-    //   roleData = { attribute: "", skill: "Modulklasse" };
-    // } else {
-    //   if (dataset.rolltype != "cybernetic") {
-    //     dynattr = actorData.charattribut[dataset.attr].attribut;
-    //     dynskill = actorData.charattribut[dataset.attr].skill[dataset.skill];
-    //   } else {
-    //     dynattr = actorData.miscData.Kybernese.attribut;
-    //     dynskill = actorData.miscData.Kybernese.bonus;
-    //     roleData = { attribute: "Kybernese", skill: "Artfizierung" };
-    //   }
-    // }
-
-    // ------------------------- //
-    // Bau des Übergabe-Objektes //
-    // ------------------------- //
-
-    let preCreatedInput = this.createInputData(event);
-    var inputData = {
+    const inputData = {
       ...preCreatedInput,
-      dynattr: DSMechanics.getStat(dataset.skill, actorData.charattribut).attr,
-      dynskill: DSMechanics.getStat(dataset.skill, actorData.charattribut).fert,
-      roleData: roleData,
-      object: this.object,
       type: "Skill",
     };
     DSMechanics.modRolls(inputData);
   }
 
-  async _customRoll(event) {
+  async _rollItem(event, option) {
     event.preventDefault();
-    const element = event.currentTarget;
-    const actorData = this.object.data.data;
+    !option ? (option = {}) : option;
+    const element = option.rightClick ? event.target : event.currentTarget;
     const dataset = element.dataset;
+    const actorData = this.object.data;
+    const item = this.actor.items.filter((item) => {
+      return item.id === dataset.itemid;
+    })[0];
 
-    let dynattr = actorData.customroll.dice;
-    let dynskill = actorData.customroll.bonus;
-    let roleData = { attribute: "", skill: "" };
+    const stat = DSMechanics.getStat(
+      item.data.data.useWith,
+      actorData.data.charattribut
+    );
 
-    let preCreatedInput = this.createInputData(event);
-    let inputData = {
+    const preCreatedInput = this.createInputData(event, option);
+    const inputData = {
       ...preCreatedInput,
-      dynattr: dynattr,
-      dynskill: dynskill,
-      roleData: roleData,
-      type: "Custom",
-    };
-
-    DSMechanics._resolveDice(inputData, event);
-  }
-
-  async _unarmedCombat(event) {
-    event.preventDefault();
-    const actorData = this.object.data.data;
-
-    if (this.object.data.type === "Charakter") {
-      var dynattr = actorData.charattribut.Geschick.attribut;
-      var dynskill = actorData.charattribut.Geschick.skill.Kampftechnik;
-      var roleData = { attribute: "Geschick", skill: "Kampftechnik" };
-    }
-    if (this.object.data.type === "Nebencharakter") {
-      var dynattr = actorData.charattribut.Kampf.attribut;
-      var dynskill = actorData.charattribut.Kampf.skill.Angriff;
-      var roleData = { attribute: "Nahkampf", skill: "Kampftechnik" };
-    }
-
-    let preCreatedInput = this.createInputData(event);
-    let inputData = {
-      ...preCreatedInput,
-      dynattr: dynattr,
-      dynskill: dynskill,
-      roleData: roleData,
-      type: "Unarmed",
-    };
-
-    DSMechanics.modRolls(inputData);
-  }
-  async _directRoll(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
-    let dynattr = parseInt(dataset.dice);
-    let dynskill = parseInt(dataset.bonus);
-    var roleData = { attribute: dataset.attr, skill: dataset.rollname };
-
-    let preCreatedInput = this.createInputData(event);
-    let inputData = {
-      ...preCreatedInput,
-      dynattr: dynattr,
-      dynskill: dynskill,
-      roleData: roleData,
-      type: "Custom",
+      dynattr: stat.attr,
+      dynskill: stat.fert,
+      roleData: { attribute: stat.attrName, skill: stat.fertName },
+      modroll: option.rightClick,
+      item: item,
+      type: item.type,
     };
 
     DSMechanics.modRolls(inputData);
@@ -232,41 +182,6 @@ export default class DSCharakcterSheet extends ActorSheet {
   // ----------------------- //
   // -------- ITEMS -------- //
   // ----------------------- //
-
-  async _rollItem(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
-
-    const actorData = this.object.data;
-
-    const itemId = element.closest(".item").dataset.itemId;
-    const item = this.actor.items.filter((item) => {
-      return item.id === itemId;
-    })[0];
-    const activeItem = actorData.items.filter((f) => {
-      return f.id === dataset.itemid;
-    })[0];
-    var skillident = activeItem.data.data.useWith; // Holt den benötigten Skill aus dem Waffenbutton
-    var attrident = ""; // Legt Identifikator für Attribut an
-
-    var roleData = { attribute: attrident, skill: skillident };
-    const stat = DSMechanics.getStat(skillident, actorData.data.charattribut);
-
-    let preCreatedInput = this.createInputData(event);
-
-    let inputData = {
-      ...preCreatedInput,
-      dynattr: stat.attr,
-      dynskill: stat.fert,
-      roleData: roleData,
-      modroll: element.dataset.modroll,
-      item: item,
-      type: item.type,
-    };
-
-    DSMechanics.modRolls(inputData);
-  }
 
   _itemEdit(event) {
     event.preventDefault();
@@ -316,63 +231,6 @@ export default class DSCharakcterSheet extends ActorSheet {
       id: this.actor.id,
       [attrKey]: newInc,
     });
-  }
-  async _changeProp(event) {
-    const actordata = this.actor.data.data;
-    const element = event.currentTarget;
-
-    const parentAttr = element.dataset.parentattr;
-
-    // i.type === "Artifizierung"
-
-    //const ressMod = await renderTemplate("systems/darkspace/templates/dice/dialogRessMod.html");
-
-    // Testet welcher Property-Button gedrückt wurde //
-
-    if (element.dataset.fieldtype === "editAttr") {
-      const parentSkill = Object.keys(actordata.charattribut[parentAttr].skill);
-      var parentProp = {};
-      parentSkill.forEach((skill) => {
-        parentProp = {
-          ...parentProp,
-          [skill]: this.actor.data.items.filter(
-            (i) => i.data.data.skill === skill
-          ),
-        };
-      });
-      const editAttr = await renderTemplate(
-        "systems/darkspace/templates/dice/dialogPropAttr.html",
-        parentProp
-      );
-      new Dialog(
-        {
-          title: "Eigenschaften",
-          content: editAttr,
-
-          buttons: {
-            button1: {
-              label: "OK",
-              callback: (html) => {
-                Array.from(html.find("[type=checkbox]")).forEach((checkbox) => {
-                  if (checkbox.checked == true) {
-                    this.actor.deleteEmbeddedDocuments("Item", [
-                      checkbox.dataset.itemId,
-                    ]);
-                  }
-                });
-              },
-              icon: `<i class="fas fa-check"></i>`,
-            },
-          },
-          close: () => {
-            this.actor.update({
-              id: this.actor.id,
-            });
-          },
-        }
-        //{ width: 80 }
-      ).render(true);
-    }
   }
 
   async _itemQuickEdit(event) {
