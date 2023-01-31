@@ -11,6 +11,65 @@ darkspace.iniSend = 0;
 darkspace.dice = "systems/darkspace/icons/d10.svg";
 darkspace.diceEdit = "systems/darkspace/icons/d10edit.svg";
 
+darkspace.bodyConditions = {
+  struck: {
+    name: "Angeschlagen",
+    fontsymbol: "fas fa-dizzy",
+  },
+  ko: {
+    name: "Außer Gefecht",
+    fontsymbol: "fas fa-times-circle",
+  },
+  wounded: {
+    name: "Verwundet",
+    fontsymbol: "fas fa-band-aid",
+  },
+  crippled: {
+    name: "Verkrüppelt",
+    fontsymbol: "fas fa-user-injured",
+  },
+  dead: {
+    name: "Tod",
+    fontsymbol: "fas fa-skull",
+  },
+};
+darkspace.techConditions = {
+  scratched: {
+    name: "Angekratzt",
+    fontsymbol: "fas fa-exclamation-triangle",
+  },
+  unstable: {
+    name: "Instabil",
+    fontsymbol: "fas fa-times-circle",
+  },
+  offline: {
+    name: "Ausgeschaltet",
+    fontsymbol: "fas fa-battery-quarter",
+  },
+  defect: {
+    name: "Defekt",
+    fontsymbol: "fas fa-car-crash",
+  },
+  destroyed: {
+    name: "Zerstört",
+    fontsymbol: "fas fa-ban",
+  },
+};
+darkspace.cortexConditions = {
+  manipulated: {
+    name: "Manipuliert",
+    fontsymbol: "fas fa-exclamation-triangle",
+  },
+  hacked: {
+    name: "Gehackt",
+    fontsymbol: "fas fa-bug",
+  },
+  offline: {
+    name: "Ausgeschaltet",
+    fontsymbol: "fas fa-battery-quarter",
+  },
+};
+
 // Stellt Liste mit Attributen und Fertigkeiten zusammen
 const tempTree = fetch("systems/darkspace/template.json")
   .then((response) => response.json())

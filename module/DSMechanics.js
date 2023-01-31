@@ -4,8 +4,6 @@
  * @returns An object with the following properties:
  */
 export async function rollDice(rollDiceData) {
-  const actorData = rollDiceData.actorData;
-  const actorId = rollDiceData.actorId;
   let dynattr = parseInt(rollDiceData.dynattr);
   let dynskill = parseInt(rollDiceData.dynskill);
   let attrModLocal = parseInt(rollDiceData.attrModLocal);
@@ -27,7 +25,7 @@ export async function rollDice(rollDiceData) {
 
   rollformular = attr + "d10x";
 
-  var rollResult = new Roll(rollformular, actorData);
+  var rollResult = new Roll(rollformular);
   await rollResult.evaluate({ async: true });
 
   const sortedResult = rollResult.terms[0].results
@@ -98,7 +96,10 @@ export async function rollDice(rollDiceData) {
     unEvalDice: unEvalDice,
   };
 
-  if (Object.keys(rollDiceData.object).length != 0) {
+  if (
+    rollDiceData.object != undefined &&
+    Object.keys(rollDiceData.object).length != 0
+  ) {
     var merits = rollDiceData.object.data.items
       .filter((i) => {
         return i.type === "Eigenschaft";
@@ -136,7 +137,6 @@ export async function rollDice(rollDiceData) {
     merits: merits,
     handicaps: handicaps,
     cybernetics: cybernetics,
-    owner: actorId,
     total_AB: total_AB,
     total_BC: total_BC,
     total_AC: total_AC,
@@ -152,7 +152,6 @@ export async function rollDice(rollDiceData) {
       ...diceResult,
       ...resultMessage,
       ...disadvMessage,
-      owner: actorId,
       ...item,
     };
   }
@@ -160,8 +159,8 @@ export async function rollDice(rollDiceData) {
   let outputData = {
     messageData: messageData,
     cardData: cardData,
-    actor: actorData,
   };
+
   return outputData;
 }
 
@@ -172,7 +171,8 @@ export async function modRolls(inputData) {
   const dialogModRolls = await renderTemplate(
     "systems/darkspace/templates/dice/dialogModRolls.html"
   );
-  if (inputData.modroll === "true") {
+
+  if (inputData.modroll === true) {
     new Dialog({
       title: "Modifizierte Probe",
       content: dialogModRolls,
@@ -251,6 +251,7 @@ export async function _resolveDice(inputData) {
       dmg: cardData.data.dmg + cardData.total_BC,
     };
   }
+  console.log("resolveDice", inputData.type);
 
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",

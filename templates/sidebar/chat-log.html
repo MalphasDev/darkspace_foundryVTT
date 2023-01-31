@@ -26,18 +26,25 @@
     
     <div class="customDiceBox">
         <div class="customDiceBoxField">
-            <input type="number" class="customDicePool" value="2"><img style="width: 20px;" src="systems/darkspace/icons/d10.svg"/> + <input type="number" class="customDiceBonus" value="0">
+            <input type="number" class="customDicePool" value="2">W + <input type="number" class="customDiceBonus" value="0">
         </div>
         <div class="flex" style="flex: 1;">
             <button 
                 class="customRoll"             
                 data-disadv="false">
-                <img style="width: 30px;" src="systems/darkspace/icons/d10.svg"/>
+                <span class="tooltip">
+                    <i class="fas fa-reply"></i>
+                    <span class="tooltiptext top">Würfeln</span>
+                </span>
             </button>
             <button 
                 class="customRoll d10disadv"             
                 data-disadv="true">
-                <img style="width: 30px;" src="systems/darkspace/icons/d10disadv.svg"/>
+                <span class="tooltip">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="tooltiptext top">Würfeln mit Erschwernis</span>
+                </span>
+                
             </button>
         </div>
         

@@ -9,11 +9,11 @@
     {{#each this}} {{#each this}}
     <li class="item grid col2" data-item-id="{{this._id}}">
       <span class="itemname" draggable="true">
-        {{#ifEquals data.type "Eigenschaft"}}
+        {{#ifCond data.type "===" "Eigenschaft"}}
         <i class="fas fa-dna"></i>
-        {{/ifEquals}} {{#ifEquals data.type "Artifizierung"}}
+        {{/ifCond}} {{#ifCond data.type "===" "Artifizierung"}}
         <i class="fas fa-user-cog"></i>
-        {{/ifEquals}} {{this.name}}</span
+        {{/ifCond}} {{this.name}}</span
       >
       <!-- <span></span> -->
       <input type="checkbox" class="cell_c" data-item-id="{{this.id}}" />

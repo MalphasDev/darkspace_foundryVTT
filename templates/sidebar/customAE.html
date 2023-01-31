@@ -1,49 +1,68 @@
-
 {{#if combat.uiButton}}
 <div class="grid col2-13">
-    <a class="combat-control cell_c aeCost" title="Zurücksetzen" data-aeCost=0><i class="fas fa-undo"></i> Reset</a>
-    <div class="block">
-        <div class="flex between">
-            <a class="combat-control center aeCost" title="aeCost1" data-aeCost=1>+1 AE</a>
-            <a class="combat-control center aeCost" title="aeCost2" data-aeCost=2>+2 AE</a>
-            <a class="combat-control center aeCost" title="aeCost4" data-aeCost=4>+4 AE</a>
-        </div>
-        <div class="flex between">
-            <a class="combat-control center aeCost" title="aeCost6" data-aeCost=6>+6 AE</a>
-            <a class="combat-control center aeCost" title="aeCost8" data-aeCost=8>+8 AE</a>
-            <a class="combat-control center aeCost" title="aeCost10" data-aeCost=10>+10 AE</a>
-        </div>
+  <a class="combat-control cell_c aeCost" title="Zurücksetzen" data-aeCost="0"
+    ><i class="fas fa-undo"></i> Reset</a
+  >
+  <div class="block">
+    <div class="flex between">
+      <a class="combat-control center aeCost" title="aeCost1" data-aeCost="1"
+        >+1 AE</a
+      >
+      <a class="combat-control center aeCost" title="aeCost2" data-aeCost="2"
+        >+2 AE</a
+      >
+      <a class="combat-control center aeCost" title="aeCost4" data-aeCost="4"
+        >+4 AE</a
+      >
     </div>
+    <div class="flex between">
+      <a class="combat-control center aeCost" title="aeCost6" data-aeCost="6"
+        >+6 AE</a
+      >
+      <a class="combat-control center aeCost" title="aeCost8" data-aeCost="8"
+        >+8 AE</a
+      >
+      <a class="combat-control center aeCost" title="aeCost10" data-aeCost="10"
+        >+10 AE</a
+      >
+    </div>
+  </div>
 </div>
 
+<div></div>
+{{/if}} {{#if combat.uiSlider}}
 <div>
+  <input
+    type="range"
+    min="1"
+    max="20"
+    value="{{combat.sendAE}}"
+    list="tickmarks"
+    name="ae_cost_slider"
+    data-type="Number"
+    class="aeCost"
+    id="ae_slider"
+  />
 </div>
 {{/if}}
-
-{{#if combat.uiSlider}}
-<div>
-    <input type="range" min="1" max=20 value="{{combat.sendAE}}" list="tickmarks" name="ae_cost_slider" data-type="Number" class="aeCost" id="ae_slider">
+<hr />
+<div class="flex evenly doublesize {{#ifCond combat.sendAE ">
+  =" 5}}target{{/ifCond}}"> <span>{{combat.sendAE}} AE</span> {{#if
+  combat.newIni}}<span class="anmerkung" style="font-size: 0.75em"
+    ><i class="fas fa-arrow-right"></i> {{combat.newIni}} AE</span
+  >{{/if}}
 </div>
-{{/if}}
-<hr>
-<div class="flex evenly doublesize {{#ifGE combat.sendAE 5}}target{{/ifGE}}">
-    <span>{{combat.sendAE}} AE</span> {{#if combat.newIni}}<span class="anmerkung" style="font-size: 0.75em;"><i class="fas fa-arrow-right"></i> {{combat.newIni}} AE</span>{{/if}}
-</div>
-<hr>
+<hr />
 <div class="grid col2">
-    <a class="wait">
-        <i class="fas fa-clock"></i>
-        <span>Warten</span>
-    </a>
-    <div class="sendAeBtn">
-        <h3>
-            <a id="sendAeBtn_text" class="sendAE">
-                <i class="fas fa-angle-double-right"></i> Abschicken
-            </a>
-        </h3>
-    </div>
+  <a class="wait">
+    <i class="fas fa-clock"></i>
+    <span>Warten</span>
+  </a>
+  <div class="sendAeBtn">
+    <h3>
+      <a id="sendAeBtn_text" class="sendAE">
+        <i class="fas fa-angle-double-right"></i> Abschicken
+      </a>
+    </h3>
+  </div>
 </div>
-
-
-
-    

@@ -4,26 +4,13 @@
     {{#each Werkzeug}}
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
-        <span>
-          <span>
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="false"
-              src="systems/darkspace/icons/d10.svg"
-            />
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="true"
-              src="systems/darkspace/icons/d10edit.svg"
-            />
-          </span>
-
-          <span class="itemname itemEdit pointer" draggable="true"
-            ><i class="fas fa-toolbox"></i> {{this.name}} </span
-          ><span class="anmerkung">({{this.data.useWith}})</span>
-        </span>
+        <span
+          class="itemname rollItem"
+          draggable="true"
+          data-itemid="{{this._id}}"
+          ><i class="fas fa-tablet-alt"></i> {{this.name}}
+          <span class="anmerkung">({{this.data.useWith}})</span></span
+        >
 
         <span
           ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
@@ -41,27 +28,13 @@
     {{/each}} {{#each Terminals}}
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
-        <span>
-          <span>
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="false"
-              src="systems/darkspace/icons/d10.svg"
-            />
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="true"
-              src="systems/darkspace/icons/d10edit.svg"
-            />
-          </span>
-
-          <span class="itemname itemEdit pointer" draggable="true"
-            ><i class="fas fa-tablet-alt"></i> {{this.name}}
-            <span class="anmerkung">({{this.data.useWith}})</span></span
-          >
-        </span>
+        <span
+          class="itemname rollItem"
+          draggable="true"
+          data-itemid="{{this._id}}"
+          ><i class="fas fa-tablet-alt"></i> {{this.name}}
+          <span class="anmerkung">({{this.data.useWith}})</span></span
+        >
         <span
           ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
             class="fas fa-microchip"
@@ -79,23 +52,11 @@
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
         <span
-          ><span>
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="false"
-              src="systems/darkspace/icons/d10.svg"
-            />
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="true"
-              src="systems/darkspace/icons/d10edit.svg"
-            /> </span
-          ><span class="itemname itemEdit pointer" draggable="true"
-            ><i class="fas fa-first-aid"></i> {{this.name}}
-            <span class="anmerkung">({{this.data.useWith}})</span></span
-          ></span
+          class="itemname rollItem"
+          draggable="true"
+          data-itemid="{{this._id}}"
+          ><i class="fas fa-first-aid"></i> {{this.name}}
+          <span class="anmerkung">({{this.data.useWith}})</span></span
         >
         <span
           ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
@@ -113,25 +74,14 @@
     {{/each}} {{#each Gegenstand}}
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
-        <span>
-          <span>
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="false"
-              src="systems/darkspace/icons/d10.svg"
-            />
-            <img
-              class="d10-symbol rollItem"
-              data-itemid="{{this._id}}"
-              data-modroll="true"
-              src="systems/darkspace/icons/d10edit.svg"
-            /> </span
-          ><span class="itemname itemEdit pointer" draggable="true"
-            >{{this.name}}</span
-          >
-          <span class="anmerkung">({{this.data.useWith}})</span>
-        </span>
+        <span
+          class="itemname rollItem"
+          draggable="true"
+          data-itemid="{{this._id}}"
+          >{{this.name}}
+          <span class="anmerkung">({{this.data.useWith}})</span></span
+        >
+
         <span
           ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
             class="fas fa-microchip"

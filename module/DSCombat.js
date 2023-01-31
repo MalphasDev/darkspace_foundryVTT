@@ -85,7 +85,7 @@ export default class DSCombat extends Combat {
           iniId = "Fokus";
         }
         if (currentCombatant.actor.data.type === "Nebencharakter") {
-          iniId = "Angriff";
+          iniId = "Intellekt";
         }
         if (currentCombatant.actor.data.type === "DrohneFahrzeug") {
           iniId = "Cortex";

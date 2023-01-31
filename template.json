@@ -5,43 +5,42 @@
       "commonStats": {
         "initMod": 0,
         "notes": ""
+      },
+      "bodyConditions": {
+        "bodyConditions": {
+          "struck": false,
+          "ko": false,
+          "wounded": false,
+          "crippled": false,
+          "dead": false
+        }
+      },
+      "techConditions": {
+        "techConditions": {
+          "scratched": false,
+          "unstable": false,
+          "offline": false,
+          "defect": false,
+          "destroyed": false
+        }
+      },
+      "cortexConditions": {
+        "cortexConditions": {
+          "manipulated": false,
+          "hacked": false,
+          "offline": false
+        }
       }
     },
     "Charakter": {
-      "templates": ["commonStats"],
+      "templates": ["commonStats", "bodyConditions", "cortexConditions"],
       "description": "",
       "quote": "",
       "xp": {
         "value": 0,
         "max": 0
       },
-      "conditions": {
-        "struck": {
-          "name": "Angeschlagen",
-          "status": false,
-          "fontsymbol": "fas fa-dizzy"
-        },
-        "ko": {
-          "name": "Außer Gefecht",
-          "status": false,
-          "fontsymbol": "fas fa-times-circle"
-        },
-        "wounded": {
-          "name": "Verwundet",
-          "status": false,
-          "fontsymbol": "fas fa-band-aid"
-        },
-        "crippled": {
-          "name": "Verkrüppelt",
-          "status": false,
-          "fontsymbol": "fas fa-user-injured"
-        },
-        "dead": {
-          "name": "Tod",
-          "status": false,
-          "fontsymbol": "fas fa-skull"
-        }
-      },
+
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
@@ -161,46 +160,19 @@
     },
 
     "Nebencharakter": {
-      "conditions": {
-        "struck": {
-          "name": "Angeschlagen",
-          "status": false,
-          "fontsymbol": "fas fa-dizzy"
-        },
-        "ko": {
-          "name": "Außer Gefecht",
-          "status": false,
-          "fontsymbol": "fas fa-times-circle"
-        },
-        "wounded": {
-          "name": "Verwundet",
-          "status": false,
-          "fontsymbol": "fas fa-band-aid"
-        },
-        "crippled": {
-          "name": "Verkrüppelt",
-          "status": false,
-          "fontsymbol": "fas fa-user-injured"
-        },
-        "dead": {
-          "name": "Tod",
-          "status": false,
-          "fontsymbol": "fas fa-skull"
-        }
-      },
-      "templates": ["commonStats"],
+      "templates": ["commonStats", "bodyConditions", "cortexConditions"],
       "charattribut": {
         "Kampf": {
           "attribut": 1,
-          "skill": { "Angriff": 0, "Abwehr": 0 }
+          "skill": { "Kampftechnik": 0, "Schusswaffen": 0, "Nahkampfwaffen": 0 }
         },
         "Körper": {
           "attribut": 1,
-          "skill": { "Kraft": 0, "Ausdruck": 0 }
+          "skill": { "Ausdruck": 0, "Beweglichkeit": 0, "Kraft": 0 }
         },
         "Intelligenz": {
           "attribut": 0,
-          "skill": { "Cortex": 0, "Intellekt": 0 }
+          "skill": { "Cortex": 0, "Intellekt": 0, "Wahrnehmen": 0 }
         },
         "Kybernese": {
           "attribut": 1,
@@ -220,35 +192,7 @@
       "mk": 1,
       "size": 1,
 
-      "conditions": {
-        "struck": {
-          "name": "Angekratzt",
-          "status": false,
-          "fontsymbol": "fas fa-exclamation-triangle"
-        },
-        "ko": {
-          "name": "Instabil",
-          "status": false,
-          "fontsymbol": "fas fa-times-circle"
-        },
-        "wounded": {
-          "name": "Ausgeschaltet",
-          "status": false,
-          "fontsymbol": "fas fa-battery-quarter"
-        },
-        "crippled": {
-          "name": "Defekt",
-          "status": false,
-          "fontsymbol": "fas fa-car-crash"
-        },
-        "dead": {
-          "name": "Zerstört",
-          "status": false,
-          "fontsymbol": "fas fa-ban"
-        }
-      },
-
-      "templates": ["commonStats"],
+      "templates": ["commonStats", "techConditions", "cortexConditions"],
       "charattribut": {
         "Antrieb": {
           "attribut": 1,
@@ -261,6 +205,7 @@
         "KI": {
           "attribut": 1,
           "skill": {
+            "Bots": 0,
             "Cortex": 0
           },
           "ress": {
@@ -278,11 +223,7 @@
     },
     "KI": {
       "mk": 1,
-      "conditions": {
-        "Defekt": false,
-        "Instabil": false,
-        "Fragmentiert": false
-      },
+      "templates": ["commonStats", "cortexConditions"],
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
