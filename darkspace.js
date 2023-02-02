@@ -91,6 +91,7 @@ Hooks.once("init", function () {
   CONFIG.Actor.documentClass = DSCharacter;
   CONFIG.Item.documentClass = DSItem;
   CONFIG.ui.chat = DSChatlog;
+
   const iconFolder = "systems/darkspace/icons/";
 
   console.log({ ...DSItem, ...DSCharacter });

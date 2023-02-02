@@ -1,28 +1,47 @@
-<section id="header">
+<section
+  id="header"
+  style="background-image: url({{actor.img}}); background-attachment: inherit;
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;"
+>
   <!-- Charakterportrait -->
+  <!--
   <div class="cell_t actorimgcontainer">
     <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
   </div>
+-->
 
-  <!-- Charaktername -->
+  <div
+    style="
+      background-color: #2e2d35d6;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    "
+  >
+    <!-- Charaktername -->
 
-  <div class="cell_t">
-    <h2 class="charname">
-      <input
-        name="name"
-        type="text"
-        value="{{actor.name}}"
-        placeholder="Charaktername"
-      />
-    </h2>
-  </div>
-  {{#ifCond data.type "===" "DrohneFahrzeug"}}
-  <div class="grid col2 borderbox round">
-    {{>"systems/darkspace/templates/partials/MKSize.html"}}
-  </div>
-  {{/ifCond}}
-  <!-- Zustandsmonitor -->
-  <div>
-    {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+    <div class="cell_t">
+      <h2 class="charname">
+        <input
+          name="name"
+          type="text"
+          value="{{actor.name}}"
+          placeholder="Charaktername"
+        />
+      </h2>
+    </div>
+    {{#ifCond data.type "===" "DrohneFahrzeug"}}
+    <div class="grid col2 borderbox round">
+      {{>"systems/darkspace/templates/partials/MKSize.html"}}
+    </div>
+    {{/ifCond}}
+    <!-- Zustandsmonitor -->
+    <div>
+      {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+    </div>
   </div>
 </section>

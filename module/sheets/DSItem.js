@@ -13,7 +13,7 @@ export default class DSItem extends Item {
     // Struktur und Schutz //
     data.structure = parseInt(data.size);
     // Senorreichweite //
-    data.sensorRange = Math.pow(data.mk, 2) * 10;
+    data.signal = Math.pow(data.size + data.mk, 2) * 10;
 
     // Unterhalt //
     data.keep = Math.max(data.mk, data.size, 0);

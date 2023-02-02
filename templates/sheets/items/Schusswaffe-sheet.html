@@ -1,0 +1,19 @@
+<form class="{{cssClass}} item" autocomplete="off">
+  <div>
+    {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+  </div>
+
+  <hr />
+  <div class="sheet-content">
+    <!--Itemsheet-Body-->
+    <div class="flex evenly">
+      <div>
+        {{>
+        "systems/darkspace/templates/partials/sub-partials/items-weapons.html"}}
+      </div>
+      <div>{{>"systems/darkspace/templates/partials/MKSize.html"}}</div>
+    </div>
+
+    {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+  </div>
+</form>

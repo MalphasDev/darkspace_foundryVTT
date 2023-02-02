@@ -128,6 +128,9 @@ const accessTempTree = () => {
     });
     darkspace.skillListVehicle = skillListVehicle.sort();
   });
+  tempTree.then((a) => {
+    console.log(a);
+  });
 };
 
 accessTempTree();

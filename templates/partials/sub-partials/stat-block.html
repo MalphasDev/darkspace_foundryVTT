@@ -21,6 +21,8 @@
         name="data.xp.max"
         value="{{data.data.xp.max}}"
         type="number"
+        min="0"
+        max="10"
         style="flex: 1"
       />
       EP
@@ -41,6 +43,8 @@
             name="data.charattribut.{{attrname}}.attribut"
             value="{{attrobj.attribut}}"
             type="number"
+            min="0"
+            max="10"
           />
         </span>
       </div>
@@ -88,6 +92,8 @@
               name="data.charattribut.{{attrname}}.skill.{{fertname}}"
               value="{{this}}"
               type="number"
+              min="0"
+              max="10"
             />
           </div>
         </li>

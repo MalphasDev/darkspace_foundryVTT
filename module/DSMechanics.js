@@ -1,17 +1,19 @@
 /**
  * It takes an inputData object, rolls dice, and returns a chat message.
- * @param rollDiceData - {
+ * @param inputData - {
  * @returns An object with the following properties:
  */
-export async function rollDice(rollDiceData) {
-  let dynattr = parseInt(rollDiceData.dynattr);
-  let dynskill = parseInt(rollDiceData.dynskill);
-  let attrModLocal = parseInt(rollDiceData.attrModLocal);
-  let fertModLocal = parseInt(rollDiceData.fertModLocal);
-  let roleData = rollDiceData.roleData;
-  let removehighest = rollDiceData.removehighest;
+export async function rollDice(inputData) {
+  let dynattr = parseInt(inputData.dynattr);
+  let dynskill = parseInt(inputData.dynskill);
+  let attrModLocal = parseInt(inputData.attrModLocal);
+  let fertModLocal = parseInt(inputData.fertModLocal);
+  let roleData = inputData.roleData;
+  let removehighest = inputData.removehighest;
   let item;
   let rollformular;
+
+  console.log(inputData);
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
@@ -55,13 +57,13 @@ export async function rollDice(rollDiceData) {
   let disadvMessage = "";
 
   if (sortedResult[2] >= 9) {
-    resultMessage = { msg: "KRITISCHER ERFOLG" };
+    resultMessage = { crit: true };
   }
   if (rollResult.total <= 5) {
-    resultMessage = { msg: "PATZER" };
+    resultMessage = { fumble: true };
   }
   if (removehighest) {
-    disadvMessage = { disadv: "Erschwert" };
+    disadvMessage = { disadv: true };
   }
 
   let messageData = {
@@ -97,10 +99,10 @@ export async function rollDice(rollDiceData) {
   };
 
   if (
-    rollDiceData.object != undefined &&
-    Object.keys(rollDiceData.object).length != 0
+    inputData.object != undefined &&
+    Object.keys(inputData.object).length != 0
   ) {
-    var merits = rollDiceData.object.data.items
+    var merits = inputData.object.data.items
       .filter((i) => {
         return i.type === "Eigenschaft";
       })
@@ -110,7 +112,7 @@ export async function rollDice(rollDiceData) {
       .filter((k) => {
         return k.data.data.useWith === roleData.skill;
       });
-    var handicaps = rollDiceData.object.data.items
+    var handicaps = inputData.object.data.items
       .filter((i) => {
         return i.type === "Eigenschaft";
       })
@@ -120,7 +122,7 @@ export async function rollDice(rollDiceData) {
       .filter((k) => {
         return k.data.data.useWith === roleData.skill;
       });
-    var cybernetics = rollDiceData.object.data.items
+    var cybernetics = inputData.object.data.items
       .filter((i) => {
         return i.type === "Artifizierung";
       })
@@ -137,13 +139,15 @@ export async function rollDice(rollDiceData) {
     merits: merits,
     handicaps: handicaps,
     cybernetics: cybernetics,
+    rollname: inputData.rollname,
+    actorData: inputData.actorData,
     total_AB: total_AB,
     total_BC: total_BC,
     total_AC: total_AC,
   };
 
-  if (rollDiceData.item != undefined) {
-    item = rollDiceData.item.data;
+  if (inputData.item != undefined) {
+    item = inputData.item.data;
     cardData = {
       ...roleData,
       total_AB: total_AB,
@@ -234,6 +238,7 @@ export async function modRolls(inputData) {
  */
 export async function _resolveDice(inputData) {
   let outputData = this.rollDice(inputData);
+  console.log(outputData);
   let actor = {};
   let messageData = {};
   let cardData = {};
@@ -251,7 +256,6 @@ export async function _resolveDice(inputData) {
       dmg: cardData.data.dmg + cardData.total_BC,
     };
   }
-  console.log("resolveDice", inputData.type);
 
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",

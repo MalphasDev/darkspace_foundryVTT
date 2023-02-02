@@ -1,6 +1,6 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
   {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
-  <div class="grid col3-211 gridcenter">
+  <div class="grid gridcenter" style="grid-template-columns: 2fr 2fr 1fr">
     <div>
       <div class="borderbox" style="width: 135px">
         <div>
@@ -27,7 +27,13 @@
         </div>
       </div>
     </div>
-    {{>"systems/darkspace/templates/partials/MKSize.html"}}
+    <!--Itemsheet-Body-->
+
+    <div>
+      {{>
+      "systems/darkspace/templates/partials/sub-partials/items-weapons.html"}}
+    </div>
+    <div>{{>"systems/darkspace/templates/partials/MKSize.html"}}</div>
   </div>
   {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
 </form>

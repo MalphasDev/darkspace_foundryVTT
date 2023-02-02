@@ -320,7 +320,8 @@
   },
   "Item": {
     "types": [
-      "Waffe",
+      "Schusswaffe",
+      "Nahkampfwaffe",
       "Panzerung",
       "Werkzeug",
       "Terminals",
@@ -337,17 +338,37 @@
         "ress": {
           "bots": 0
         },
+
         "equipped": true,
+        "conditions": {
+          "techConditions": {
+            "scratched": false,
+            "unstable": false,
+            "offline": false,
+            "defect": false,
+            "destroyed": false
+          },
+          "cortexConditions": {
+            "manipulated": false,
+            "hacked": false,
+            "offline": false
+          }
+        },
         "properties": ""
       }
     },
-    "Waffe": {
+    "Schusswaffe": {
       "dmg": 1,
       "size": 2,
-      "ranged": true,
       "useWith": "Schusswaffen",
       "range": "0-10/20/100",
       "rangeBonus": 0,
+      "templates": ["itemBase"]
+    },
+    "Nahkampfwaffe": {
+      "dmg": 1,
+      "size": 2,
+      "useWith": "Nahkampfwaffe",
       "templates": ["itemBase"]
     },
     "Werkzeug": {

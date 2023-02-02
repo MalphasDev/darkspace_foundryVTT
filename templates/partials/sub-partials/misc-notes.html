@@ -1,6 +1,13 @@
-<hr />
 <div class="desc-content">
+  <div class="cell_t actorimgcontainer">
+    <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+  </div>
   <h2>Beschreibung</h2>
   {{editor content=data.data.description target="data.description" button=true
   owner=owner editable=editable rollData=rollData}}
+</div>
+<div class="desc-content">
+  <h2>Notizen</h2>
+  {{editor content=data.data.notes target="data.notes" button=true owner=owner
+  editable=editable rollData=rollData}}
 </div>

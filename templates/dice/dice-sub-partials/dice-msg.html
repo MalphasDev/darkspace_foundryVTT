@@ -1,5 +1,5 @@
 <!-- DICE-MSG.HTML -->
-
+{{log this}}
 <div class="flexDice">
   <span class="{{#if disadv}}unEvalDice{{else}}evalDice{{/if}}"
     >{{evalDiceA}}</span
@@ -7,10 +7,10 @@
   <span class="evalDice">{{evalDiceB}}</span>
 
   <span
-    class="{{#unless disadv}}unEvalDice{{else}}evalDice {{/unless}} {{#unless disadv}}{{#if msg}}kritDice{{/if}}{{/unless}}"
+    class="{{#unless disadv}}unEvalDice{{else}}evalDice {{/unless}} {{#unless disadv}}{{#if crit}}kritDice{{/if}}{{/unless}}"
     >{{evalDiceC}}</span
   >
-  <span class="{{#if disadv}}{{#if msg}} kritDice{{/if}}{{/if}} unEvalDice"
+  <span class="{{#if disadv}}{{#if crit}}kritDice{{/if}}{{/if}} unEvalDice"
     >{{evalDiceD}}</span
   >
 
@@ -22,9 +22,20 @@
 </div>
 
 <hr />
-<div class="flexResult">
-  {{#if disadv}}{{this.total_BC}}{{else}}{{this.total_AB}}{{/if}}
+<div class="flexResult" {{#if crit}} style="background: linear-gradient( 
+  90deg, transparent 0%, #00ff7e 50%, transparent 100% );" {{/if}}
+  {{#if fumble}} style="background: linear-gradient( 
+  90deg, transparent 0%, red 50%, transparent 100% );" {{/if}}>
+  {{#if disadv}}
+  
+  
+  {{this.total_BC}}{{else}}{{this.total_AB}}
+
+  
+  
+  {{/if}}
 </div>
+
 
 <ul class="meritbox">
   {{#each merits}}

@@ -41,8 +41,11 @@ export default class DSCharacter extends Actor {
       }
     }
 
-    var weaponList = actorData.items.filter((f) => {
-      return f.type === "Waffe";
+    var gunList = actorData.items.filter((f) => {
+      return f.type === "Schusswaffe";
+    });
+    var meleeList = actorData.items.filter((f) => {
+      return f.type === "Nahkampfwaffe";
     });
     var armorList = actorData.items.filter((i) => {
       return i.data.type === "Panzerung";

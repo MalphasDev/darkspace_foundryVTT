@@ -7,21 +7,15 @@
 
 <!-- Reichweite -->
 <div class="borderbox round text_c">
-    <div>
-        <input type="checkbox" class="symbol" id="ranged" {{checked data.data.ranged}} name="data.ranged">
-        <label style="text-align: left; margin: 0; padding: 0" for="ranged" class="container_center">
-            <span>
-            {{#if data.data.ranged}}
-            <i class="fas fa-arrows-alt-h cell_c "></i>
-            {{/if}}
-            {{#unless data.data.ranged}}
-            <i class="fas fa-fist-raised "></i>
-            {{/unless}}
-            
-            </span><span>{{data.data.range}}</span>
-        </label>
-    </div>
-
+    {{#ifCond data.type "===" "Schusswaffe"}}
+    <i class="fas fa-arrows-alt-h cell_c "></i> <span>{{data.data.range}}</span>
+    {{/ifCond}}
+    {{#ifCond data.type "===" "Nahkampfwaffe"}}
+    <i class="fas fa-fist-raised "></i>
+    {{/ifCond}}
+    {{#ifCond data.type "===" "Terminals"}}
+    <i class="fas fa-signal"></i> <span>{{data.data.signal}}</span>
+    {{/ifCond}}
 </div>
 
 <!-- AE Kosten -->

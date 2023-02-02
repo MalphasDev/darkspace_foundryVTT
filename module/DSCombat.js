@@ -136,11 +136,7 @@ export default class DSCombat extends Combat {
   }
 
   _waitCombat(id) {
-    game.socket.emit("system.darkspace", {
-      operation: "updateInitRoll",
-      id: id,
-      initiative: null,
-    });
+    this.setInitiative(id, null);
   }
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);

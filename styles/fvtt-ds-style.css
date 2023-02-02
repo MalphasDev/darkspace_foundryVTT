@@ -51,6 +51,7 @@ span {
   margin: 0;
   color: var(--effect);
 }
+
 img {
   border: none;
 }
@@ -198,17 +199,8 @@ form.editable {
 }
 .actorimgcontainer {
   width: 100%;
-  height: 150px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s ease;
 }
-.actorimgcontainer:hover {
-  height: 250px;
-  transition: 0.2s ease;
-}
+
 section#header .scrollable {
   overflow: auto;
   height: 100px;
@@ -281,13 +273,13 @@ ul {
 .flexDice {
   display: flex;
   justify-content: space-evenly;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 .flexResult {
   display: flex;
   justify-content: center;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: bold;
   background: linear-gradient(
     90deg,
@@ -317,7 +309,7 @@ ul {
 
 .grid {
   display: grid;
-  grid-gap: 0 1em;
+  grid-gap: 0 1rem;
 }
 .gridcenter {
   justify-items: center;
@@ -412,7 +404,7 @@ ul {
   grid-gap: 0;
 }
 .h_gap {
-  grid-row-gap: 2em;
+  grid-row-gap: 2rem;
 }
 /* -------- Typo -------- */
 .text_c {
@@ -454,8 +446,8 @@ ul {
   justify-self: right;
   color: var(--effect);
 }
-.borderbox.rollSkill,
-.borderbox.rollItem {
+.rollSkill,
+.rollItem {
   cursor: pointer;
 }
 .borderbox.rollSkill:hover,
@@ -587,7 +579,7 @@ option {
 }
 .anmerkung {
   opacity: 0.75;
-  font-size: 0.8em;
+  font-size: 0.8rem;
 }
 .npcBonus {
   width: 5ch;
@@ -626,7 +618,7 @@ option {
   color: rgb(161, 161, 161);
 }
 .kritDice {
-  color: var(--main);
+  color: #00ff7e;
 }
 .tab.combat li.item,
 .tab.items li.item {

@@ -114,16 +114,13 @@ export default class DSCharakcterSheet extends ActorSheet {
     const actorData = this.object.data.data;
     const dataset = element.dataset;
 
-    console.log(dataset.context);
-
-    console.log(this[dataset.context]);
-
     const inputData = {
       eventData: element,
       actorId: this.actor.id,
       dynattr: DSMechanics.getStat(dataset.skill, actorData.charattribut).attr,
       dynskill: DSMechanics.getStat(dataset.skill, actorData.charattribut).fert,
-      actorData: actorData,
+      actorData: this.object.data,
+      rollname: dataset.rollname,
       roleData: {
         attribute: DSMechanics.getStat(dataset.skill, actorData.charattribut)
           .attrName,

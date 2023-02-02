@@ -88,17 +88,8 @@
       data-group="primary"
       data-tab="notes"
     >
-      <div class="flex fcol2">
-        <div class="desc-content">
-          <h2>Beschreibung</h2>
-          {{editor content=data.data.description target="data.description"
-          button=true owner=owner editable=editable rollData=rollData}}
-        </div>
-        <div class="desc-content">
-          <h2>Notizen</h2>
-          {{editor content=data.data.notes target="data.notes" button=true
-          owner=owner editable=editable rollData=rollData}}
-        </div>
+      <div class="flex fcol2 start">
+        {{>"systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
       </div>
 
       <!-- DEBUG ITEM LIST -->

@@ -91,6 +91,8 @@
     <div>
       <h3><i class="fas fa-running"></i> Aufrappeln</h3>
       <div>
+
+        {{#ifCond this.data.type "!=" "KI"}}
         <!-- Aufrappeln FIT -->
         <div class="borderbox round text_c rollSkill" data-rollname="Aufrappeln" data-skill={{#ifCond
           this.data.type "===" "Charakter" }}"Fitness"{{/ifCond}} {{#ifCond this.data.type "===" "Nebencharakter"
@@ -110,6 +112,8 @@
             {{/with}}
           </div>
         </div>
+
+        {{/ifCond}}
 
         <!-- Aufrappeln SYN -->
         {{#ifCond this.data.type "!=" "DrohneFahrzeug"}}
@@ -165,6 +169,7 @@
       {{#ifCond this.data.type "!=" "DrohneFahrzeug"}}
       <div>
 
+        {{#ifCond this.data.type "!=" "KI"}}
         <!-- Motorik Schutz -->
         <div class="borderbox round text_c rollSkill" data-skill={{#ifCond this.data.type "===" "Charakter"
           }}"Motorik"{{/ifCond}} {{#ifCond this.data.type "===" "Nebencharakter" }}"Beweglichkeit"{{/ifCond}}
@@ -199,6 +204,7 @@
             </div>
           </div>
         </div>
+        {{/ifCond}}
 
         <!-- Synthese Schutz -->
         <div class="borderbox round text_c rollSkill" data-skill="Synthese" data-rollname="Schutzprobe">
