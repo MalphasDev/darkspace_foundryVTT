@@ -3,7 +3,7 @@
   "title": "Dark Space",
   "description": "Ein Hard-Sci-Fi Rollenspiel von André Busch.",
   "author": "André Busch",
-  "version": 0.941,
+  "version": 0.942,
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "esmodules": ["darkspace.js"],
@@ -15,5 +15,5 @@
   "socket": true,
   "url": "https://dark-space-rpg.de",
   "manifest": "https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/main/system.json",
-  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/v0.941.zip"
+  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/v0.942.zip"
 }

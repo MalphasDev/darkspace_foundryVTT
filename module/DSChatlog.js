@@ -16,7 +16,6 @@ export default class DSChatlog extends ChatLog {
     const diceBonusInput = document.getElementsByClassName("customDiceBonus");
     const dicePool = parseInt(dicePoolInput[0].value);
     const diceBonus = parseInt(diceBonusInput[0].value);
-    console.log(event.currentTarget.dataset.disadv);
     const inputData = {
       dynattr: dicePool,
       dynskill: diceBonus,

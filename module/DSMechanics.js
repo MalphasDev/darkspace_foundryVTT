@@ -13,8 +13,6 @@ export async function rollDice(inputData) {
   let item;
   let rollformular;
 
-  console.log(inputData);
-
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
   // ------------------------------------- //
@@ -281,7 +279,6 @@ export async function _resolveDice(inputData) {
   return ChatMessage.create(messageData);
 }
 export function getStat(fert, dbAttr) {
-  console.log(fert, dbAttr);
   const attrMap = new Map(Object.entries(dbAttr));
   let stat = [];
   attrMap.forEach((value, key) => {

@@ -82,7 +82,6 @@ export default class DSCharakcterSheet extends ActorSheet {
       }
     };
     classIdent.forEach((ident) => {
-      console.log("Start Class Ident");
       eval(
         `html.find("${ident}").click(this.${
           "_" + ident.substring(1)

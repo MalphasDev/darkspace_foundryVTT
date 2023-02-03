@@ -94,8 +94,6 @@ Hooks.once("init", function () {
 
   const iconFolder = "systems/darkspace/icons/";
 
-  console.log({ ...DSItem, ...DSCharacter });
-
   /* Defining the status effects that can be applied to tokens. */
   CONFIG.statusEffects = [
     {
