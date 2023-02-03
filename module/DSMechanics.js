@@ -238,7 +238,7 @@ export async function modRolls(inputData) {
  */
 export async function _resolveDice(inputData) {
   let outputData = this.rollDice(inputData);
-  console.log(outputData);
+
   let actor = {};
   let messageData = {};
   let cardData = {};
@@ -261,7 +261,8 @@ export async function _resolveDice(inputData) {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
     Custom: "systems/darkspace/templates/dice/chatCustom.html",
     Unarmed: "systems/darkspace/templates/dice/chatUnarmed.html",
-    Waffe: "systems/darkspace/templates/dice/chatWeapon.html",
+    Schusswaffe: "systems/darkspace/templates/dice/chatWeapon.html",
+    Nahkampfwaffe: "systems/darkspace/templates/dice/chatWeapon.html",
     Panzerung: "systems/darkspace/templates/dice/chatArmor.html",
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
     Unterbringung: "systems/darkspace/templates/dice/chatHousing.html",
@@ -280,6 +281,7 @@ export async function _resolveDice(inputData) {
   return ChatMessage.create(messageData);
 }
 export function getStat(fert, dbAttr) {
+  console.log(fert, dbAttr);
   const attrMap = new Map(Object.entries(dbAttr));
   let stat = [];
   attrMap.forEach((value, key) => {
