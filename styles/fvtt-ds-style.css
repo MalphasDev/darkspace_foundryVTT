@@ -27,6 +27,7 @@ h1 > *,
 h2 > *,
 h3 > * {
   color: var(--effect);
+  border: none;
 }
 h1 {
   background: none;
@@ -244,10 +245,7 @@ ul {
   height: inherit;
   justify-content: space-around;
 }
-.fcol2 .desc-content {
-  width: 47%;
-  height: 100%;
-}
+
 .flex.start {
   justify-content: start;
   align-items: flex-start;
@@ -297,8 +295,8 @@ ul {
   flex-wrap: wrap;
 }
 
-.half {
-  flex: 1 1 48%;
+.fcol2 > * {
+  flex: 1 0 48%;
 }
 /* ------- Block Layout ------- */
 .block {

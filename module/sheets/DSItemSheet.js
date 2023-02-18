@@ -1,7 +1,7 @@
 import * as DSMechanics from "../DSMechanics.js";
-export default class DSItemSheet extends ItemSheet {
+export class DSItemSheet extends ItemSheet {
   get template() {
-    return `systems/darkspace/templates/sheets/items/${this.item.data.type}-sheet.html`;
+    return `systems/darkspace/templates/sheets/items/${this.object.type}-sheet.html`;
   }
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -19,10 +19,11 @@ export default class DSItemSheet extends ItemSheet {
   }
 
   getData() {
-    const data = super.getData();
-    data.config = CONFIG.darkspace;
+    const itemData = super.getData();
+    itemData.config = CONFIG.darkspace;
+    itemData.system = this.item.system;
 
-    return data;
+    return itemData;
   }
 
   activateListeners(html) {
@@ -31,53 +32,17 @@ export default class DSItemSheet extends ItemSheet {
     super.activateListeners(html);
     html.find(".ressPoints").click(this._ressPoints.bind(this));
     html.find(".incRess, .decRess").click(this._onModRess.bind(this));
-    html.find(".addProp").click(this._addProperty.bind(this));
-  }
-
-  createInputData(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const itemData = this.object.data.data;
-
-    let inputData = {
-      eventData: element,
-      itemId: this.object.id,
-      itemrData: itemData,
-      removehighest: element.className.includes("disadv"),
-    };
-    return inputData;
-  }
-
-  async _onDirectRoll(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
-
-    let dynattr = parseInt(dataset.dice);
-    let dynskill = parseInt(dataset.bonus);
-
-    var roleData = { attribute: "", skill: dataset.rollname };
-
-    let preCreatedInput = this.createInputData(event);
-    let inputData = {
-      ...preCreatedInput,
-      dynattr: dynattr,
-      dynskill: dynskill,
-      roleData: roleData,
-    };
-
-    DSMechanics.modRolls(inputData, event);
   }
 
   _ressPoints(event) {
     const element = event.currentTarget;
-    const itemData = this.object.data.data;
+    const itemData = this.object.system;
 
-    let currentIndex = parseInt(element.dataset.index);
-    let currentActive = parseInt(element.dataset.active);
-    let currentAttr = element.dataset.thisattr;
-    let currentAttrData = itemData.ress[currentAttr];
-    let ValueAdress = "data.ress." + currentAttr;
+    const currentIndex = parseInt(element.dataset.index);
+    const currentActive = parseInt(element.dataset.active);
+    const ressAttr = element.dataset.thisattr;
+    const ressAttrData = itemData.ress[ressAttr];
+    const ValueAdress = "system.ress." + ressAttr;
 
     if (currentActive === 1) {
       this.object.update({
@@ -87,13 +52,13 @@ export default class DSItemSheet extends ItemSheet {
     } else {
       this.object.update({
         id: this.object.id,
-        [ValueAdress]: currentAttrData + currentIndex,
+        [ValueAdress]: ressAttrData + currentIndex,
       });
     }
   }
   async _onModRess(event) {
-    let ressAttr = event.currentTarget.dataset.attr;
-    let attrKey = "data.ress." + ressAttr;
+    const ressAttr = event.currentTarget.dataset.attr;
+    const ValueAdress = "system.ress." + ressAttr;
     let ressMod = 0;
     if (event.currentTarget.className.includes("decRess")) {
       ressMod = -1;
@@ -101,33 +66,11 @@ export default class DSItemSheet extends ItemSheet {
     if (event.currentTarget.className.includes("incRess")) {
       ressMod = 1;
     }
-    let newInc = this.object.data.data.ress[ressAttr] + ressMod;
+    const newInc = this.object.system.ress[ressAttr] + ressMod;
 
     this.object.update({
       id: this.object.id,
-      [attrKey]: newInc,
+      [ValueAdress]: newInc,
     });
-  }
-  async _addProperty(event) {
-    var content = await renderTemplate(
-      "systems/darkspace/templates/dice/dialogAddProp.html",
-      this.object.data.data
-    );
-    new Dialog({
-      title: "Eigenschaften hinzufügen",
-      content: content,
-      buttons: {
-        ok: {
-          icon: '<i class="fas fa-check"></i>',
-          label: "OK",
-          callback: (html) => {
-            let propList = html.find(".propList")[0].value.replace(/\s/g, "");
-            this.object.update({
-              "data.properties": propList,
-            });
-          },
-        },
-      },
-    }).render(true);
   }
 }

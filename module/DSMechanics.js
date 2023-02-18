@@ -100,32 +100,32 @@ export async function rollDice(inputData) {
     inputData.object != undefined &&
     Object.keys(inputData.object).length != 0
   ) {
-    var merits = inputData.object.data.items
+    var merits = inputData.object.items
       .filter((i) => {
         return i.type === "Eigenschaft";
       })
       .filter((j) => {
-        return j.data.data.handicap === false;
+        return j.system.handicap === false;
       })
       .filter((k) => {
-        return k.data.data.useWith === roleData.skill;
+        return k.system.useWith === roleData.skill;
       });
-    var handicaps = inputData.object.data.items
+    var handicaps = inputData.object.items
       .filter((i) => {
         return i.type === "Eigenschaft";
       })
       .filter((j) => {
-        return j.data.data.handicap === true;
+        return j.system.handicap === true;
       })
       .filter((k) => {
-        return k.data.data.useWith === roleData.skill;
+        return k.system.useWith === roleData.skill;
       });
-    var cybernetics = inputData.object.data.items
+    var cybernetics = inputData.object.items
       .filter((i) => {
         return i.type === "Artifizierung";
       })
       .filter((k) => {
-        return k.data.data.useWith === roleData.skill;
+        return k.system.useWith === roleData.skill;
       });
   }
 
@@ -145,7 +145,6 @@ export async function rollDice(inputData) {
   };
 
   if (inputData.item != undefined) {
-    item = inputData.item.data;
     cardData = {
       ...roleData,
       total_AB: total_AB,
@@ -154,7 +153,7 @@ export async function rollDice(inputData) {
       ...diceResult,
       ...resultMessage,
       ...disadvMessage,
-      ...item,
+      ...inputData.item,
     };
   }
 
@@ -251,7 +250,7 @@ export async function _resolveDice(inputData) {
     cardData = {
       ...cardData,
       actor,
-      dmg: cardData.data.dmg + cardData.total_BC,
+      dmg: cardData.system.dmg + cardData.total_BC,
     };
   }
 

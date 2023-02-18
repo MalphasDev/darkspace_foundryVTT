@@ -1,50 +1,46 @@
-import * as config from "../config.js";
-export default class DSItem extends Item {
+export class DSItem extends Item {
   prepareData() {
     super.prepareData();
 
-    const itemData = this.data;
-    const actorData = this.actor ? this.actor.data : {};
-    const configData = config.darkspace;
-    const data = itemData.data;
-
-    data.attrList = configData.attr;
+    const itemData = this;
+    const systemData = itemData.system;
 
     // Struktur und Schutz //
-    data.structure = parseInt(data.size);
+    systemData.structure = parseInt(systemData.size);
     // Senorreichweite //
-    data.signal = Math.pow(data.size + data.mk, 2) * 10;
+    systemData.signal = Math.pow(systemData.size + systemData.mk, 2) * 10;
 
     // Unterhalt //
-    data.keep = Math.max(data.mk, data.size, 0);
+    systemData.keep = Math.max(systemData.mk, systemData.size, 0);
 
     // Waffen //
 
     const rangeArray = [
-      Math.pow(data.size, 2),
-      Math.pow(data.size, 2) * 5,
-      Math.pow(data.size, 2) * 10,
+      Math.pow(systemData.size, 2),
+      Math.pow(systemData.size, 2) * 5,
+      Math.pow(systemData.size, 2) * 10,
     ];
 
-    data.range = rangeArray[0] + "-" + rangeArray[1] + "/" + rangeArray[2];
+    systemData.range =
+      rangeArray[0] + "-" + rangeArray[1] + "/" + rangeArray[2];
 
-    data.aeCost = data.size * 2;
+    systemData.aeCost = systemData.size * 2;
 
-    data.dmg = data.size * 2 + data.mk;
-    data.cortexDmg = data.size + data.mk * 2;
+    systemData.dmg = systemData.size * 2 + systemData.mk;
+    systemData.cortexDmg = systemData.size + systemData.mk * 2;
     // Eigenschaften anzeigen
-    let propList = data.properties;
+    let propList = systemData.properties;
 
     if (propList === undefined || propList === "") {
     } else {
-      data.propArray = data.properties.split(",");
+      systemData.propArray = systemData.properties.split(",");
     }
 
     //Alles außer Eigenschaft und Besonderheiten
     if (itemData.type != "Eigenschaft" && itemData.type != "Besonderheiten") {
       // Ressourcen
-      data.botsTotal = data.mk * data.size;
-      data.botsRemaining = data.botsTotal - data.ress.bots;
+      systemData.botsTotal = systemData.mk * systemData.size;
+      systemData.botsRemaining = systemData.botsTotal - systemData.ress.bots;
     }
   }
 
@@ -57,6 +53,6 @@ export default class DSItem extends Item {
     const updateData = {};
     updateData["img"] =
       "systems/darkspace/icons/itemDefault/itemIcon_" + itemType + ".svg";
-    await this.data.update(updateData);
+    await this.updateSource(updateData);
   }
 }

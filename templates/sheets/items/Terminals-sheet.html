@@ -1,16 +1,17 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
-  {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+  {{> "systems/darkspace/templates/partials/items/header.html"}}
   <div class="grid gridcenter" style="grid-template-columns: 2fr 2fr 1fr">
     <div>
+      {{#with system}}
       <div class="borderbox" style="width: 135px">
         <div>
-          {{#times data.data.ress.bots}}
+          {{#times ress.bots}}
           <i
             class="fas fa-square ressPoints"
             data-active="1"
             data-thisattr="bots"
           ></i>
-          {{/times}} {{#times data.data.botsRemaining}}
+          {{/times}} {{#times botsRemaining}}
           <i
             class="far fa-square ressPoints"
             data-active="0"
@@ -21,19 +22,17 @@
         <div class="flex between verticalalign">
           <i class="fas fa-minus decRess" data-attr="bots"></i>
           <h3 class="text_c" style="margin: 0">
-            Bots ({{data.data.ress.bots}}/{{data.data.botsTotal}})
+            Bots ({{ress.bots}}/{{botsTotal}})
           </h3>
           <i class="fas fa-plus incRess" data-attr="bots"></i>
         </div>
       </div>
+      {{/with}}
     </div>
     <!--Itemsheet-Body-->
 
-    <div>
-      {{>
-      "systems/darkspace/templates/partials/sub-partials/items-weapons.html"}}
-    </div>
-    <div>{{>"systems/darkspace/templates/partials/MKSize.html"}}</div>
+    <div>{{> "systems/darkspace/templates/partials/items/weapons.html"}}</div>
+    <div>{{>"systems/darkspace/templates/partials/items/MKSize.html"}}</div>
   </div>
-  {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+  {{> "systems/darkspace/templates/partials/actors/notes.html"}}
 </form>

@@ -1,6 +1,5 @@
 import * as DSMechanics from "./DSMechanics.js";
-import * as DSCombatant from "./DSCombatant.js";
-export default class DSCombat extends Combat {
+export class DSCombat extends Combat {
   _sortCombatants(a, b) {
     let aeA = parseInt(a.initiative) || 99999;
     let aeB = parseInt(b.initiative) || 99999;

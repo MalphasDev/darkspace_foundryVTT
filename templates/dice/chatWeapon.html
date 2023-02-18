@@ -16,17 +16,17 @@
     <span class="chatStats bigsize bold">{{dmg}}</span>
 
     {{#ifCond type "===" "Schusswaffe"}}
-    <span class="chatStats bigsize bold">{{data.range}}</span>
+    <span class="chatStats bigsize bold">{{system.range}}</span>
     {{/ifCond}} {{#ifCond type "===" "Nahkampfwaffe"}}
     <span class="chatStats bigsize bold">Nahkampf</span>
     {{/ifCond}}
 
-    <span class="chatStats bigsize bold">{{data.aeCost}} AE</span>
+    <span class="chatStats bigsize bold">{{system.aeCost}} AE</span>
   </div>
   <hr />
   <div>
     <ul>
-      {{#each this.data.propArray}}
+      {{#each this.system.propArray}}
       <li class="inline_block">
         <p class="iconbox">{{this}}</p>
       </li>

@@ -1,7 +1,7 @@
 {{#if this.item.parent.type}}
 <div>
-  {{#select data.data.useWith}}
-  <select name="data.useWith" class="container_center">
+  {{#select useWith}}
+  <select name="system.useWith" class="container_center">
     {{#ifCond this.item.parent.type "===" "Charakter"}} {{#each
     config.skillList}}
     <option value="{{this}}" type="text">{{this}}</option>

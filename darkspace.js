@@ -1,219 +1,194 @@
 import { darkspace } from "./module/config.js";
-import DSItemSheet from "./module/sheets/DSItemSheet.js";
-import DSItem from "./module/sheets/DSItem.js";
-import DSCharacter from "./module/sheets/DSCharacter.js";
-import DSCharacterSheet from "./module/sheets/DSCharacterSheet.js";
-import DSCombat from "./module/DSCombat.js";
-import DSCombatant from "./module/DSCombatant.js";
-import DSCombatTracker from "./module/DSCombatTracker.js";
-import DSNebencharakter from "./module/sheets/DSNebencharakter.js";
+import { DSItemSheet } from "./module/sheets/DSItemSheet.js";
+import { DSItem } from "./module/sheets/DSItem.js";
+import { DSCharacter } from "./module/sheets/DSCharacter.js";
+import { DSCharacterSheet } from "./module/sheets/DSCharacterSheet.js";
+import { DSCombat } from "./module/DSCombat.js";
+import { DSCombatTracker } from "./module/DSCombatTracker.js";
+import { DSChatlog } from "./module/DSChatlog.js";
+import { DSPause } from "./module/DSPause.js";
+import { DSHotbar } from "./module/DSHotbar.js";
 import * as DSMechanics from "./module/DSMechanics.js";
-import DSChatlog from "./module/DSChatlog.js";
 
 async function preloadHandlebarsTemplates() {
-  // const dsFolders = [
-  //   "/systems/darkspace/templates/createNewItem",
-  //   "/systems/darkspace/templates/dice",
-  //   "/systems/darkspace/templates/dice/dialog-sub-partials",
-  //   "/systems/darkspace/templates/dice/dice-sub-partials",
-  //   "/systems/darkspace/templates/partials",
-  //   "/systems/darkspace/templates/partials/chatMessages",
-  //   "/systems/darkspace/templates/partials/sub-partials",
-  //   "/systems/darkspace/templates/sheets",
-  //   "/systems/darkspace/templates/sheets/actors",
-  //   "/systems/darkspace/templates/sheets/items",
-  //   "/systems/darkspace/templates/sidebar",
-  // ];
+  const baseAddress = "systems/darkspace/templates/";
+  const partialAddress = baseAddress + "partials/";
+  const sheetsAddress = baseAddress + "sheets/";
+  const diceAddress = baseAddress + "dice/";
+  const sidebarAddress = baseAddress + "sidebar/";
 
   const templatePaths = [
     //Charakter-Partials
-    "systems/darkspace/templates/partials/character-sheet-header.html",
-    "systems/darkspace/templates/partials/character-sheet-items.html",
-    "systems/darkspace/templates/partials/character-sheet-combat.html",
-    "systems/darkspace/templates/partials/character-sheet-props.html",
-    "systems/darkspace/templates/partials/character-sheet-downtime.html",
+    partialAddress + "character-sheet-header.html",
+    partialAddress + "character-sheet-items.html",
+    partialAddress + "character-sheet-combat.html",
+    partialAddress + "character-sheet-props.html",
+    partialAddress + "character-sheet-stats.html",
 
-    //Sub-Partials
-    //Stats
-    "systems/darkspace/templates/partials/sub-partials/stat-block.html",
-    "systems/darkspace/templates/partials/sub-partials/stat-health.html",
-
-    //Combat
-    "systems/darkspace/templates/partials/sub-partials/combat-armor.html",
-    "systems/darkspace/templates/partials/sub-partials/combat-weapons.html",
-
-    //Items
-    "systems/darkspace/templates/partials/sub-partials/items-header.html",
-    "systems/darkspace/templates/partials/sub-partials/items-weapons.html",
-    "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html",
+    //Buttons
+    partialAddress + "actors/actionBtn.html",
+    partialAddress + "actors/protectionBtn.html",
 
     //NPCs
-    "systems/darkspace/templates/sheets/actors/Nebencharakter-sheet.html",
-    "systems/darkspace/templates/sheets/actors/DrohneFahrzeug-sheet.html",
+    sheetsAddress + "actors/Nebencharakter-sheet.html",
+    sheetsAddress + "actors/DrohneFahrzeug-sheet.html",
+
+    //Sub-Partials für Actors
+    partialAddress + "actors/health.html",
+    partialAddress + "actors/combat-armor.html",
+    partialAddress + "actors/combat-weapons.html",
+    partialAddress + "actors/notes.html",
 
     //Items
-    "systems/darkspace/templates/partials/MKSize.html",
-    "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html",
+    partialAddress + "items/header.html",
+    partialAddress + "items/weapons.html",
+    partialAddress + "items/editDeleteEquip.html",
+    partialAddress + "items/MKSize.html",
 
     //Misc
-    "systems/darkspace/templates/partials/sub-partials/misc-notes.html",
-    "systems/darkspace/templates/partials/sub-partials/misc-downtime.html",
-
-    //Sub-Sub-Partials
-    "systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html",
+    diceAddress + "dice-msg.html",
 
     //Dialog
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogMKSize.html",
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogName.html",
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogDescMod.html",
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogWeapon.html",
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html",
+    diceAddress + "dialogMKSize.html",
+    diceAddress + "dialogName.html",
+    diceAddress + "dialogDescMod.html",
+    diceAddress + "dialogWeapon.html",
+    diceAddress + "dialogSkillDropdown.html",
 
     //Chat
-    "systems/darkspace/templates/dice/chatWeapon.html",
-    "systems/darkspace/templates/dice/chatBase.html",
-    "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html",
+    diceAddress + "chatWeapon.html",
+    diceAddress + "chatBase.html",
+    diceAddress + "dice-msg.html",
 
     //Foundry UI-Overwrite
-    "systems/darkspace/templates/sidebar/combat-tracker.html",
-    "systems/darkspace/templates/sidebar/customAE.html",
-    "systems/darkspace/templates/sidebar/chat-log.html",
+    sidebarAddress + "combat-tracker.html",
+    sidebarAddress + "customAE.html",
+    sidebarAddress + "chat-log.html",
   ];
+
   return loadTemplates(templatePaths);
 }
 
 Hooks.once("init", function () {
-  /* Setting the default classes for the different types of objects in the game. */
-  CONFIG.Combat.documentClass = DSCombat;
-  CONFIG.Combatant.documentClass = DSCombatant;
-  CONFIG.ui.combat = DSCombatTracker;
+  // Add custom constants for configuration.
   CONFIG.darkspace = darkspace;
-  CONFIG.Actor.documentClass = DSCharacter;
-  CONFIG.Item.documentClass = DSItem;
-  CONFIG.ui.chat = DSChatlog;
-
-  const iconFolder = "systems/darkspace/icons/";
-
-  /* Defining the status effects that can be applied to tokens. */
-  CONFIG.statusEffects = [
-    {
-      icon: iconFolder + "dizzy-solid.svg",
-      id: "struck",
-      label: "Angeschlagen",
-    },
-    {
-      icon: iconFolder + "times-circle-solid.svg",
-      id: "ko",
-      label: "Außer Gefecht",
-    },
-    {
-      icon: iconFolder + "band-aid-solid.svg",
-      id: "wounded",
-      label: "Verwundet",
-    },
-    {
-      icon: iconFolder + "user-injured-solid.svg",
-      id: "crippled",
-      label: "Verkrüppelt",
-    },
-    { icon: iconFolder + "skull-solid.svg", id: "dead", label: "Tod" },
-  ];
-
   /* A way to make the functions available to the game. */
   game.darkspace = {
     DSCharacter,
     DSItem,
     rollItemMacro,
   };
+  // Setting the default classes for the different types of objects in the game.
+  CONFIG.Combat.documentClass = DSCombat;
+  CONFIG.Actor.documentClass = DSCharacter;
+  CONFIG.Item.documentClass = DSItem;
+
+  // UI overwrites
+  CONFIG.ui.combat = DSCombatTracker;
+  CONFIG.ui.chat = DSChatlog;
+  CONFIG.ui.pause = DSPause;
+  CONFIG.ui.hotbar = DSHotbar;
+
+  const iconFolder = "systems/darkspace/icons/";
+
+  /* Defining the status effects that can be applied to tokens. */
+
+  // CONFIG.statusEffects = [
+  //   {
+  //     icon: iconFolder + "dizzy-solid.svg",
+  //     id: "struck",
+  //     label: "Angeschlagen",
+  //   },
+  //   {
+  //     icon: iconFolder + "times-circle-solid.svg",
+  //     id: "ko",
+  //     label: "Außer Gefecht",
+  //   },
+  //   {
+  //     icon: iconFolder + "band-aid-solid.svg",
+  //     id: "wounded",
+  //     label: "Verwundet",
+  //   },
+  //   {
+  //     icon: iconFolder + "user-injured-solid.svg",
+  //     id: "crippled",
+  //     label: "Verkrüppelt",
+  //   },
+  //   { icon: iconFolder + "skull-solid.svg", id: "dead", label: "Tod" },
+  // ];
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("darkspace", DSItemSheet, { makeDefault: true });
 
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("darkspace", DSCharacterSheet, { makeDefault: true });
-  Actors.registerSheet("darkspace", DSNebencharakter, { makeDefault: true });
 
   preloadHandlebarsTemplates();
-
-  game.settings.register("darkspace", "ae_input", {
-    name: "Eingabemethode für Aktionseinheiten",
-    hint: "Wähle, ob du einen Slider oder Buttons für die Eingabe der AE-Kosten benutzen möchtest. Dieses Fenster muss neu geladen werden, damit die Änderung wirksam",
-    scope: "client",
-    config: true,
-    type: String,
-    choices: {
-      ae_button: "Buttons",
-      ae_slider: "Slider",
-    },
-    default: "ae_button",
-    onChange: (value) => {},
-  });
-
-  Handlebars.registerHelper("disabled", function (condition) {
-    let d = "";
-    if (condition != null || undefined) {
-      d = "disabled";
-    } else {
-      d = "enabled";
-    }
-    return d;
-  });
-  Handlebars.registerHelper("times", function (n, content) {
-    let result = "";
-    for (var i = 0; i < n; ++i) {
-      let htmlString = content.fn(n);
-      let dataIndexString = "data-index=" + (i + 1) + ">";
-      htmlString = htmlString.replace(">", dataIndexString);
-      result += htmlString;
-    }
-    return result;
-  });
-
-  Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
-    return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
-  });
-  Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
-    switch (operator) {
-      case "==":
-        return v1 == v2 ? options.fn(this) : options.inverse(this);
-      case "===":
-        return v1 === v2 ? options.fn(this) : options.inverse(this);
-      case "!=":
-        return v1 != v2 ? options.fn(this) : options.inverse(this);
-      case "!==":
-        return v1 !== v2 ? options.fn(this) : options.inverse(this);
-      case "<":
-        return v1 < v2 ? options.fn(this) : options.inverse(this);
-      case "<=":
-        return v1 <= v2 ? options.fn(this) : options.inverse(this);
-      case ">":
-        return v1 > v2 ? options.fn(this) : options.inverse(this);
-      case ">=":
-        return v1 >= v2 ? options.fn(this) : options.inverse(this);
-      case "&&":
-        return v1 && v2 ? options.fn(this) : options.inverse(this);
-      case "||":
-        return v1 || v2 ? options.fn(this) : options.inverse(this);
-      default:
-        return options.inverse(this);
-    }
-  });
-  Handlebars.registerHelper({
-    eq: (v1, v2) => v1 === v2,
-    ne: (v1, v2) => v1 !== v2,
-    lt: (v1, v2) => v1 < v2,
-    gt: (v1, v2) => v1 > v2,
-    lte: (v1, v2) => v1 <= v2,
-    gte: (v1, v2) => v1 >= v2,
-    and() {
-      return Array.prototype.every.call(arguments, Boolean);
-    },
-    or() {
-      return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    },
-  });
 });
 
+Handlebars.registerHelper("disabled", function (condition) {
+  let d = "";
+  if (condition != null || undefined) {
+    d = "disabled";
+  } else {
+    d = "enabled";
+  }
+  return d;
+});
+Handlebars.registerHelper("times", function (n, content) {
+  let result = "";
+  for (var i = 0; i < n; ++i) {
+    let htmlString = content.fn(n);
+    let dataIndexString = "data-index=" + (i + 1) + ">";
+    htmlString = htmlString.replace(">", dataIndexString);
+    result += htmlString;
+  }
+  return result;
+});
+
+Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
+  return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
+});
+Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+  switch (operator) {
+    case "==":
+      return v1 == v2 ? options.fn(this) : options.inverse(this);
+    case "===":
+      return v1 === v2 ? options.fn(this) : options.inverse(this);
+    case "!=":
+      return v1 != v2 ? options.fn(this) : options.inverse(this);
+    case "!==":
+      return v1 !== v2 ? options.fn(this) : options.inverse(this);
+    case "<":
+      return v1 < v2 ? options.fn(this) : options.inverse(this);
+    case "<=":
+      return v1 <= v2 ? options.fn(this) : options.inverse(this);
+    case ">":
+      return v1 > v2 ? options.fn(this) : options.inverse(this);
+    case ">=":
+      return v1 >= v2 ? options.fn(this) : options.inverse(this);
+    case "&&":
+      return v1 && v2 ? options.fn(this) : options.inverse(this);
+    case "||":
+      return v1 || v2 ? options.fn(this) : options.inverse(this);
+    default:
+      return options.inverse(this);
+  }
+});
+Handlebars.registerHelper({
+  eq: (v1, v2) => v1 === v2,
+  ne: (v1, v2) => v1 !== v2,
+  lt: (v1, v2) => v1 < v2,
+  gt: (v1, v2) => v1 > v2,
+  lte: (v1, v2) => v1 <= v2,
+  gte: (v1, v2) => v1 >= v2,
+  and() {
+    return Array.prototype.every.call(arguments, Boolean);
+  },
+  or() {
+    return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+  },
+});
 Hooks.once("ready", async function () {
   Hooks.on("hotbarDrop", (bar, data, slot) => createDSMacro(data, slot));
 });

@@ -1,31 +1,32 @@
+
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
-  {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+  {{> "systems/darkspace/templates/partials/items/header.html"}}
   <hr />
 
   <div class="grid col2" style="align-items: center">
     <div
-      class="handlicapCheck  {{#unless data.data.handicap}}merit{{/unless}}" {{#if data.data.handicap}}style="background-color: rgb(70, 0, 0);
+      class="handlicapCheck  {{#unless handicap}}merit{{/unless}}" {{#if handicap}}style="background-color: rgb(70, 0, 0);
       color: #fff;"{{/if}}
     >
       <input
         type="checkbox"
         invisible
         {{checked
-        data.data.handicap}}
+        handicap}}
         class="item-quick-edit"
-        name="data.handicap"
+        name="system.handicap"
         id="{{id}}prop"
       />
-      {{#if data.data.handicap}}
-      <label {{#if data.data.handicap}}style="background-color: rgb(70, 0, 0);
+      {{#if handicap}}
+      <label {{#if handicap}}style="background-color: rgb(70, 0, 0);
       color: #fff;"{{/if}} for="{{id}}prop">Handicap</label>
-      {{/if}} {{#unless data.data.handicap}}
+      {{/if}} {{#unless handicap}}
       <label for="{{id}}prop">Vorteil</label>
       {{/unless}}
     </div>
     {{>
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html"}}
+    "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
   </div>
 
-  {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+  {{> "systems/darkspace/templates/partials/actors/notes.html"}}
 </form>

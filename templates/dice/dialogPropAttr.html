@@ -9,9 +9,9 @@
     {{#each this}} {{#each this}}
     <li class="item grid col2" data-item-id="{{this._id}}">
       <span class="itemname" draggable="true">
-        {{#ifCond data.type "===" "Eigenschaft"}}
+        {{#ifCond system.type "===" "Eigenschaft"}}
         <i class="fas fa-dna"></i>
-        {{/ifCond}} {{#ifCond data.type "===" "Artifizierung"}}
+        {{/ifCond}} {{#ifCond system.type "===" "Artifizierung"}}
         <i class="fas fa-user-cog"></i>
         {{/ifCond}} {{this.name}}</span
       >

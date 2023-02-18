@@ -45,20 +45,12 @@
             ><span class="tooltiptext bottom">Notizen</span></span
           ></a
         >
-        <!-- Downtime: Vorrübergehend deaktiviert... Erstmal die Regeln dafür klären -->
-        <!--
-        <a class="item" data-tab="downtime"
-          ><span class="tooltip"
-            ><i class="fas fa-bed"></i
-            ><span class="tooltiptext bottom">Downtime</span></span
-          ></a
-            -->
       </nav>
     </section>
 
     <!--Statblock-->
     <section class="tab stats" data-group="primary" data-tab="stats">
-      {{> "systems/darkspace/templates/partials/sub-partials/stat-block.html"}}
+      {{> "systems/darkspace/templates/partials/character-sheet-stats.html"}}
     </section>
 
     <!--Props und Artifizierung-->
@@ -69,11 +61,6 @@
     <!--Kampfrelevante Werte-->
     <section class="tab combat" data-group="primary" data-tab="combat">
       {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
-    </section>
-
-    <!--downtime-->
-    <section class="tab items" data-group="primary" data-tab="downtime">
-      {{>"systems/darkspace/templates/partials/character-sheet-downtime.html"}}
     </section>
 
     <!--Items-->
@@ -89,7 +76,7 @@
       data-tab="notes"
     >
       <div class="flex fcol2 start">
-        {{>"systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+        {{>"systems/darkspace/templates/partials/actors/notes.html"}}
       </div>
 
       <!-- DEBUG ITEM LIST -->

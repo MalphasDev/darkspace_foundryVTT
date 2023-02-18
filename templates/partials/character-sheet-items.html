@@ -1,7 +1,7 @@
 <section>
   <h2>Gegenstände</h2>
   <ul class="item-list">
-    {{#each Werkzeug}}
+    {{#each items.Werkzeug}}
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
         <span
@@ -9,23 +9,22 @@
           draggable="true"
           data-itemid="{{this._id}}"
           ><i class="fas fa-tablet-alt"></i> {{this.name}}
-          <span class="anmerkung">({{this.data.useWith}})</span></span
+          <span class="anmerkung">({{this.system.useWith}})</span></span
         >
 
         <span
-          ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
+          ><i class="fas fa-expand-arrows-alt"></i> {{this.system.size}}<i
             class="fas fa-microchip"
           ></i
-          >{{this.data.mk}}</span
+          >{{this.system.mk}}</span
         >
         <div class="cell_r">
           {{>
-          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+          "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
         </div>
       </div>
     </li>
-    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
-    {{/each}} {{#each Terminals}}
+    {{/each}} {{#each items.Terminals}}
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
         <span
@@ -33,22 +32,21 @@
           draggable="true"
           data-itemid="{{this._id}}"
           ><i class="fas fa-tablet-alt"></i> {{this.name}}
-          <span class="anmerkung">({{this.data.useWith}})</span></span
+          <span class="anmerkung">({{this.system.useWith}})</span></span
         >
         <span
-          ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
+          ><i class="fas fa-expand-arrows-alt"></i> {{this.system.size}}<i
             class="fas fa-microchip"
           ></i
-          >{{this.data.mk}}</span
+          >{{this.system.mk}}</span
         >
         <div class="cell_r">
           {{>
-          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+          "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
         </div>
       </div>
     </li>
-    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
-    {{/each}} {{#each Medkit}}
+    {{/each}} {{#each items.Medkit}}
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
         <span
@@ -56,22 +54,21 @@
           draggable="true"
           data-itemid="{{this._id}}"
           ><i class="fas fa-first-aid"></i> {{this.name}}
-          <span class="anmerkung">({{this.data.useWith}})</span></span
+          <span class="anmerkung">({{this.system.useWith}})</span></span
         >
         <span
-          ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
+          ><i class="fas fa-expand-arrows-alt"></i> {{this.system.size}}<i
             class="fas fa-microchip"
           ></i
-          >{{this.data.mk}}</span
+          >{{this.system.mk}}</span
         >
         <div class="cell_r">
           {{>
-          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+          "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
         </div>
       </div>
     </li>
-    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
-    {{/each}} {{#each Gegenstand}}
+    {{/each}} {{#each items.Gegenstand}}
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col3-211">
         <span
@@ -79,22 +76,21 @@
           draggable="true"
           data-itemid="{{this._id}}"
           >{{this.name}}
-          <span class="anmerkung">({{this.data.useWith}})</span></span
+          <span class="anmerkung">({{this.system.useWith}})</span></span
         >
 
         <span
-          ><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}<i
+          ><i class="fas fa-expand-arrows-alt"></i> {{this.system.size}}<i
             class="fas fa-microchip"
           ></i
-          >{{this.data.mk}}</span
+          >{{this.system.mk}}</span
         >
         <div class="cell_r">
           {{>
-          "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+          "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
         </div>
       </div>
     </li>
-    {{>"systems/darkspace/templates/partials/sub-partials/sub-stat-collapsible.html"}}
     {{/each}}
   </ul>
 </section>

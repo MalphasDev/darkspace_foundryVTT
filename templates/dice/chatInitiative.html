@@ -1,8 +1,11 @@
 <h3>{{skill}}-Probe mit {{attr}}W</h3>
 <div>
-    <div>
-        {{#if this.disadv}}<hr><p class="red text_c">{{this.disadv}}</p>{{/if}}
-        <hr>
-        {{> "systems/darkspace/templates/dice/dice-sub-partials/dice-msg.html"}}
-    </div>
+  <div>
+    {{#if this.disadv}}
+    <hr />
+    <p class="red text_c">{{this.disadv}}</p>
+    {{/if}}
+    <hr />
+    {{> "systems/darkspace/templates/dice/dice-msg.html"}}
+  </div>
 </div>

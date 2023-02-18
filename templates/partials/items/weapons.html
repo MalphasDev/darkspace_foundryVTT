@@ -1,0 +1,24 @@
+
+ <!-- Durchschlag -->
+<div class="borderbox round text_c">
+    <i class="fas fa-bolt cell_c "></i>
+    <span class="derivedValue"></i>{{system.dmg}}</span>
+</div>
+<!-- Reichweite -->
+<div class="borderbox round text_c">
+    {{#ifCond item.type "===" "Schusswaffe"}}
+    <i class="fas fa-arrows-alt-h cell_c "></i> <span>{{system.range}}</span>
+    {{/ifCond}}
+    {{#ifCond item.type "===" "Nahkampfwaffe"}}
+    <i class="fas fa-fist-raised "></i>
+    {{/ifCond}}
+    {{#ifCond item.type "===" "Terminals"}}
+    <i class="fas fa-signal"></i> <span>{{system.signal}}</span>
+    {{/ifCond}}
+</div>
+
+<!-- AE Kosten -->
+<div class="borderbox round text_c">
+    <i class="fas fa-history cell_c "></i>
+    <span class="derivedValue">{{system.aeCost}} AE</span>   
+</div>

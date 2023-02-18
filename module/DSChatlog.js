@@ -1,6 +1,6 @@
 import * as DSMechanics from "./DSMechanics.js";
 
-export default class DSChatlog extends ChatLog {
+export class DSChatlog extends ChatLog {
   get template() {
     return "systems/darkspace/templates/sidebar/chat-log.html";
   }

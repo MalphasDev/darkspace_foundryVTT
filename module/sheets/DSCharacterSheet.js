@@ -1,8 +1,9 @@
+import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
 
-export default class DSCharakcterSheet extends ActorSheet {
+export class DSCharacterSheet extends ActorSheet {
   get template() {
-    return `systems/darkspace/templates/sheets/actors/${this.actor.data.type}-sheet.html`;
+    return `systems/darkspace/templates/sheets/actors/${this.object.type}-sheet.html`;
   }
   chatTemplate = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
@@ -33,25 +34,27 @@ export default class DSCharakcterSheet extends ActorSheet {
   }
 
   getData() {
-    let charData = super.getData();
-
+    const context = super.getData();
+    const actorData = this.actor.toObject(false);
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
 
     let itemType = Array.from(
-      charData.items.map((i) => {
+      context.items.map((i) => {
         return i.type;
       })
     );
-
+    let inventory = {};
     itemType.forEach((itemType) => {
-      charData[itemType] = charData.items.filter((item) => {
+      inventory[itemType] = context.items.filter((item) => {
         return item.type == itemType;
       });
     });
+    context.items = inventory;
 
-    const data = { ...charData, ...CONFIG.darkspace };
+    context.system = actorData.system;
+    context.flags = actorData.flags;
 
-    return data;
+    return context;
   }
 
   activateListeners(html) {
@@ -110,7 +113,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     event.preventDefault();
     !option ? (option = {}) : option;
     const element = option.rightClick ? event.target : event.currentTarget;
-    const actorData = this.object.data.data;
+    const actorData = this.object.system;
     const dataset = element.dataset;
 
     const inputData = {
@@ -118,7 +121,7 @@ export default class DSCharakcterSheet extends ActorSheet {
       actorId: this.actor.id,
       dynattr: DSMechanics.getStat(dataset.skill, actorData.charattribut).attr,
       dynskill: DSMechanics.getStat(dataset.skill, actorData.charattribut).fert,
-      actorData: this.object.data,
+      actorData: this.object.system,
       rollname: dataset.rollname,
       roleData: {
         attribute: DSMechanics.getStat(dataset.skill, actorData.charattribut)
@@ -151,14 +154,14 @@ export default class DSCharakcterSheet extends ActorSheet {
     !option ? (option = {}) : option;
     const element = option.rightClick ? event.target : event.currentTarget;
     const dataset = element.dataset;
-    const actorData = this.object.data;
+    const actorData = this.object.system;
     const item = this.actor.items.filter((item) => {
       return item.id === dataset.itemid;
     })[0];
 
     const stat = DSMechanics.getStat(
-      item.data.data.useWith,
-      actorData.data.charattribut
+      item.system.useWith,
+      actorData.charattribut
     );
 
     const preCreatedInput = this.createInputData(event, option);
@@ -192,7 +195,7 @@ export default class DSCharakcterSheet extends ActorSheet {
     event.preventDefault();
     const element = event.currentTarget;
     let itemId = element.closest(".item").dataset.itemId;
-    let itemInfo = this.object.data.items.filter((item) => {
+    let itemInfo = this.object.system.items.filter((item) => {
       return item.id == itemId;
     })[0];
 
@@ -212,7 +215,7 @@ export default class DSCharakcterSheet extends ActorSheet {
 
   async _modRess(event) {
     let ressAttr = event.currentTarget.dataset.attr;
-    let attrKey = "data.charattribut." + ressAttr + ".ress.value";
+    let attrKey = "system.charattribut." + ressAttr + ".ress.value";
     let ressMod = 0;
     if (event.currentTarget.className.includes("decRess")) {
       ressMod = -1;
@@ -220,8 +223,8 @@ export default class DSCharakcterSheet extends ActorSheet {
     if (event.currentTarget.className.includes("incRess")) {
       ressMod = 1;
     }
-    let newInc =
-      this.actor.data.data.charattribut[ressAttr].ress.value + ressMod;
+
+    let newInc = this.actor.system.charattribut[ressAttr].ress.value + ressMod;
 
     this.actor.update({
       id: this.actor.id,
@@ -246,14 +249,14 @@ export default class DSCharakcterSheet extends ActorSheet {
   }
 
   _ressPoints(event) {
-    const actorData = this.object.data.data;
+    const actorData = this.object.system;
     const element = event.currentTarget;
 
     let currentIndex = parseInt(element.dataset.index);
     let currentActive = parseInt(element.dataset.active);
     let currentAttr = element.dataset.thisattr;
     let currentAttrData = actorData.charattribut[currentAttr];
-    let ValueAdress = "data.charattribut." + currentAttr + ".ress.value";
+    let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
 
     if (currentActive === 1) {
       this.actor.update({
@@ -268,12 +271,12 @@ export default class DSCharakcterSheet extends ActorSheet {
     }
   }
   _ressReset(event) {
-    const actorData = this.object.data.data;
+    const actorData = this.object.system;
     const element = event.currentTarget;
 
     let currentAttr = element.dataset.thisattr;
     let currentAttrData = actorData.charattribut[currentAttr];
-    let ValueAdress = "data.charattribut." + currentAttr + ".ress.value";
+    let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
 
     this.actor.update({
       [ValueAdress]: currentAttrData.attribut,

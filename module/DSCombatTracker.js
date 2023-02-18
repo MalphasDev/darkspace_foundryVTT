@@ -1,6 +1,4 @@
-import * as DSCombatant from "./DSCombatant.js";
-import { darkspace } from "./config.js";
-export default class DSCombatTracker extends CombatTracker {
+export class DSCombatTracker extends CombatTracker {
   get template() {
     return "systems/darkspace/templates/sidebar/combat-tracker.html";
   }

@@ -1,33 +1,36 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
-  {{> "systems/darkspace/templates/partials/sub-partials/items-header.html"}}
+  {{> "systems/darkspace/templates/partials/items/header.html"}}
   <hr />
   <div class="grid col2 gridcenter">
-    {{>"systems/darkspace/templates/partials/MKSize.html"}}
+    {{>"systems/darkspace/templates/partials/items/MKSize.html"}}
   </div>
 
   <hr />
 
   <div class="grid col2">
-    <input type="text" name="data.useAktion" value="{{data.data.useAktion}}" />
-    {{>
-    "systems/darkspace/templates/dice/dialog-sub-partials/dialogSkillDropdown.html"}}
+    <input
+      type="text"
+      name="system.useAktion"
+      value="{{item.system.useAktion}}"
+    />
+    {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
   </div>
 
   <!--
     <hr>
     <div class="flex evenly">
-        <input type="checkbox" class="symbol" id="isArmor" {{checked this.data.data.armor}} name="data.armor">
+        <input type="checkbox" class="symbol" id="isArmor" {{checked this.armor}} name="system.armor">
         <label for="isArmor"><i class="fas fa-shield-alt"></i> Kybernitsche Rüstung</label>
-        <input type="checkbox" class="symbol" id="isWeapon" {{checked this.data.data.weapon}} name="data.weapon">
+        <input type="checkbox" class="symbol" id="isWeapon" {{checked this.weapon}} name="system.weapon">
         <label for="isWeapon"><i class="fas fa-bolt"></i> Kybernitsche Waffe</label>
     </div>
 
     
-    {{#if this.data.data.weapon}}
+    {{#if this.weapon}}
     <hr>
     <div class="grid col2 gridcenter">
         
-        {{> "systems/darkspace/templates/partials/sub-partials/items-weapons.html"}}  
+        {{> "systems/darkspace/templates/partials/items/weapons.html"}}  
     </div>
     {{/if}}
 
@@ -35,5 +38,5 @@
 
     
 -->
-  {{> "systems/darkspace/templates/partials/sub-partials/misc-notes.html"}}
+  {{> "systems/darkspace/templates/partials/actors/notes.html"}}
 </form>

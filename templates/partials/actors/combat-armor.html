@@ -3,17 +3,18 @@
   <h2>Panzerung</h2>
 
   <ul class="item-list">
-    {{#each Panzerung}}
+    {{#each items.Panzerung}}
     <li class="item grid col3-211 itemEdit pointer" data-item-id="{{this._id}}">
       <h3>{{this.name}}</h3>
       <!-- MK + size -->
       <div>
-        <span><i class="fas fa-expand-arrows-alt"></i> {{this.data.size}}</span>
-        <span><i class="fas fa-microchip"></i>{{this.data.mk}}</span>
+        <span
+          ><i class="fas fa-expand-arrows-alt"></i> {{this.system.size}}</span
+        >
+        <span><i class="fas fa-microchip"></i>{{this.system.mk}}</span>
       </div>
       <div class="cell_r">
-        {{>
-        "systems/darkspace/templates/partials/sub-partials/items-editDeleteEquip.html"}}
+        {{> "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
       </div>
     </li>
     {{/each}}

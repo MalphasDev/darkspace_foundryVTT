@@ -26,9 +26,11 @@
       },
       "cortexConditions": {
         "cortexConditions": {
-          "manipulated": false,
-          "hacked": false,
-          "offline": false
+          "overflow": false,
+          "crash": false,
+          "dos": false,
+          "offline": false,
+          "rooted": false
         }
       }
     },
@@ -39,6 +41,12 @@
       "xp": {
         "value": 0,
         "max": 0
+      },
+      "upkeep": {
+        "Versorgung": 0,
+        "Unterkunft": 0,
+        "Unterhaltung": 0,
+        "Sonstiges": 0
       },
 
       "charattribut": {
@@ -102,7 +110,6 @@
             "Glück": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -114,7 +121,6 @@
             "Willenskraft": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -126,7 +132,6 @@
             "Synthese": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -138,7 +143,6 @@
             "Kontakte": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -150,7 +154,6 @@
             "Finanzen": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -180,7 +183,6 @@
             "Synthese": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -194,25 +196,19 @@
 
       "templates": ["commonStats", "techConditions", "cortexConditions"],
       "charattribut": {
-        "Antrieb": {
+        "Leistung": {
           "attribut": 1,
-          "skill": { "Beschleunigung": 0, "Handling": 0 }
+          "skill": { "Beschleunigung": 0, "Servos": 0 }
         },
         "Energie": {
           "attribut": 1,
           "skill": { "Tarnen": 0, "Verteilung": 0 }
         },
-        "KI": {
+        "Kybernese": {
           "attribut": 1,
           "skill": {
-            "Bots": 0,
+            "Synthese": 0,
             "Cortex": 0
-          },
-          "ress": {
-            "exists": true,
-            "value": 0,
-            "min": 0,
-            "max": 10
           }
         },
         "Sensoren": {
@@ -223,6 +219,7 @@
     },
     "KI": {
       "mk": 1,
+      "size": 1,
       "templates": ["commonStats", "cortexConditions"],
       "charattribut": {
         "Aufmerksamkeit": {
@@ -285,7 +282,6 @@
             "Glück": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -297,7 +293,6 @@
             "Kontakte": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10
@@ -309,7 +304,6 @@
             "Finanzen": 0
           },
           "ress": {
-            "exists": true,
             "value": 0,
             "min": 0,
             "max": 10

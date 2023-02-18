@@ -34,14 +34,16 @@ background-repeat: no-repeat;"
         />
       </h2>
     </div>
-    {{#ifCond data.type "===" "DrohneFahrzeug"}}
-    <div class="grid col2 borderbox round">
-      {{>"systems/darkspace/templates/partials/MKSize.html"}}
-    </div>
-    {{/ifCond}}
-    <!-- Zustandsmonitor -->
     <div>
-      {{> "systems/darkspace/templates/partials/sub-partials/stat-health.html"}}
+      {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
+      "Nebencharakter"}}
+      <div class="grid col2 borderbox round">
+        {{>"systems/darkspace/templates/partials/items/MKSize.html"}}
+      </div>
+      {{/ifCond}} {{/ifCond}}
+
+      <!-- Zustandsmonitor -->
+      <div>{{> "systems/darkspace/templates/partials/actors/health.html"}}</div>
     </div>
   </div>
 </section>

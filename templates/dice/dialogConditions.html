@@ -1,11 +1,11 @@
 <div class="flex wrap">
-  {{#each data.conditionList}}
+  {{#each system.conditionList}}
   <input
     type="checkbox"
     class="symbol"
     {{checked
     [1].active}}
-    name="data.bodyConditions.active"
+    name="system.bodyConditions.active"
     value="{{@index}}"
     id="{{[1].value}}"
   />

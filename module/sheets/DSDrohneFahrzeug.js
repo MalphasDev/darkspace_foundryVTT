@@ -1,8 +1,8 @@
-import DSCharakcterSheet from "./DSCharacterSheet.js";
+import { DSCharacterSheet } from "./DSCharacterSheet.js";
 /**
  * @noInheritDoc
  */
-export default class DSDrohneFahrzeug extends DSCharakcterSheet {
+export class DSDrohneFahrzeug extends DSCharacterSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       template:
