@@ -45,14 +45,14 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "items/header.html",
     partialAddress + "items/weapons.html",
     partialAddress + "items/editDeleteEquip.html",
-    partialAddress + "items/MKSize.html",
+    partialAddress + "items/MkSize.html",
     partialAddress + "items/MkSize_display.html",
 
     //Misc
     diceAddress + "dice-msg.html",
 
     //Dialog
-    diceAddress + "dialogMKSize.html",
+    diceAddress + "dialogMkSize.html",
     diceAddress + "dialogName.html",
     diceAddress + "dialogDescMod.html",
     diceAddress + "dialogWeapon.html",
