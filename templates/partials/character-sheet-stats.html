@@ -15,7 +15,6 @@
       </li>
     </ul>
     <span class="pill padding" style="margin: 0 2px">
-      <span>Erfahrung</span>
       <span>{{system.totalXp}} /</span>
       <input
         name="system.xp.max"
@@ -36,34 +35,14 @@
       <!--ATTRIBUTE für Charaktere-->
 
       <div class="flex between">
-        <span class="attrname">{{attrname}}</span>
+        <span class="attrname">{{attrname}} </span>
 
         <span class="flex end">
-          {{#if ress}}
           <span
-            class="tooltip"
-            style="
-              justify-self: flex-start;
-              width: 8ch;
-              display: flex;
-              justify-content: space-between;
-              align-items: baseline;
-              margin-right: 10px;
-            "
+            >{{#each ../items.Artifizierung}} {{#ifCond system.useAttr "==="
+            attrname}} <i class="fa-solid fa-arrow-up-wide-short"></i> max.
+            {{system.attrMaxBonus}} {{/ifCond}}{{/each}}</span
           >
-            <i class="fas fa-minus-square decRess" data-attr="{{attrname}}"></i>
-            <input
-              type="number"
-              name="system.charattribut.{{attrname}}.ress.value"
-              id="{{actor.id}}_{{attrname}}pkt"
-              value="{{ress.value}}"
-            />
-            <i class="fas fa-plus-square incRess" data-attr="{{attrname}}"></i>
-            <span class="tooltiptext top">{{attrname}}-Punkte</span>
-          </span>
-
-          {{/if}}
-
           <span class="attrvalue">
             <input
               class="value_box"
@@ -79,35 +58,33 @@
       <!--FERTIGKEITEN-->
       <ul class="fertfeld">
         {{#each skill as |fertval fertname|}}
-
-        <li class="gridleftcenter fertname grid col2-21">
+        <li class="fertname flex between">
           <a class="rollSkill" data-skill="{{fertname}}">
             {{fertname}}
-            <span class="anmerkung"
-              >{{#each ../../Eigenschaft}} {{#ifCond system.useWith "==="
+            <span
+              >{{#each ../../items.Eigenschaft}} {{#ifCond system.useWith "==="
               fertname}} {{#unless system.handicap}}
-
               <span class="tooltip">
-                <i class="fas fa-dna"></i>
+                <i class="fa-solid fa-dna"></i>
 
                 <span class="tooltiptext top">{{this.name}}</span>
               </span>
 
               {{/unless}} {{/ifCond}} {{/each}}</span
             >
-            <span class="anmerkung">
-              {{#each ../../Eigenschaft}} {{#ifCond system.useWith "==="
+            <span>
+              {{#each ../../items.Eigenschaft}} {{#ifCond system.useWith "==="
               fertname}} {{#if system.handicap}}<span class="tooltip">
-                <i class="fas fa-minus-circle handicap"></i>
+                <i class="fa-solid fa-minus-circle handicap"></i>
 
                 <span class="tooltiptext top">{{this.name}}</span> </span
               >{{/if}} {{/ifCond}} {{/each}}
             </span>
-            <span class="anmerkung">
-              {{#each ../../Artifizierung}} {{#ifCond system.useWith "==="
+            <span>
+              {{#each ../../items.Artifizierung}} {{#ifCond system.useWith "==="
               fertname}}
               <span class="tooltip">
-                <i class="fas fa-microchip"></i>
+                <i class="fa-solid fa-microchip"></i>
 
                 <span class="tooltiptext top">{{this.name}}</span>
               </span>

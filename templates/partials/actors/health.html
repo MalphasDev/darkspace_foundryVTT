@@ -1,88 +1,103 @@
 <div>
   <div class="health-monitor">
-
     <!-- Health -->
 
-
     <ul class="flex start">
-
-      {{#ifCond this.actor.type "!=" "DrohneFahrzeug"}}
-      {{#ifCond this.actor.type "!=" "KI"}}
+      {{#ifCond this.actor.type "!=" "DrohneFahrzeug"}} {{#ifCond
+      this.actor.type "!=" "KI"}}
       <li>
-        <i class="fas fa-heartbeat health-icon"></i>
+        <i class="fa-solid fa-heartbeat health-icon"></i>
       </li>
-      {{/ifCond}}
-      {{/ifCond}}
-      
-      {{#each system.bodyConditions as |value key|}}
+      {{/ifCond}} {{/ifCond}} {{#each system.bodyConditions as |value key|}}
 
       <li class="flex borderbox round">
-        
-        <input type="checkbox" class="noDisplay" {{checked value}} name="system.bodyConditions.{{key}}"
-        id="{{../actor.id}}_bodyConditions_{{key}}" />
-        
-        <label class="flex center borderbox" for="{{../actor.id}}_bodyConditions_{{key}}">
+        <input
+          type="checkbox"
+          class="noDisplay"
+          {{checked
+          value}}
+          name="system.bodyConditions.{{key}}"
+          id="{{../actor.id}}_bodyConditions_{{key}}"
+        />
+
+        <label
+          class="flex center borderbox"
+          for="{{../actor.id}}_bodyConditions_{{key}}"
+        >
           <div class="tooltip">
             {{#with (lookup ../system.bodyConditionLabel key)}}
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
             {{/with}}
-            {{lookup ../this.actor.system.hitArray @index}}
+            <div>{{lookup ../this.actor.system.hitArray @index}}</div>
           </div>
         </label>
       </li>
       {{/each}}
-
     </ul>
 
     <!-- Tech Health -->
 
     <ul class="flex start">
-
-      {{#ifCond this.actor.type "===" "DrohneFahrzeug"}}<li>
-        <i class="fas fa-cogs health-icon"></i>
-      </li>{{/ifCond}}
-      {{#each system.techConditions as |value key|}}
+      {{#ifCond this.actor.type "===" "DrohneFahrzeug"}}
+      <li>
+        <i class="fa-solid fa-cogs health-icon"></i>
+      </li>
+      {{/ifCond}} {{#each system.techConditions as |value key|}}
 
       <li class="flex borderbox round">
-        
-        <input type="checkbox" class="noDisplay" {{checked value}} name="system.techConditions.{{key}}"
-        id="{{../actor.id}}_techConditions_{{key}}" />
-        
-        <label class="flex center borderbox" for="{{../actor.id}}_techConditions_{{key}}">
+        <input
+          type="checkbox"
+          class="noDisplay"
+          {{checked
+          value}}
+          name="system.techConditions.{{key}}"
+          id="{{../actor.id}}_techConditions_{{key}}"
+        />
+
+        <label
+          class="flex center borderbox"
+          for="{{../actor.id}}_techConditions_{{key}}"
+        >
           <div class="tooltip">
             {{#with (lookup ../system.techConditionLabel key)}}
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
             {{/with}}
-            {{lookup ../this.actor.system.hitArrayTech @index}}
+            <div>{{lookup ../this.actor.system.hitArrayTech @index}}</div>
           </div>
         </label>
       </li>
       {{/each}}
-
     </ul>
-
     <!-- Cortex Health -->
 
     <ul class="flex start">
       <li>
-        <i class="fas fa-memory health-icon"></i>
+        <i class="fa-solid fa-memory health-icon"></i>
       </li>
       {{#each system.cortexConditions as |value key|}}
 
       <li class="flex borderbox round">
-        
-        <input type="checkbox" class="noDisplay" {{checked value}} name="system.cortexConditions.{{key}}"
-        id="{{../actor.id}}_cortexConditions_{{key}}" />
-        
-        <label class="flex center borderbox" for="{{../actor.id}}_cortexConditions_{{key}}">
+        <input
+          type="checkbox"
+          class="noDisplay"
+          {{checked
+          value}}
+          name="system.cortexConditions.{{key}}"
+          id="{{../actor.id}}_cortexConditions_{{key}}"
+        />
+
+        <label
+          class="flex center borderbox"
+          for="{{../actor.id}}_cortexConditions_{{key}}"
+        >
           <div class="tooltip">
             {{#with (lookup ../system.cortexConditionLabel key)}}
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
             {{/with}}
-            {{lookup ../this.actor.system.hitArrayCortex @index}}
+            <div>{{lookup ../this.actor.system.hitArrayCortex @index}}</div>
           </div>
         </label>
       </li>
@@ -94,87 +109,61 @@
   <div class="grid col2">
     <!-- Aufrappeln -->
     <div>
-      <h3><i class="fas fa-running"></i>Aufrappeln</h3>
+      <h3><i class="fa-solid fa-running"></i>Aufrappeln</h3>
       <div>
-
         {{#ifCond actor.type "===" "Charakter"}}
         <!-- Aufrappeln FIT -->
-        {{>"systems/darkspace/templates/partials/actors/actionBtn.html" 
-        skillname="Fitness" 
-        skillAttr=system.charattribut.Konstitution.attribut
-        skillVal=system.charattribut.Konstitution.skill.Fitness}}
-        {{/ifCond}}
+        {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
+        skillname="Fitness" skillAttr=system.charattribut.Konstitution.attribut
+        skillVal=system.charattribut.Konstitution.skill.Fitness}} {{/ifCond}}
         {{#ifCond actor.type "===" "Nebencharakter"}}
         <!-- Aufrappeln KRA -->
-        {{>"systems/darkspace/templates/partials/actors/actionBtn.html" 
-        skillname="Kraft" 
-        skillAttr=system.charattribut.Körper.attribut
-        skillVal=system.charattribut.Körper.skill.Kraft}}
-        {{/ifCond}}
-        {{#ifCond actor.type "===" "DrohneFahrzeug"}}
+        {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
+        skillname="Kraft" skillAttr=system.charattribut.Körper.attribut
+        skillVal=system.charattribut.Körper.skill.Kraft}} {{/ifCond}} {{#ifCond
+        actor.type "===" "DrohneFahrzeug"}}
         <!-- Aufrappeln Größe -->
-        {{>"systems/darkspace/templates/partials/actors/actionBtn.html" 
-        skillname="Größe" 
-        skillAttr=system.size
-        skillVal=system.size}}
-        {{/ifCond}}
-        {{#ifCond actor.type "!=" "DrohneFahrzeug"}}
+        {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
+        skillname="Größe" skillAttr=system.size skillVal=system.size}}
+        {{/ifCond}} {{#ifCond actor.type "!=" "DrohneFahrzeug"}}
         <!-- Aufrappeln WIL -->
-        {{>"systems/darkspace/templates/partials/actors/actionBtn.html" 
-        skillname="Willenskraft" 
+        {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
+        skillname="Willenskraft"
         skillAttr=system.charattribut.Konzentration.attribut
         skillVal=system.charattribut.Konzentration.skill.Willenskraft}}
         {{/ifCond}}
         <!-- Aufrappeln SYN -->
-        {{>"systems/darkspace/templates/partials/actors/actionBtn.html" 
-        skillname="Synthese" 
-        skillAttr=system.charattribut.Kybernese.attribut
+        {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
+        skillname="Synthese" skillAttr=system.charattribut.Kybernese.attribut
         skillVal=system.charattribut.Kybernese.skill.Synthese}}
       </div>
     </div>
     <!-- Schutz -->
     <div>
-      <h3><i class="fas fa-shield-alt"></i>Schutzprobe</h3>
-      
+      <h3><i class="fa-solid fa-shield-alt"></i>Schutzprobe</h3>
+
       {{#ifCond actor.type "===" "Charakter"}}
 
-        <!-- Motorik Schutz -->
-        {{>"systems/darkspace/templates/partials/actors/protectionBtn.html" 
-        skillname="Motorik" 
-        skillAttr=system.charattribut.Geschick.attribut
-        skillVal=system.charattribut.Geschick.skill.Motorik}}
+      <!-- Motorik Schutz -->
+      {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
+      skillname="Motorik" skillAttr=system.charattribut.Geschick.attribut
+      skillVal=system.charattribut.Geschick.skill.Motorik}}
 
-        <!-- Fitness Schutz -->
-        {{>"systems/darkspace/templates/partials/actors/protectionBtn.html" 
-        skillname="Fitness" 
-        skillAttr=system.charattribut.Konstitution.attribut
-        skillVal=system.charattribut.Konstitution.skill.Fitness}}
-
-      {{/ifCond}}
+      <!-- Fitness Schutz -->
+      {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
+      skillname="Fitness" skillAttr=system.charattribut.Konstitution.attribut
+      skillVal=system.charattribut.Konstitution.skill.Fitness}} {{/ifCond}}
       {{#ifCond actor.type "===" "Nebencharakter"}}
 
-        <!-- Kraft Schutz -->
-        {{>"systems/darkspace/templates/partials/actors/protectionBtn.html" 
-        skillname="Kraft" 
-        skillAttr=system.charattribut.Körper.attribut
-        skillVal=system.charattribut.Körper.skill.Kraft}}
+      <!-- Kraft Schutz -->
+      {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
+      skillname="Kraft" skillAttr=system.charattribut.Körper.attribut
+      skillVal=system.charattribut.Körper.skill.Kraft}} {{/ifCond}}
 
-      {{/ifCond}}
-
-        <!-- Synthese Schutz -->
-        {{>"systems/darkspace/templates/partials/actors/protectionBtn.html" 
-        skillname="Synthese" 
-        skillAttr=system.charattribut.Kybernese.attribut
-        skillVal=system.charattribut.Kybernese.skill.Synthese}}
-
-
-        
-        
-      </div>
+      <!-- Synthese Schutz -->
+      {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
+      skillname="Synthese" skillAttr=system.charattribut.Kybernese.attribut
+      skillVal=system.charattribut.Kybernese.skill.Synthese}}
     </div>
   </div>
-</div>
-
-
-
 </div>

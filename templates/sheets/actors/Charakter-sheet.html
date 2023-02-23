@@ -1,19 +1,18 @@
 <form
-  class="{{cssClass}} grid"
-  style="grid-template-columns: 250px 1fr; overflow: auto"
+  class="{{cssClass}} grid actorForm"
   autocomplete="off"
   onunload=""
 >
   <!--Info-Header-->
   {{>"systems/darkspace/templates/partials/character-sheet-header.html"}}
-
+ 
   <!--Sheetbody-->
   <section class="sheet-body">
     <section id="navbar">
       <nav class="sheet-tabs tabs flex" data-group="primary">
         <a class="item" data-tab="stats">
           <span class="tooltip"
-            ><i class="fas fa-dna"></i
+            ><i class="fa-solid fa-dna"></i
             ><span class="tooltiptext bottom"
               >Attribute und Fertigkeiten</span
             ></span
@@ -21,27 +20,29 @@
         </a>
         <a class="item" data-tab="props">
           <span class="tooltip"
-            ><i class="fas fa-users-cog"></i
+            ><i class="fa-solid fa-users-cog"></i
             ><span class="tooltiptext bottom"
               >Eigenschaften und Artifzierungen</span
             ></span
           >
         </a>
+        <!--
         <a class="item" data-tab="combat">
           <span class="tooltip"
-            ><i class="fas fa-fist-raised"></i
+            ><i class="fa-solid fa-fist-raised"></i
             ><span class="tooltiptext bottom">Waffen und Rüstung</span></span
           >
         </a>
+      -->
         <a class="item" data-tab="items">
           <span class="tooltip"
-            ><i class="fas fa-suitcase"></i
+            ><i class="fa-solid fa-suitcase"></i
             ><span class="tooltiptext bottom">Inventar</span></span
           >
         </a>
         <a class="item" data-tab="notes"
           ><span class="tooltip"
-            ><i class="fas fa-book"></i
+            ><i class="fa-solid fa-book"></i
             ><span class="tooltiptext bottom">Notizen</span></span
           ></a
         >
@@ -50,6 +51,7 @@
 
     <!--Statblock-->
     <section class="tab stats" data-group="primary" data-tab="stats">
+
       {{> "systems/darkspace/templates/partials/character-sheet-stats.html"}}
     </section>
 
@@ -61,10 +63,12 @@
     <!--Kampfrelevante Werte-->
     <section class="tab combat" data-group="primary" data-tab="combat">
       {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
+      {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
     <!--Items-->
     <section class="tab items" data-group="primary" data-tab="items">
+      {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
       {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
@@ -75,7 +79,59 @@
       data-group="primary"
       data-tab="notes"
     >
-      <div class="flex fcol2 start">
+      <div class="flex fcol2 start wrap">
+        <div class="cell_t actorimgcontainer">
+          <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+        </div>
+      
+        {{#ifCond actor.type "!=" "Charakter"}}
+        <div></div>
+        {{/ifCond}}
+        
+        {{#ifCond actor.type "===" "Charakter"}}
+        <div class="attrfeld">
+          <div class="flex between">
+            <span class="attrname">Unterhalt</span>
+              <span class="attrvalue">
+                <input
+                  class="value_box"
+                  name="system.upkeepTotal"
+                  value="{{system.upkeepTotal}}"
+                  type="number"
+                  disabled
+                />
+                / <input
+                class="value_box"
+                name="system.wealth"
+                value="{{system.wealth}}"
+                type="number"
+                disabled
+              />
+            </span>
+          </div>
+            
+            <ul class="fertfeld">
+              {{#each system.upkeep as |key name|}}
+              <li>
+                <li class="gridleftcenter fertname grid col2-21">
+                  <p>{{name}}</p>
+                  <div class="skillbox">
+                    <input
+                      class="value_box"
+                      name="system.upkeep.{{name}}"
+                      value="{{this}}"
+                      type="number"
+                      min="0"
+                      max="10"
+                    />
+                  </div>
+                </li>
+      
+              </li>
+              {{/each}}
+            </ul>
+        </div>
+        {{/ifCond}}
         {{>"systems/darkspace/templates/partials/actors/notes.html"}}
       </div>
 
@@ -87,7 +143,7 @@
           <li class="item" data-item-id="{{this._id}}">
             {{name}}
             <a class="item-control itemDelete" title="Delete Item"
-              ><i class="fas fa-trash"></i
+              ><i class="fa-solid fa-trash"></i
             ></a>
           </li>
           {{/each}}

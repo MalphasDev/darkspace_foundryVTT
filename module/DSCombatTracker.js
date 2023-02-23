@@ -7,20 +7,12 @@ export class DSCombatTracker extends CombatTracker {
     const combat = this.viewed;
 
     context.turns.forEach((turn) => {
-      turn.flags = context.combat.combatants.get(turn.id)?.data.flags;
+      turn.flags = context.combat.combatants.get(turn.id)?.flags;
     });
 
     if (combat != null) {
       if (combat.sendAE == undefined) {
         combat.sendAE = 0;
-      }
-      if (game.settings.get("darkspace", "ae_input") == "ae_button") {
-        combat.uiButton = true;
-        combat.uiSlider = false;
-      }
-      if (game.settings.get("darkspace", "ae_input") == "ae_slider") {
-        combat.uiButton = false;
-        combat.uiSlider = true;
       }
       if (combat.turns.length !== 0) {
         // Letzten Actor finden
@@ -67,29 +59,6 @@ export class DSCombatTracker extends CombatTracker {
 
     combat.setInitiative(currentTargetId, combat.newIni);
 
-    // if (game.user.isGM) {
-    //   currentCombatant.update({
-    //     id: currentTargetId,
-    //     initiative: newIni,
-    //   });
-    // } else {
-    //   game.socket.emit("system.darkspace", {
-    //     operation: "updateInitRoll",
-    //     id: currentTargetId,
-    //     initiative: newIni,
-    //   });
-    // }
-
-    // combat.nextRound();
-
-    // for (var i = 0; Array.from(combat.data.combatants).length > i; i++) {
-    //   combat.data.combatants
-    //     .map((j) => {
-    //       return j;
-    //     })
-    //     [i].setFlag("darkspace", "target", false);
-    // }
-
     // Es wird bei jedem Combat-Update ein Test gemacht, ob turn = 0. Wenn nein, wird der turn auf 0 gesetzt = erster Charakter
   }
 
@@ -119,24 +88,18 @@ export class DSCombatTracker extends CombatTracker {
       this._sendAE();
     } else {
       combat.targetCombatant = this.getCurrentTargetId();
-      if (game.settings.get("darkspace", "ae_input") === "ae_button") {
-        if (event.currentTarget.className.includes("aeCostCustom")) {
-          aeCost = parseInt(document.getElementById("customAE").value);
-        } else {
-          aeCost = parseInt(event.currentTarget.dataset.aecost);
-        }
-
-        // Zurücksetzen oder nicht zurücksetzen. Das wird hier gefragt!
-        if (aeCost === 0) {
-          // Wenn aeCost === 0 bzw. +0 Ae übergeben wird entspricht einem Reset
-          combat.sendAE = 0;
-        } else {
-          combat.sendAE += parseInt(aeCost);
-        }
+      if (event.currentTarget.className.includes("aeCostCustom")) {
+        aeCost = parseInt(document.getElementById("customAE").value);
+      } else {
+        aeCost = parseInt(event.currentTarget.dataset.aecost);
       }
 
-      if (game.settings.get("darkspace", "ae_input") === "ae_slider") {
-        combat.sendAE = parseInt(event.currentTarget.value);
+      // Zurücksetzen oder nicht zurücksetzen. Das wird hier gefragt!
+      if (aeCost === 0) {
+        // Wenn aeCost === 0 bzw. +0 Ae übergeben wird entspricht einem Reset
+        combat.sendAE = 0;
+      } else {
+        combat.sendAE += parseInt(aeCost);
       }
     }
     this._getNewField();
@@ -163,9 +126,9 @@ export class DSCombatTracker extends CombatTracker {
       currentTargetId = this.getCurrentTargetId();
     }
 
-    const currentCombatantIni = combat.data.combatants.filter((r) => {
+    const currentCombatantIni = combat.combatants.filter((r) => {
       return r.id === currentTargetId;
-    })[0].data.initiative;
+    })[0].initiative;
 
     // Hier werden die nächsten 100 freien Felder ermittelt, die der Charakter auf dem Ini-Board erreichen kann
     let nextAe = [];
@@ -194,9 +157,9 @@ export class DSCombatTracker extends CombatTracker {
   combatantList() {
     const combat = this.viewed;
 
-    let combatantList = combat.data.combatants
+    let combatantList = combat.combatants
       .map((i) => {
-        return [i.id, i.data.initiative];
+        return [i.id, i.initiative];
       })
       .sort((a, b) => {
         return a[1] - b[1];
@@ -208,9 +171,9 @@ export class DSCombatTracker extends CombatTracker {
     var currentTargetId = this.getCurrentTargetId();
 
     let hitTarget = event.currentTarget.dataset.combatantId;
-    let hitTargetIni = combat.data.combatants.filter((i) => {
-      return hitTarget === i.data._id;
-    })[0].data.initiative;
+    let hitTargetIni = combat.combatants.filter((i) => {
+      return hitTarget === i._id;
+    })[0].initiative;
 
     this._increaseAE(event, { aeCost: 1, hitTarget: hitTarget });
 

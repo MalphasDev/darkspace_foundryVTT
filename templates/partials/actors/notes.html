@@ -1,66 +1,11 @@
-<div class="flex fcol2 wrap">
-  <div class="cell_t actorimgcontainer">
-    <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-  </div>
+<div>
+  <h2>Beschreibung</h2>
+  {{editor system.description target="system.description" button=true
+  owner=owner editable=editable rollData=rollData}}
+</div>
 
-  {{#ifCond actor.type "!=" "Charakter"}}
-  <div></div>
-  {{/ifCond}}
-  
-  {{#ifCond actor.type "===" "Charakter"}}
-  <div class="attrfeld">
-    <div class="flex between">
-      <span class="attrname">Unterhalt</span>
-        <span class="attrvalue">
-          <input
-            class="value_box"
-            name="system.upkeepTotal"
-            value="{{system.upkeepTotal}}"
-            type="number"
-            disabled
-          />
-          / <input
-          class="value_box"
-          name="system.wealth"
-          value="{{system.wealth}}"
-          type="number"
-          disabled
-        />
-      </span>
-    </div>
-      
-      <ul class="fertfeld">
-        {{#each system.upkeep as |key name|}}
-        <li>
-          <li class="gridleftcenter fertname grid col2-21">
-            <p>{{name}}</p>
-            <div class="skillbox">
-              <input
-                class="value_box"
-                name="system.upkeep.{{name}}"
-                value="{{this}}"
-                type="number"
-                min="0"
-                max="10"
-              />
-            </div>
-          </li>
-
-        </li>
-        {{/each}}
-      </ul>
-  </div>
-  {{/ifCond}}
-
-  <div>
-    <h2>Beschreibung</h2>
-    {{editor actor.system.description target="system.description" button=true
-    owner=owner editable=editable rollData=rollData}}
-  </div>
-
-  <div>
-    <h2>Notizen</h2>
-    {{editor actor.system.notes target="system.notes" button=true owner=owner
-    editable=editable rollData=rollData}}
-  </div>
+<div>
+  <h2>Notizen</h2>
+  {{editor system.notes target="system.notes" button=true owner=owner
+  editable=editable rollData=rollData}}
 </div>

@@ -57,8 +57,15 @@ export class DSItemSheet extends ItemSheet {
     }
   }
   async _onModRess(event) {
-    const ressAttr = event.currentTarget.dataset.attr;
+    let ressAttr = event.currentTarget.dataset.attr;
     const ValueAdress = "system.ress." + ressAttr;
+
+    const arr = ("object.system.ress." + ressAttr).split(".");
+    let stat = this;
+    while (arr.length) {
+      stat = stat[arr.shift()];
+    }
+
     let ressMod = 0;
     if (event.currentTarget.className.includes("decRess")) {
       ressMod = -1;
@@ -66,11 +73,12 @@ export class DSItemSheet extends ItemSheet {
     if (event.currentTarget.className.includes("incRess")) {
       ressMod = 1;
     }
-    const newInc = this.object.system.ress[ressAttr] + ressMod;
 
-    this.object.update({
-      id: this.object.id,
-      [ValueAdress]: newInc,
-    });
+    if (typeof stat === "number") {
+      this.object.update({
+        id: this.object.id,
+        [ValueAdress]: stat + ressMod,
+      });
+    }
   }
 }

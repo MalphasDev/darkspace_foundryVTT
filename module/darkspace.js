@@ -1,14 +1,15 @@
-import { darkspace } from "./module/config.js";
-import { DSItemSheet } from "./module/sheets/DSItemSheet.js";
-import { DSItem } from "./module/sheets/DSItem.js";
-import { DSCharacter } from "./module/sheets/DSCharacter.js";
-import { DSCharacterSheet } from "./module/sheets/DSCharacterSheet.js";
-import { DSCombat } from "./module/DSCombat.js";
-import { DSCombatTracker } from "./module/DSCombatTracker.js";
-import { DSChatlog } from "./module/DSChatlog.js";
-import { DSPause } from "./module/DSPause.js";
-import { DSHotbar } from "./module/DSHotbar.js";
-import * as DSMechanics from "./module/DSMechanics.js";
+import { darkspace } from "./config.js";
+import { DSItemSheet } from "./sheets/DSItemSheet.js";
+import { DSItem } from "./sheets/DSItem.js";
+import { DSCharacter } from "./sheets/DSCharacter.js";
+import { DSCharacterSheet } from "./sheets/DSCharacterSheet.js";
+import { DSCombat } from "./DSCombat.js";
+import { DSCombatTracker } from "./DSCombatTracker.js";
+import { DSChatlog } from "./DSChatlog.js";
+import { DSPause } from "./DSPause.js";
+import { DSHotbar } from "./DSHotbar.js";
+import * as DSMechanics from "./DSMechanics.js";
+import * as DSHealth from "./DSHealth.js";
 
 async function preloadHandlebarsTemplates() {
   const baseAddress = "systems/darkspace/templates/";
@@ -25,6 +26,7 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "character-sheet-props.html",
     partialAddress + "character-sheet-stats.html",
 
+    partialAddress + "techCortexHealth.html",
     //Buttons
     partialAddress + "actors/actionBtn.html",
     partialAddress + "actors/protectionBtn.html",
@@ -44,6 +46,7 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "items/weapons.html",
     partialAddress + "items/editDeleteEquip.html",
     partialAddress + "items/MKSize.html",
+    partialAddress + "items/MkSize_display.html",
 
     //Misc
     diceAddress + "dice-msg.html",
@@ -124,6 +127,13 @@ Hooks.once("init", function () {
   Actors.registerSheet("darkspace", DSCharacterSheet, { makeDefault: true });
 
   preloadHandlebarsTemplates();
+});
+
+Hooks.once("ready", function () {
+  const isGM = game.users.current.isGM;
+  const gameVersion = game.version;
+  console.log("Dark Space Version " + gameVersion + " loaded.");
+  console.log(game);
 });
 
 Handlebars.registerHelper("disabled", function (condition) {

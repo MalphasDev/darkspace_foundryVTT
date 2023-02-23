@@ -1,8 +1,9 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
   {{> "systems/darkspace/templates/partials/items/header.html"}}
-  <div class="grid col2 gridcenter">
+  <div class="flex around">
     {{>"systems/darkspace/templates/partials/items/MKSize.html"}}
   </div>
-  {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"}} {{>
-  "systems/darkspace/templates/partials/actors/notes.html"}}
+  {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
+  <div>{{> "systems/darkspace/templates/partials/techCortexHealth.html"}}</div>
+  {{> "systems/darkspace/templates/partials/actors/notes.html"}}
 </form>

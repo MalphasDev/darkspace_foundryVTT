@@ -1,8 +1,4 @@
-<form
-  class="{{cssClass}} grid"
-  style="grid-template-columns: 250px 1fr; overflow: auto"
-  autocomplete="off"
->
+<form class="{{cssClass}} grid actorForm" autocomplete="off">
   <!--Info-Header-->
   {{>"systems/darkspace/templates/partials/character-sheet-header.html"}}
 
@@ -12,24 +8,22 @@
       <nav class="sheet-tabs tabs flex" data-group="primary">
         <a class="item" data-tab="stats">
           <span class="tooltip"
-            ><i class="fas fa-dna"></i
+            ><i class="fa-solid fa-dna"></i
             ><span class="tooltiptext bottom"
-              >Attribute, Fertigkeiten</span
+              >Attribute, Fertigkeiten, Eigenschaften</span
             ></span
           >
         </a>
 
         <a class="item" data-tab="items">
           <span class="tooltip"
-            ><i class="fas fa-suitcase"></i><i class="fas fa-fist-raised"></i
-            ><span class="tooltiptext bottom"
-              >Ausrüstung und Inventar</span
-            ></span
+            ><i class="fa-solid fa-suitcase"></i
+            ><span class="tooltiptext bottom">Inventar</span></span
           >
         </a>
         <a class="item" data-tab="notes"
           ><span class="tooltip"
-            ><i class="fas fa-book"></i
+            ><i class="fa-solid fa-book"></i
             ><span class="tooltiptext bottom">Notizen</span></span
           ></a
         >
@@ -39,6 +33,7 @@
     <!--Statblock-->
     <section class="tab stats" data-group="primary" data-tab="stats">
       {{> "systems/darkspace/templates/partials/character-sheet-stats.html"}}
+      {{>"systems/darkspace/templates/partials/character-sheet-props.html"}}
     </section>
 
     <!--Items-->
@@ -65,7 +60,7 @@
           <li class="item" data-item-id="{{this._id}}">
             {{name}}
             <a class="item-control itemDelete" title="Delete Item"
-              ><i class="fas fa-trash"></i
+              ><i class="fa-solid fa-trash"></i
             ></a>
           </li>
           {{/each}}

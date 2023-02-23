@@ -5,7 +5,7 @@
 
     {{#unless isStream}}
     <div id="chat-controls" class="flexrow">
-        <!-- <label class="chat-control-icon"><i class="fas fa-dice-d20"></i></label> -->
+        <!-- <label class="chat-control-icon"><i class="fa-solid fa-dice-d20"></i></label> -->
         <select class="roll-type-select" name="rollMode">
             <optgroup label="{{localize 'CHAT.RollDefault'}}">
             {{#select rollMode}}
@@ -18,8 +18,8 @@
 
         {{#if user.isGM}}
         <div class="control-buttons">
-            <a class="export-log" title="{{localize 'CHAT.Export'}}"><i class="fas fa-save"></i></a>
-            <a class="delete chat-flush" title="{{localize 'CHAT.Clear'}}"><i class="fas fa-trash"></i></a>
+            <a class="export-log" title="{{localize 'CHAT.Export'}}"><i class="fa-solid fa-save"></i></a>
+            <a class="delete chat-flush" title="{{localize 'CHAT.Clear'}}"><i class="fa-solid fa-trash"></i></a>
         </div>
         {{/if}}
     </div>
@@ -33,7 +33,7 @@
                 class="customRoll"             
                 data-disadv="false">
                 <span class="tooltip">
-                    <i class="fas fa-reply"></i>
+                    <i class="fa-solid fa-reply"></i>
                     <span class="tooltiptext top">Würfeln</span>
                 </span>
             </button>
@@ -41,7 +41,7 @@
                 class="customRoll d10disadv"             
                 data-disadv="true">
                 <span class="tooltip">
-                    <i class="fas fa-exclamation-triangle"></i>
+                    <i class="fa-solid fa-exclamation-triangle"></i>
                     <span class="tooltiptext top">Würfeln mit Erschwernis</span>
                 </span>
                 
@@ -51,7 +51,7 @@
     </div>
 
     <div id="chat-controls" class="flexrow">
-        <label class="chat-control-icon"><i class="fas fa-dice-d20"></i></label>
+        <label class="chat-control-icon"><i class="fa-solid fa-dice-d20"></i></label>
         <select class="roll-type-select" name="rollMode">
             <optgroup label="Default Roll Mode">
             <option value="publicroll" selected="">Public Roll</option>
@@ -62,8 +62,8 @@
         </select>
 
         <div class="control-buttons">
-            <a class="export-log" title="Export Chat Log"><i class="fas fa-save"></i></a>
-            <a class="delete chat-flush" title="Clear Chat Log"><i class="fas fa-trash"></i></a>
+            <a class="export-log" title="Export Chat Log"><i class="fa-solid fa-save"></i></a>
+            <a class="delete chat-flush" title="Clear Chat Log"><i class="fa-solid fa-trash"></i></a>
         </div>
     </div>
 

@@ -63,7 +63,6 @@ export class DSCharacterSheet extends ActorSheet {
     super.activateListeners(html);
 
     html.find(".incRess, .decRess").click(this._modRess.bind(this));
-    html.find(".item-quick-edit").change(this._itemQuickEdit.bind(this));
 
     // Find and Bind
 
@@ -74,6 +73,7 @@ export class DSCharacterSheet extends ActorSheet {
       ".rollItem",
       ".ressPoints",
       ".ressReset",
+      ".inlineItemEdit",
     ];
     window.oncontextmenu = (e) => {
       e.preventDefault();
@@ -185,28 +185,27 @@ export class DSCharacterSheet extends ActorSheet {
   _itemEdit(event) {
     event.preventDefault();
     const element = event.currentTarget;
-    let itemId = element.closest(".item").dataset.itemId;
-
-    let item = this.actor.items.get(itemId);
+    const itemId = element.dataset.itemId;
+    const item = this.object.items.filter((item) => {
+      return item.id === itemId;
+    })[0];
 
     item.sheet.render(true);
   }
   _itemDelete(event) {
     event.preventDefault();
     const element = event.currentTarget;
-    let itemId = element.closest(".item").dataset.itemId;
-    let itemInfo = this.object.system.items.filter((item) => {
-      return item.id == itemId;
+    const itemId = element.dataset.itemId;
+    const item = this.object.items.filter((item) => {
+      return item.id === itemId;
     })[0];
 
     Dialog.confirm({
       title: "Gegenstand entfernen",
-      content: "Möchtest du " + itemInfo.name + " wirklich löschen?",
+      content: "Möchtest du " + item.name + " wirklich löschen?",
       yes: () => {
         ui.notifications.info("Gegenstand gelöscht");
-        return this.actor.deleteEmbeddedDocuments("Item", [
-          itemId,
-        ]); /* <-- Wird in Foundry VTT 9.x ersetzt */
+        return this.actor.deleteEmbeddedDocuments("Item", [itemId]);
       },
       no: () => {},
       defaultYes: true,
@@ -280,6 +279,21 @@ export class DSCharacterSheet extends ActorSheet {
 
     this.actor.update({
       [ValueAdress]: currentAttrData.attribut,
+    });
+  }
+  _inlineItemEdit(event) {
+    const element = event.currentTarget;
+    const itemList = this.object.items;
+    const itemid = element.dataset.itemid;
+    const itemstat = element.dataset.itemstat;
+
+    const item = itemList.filter((i) => {
+      return i._id === itemid;
+    })[0];
+
+    item.update({
+      _id: itemid,
+      [itemstat]: element.checked,
     });
   }
 }

@@ -5,27 +5,26 @@
 
   <div class="grid col2" style="align-items: center">
     <div
-      class="handlicapCheck  {{#unless handicap}}merit{{/unless}}" {{#if handicap}}style="background-color: rgb(70, 0, 0);
+      class="handlicapCheck  {{#unless system.handicap}}merit{{/unless}}" {{#if system.handicap}}style="background-color: rgb(70, 0, 0);
       color: #fff;"{{/if}}
     >
+
       <input
         type="checkbox"
-        invisible
-        {{checked
-        handicap}}
-        class="item-quick-edit"
+        {{checked system.handicap}}
         name="system.handicap"
-        id="{{id}}prop"
+        id="{{item.id}}prop"
+        style="display: none;"
       />
-      {{#if handicap}}
-      <label {{#if handicap}}style="background-color: rgb(70, 0, 0);
-      color: #fff;"{{/if}} for="{{id}}prop">Handicap</label>
-      {{/if}} {{#unless handicap}}
-      <label for="{{id}}prop">Vorteil</label>
+      {{#if system.handicap}}
+      <label {{#if system.handicap}}style="background-color: rgb(70, 0, 0);
+      color: #fff;"{{/if}} for="{{item.id}}prop">Handicap</label>
+      {{/if}} {{#unless system.handicap}}
+      <label for="{{item.id}}prop">Vorteil</label>
       {{/unless}}
     </div>
-    {{>
-    "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
+  {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
+
   </div>
 
   {{> "systems/darkspace/templates/partials/actors/notes.html"}}

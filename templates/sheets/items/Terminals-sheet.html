@@ -1,38 +1,28 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
   {{> "systems/darkspace/templates/partials/items/header.html"}}
-  <div class="grid gridcenter" style="grid-template-columns: 2fr 2fr 1fr">
-    <div>
-      {{#with system}}
-      <div class="borderbox" style="width: 135px">
-        <div>
-          {{#times ress.bots}}
-          <i
-            class="fas fa-square ressPoints"
-            data-active="1"
-            data-thisattr="bots"
-          ></i>
-          {{/times}} {{#times botsRemaining}}
-          <i
-            class="far fa-square ressPoints"
-            data-active="0"
-            data-thisattr="bots"
-          ></i>
-          {{/times}}
-        </div>
-        <div class="flex between verticalalign">
-          <i class="fas fa-minus decRess" data-attr="bots"></i>
-          <h3 class="text_c" style="margin: 0">
-            Bots ({{ress.bots}}/{{botsTotal}})
-          </h3>
-          <i class="fas fa-plus incRess" data-attr="bots"></i>
-        </div>
-      </div>
-      {{/with}}
-    </div>
+  <div class="flex around">
     <!--Itemsheet-Body-->
 
     <div>{{> "systems/darkspace/templates/partials/items/weapons.html"}}</div>
     <div>{{>"systems/darkspace/templates/partials/items/MKSize.html"}}</div>
   </div>
+  <div>
+    {{#with system.ress.bots}}
+    <div class="borderbox">
+      <div>
+        <div
+          style="height: 10px; background: var(--effect); margin-bottom: 10px; 
+          width: calc(100% / {{max}} * {{value}});"
+        ></div>
+      </div>
+      <div class="flex between verticalalign">
+        <i class="fa-solid fa-minus decRess pointer" data-attr="bots.value"></i>
+        <h3 class="text_c" style="margin: 0">Bots ({{value}}/{{max}})</h3>
+        <i class="fa-solid fa-plus incRess pointer" data-attr="bots.value"></i>
+      </div>
+    </div>
+    {{/with}}
+  </div>
+  <div>{{> "systems/darkspace/templates/partials/techCortexHealth.html"}}</div>
   {{> "systems/darkspace/templates/partials/actors/notes.html"}}
 </form>

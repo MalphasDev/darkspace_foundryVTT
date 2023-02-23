@@ -1,5 +1,6 @@
 //import { darkspace } from "../config";
 import * as DSMechanics from "../DSMechanics.js";
+import * as DSHealth from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
   getStat(fert) {
@@ -63,7 +64,7 @@ export class DSCharacter extends Actor {
 
   prepareData() {
     super.prepareData();
-
+    const items = this.items;
     const { actorData, system, attr, config } = this.getObjLocation();
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
@@ -83,43 +84,47 @@ export class DSCharacter extends Actor {
       }
     }
 
-    var gunList = actorData.items.filter((f) => {
+    items.gunList = actorData.items.filter((f) => {
       return f.type === "Schusswaffe";
     });
-    var meleeList = actorData.items.filter((f) => {
+    items.meleeList = actorData.items.filter((f) => {
       return f.type === "Nahkampfwaffe";
     });
-    var armorList = actorData.items.filter((i) => {
+    items.armorList = actorData.items.filter((i) => {
       return i.type === "Panzerung";
     });
-    var artList = actorData.items.filter((i) => {
+    items.artList = actorData.items.filter((i) => {
       return i.type === "Artifizierung";
     });
+    items.terminalList = actorData.items.filter((i) => {
+      return i.type === "Terminals";
+    });
 
-    const armorSize = [
-      armorList
-        .map((e) => {
-          return e.system.size;
-        })
-        .sort((a, b) => {
-          return b - a;
-        })[0],
-      0,
-    ].sort((a, b) => {
-      return b - a;
-    })[0];
-    const armorMk = [
-      armorList
-        .map((e) => {
-          return e.system.mk;
-        })
-        .sort((a, b) => {
-          return b - a;
-        })[0],
-      0,
-    ].sort((a, b) => {
-      return b - a;
-    })[0];
+    const sortedArmorStructureList = items.armorList
+      .filter((a) => {
+        return a.system.equipped === true;
+      })
+      .map((s) => {
+        return s.system.structure;
+      })
+      .sort((a, b) => b - a);
+    const sortedCortexArmorList = items.terminalList
+      .filter((a) => {
+        return a.system.equipped === true;
+      })
+      .map((s) => {
+        return s.system.mk;
+      })
+      .sort((a, b) => b - a);
+
+    system.armorBonus = sortedArmorStructureList[0];
+    isNaN(system.armorBonus) ? (system.armorBonus = 0) : system.armorBonus;
+
+    system.cortexArmorBonus =
+      sortedCortexArmorList[0] + sortedCortexArmorList.length - 1;
+    isNaN(system.cortexArmorBonus)
+      ? (system.cortexArmorBonus = 0)
+      : system.cortexArmorBonus;
 
     this.type === "Charakter"
       ? this.charakterData(actorData, system, attr, config)
@@ -138,116 +143,19 @@ export class DSCharacter extends Actor {
     // ++++ Conitions ++++
     // +++++++++++++++++++
 
-    system.bodyConditionLabel = {
-      struck: {
-        name: "Angeschlagen",
-        fontsymbol: "fas fa-dizzy",
-      },
-      ko: {
-        name: "Außer Gefecht",
-        fontsymbol: "fas fa-times-circle",
-      },
-      wounded: {
-        name: "Verwundet",
-        fontsymbol: "fas fa-band-aid",
-      },
-      crippled: {
-        name: "Verkrüppelt",
-        fontsymbol: "fas fa-user-injured",
-      },
-      dead: {
-        name: "Tod",
-        fontsymbol: "fas fa-skull",
-      },
-    };
-    system.techConditionLabel = {
-      scratched: {
-        name: "Angekratzt",
-        fontsymbol: "fas fa-exclamation-triangle",
-      },
-      unstable: {
-        name: "Instabil",
-        fontsymbol: "fas fa-times-circle",
-      },
-      offline: {
-        name: "Ausgeschaltet",
-        fontsymbol: "fas fa-battery-quarter",
-      },
-      defect: {
-        name: "Defekt",
-        fontsymbol: "fas fa-car-crash",
-      },
-      destroyed: {
-        name: "Zerstört",
-        fontsymbol: "fas fa-ban",
-      },
-    };
-    system.cortexConditionLabel = {
-      overflow: {
-        name: "Überlauf",
-        fontsymbol: "fas fa-stream",
-      },
-      crash: {
-        name: "Crash",
-        fontsymbol: "fas fa-bug",
-      },
-      dos: {
-        name: "DoS",
-        fontsymbol: "fas fa-terminal",
-      },
-      offline: {
-        name: "Abschaltung",
-        fontsymbol: "fas fa-power-off",
-      },
-      rooted: {
-        name: "Gerootet",
-        fontsymbol: "fas fa-network-wired",
-      },
-    };
+    system.bodyConditionLabel = config.bodyConditionLabel;
+    system.techConditionLabel = config.techConditionLabel;
+    system.cortexConditionLabel = config.cortexConditionLabel;
 
-    const armorMultiplier = [1, 2, 4, 6, 8];
+    const armorAttr = this.getStat(system.armorId).attr; // Konsti
+    const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
+    const cortexAttr = this.getStat(system.armorCortex).attr; // Kybernese
+    const cortexSkill =
+      system.cortexArmorBonus + this.getStat(system.armorCortex).fert; // Synthese
 
-    system.hitArray = [
-      this.getStat(system.armorId).attr * armorMultiplier[0] +
-        this.getStat(system.armorId).fert +
-        armorSize +
-        armorMk,
-      this.getStat(system.armorId).attr * armorMultiplier[1] +
-        this.getStat(system.armorId).fert +
-        armorSize +
-        armorMk,
-      this.getStat(system.armorId).attr * armorMultiplier[2] +
-        this.getStat(system.armorId).fert +
-        armorSize +
-        armorMk,
-      this.getStat(system.armorId).attr * armorMultiplier[3] +
-        this.getStat(system.armorId).fert +
-        armorSize +
-        armorMk,
-      this.getStat(system.armorId).attr * armorMultiplier[4] +
-        this.getStat(system.armorId).fert +
-        armorSize +
-        armorMk,
-    ];
-    system.hitArrayCortex = [
-      this.getStat(system.armorCortex).attr * armorMultiplier[0] +
-        this.getStat(system.armorCortex).fert * 2,
-      this.getStat(system.armorCortex).attr * armorMultiplier[1] +
-        this.getStat(system.armorCortex).fert * 2,
-      this.getStat(system.armorCortex).attr * armorMultiplier[2] +
-        this.getStat(system.armorCortex).fert * 2,
-      this.getStat(system.armorCortex).attr * armorMultiplier[3] +
-        this.getStat(system.armorCortex).fert * 2,
-      this.getStat(system.armorCortex).attr * armorMultiplier[4] +
-        this.getStat(system.armorCortex).fert * 2,
-    ];
-    system.hitArrayTech = [
-      system.size * armorMultiplier[0] + system.mk,
-      system.size * armorMultiplier[1] + system.mk,
-      system.size * armorMultiplier[2] + system.mk,
-      system.size * armorMultiplier[3] + system.mk,
-      system.size * armorMultiplier[4] + system.mk,
-    ];
+    system.hitArray = DSHealth.getHealth(armorAttr, armorSkill);
+    system.hitArrayCortex = DSHealth.getHealth(cortexAttr, cortexSkill);
+    system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
 
     this.expCounter();
   }
@@ -257,21 +165,25 @@ export class DSCharacter extends Actor {
 
     let attrEpTotal = 0;
     let skillEpTotal = 0;
+    let startEp = 0;
     let attrList = [];
     let skillList = [];
 
     if (actorData.type === "Charakter") {
       attrList = config.attrList;
       skillList = config.skillList;
+      startEp = -2000;
     } else if (actorData.type === "Nebencharakter") {
       attrList = config.attrNpc;
       skillList = config.skillListNpc;
     } else if (actorData.type === "DrohneFahrzeug") {
       attrList = config.attrVehicle;
       skillList = config.skillListVehicle;
+      startEp = (system.mk + system.size) * 100;
     } else if (actorData.type === "KI") {
       attrList = config.attrAi;
       skillList = config.skillListAi;
+      startEp = system.mk * 200;
     }
 
     attrList.forEach((attrIdent) => {
@@ -302,6 +214,6 @@ export class DSCharacter extends Actor {
     system.totalAttrXp = attrEpTotal;
     system.totalSkillXp = skillEpTotal;
     system.totalPropXp = (propertyList.length + artList.length) * 100;
-    system.totalXp = attrEpTotal + skillEpTotal + system.totalPropXp;
+    system.totalXp = attrEpTotal + skillEpTotal + system.totalPropXp + startEp;
   }
 }

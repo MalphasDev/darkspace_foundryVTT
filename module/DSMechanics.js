@@ -194,7 +194,7 @@ export async function modRolls(inputData) {
 
             this._resolveDice(inputData);
           },
-          icon: `<i class="fas fa-check"></i>`,
+          icon: `<i class="fa-solid fa-check"></i>`,
         },
         button2: {
           label: "Erschwert",
@@ -212,7 +212,7 @@ export async function modRolls(inputData) {
 
             this._resolveDice(inputData);
           },
-          icon: `<i class="fas fa-exclamation-triangle"></i>`,
+          icon: `<i class="fa-solid fa-exclamation-triangle"></i>`,
         },
       },
       close: () => {},
@@ -250,6 +250,8 @@ export async function _resolveDice(inputData) {
     cardData = {
       ...cardData,
       actor,
+      basedmg: cardData.system.dmg,
+      bonusdmg: cardData.total_BC,
       dmg: cardData.system.dmg + cardData.total_BC,
     };
   }
@@ -265,7 +267,7 @@ export async function _resolveDice(inputData) {
     Unterbringung: "systems/darkspace/templates/dice/chatHousing.html",
     Item: "systems/darkspace/templates/dice/chatItem.html",
     Werkzeug: "systems/darkspace/templates/dice/chatItem.html",
-    Terminals: "systems/darkspace/templates/dice/chatItem.html",
+    Terminals: "systems/darkspace/templates/dice/chatWeapon.html",
     Medkit: "systems/darkspace/templates/dice/chatItem.html",
     Gegenstand: "systems/darkspace/templates/dice/chatItem.html",
   };

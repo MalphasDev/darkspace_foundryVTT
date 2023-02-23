@@ -1,10 +1,17 @@
 <form class="{{cssClass}} item" autocomplete="off">
   {{> "systems/darkspace/templates/partials/items/header.html"}}
 
-  <div class="grid col3-211">
+  <div class="flex around">
     {{>"systems/darkspace/templates/partials/items/MKSize.html"}}
+    <div class="tooltip">
+      <span>
+        <i class="fa-solid fa-shield-alt"></i>
+        <input type="number" disabled value="{{system.structure}}" />
+      </span>
+      <span class="tooltiptext top">Struktur</span>
+    </div>
   </div>
-
+  <div>{{> "systems/darkspace/templates/partials/techCortexHealth.html"}}</div>
   <div class="sheet-content">
     {{> "systems/darkspace/templates/partials/actors/notes.html"}}
   </div>

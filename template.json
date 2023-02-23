@@ -53,10 +53,10 @@
         "Aufmerksamkeit": {
           "attribut": 1,
           "skill": {
-            "Fahrzeuge": 0,
             "Fokus": 0,
+            "Manövrieren": 0,
             "Menschenkenntnis": 0,
-            "Wahrnehmen": 0
+            "Wahrnehmung": 0
           }
         },
         "Ausstrahlung": {
@@ -175,7 +175,7 @@
         },
         "Intelligenz": {
           "attribut": 0,
-          "skill": { "Cortex": 0, "Intellekt": 0, "Wahrnehmen": 0 }
+          "skill": { "Cortex": 0, "Intellekt": 0, "Wahrnehmung": 0 }
         },
         "Kybernese": {
           "attribut": 1,
@@ -225,10 +225,10 @@
         "Aufmerksamkeit": {
           "attribut": 1,
           "skill": {
-            "Fahrzeuge": 0,
             "Fokus": 0,
+            "Manövrieren": 0,
             "Menschenkenntnis": 0,
-            "Wahrnehmen": 0
+            "Wahrnehmung": 0
           }
         },
         "Ausstrahlung": {
@@ -329,39 +329,35 @@
         "mk": 1,
         "size": 2,
         "description": "",
+        "equipped": false,
         "ress": {
-          "bots": 0
+          "bots": {
+            "value": 0
+          }
         },
 
-        "equipped": true,
-        "conditions": {
-          "techConditions": {
-            "scratched": false,
-            "unstable": false,
-            "offline": false,
-            "defect": false,
-            "destroyed": false
-          },
-          "cortexConditions": {
-            "manipulated": false,
-            "hacked": false,
-            "offline": false
-          }
+        "techConditions": {
+          "scratched": false,
+          "unstable": false,
+          "offline": false,
+          "defect": false,
+          "destroyed": false
+        },
+        "cortexConditions": {
+          "overflow": false,
+          "crash": false,
+          "dos": false,
+          "offline": false,
+          "rooted": false
         },
         "properties": ""
       }
     },
     "Schusswaffe": {
-      "dmg": 1,
-      "size": 2,
       "useWith": "Schusswaffen",
-      "range": "0-10/20/100",
-      "rangeBonus": 0,
       "templates": ["itemBase"]
     },
     "Nahkampfwaffe": {
-      "dmg": 1,
-      "size": 2,
       "useWith": "Nahkampfwaffen",
       "templates": ["itemBase"]
     },
@@ -382,6 +378,7 @@
       "useAktion": "Aktion",
       "weapon": false,
       "armor": false,
+      "prosthetic": false,
       "templates": ["itemBase"]
     },
     "Panzerung": {

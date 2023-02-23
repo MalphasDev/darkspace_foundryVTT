@@ -1,12 +1,55 @@
 <form class="{{cssClass}} item sheet-content" autocomplete="off">
   {{> "systems/darkspace/templates/partials/items/header.html"}}
   <hr />
-  <div class="grid col2 gridcenter">
+  <div class="flex around">
     {{>"systems/darkspace/templates/partials/items/MKSize.html"}}
   </div>
 
   <hr />
 
+  <input
+    type="checkbox"
+    name="system.prosthetic"
+    id="{{_id}}_prosthetic"
+    {{checked
+    system.prosthetic}}
+    class="hidden"
+  />
+  <label for="{{_id}}_prosthetic" class="flex">
+    {{#if system.prosthetic}}Prothese{{else}}Implantat{{/if}}
+  </label>
+
+  <hr />
+
+  {{#if system.prosthetic}} {{#if this.item.parent.type}}
+  <div>
+    <select name="system.useAttr" class="container_center">
+      <!--Charaktere-->
+      {{#select system.useAttr}} {{#ifCond this.item.parent.type "==="
+      "Charakter"}} {{#each config.attrList}}
+      <option value="{{this}}" type="text">{{this}}</option>
+      {{/each}} {{/ifCond}}
+
+      <!--NPCs-->
+      {{#ifCond this.item.parent.type "===" "Nebencharakter"}} {{#each
+      config.attrListNpc}}
+      <option value="{{this}}" type="text">{{this}}</option>
+      {{/each}} {{/ifCond}}
+
+      <!--Fahrzeuge-->
+      {{#ifCond this.item.parent.type "===" "DrohneFahrzeug"}} {{#each
+      config.attrListVehicle}}
+      <option value="{{this}}" type="text">{{this}}</option>
+      {{/each}} {{/ifCond}}
+
+      <!--KIs-->
+      {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrListAi}}
+      <option value="{{this}}" type="text">{{this}}</option>
+      {{/each}} {{/ifCond}}
+    </select>
+    {{/select}}
+  </div>
+  {{/if}} {{else}}
   <div class="grid col2">
     <input
       type="text"
@@ -15,14 +58,15 @@
     />
     {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
   </div>
+  {{/if}}
 
   <!--
     <hr>
     <div class="flex evenly">
         <input type="checkbox" class="symbol" id="isArmor" {{checked this.armor}} name="system.armor">
-        <label for="isArmor"><i class="fas fa-shield-alt"></i> Kybernitsche Rüstung</label>
+        <label for="isArmor"><i class="fa-solid fa-shield-alt"></i> Kybernitsche Rüstung</label>
         <input type="checkbox" class="symbol" id="isWeapon" {{checked this.weapon}} name="system.weapon">
-        <label for="isWeapon"><i class="fas fa-bolt"></i> Kybernitsche Waffe</label>
+        <label for="isWeapon"><i class="fa-solid fa-bolt"></i> Kybernitsche Waffe</label>
     </div>
 
     

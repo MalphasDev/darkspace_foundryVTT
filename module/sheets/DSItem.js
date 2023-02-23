@@ -1,46 +1,89 @@
+import * as DSHealth from "../DSHealth.js";
+
 export class DSItem extends Item {
+  getObjLocation() {
+    const itemData = this;
+    const system = this.system;
+    const config = CONFIG.darkspace;
+
+    return { itemData, system, config };
+  }
+
+  itemData() {
+    const { itemData, system, config } = this.getObjLocation();
+    const itemRess = system.ress;
+    itemRess.bots = {
+      value: system.ress.bots.value,
+      max: system.mk * system.size,
+      remain: system.mk * system.size - system.ress.bots.value,
+    };
+  }
+  weaponData() {
+    const { itemData, system, config } = this.getObjLocation();
+    system.dmg = system.size * 2 + system.mk;
+    system.aeCost = system.size * 2;
+  }
+  gunData() {
+    const { itemData, system, config } = this.getObjLocation();
+    const rangeArray = [
+      Math.pow(system.size, 2),
+      Math.pow(system.size, 2) * 5,
+      Math.pow(system.size, 2) * 10,
+    ];
+    system.range = rangeArray[0] + "-" + rangeArray[1] + "/" + rangeArray[2];
+  }
+  // closeCombatWeaponData() {}
+  // armorData() {}
+  // toolData() {}
+  terminalData() {
+    const { itemData, system, config } = this.getObjLocation();
+    system.dmg = system.size + system.mk * 2;
+    // Senorreichweite //
+    system.range = Math.pow(system.size + system.mk, 2) * 10;
+    system.aeCost = system.mk * 2;
+  }
+  // medkitData() {}
+  artData() {
+    const { itemData, system, config } = this.getObjLocation();
+    system.attrMaxBonus = system.mk + 5;
+  }
+  // propData() {}
+
   prepareData() {
     super.prepareData();
 
-    const itemData = this;
-    const systemData = itemData.system;
+    const { itemData, system, config } = this.getObjLocation();
 
     // Struktur und Schutz //
-    systemData.structure = parseInt(systemData.size);
-    // Senorreichweite //
-    systemData.signal = Math.pow(systemData.size + systemData.mk, 2) * 10;
+    system.structure = parseInt(system.size) + parseInt(system.mk);
 
-    // Unterhalt //
-    systemData.keep = Math.max(systemData.mk, systemData.size, 0);
+    // Zustände
+    system.techConditionLabel = config.techConditionLabel;
+    system.cortexConditionLabel = config.cortexConditionLabel;
+
+    system.hitArrayCortex = DSHealth.getHealth(system.mk * 2, 0);
+    system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
 
     // Waffen //
 
-    const rangeArray = [
-      Math.pow(systemData.size, 2),
-      Math.pow(systemData.size, 2) * 5,
-      Math.pow(systemData.size, 2) * 10,
-    ];
+    if (this.type === "Schusswaffe" || this.type === "Nahkampfwaffe") {
+      this.weaponData();
+    }
+    if (this.type === "Schusswaffe") {
+      this.gunData();
+    }
+    if (this.type === "Terminals") {
+      this.terminalData();
+    }
 
-    systemData.range =
-      rangeArray[0] + "-" + rangeArray[1] + "/" + rangeArray[2];
-
-    systemData.aeCost = systemData.size * 2;
-
-    systemData.dmg = systemData.size * 2 + systemData.mk;
-    systemData.cortexDmg = systemData.size + systemData.mk * 2;
-    // Eigenschaften anzeigen
-    let propList = systemData.properties;
-
-    if (propList === undefined || propList === "") {
-    } else {
-      systemData.propArray = systemData.properties.split(",");
+    if (this.type === "Artifizierung") {
+      this.artData();
     }
 
     //Alles außer Eigenschaft und Besonderheiten
-    if (itemData.type != "Eigenschaft" && itemData.type != "Besonderheiten") {
+    if (itemData.type != "Eigenschaft") {
       // Ressourcen
-      systemData.botsTotal = systemData.mk * systemData.size;
-      systemData.botsRemaining = systemData.botsTotal - systemData.ress.bots;
+      this.itemData();
     }
   }
 

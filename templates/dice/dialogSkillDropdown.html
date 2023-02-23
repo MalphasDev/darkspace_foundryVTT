@@ -1,18 +1,28 @@
 {{#if this.item.parent.type}}
 <div>
-  {{#select useWith}}
   <select name="system.useWith" class="container_center">
-    {{#ifCond this.item.parent.type "===" "Charakter"}} {{#each
-    config.skillList}}
+    <option value="Automatismus" type="text">Automatismus</option>
+
+    <!--Charaktere-->
+    {{#select system.useWith}} {{#ifCond this.item.parent.type "==="
+    "Charakter"}} {{#each config.skillList}}
     <option value="{{this}}" type="text">{{this}}</option>
-    {{/each}} {{/ifCond}} {{#ifCond this.item.parent.type "==="
-    "Nebencharakter"}} {{#each config.skillListNpc}}
+    {{/each}} {{/ifCond}}
+
+    <!--NPCs-->
+    {{#ifCond this.item.parent.type "===" "Nebencharakter"}} {{#each
+    config.skillListNpc}}
     <option value="{{this}}" type="text">{{this}}</option>
-    {{/each}} {{/ifCond}} {{#ifCond this.item.parent.type "==="
-    "DrohneFahrzeug"}} {{#each config.skillListVehicle}}
+    {{/each}} {{/ifCond}}
+
+    <!--Fahrzeuge-->
+    {{#ifCond this.item.parent.type "===" "DrohneFahrzeug"}} {{#each
+    config.skillListVehicle}}
     <option value="{{this}}" type="text">{{this}}</option>
-    {{/each}} {{/ifCond}} {{#ifCond this.item.parent.type "===" "KI"}} {{#each
-    config.attrListAi}}
+    {{/each}} {{/ifCond}}
+
+    <!--KIs-->
+    {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrListAi}}
     <option value="{{this}}" type="text">{{this}}</option>
     {{/each}} {{/ifCond}}
   </select>

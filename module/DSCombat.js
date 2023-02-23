@@ -19,12 +19,12 @@ export class DSCombat extends Combat {
   }
 
   async startCombat() {
-    const ids = Array.from(this.data.combatants.values())
+    const ids = Array.from(this.combatants.values())
       .filter((c) => {
-        return c.data.initiative === undefined;
+        return c.initiative === undefined;
       })
       .map((c) => {
-        return c.data._id;
+        return c._id;
       });
 
     if (ids.length === 0) {
@@ -47,11 +47,11 @@ export class DSCombat extends Combat {
   }
 
   async rollInitiative(ids) {
-    const actorData = this.data.combatants;
+    const actorData = this.combatants;
     const Combatant = this.combatant;
 
     let preSortetCombatants = this.setupTurns().filter((c) => {
-      return c.data.initiative != undefined;
+      return c.initiative != undefined;
     });
     var isCombatStarted = this.getFlag("darkspace", "isCombatStarted")
       ? true
@@ -62,8 +62,7 @@ export class DSCombat extends Combat {
         ids.forEach((id) => {
           this.setInitiative(
             id,
-            preSortetCombatants[preSortetCombatants.length - 1].data
-              .initiative + 1
+            preSortetCombatants[preSortetCombatants.length - 1].initiative + 1
           );
         });
       } else {
@@ -75,21 +74,21 @@ export class DSCombat extends Combat {
       ids.forEach(async (id, index) => {
         var currentCombatant = Array.from(
           actorData.filter((d) => {
-            return d.data._id == id;
+            return d._id == id;
           })
         )[0];
 
         let iniId;
-        if (currentCombatant.actor.data.type === "Charakter") {
+        if (currentCombatant.actor.type === "Charakter") {
           iniId = "Fokus";
         }
-        if (currentCombatant.actor.data.type === "Nebencharakter") {
+        if (currentCombatant.actor.type === "Nebencharakter") {
           iniId = "Intellekt";
         }
-        if (currentCombatant.actor.data.type === "DrohneFahrzeug") {
+        if (currentCombatant.actor.type === "DrohneFahrzeug") {
           iniId = "Cortex";
         }
-        if (currentCombatant.actor.data.type === "KI") {
+        if (currentCombatant.actor.type === "KI") {
           iniId = "Fokus";
         }
 
@@ -101,11 +100,11 @@ export class DSCombat extends Combat {
           object: {},
           dynattr: DSMechanics.getStat(
             iniId,
-            currentCombatant.actor.data.data.charattribut
+            currentCombatant.actor.system.charattribut
           ).attr,
           dynskill: DSMechanics.getStat(
             iniId,
-            currentCombatant.actor.data.data.charattribut
+            currentCombatant.actor.system.charattribut
           ).fert,
           roleData: { attribute: "Aufmerksamkeit", skill: "Fokus" },
         };

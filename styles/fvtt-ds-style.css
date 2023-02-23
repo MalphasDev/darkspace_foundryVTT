@@ -182,7 +182,7 @@ input:disabled {
   margin: 5px 0;
 }
 .fa,
-.fas {
+.fa-solid {
   color: var(--effect);
 }
 form {
@@ -355,7 +355,7 @@ ul {
 }
 
 .col-weapons {
-  grid-template-columns: auto 10ch 15ch 10ch 45px;
+  grid-template-columns: auto 7ch 15ch 10ch 45px;
   gap: 1ch 0;
   align-items: center;
 }
@@ -494,9 +494,8 @@ li.pill.padding {
   padding: 1px 2px;
 }
 li input[type="checkbox"]:checked + label {
-  background-color: var(--main);
+  padding: 0 10px;
   border: none;
-  border-radius: 0;
 }
 button,
 label,
@@ -506,6 +505,11 @@ select {
 button,
 option {
   background-color: var(--secondary);
+}
+
+.actorForm {
+  grid-template-columns: 40ch 1fr;
+  overflow: auto;
 }
 
 /* ------ Attribute und Fertigkeiten ------*/
@@ -538,9 +542,15 @@ option {
   padding-left: 5px;
   background: linear-gradient(90deg, var(--effect) 0%, var(--effect-a) 0%);
 }
+a.rollSkill {
+  width: 100%;
+}
+.rollItem:hover,
 .fertfeld li:hover {
   background: linear-gradient(90deg, var(--effect) 0%, var(--effect-a) 100%);
 }
+.rollItem:hover,
+.rollItem:hover *,
 .fertfeld li:hover * {
   color: var(--main);
   font-weight: 700;
@@ -564,7 +574,7 @@ option {
   padding: 2px 4px;
   font-size: inherit;
 }
-.iconbox .fas {
+.iconbox .fa-solid {
   padding: 0px 2px;
 }
 
@@ -588,6 +598,7 @@ option {
   display: flex;
   align-items: center;
 }
+.hidden,
 .collapsible-cntr {
   display: none;
 }
@@ -692,7 +703,7 @@ input[type="checkbox"] + label[for="ranged"]:hover {
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 150px;
   background-color: black;
   color: #fff;
   text-align: center;
@@ -702,7 +713,6 @@ input[type="checkbox"] + label[for="ranged"]:hover {
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 10;
-  width: 120px;
 }
 .tooltiptext.top {
   bottom: 100%;
@@ -730,25 +740,23 @@ input[type="checkbox"] + label[for="ranged"]:hover {
 }
 
 /* Health Monitor */
-.health-monitor ul {
-  width: 40px;
-}
+
 .health-monitor li {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 40px;
-  width: 40px;
   border-radius: 5px;
   margin: 0;
   padding: 0;
+  flex: 1;
 }
 .health-monitor input[type="checkbox"] + label {
   padding: 5px 10px;
   flex: 1;
   text-align: center;
   height: 100%;
-  width: 40px;
+  width: 100%;
   border-radius: 5px;
 }
 

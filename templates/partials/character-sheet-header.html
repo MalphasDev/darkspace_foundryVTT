@@ -1,17 +1,15 @@
-<section
-  id="header"
-  style="background-image: url({{actor.img}}); background-attachment: inherit;
-background-position: center;
+<section id="header" style="position: relative">
+  <div
+    style="background-image: url({{actor.img}}); 
+background-attachment: inherit;
+background-position: top;
 background-size: cover;
-background-repeat: no-repeat;"
->
-  <!-- Charakterportrait -->
-  <!--
-  <div class="cell_t actorimgcontainer">
-    <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-  </div>
--->
-
+background-repeat: no-repeat;
+position: absolute;
+width: 100%;
+height: 60%;
+box-shadow: inset 0px -60px 40px 0px #23252a;"
+  ></div>
   <div
     style="
       background-color: #2e2d35d6;
@@ -20,12 +18,15 @@ background-repeat: no-repeat;"
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: absolute;
     "
   >
+    <!-- Main Header Window -->
+
     <!-- Charaktername -->
 
-    <div class="cell_t">
-      <h2 class="charname">
+    <div>
+      <h2 class="charname" style="margin-bottom: 0">
         <input
           name="name"
           type="text"
@@ -33,17 +34,58 @@ background-repeat: no-repeat;"
           placeholder="Charaktername"
         />
       </h2>
+      <span class="anmerkung">Name</span>
     </div>
+    <!-- Unterer Bereich -->
     <div>
-      {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
-      "Nebencharakter"}}
-      <div class="grid col2 borderbox round">
-        {{>"systems/darkspace/templates/partials/items/MKSize.html"}}
-      </div>
-      {{/ifCond}} {{/ifCond}}
+      <div>
+        {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
+        "Nebencharakter"}}
+        <div class="grid col2 borderbox round">
+          {{>"systems/darkspace/templates/partials/items/MKSize.html"}}
+        </div>
+        {{/ifCond}} {{/ifCond}}
 
-      <!-- Zustandsmonitor -->
-      <div>{{> "systems/darkspace/templates/partials/actors/health.html"}}</div>
+        <!-- Zustandsmonitor -->
+        <div>
+          {{> "systems/darkspace/templates/partials/actors/health.html"}}
+        </div>
+      </div>
+
+      <div>
+        <!-- Ressourcen -->
+        <ul>
+          {{#each system.charattribut as |attrobj attrname|}}
+          <li class="attrfeld">
+            <!--ATTRIBUTE für Charaktere-->
+            <div class="flex between">
+              {{#if ress}}
+              <span>{{attrname}}-Punkte</span>
+              <span class="flex">
+                <i
+                  class="fa-solid fa-minus-square decRess bigsize"
+                  data-attr="{{attrname}}"
+                ></i>
+                <input
+                  style="font-size: 1.2rem"
+                  type="number"
+                  name="system.charattribut.{{attrname}}.ress.value"
+                  id="{{actor.id}}_{{attrname}}pkt"
+                  value="{{ress.value}}"
+                />
+                <i
+                  class="fa-solid fa-plus-square incRess bigsize"
+                  data-attr="{{attrname}}"
+                ></i>
+              </span>
+
+              {{/if}}
+            </div>
+          </li>
+
+          {{/each}}
+        </ul>
+      </div>
     </div>
   </div>
 </section>

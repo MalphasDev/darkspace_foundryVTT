@@ -1,0 +1,61 @@
+<!-- Tech Health -->
+<div class="health-monitor">
+  <ul class="flex start">
+    <li>
+      <i class="fa-solid fa-cogs health-icon"></i>
+    </li>
+    {{#each system.techConditions as |value key|}}
+    <li class="flex borderbox round">
+      <input
+        type="checkbox"
+        class="noDisplay"
+        {{checked
+        value}}
+        name="system.techConditions.{{key}}"
+        id="{{../actor.id}}_techConditions_{{key}}"
+      />
+
+      <label class="flex center" for="{{../actor.id}}_techConditions_{{key}}">
+        <div class="tooltip">
+          {{#with (lookup ../system.techConditionLabel key)}}
+          <i class="{{this.fontsymbol}}"></i>
+          <span class="tooltiptext top">{{this.name}}</span>
+          {{/with}}
+          <div>{{lookup ../this.system.hitArrayTech @index}}</div>
+        </div>
+      </label>
+    </li>
+    {{/each}}
+  </ul>
+
+  <!-- Cortex Health -->
+
+  <ul class="flex start">
+    <li>
+      <i class="fa-solid fa-memory health-icon"></i>
+    </li>
+    {{#each system.cortexConditions as |value key|}}
+
+    <li class="flex borderbox round">
+      <input
+        type="checkbox"
+        class="noDisplay"
+        {{checked
+        value}}
+        name="system.cortexConditions.{{key}}"
+        id="{{../actor.id}}_cortexConditions_{{key}}"
+      />
+
+      <label class="flex center" for="{{../actor.id}}_cortexConditions_{{key}}">
+        <div class="tooltip">
+          {{#with (lookup ../system.cortexConditionLabel key)}}
+          <i class="{{this.fontsymbol}}"></i>
+          <span class="tooltiptext top">{{this.name}}</span>
+          {{/with}}
+          <div>{{lookup ../this.system.hitArrayCortex @index}}</div>
+        </div>
+      </label>
+    </li>
+    {{/each}}
+  </ul>
+</div>
