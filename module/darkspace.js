@@ -126,6 +126,13 @@ Hooks.once("init", function () {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("darkspace", DSCharacterSheet, { makeDefault: true });
 
+  game.settings.register("darkspace", "debugmode", {
+    name: "Debug Optionen aktivieren",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
   preloadHandlebarsTemplates();
 });
 

@@ -35,14 +35,17 @@
       <!--ATTRIBUTE für Charaktere-->
 
       <div class="flex between">
-        <span class="attrname">{{attrname}} </span>
+        <span class="attrname"
+          >{{attrname}}
+          <span style="margin: 0 1ch"
+            >{{#each ../items.Artifizierung}} {{#if system.prosthetic}}
+            {{#ifCond system.useAttr "===" attrname}}
+            <i class="fa-solid fa-arrow-up-wide-short"></i>
+            {{system.attrMaxBonus}}{{/ifCond}}{{/if}}{{/each}}</span
+          ></span
+        >
 
         <span class="flex end">
-          <span
-            >{{#each ../items.Artifizierung}} {{#ifCond system.useAttr "==="
-            attrname}} <i class="fa-solid fa-arrow-up-wide-short"></i> max.
-            {{system.attrMaxBonus}} {{/ifCond}}{{/each}}</span
-          >
           <span class="attrvalue">
             <input
               class="value_box"
@@ -62,8 +65,8 @@
           <a class="rollSkill" data-skill="{{fertname}}">
             {{fertname}}
             <span
-              >{{#each ../../items.Eigenschaft}} {{#ifCond system.useWith "==="
-              fertname}} {{#unless system.handicap}}
+              >{{#each ../../system.props}} {{#ifCond skill "===" fertname}}
+              {{#unless handicap}}
               <span class="tooltip">
                 <i class="fa-solid fa-dna"></i>
 
@@ -73,22 +76,25 @@
               {{/unless}} {{/ifCond}} {{/each}}</span
             >
             <span>
-              {{#each ../../items.Eigenschaft}} {{#ifCond system.useWith "==="
-              fertname}} {{#if system.handicap}}<span class="tooltip">
+              {{#each ../../system.props}} {{#ifCond skill "===" fertname}}
+              {{#if handicap}}<span class="tooltip">
                 <i class="fa-solid fa-minus-circle handicap"></i>
 
                 <span class="tooltiptext top">{{this.name}}</span> </span
               >{{/if}} {{/ifCond}} {{/each}}
             </span>
             <span>
-              {{#each ../../items.Artifizierung}} {{#ifCond system.useWith "==="
-              fertname}}
+              {{#each ../../items.Artifizierung}} {{#unless
+              this.system.prosthetic}} {{#each system.useWith}}{{#ifCond
+              this.skill "===" fertname}}
               <span class="tooltip">
                 <i class="fa-solid fa-microchip"></i>
 
-                <span class="tooltiptext top">{{this.name}}</span>
-              </span>
-              {{/ifCond}} {{/each}}
+                <span class="tooltiptext top"
+                  >{{../name}}
+                  <i class="fa-solid fa-caret-right"></i> {{action}}</span
+                > </span
+              >{{/ifCond}} {{/each}} {{/unless}} {{/each}}
             </span>
           </a>
           <div class="skillbox">

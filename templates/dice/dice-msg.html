@@ -24,8 +24,7 @@
 <hr />
 <div class="flexResult" {{#if crit}} style="background: linear-gradient( 
   90deg, transparent 0%, #00ff7e 50%, transparent 100% );" {{/if}}
-  {{#if fumble}} style="background: linear-gradient( 
-  90deg, transparent 0%, red 50%, transparent 100% );" {{/if}}>
+  {{#if fumble}} style="color: var(--effect); background: linear-gradient(90deg, transparent 0%, red 50%, transparent 100%);" {{/if}}>
   {{#if disadv}}
   
   
@@ -38,12 +37,13 @@
 
 
 <ul class="meritbox">
+  
   {{#each merits}}
   
   <li class="inline_block pill padding" style="width: 100%;">
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname"><i class="fa-solid fa-dna"></i> {{name}}</p>
-      <div style="max-width: 267px">{{{system.description}}}</div>
+      <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
   {{/each}} {{#each handicaps}}
@@ -51,17 +51,18 @@
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname handicap">
         <i class="fa-solid fa-dna"></i> {{name}}
-        <div style="max-width: 267px">{{{system.description}}}</div>
+        <div style="max-width: 267px">{{{desc}}}</div>
       </p>
     </div>
   </li>
   {{/each}} {{#each cybernetics}}
+  {{log this}}
   <li class="inline_block pill padding" style="width: 100%;">
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname artifizierung">
         <i class="fa-solid fa-user-cog"></i> {{name}}
-        <span><i class="fa-solid fa-caret-right"></i> {{useAktion}}</span>
-        <div style="max-width: 267px">{{{system.description}}}</div>
+        <span><i class="fa-solid fa-caret-right"></i> {{prop}} ({{skill}} <i class="fa-solid fa-caret-right"></i> {{action}})</span>
+        <div style="max-width: 267px">{{{desc}}}</div>
       </p>
     </div>
   </li>

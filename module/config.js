@@ -1,12 +1,21 @@
-export const darkspace = {};
+import * as props from "./props.js";
 
+export const darkspace = {};
+console.log(darkspace);
 darkspace.upkeep = {
   supplies: "darkspace.supplies",
   shelter: "darkspace.shelter",
   entertaiment: "darkspace.entertaiment",
   misc: "darkspace.misc",
 };
-
+darkspace.props = {
+  props: props.getProps(),
+  handicaps: props.getHandicaps(),
+  techprops: props.getTechProps(),
+  techHandicaps: props.getTechhandicaps(),
+  combatProps: props.getCombatProps(),
+  combatHandicaps: props.getCombatHandicaps(),
+};
 // Zustände erfassen
 
 darkspace.bodyConditionLabel = {

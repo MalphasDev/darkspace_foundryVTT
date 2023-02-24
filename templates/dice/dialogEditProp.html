@@ -1,0 +1,13 @@
+<div>
+  <h2>Regeln für {{name}}</h2>
+  {{log this}}
+  <label for="prop{{slot}}handicap">Handicap?</label>
+  <input
+    type="checkbox"
+    class="handicapCheck"
+    id="prop{{slot}}handicap"
+    {{checked
+    handicap}}
+  />
+  <textarea class="propRules" cols="30" rows="10">{{desc}}</textarea>
+</div>

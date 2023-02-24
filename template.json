@@ -6,6 +6,7 @@
         "initMod": 0,
         "notes": ""
       },
+      "props": {},
       "bodyConditions": {
         "bodyConditions": {
           "struck": false,
@@ -213,7 +214,7 @@
         },
         "Sensoren": {
           "attribut": 1,
-          "skill": { "Analyse": 0, "Scannen": 0 }
+          "skill": { "Fokus": 0, "Wahrnehmung": 0 }
         }
       }
     },
@@ -321,8 +322,7 @@
       "Terminals",
       "Medkit",
       "Artifizierung",
-      "Gegenstand",
-      "Eigenschaft"
+      "Gegenstand"
     ],
     "templates": {
       "itemBase": {
@@ -374,8 +374,14 @@
       "templates": ["itemBase"]
     },
     "Artifizierung": {
-      "useWith": "Synthese",
-      "useAktion": "Aktion",
+      "useWith": {
+        "slot0": {
+          "prop": "Eigenschaft",
+          "skill": "Synthese",
+          "action": "Aktion"
+        }
+      },
+
       "weapon": false,
       "armor": false,
       "prosthetic": false,
@@ -391,8 +397,7 @@
       "templates": ["itemBase"]
     },
     "Eigenschaft": {
-      "useWith": "",
-      "useAktion": "",
+      "useWith": { "slot0": { "skill": "Synthese", "action": "Aktion" } },
       "handicap": false
     }
   }
