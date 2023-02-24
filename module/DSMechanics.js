@@ -10,6 +10,7 @@ export async function rollDice(inputData) {
   let fertModLocal = parseInt(inputData.fertModLocal);
   let roleData = inputData.roleData;
   let removehighest = inputData.removehighest;
+  const system = inputData.system;
   let item;
   let rollformular;
 
@@ -100,33 +101,59 @@ export async function rollDice(inputData) {
     inputData.object != undefined &&
     Object.keys(inputData.object).length != 0
   ) {
-    var merits = inputData.object.items
-      .filter((i) => {
-        return i.type === "Eigenschaft";
+    var merits = [];
+    var meritList = Object.entries(system.props)
+      .filter((hc) => {
+        return hc[1].handicap === false;
       })
-      .filter((j) => {
-        return j.system.handicap === false;
-      })
-      .filter((k) => {
-        return k.system.useWith === roleData.skill;
+      .filter((skill) => {
+        return skill[1].skill === roleData.skill;
       });
-    var handicaps = inputData.object.items
-      .filter((i) => {
-        return i.type === "Eigenschaft";
+    meritList.forEach((merit) => {
+      merits.push(merit[1]);
+    });
+    var handicaps = [];
+    var handicapList = Object.entries(system.props)
+      .filter((hc) => {
+        return hc[1].handicap === true;
       })
-      .filter((j) => {
-        return j.system.handicap === true;
-      })
-      .filter((k) => {
-        return k.system.useWith === roleData.skill;
+      .filter((skill) => {
+        return skill[1].skill === roleData.skill;
       });
+    handicapList.forEach((handicap) => {
+      handicaps.push(handicap[1]);
+    });
+    var cyberwareProps = {};
     var cybernetics = inputData.object.items
       .filter((i) => {
         return i.type === "Artifizierung";
       })
       .filter((k) => {
-        return k.system.useWith === roleData.skill;
+        let cyberwareProps = [];
+        Object.entries(k.system.useWith).forEach((cyberware) => {
+          cyberwareProps.push(cyberware[1].skill);
+        });
+        console.log(cyberwareProps);
+        return cyberwareProps.includes(roleData.skill);
       });
+    cybernetics.forEach((cyberware) => {
+      Object.entries(cyberware.system.useWith).forEach((cyberslot) => {
+        console.log(cyberware.system.useWith);
+        if (cyberslot[1].skill === roleData.skill) {
+          cyberwareProps = {
+            ...cyberwareProps,
+            ["slot" + Object.keys(cyberwareProps).length]: {
+              name: cyberware.name,
+              skill: cyberslot[1].skill,
+              prop: cyberslot[1].prop,
+              action: cyberslot[1].action,
+            },
+          };
+          console.log("ADD ", cyberwareProps, " FOR " + cyberslot[1].skill);
+        }
+      });
+    });
+    console.log(cyberwareProps);
   }
 
   let cardData = {
@@ -136,7 +163,7 @@ export async function rollDice(inputData) {
     ...disadvMessage,
     merits: merits,
     handicaps: handicaps,
-    cybernetics: cybernetics,
+    cybernetics: cyberwareProps,
     rollname: inputData.rollname,
     actorData: inputData.actorData,
     total_AB: total_AB,

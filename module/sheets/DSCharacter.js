@@ -172,7 +172,7 @@ export class DSCharacter extends Actor {
     if (actorData.type === "Charakter") {
       attrList = config.attrList;
       skillList = config.skillList;
-      startEp = -2000;
+      startEp = 2000;
     } else if (actorData.type === "Nebencharakter") {
       attrList = config.attrNpc;
       skillList = config.skillListNpc;
@@ -214,6 +214,6 @@ export class DSCharacter extends Actor {
     system.totalAttrXp = attrEpTotal;
     system.totalSkillXp = skillEpTotal;
     system.totalPropXp = (propertyList.length + artList.length) * 100;
-    system.totalXp = attrEpTotal + skillEpTotal + system.totalPropXp + startEp;
+    system.totalXp = attrEpTotal + skillEpTotal + system.totalPropXp - startEp;
   }
 }

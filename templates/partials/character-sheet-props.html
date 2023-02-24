@@ -2,36 +2,80 @@
   <div>
     <h2><i class="fa-solid fa-dna"></i> Eigenschaften</h2>
     <ul class="item-list">
-      {{#each items.Eigenschaft}}
-      <li class="item flex between item" data-item-id="{{this._id}}">
-        <span class="item-control" title="Edit Item"
-          >{{#if system.handicap}}<i
-            class="fa-solid fa-minus-circle handicap"
-          ></i>
-          {{/if}}{{name}}
-          <span class="anmerkung">{{system.useWith}}</span></span
-        >
-        <div>
-          {{>
-          "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
-        </div>
+      {{#each system.props}}
+      <li class="item flex between">
+        <input type="text" name="system.props.{{@key}}.name" value="{{name}}">
+
+        <a class="propEdit" title="Eigenschaft bearbeiten" data-index="{{@index}}">
+          <i class="fa-solid fa-edit"></i>
+        </a>
+
+        <select name="system.props.{{@key}}.skill">
+          {{#select skill}}
+          
+          {{#ifCond ../this.actor.type "===" "Charakter"}}
+          {{#each ../this.config.skillList}}
+          <option value="{{this}}">{{this}}</option>
+          {{/each}}
+          {{/ifCond}}
+          {{#ifCond ../this.actor.type "===" "Nebencharakter"}}
+          {{#each ../this.config.skillListNpc}}
+          <option value="{{this}}">{{this}}</option>
+          {{/each}}
+          {{/ifCond}}
+          {{#ifCond ../this.actor.type "===" "DrohneFahrzeug"}}
+          {{#each ../this.config.skillListVehicle}}
+          <option value="{{this}}">{{this}}</option>
+          {{/each}}
+          {{/ifCond}}
+          {{#ifCond ../this.actor.type "===" "KI"}}
+          {{#each ../this.config.skillListAi}}
+          <option value="{{this}}">{{this}}</option>
+          {{/each}}
+          {{/ifCond}}
+          {{/select}}
+
+        </select>
+
+        <a
+        ><i
+          class="fa-solid fa-circle-minus deleteProp"
+          data-index="{{@index}}"
+        ></i
+      ></a>
       </li>
       {{/each}}
     </ul>
+    <div class="flex" style="margin-top: 1ch">
+      <div class="tooltip">
+        <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
+        <span class="tooltiptext bottom">Eigenschaft hinzufügen</span>
+      </div>
+    </div>
   </div>
   <div>
     <h2><i class="fa-solid fa-microchip"></i> Artifizierungen</h2>
     <ul class="item-list">
       {{#each items.Artifizierung}}
       <li class="item flex between item" data-item-id="{{this._id}}">
-        <span class="item-control" title="Edit Item"
-          >{{name}}
+        <span class="item-control" title="Edit Item">{{name}}
           <span class="anmerkung"></span>
-            <i class="fa-solid fa-caret-right"></i> {{#if
-            system.prosthetic}}{{system.useAttr}}{{else}} {{system.useWith}}
-            ({{system.useAktion}}){{/if}}</span
-          ></span
-        >
+          {{#if system.prosthetic}}{{system.useAttr}}{{else}}
+
+          <ul class="anmerkung" style="
+            border-left: 1px solid;
+            padding-left: 5px;
+            margin-left: 20px;">
+            {{#each system.useWith}}
+            <li>{{this.skill}} ({{this.action}})</li>
+            {{/each}}
+
+          </ul>
+
+
+
+          {{/if}}
+        </span></span>
         <div>
           {{>
           "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}

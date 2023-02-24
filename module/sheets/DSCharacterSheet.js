@@ -53,7 +53,8 @@ export class DSCharacterSheet extends ActorSheet {
 
     context.system = actorData.system;
     context.flags = actorData.flags;
-
+    context.config = darkspace;
+    context.debugModeOn = game.settings.get("darkspace", "debugmode");
     return context;
   }
 
@@ -74,6 +75,9 @@ export class DSCharacterSheet extends ActorSheet {
       ".ressPoints",
       ".ressReset",
       ".inlineItemEdit",
+      ".addProp",
+      ".deleteProp",
+      ".propEdit",
     ];
     window.oncontextmenu = (e) => {
       e.preventDefault();
@@ -113,21 +117,20 @@ export class DSCharacterSheet extends ActorSheet {
     event.preventDefault();
     !option ? (option = {}) : option;
     const element = option.rightClick ? event.target : event.currentTarget;
-    const actorData = this.object.system;
+    const system = this.object.system;
     const dataset = element.dataset;
 
     const inputData = {
       eventData: element,
       actorId: this.actor.id,
-      dynattr: DSMechanics.getStat(dataset.skill, actorData.charattribut).attr,
-      dynskill: DSMechanics.getStat(dataset.skill, actorData.charattribut).fert,
-      actorData: this.object.system,
+      dynattr: DSMechanics.getStat(dataset.skill, system.charattribut).attr,
+      dynskill: DSMechanics.getStat(dataset.skill, system.charattribut).fert,
+      system: this.object.system,
       rollname: dataset.rollname,
       roleData: {
-        attribute: DSMechanics.getStat(dataset.skill, actorData.charattribut)
+        attribute: DSMechanics.getStat(dataset.skill, system.charattribut)
           .attrName,
-        skill: DSMechanics.getStat(dataset.skill, actorData.charattribut)
-          .fertName,
+        skill: DSMechanics.getStat(dataset.skill, system.charattribut).fertName,
         rollname: false,
       },
       removehighest: element.className.includes("disadv"),
@@ -154,15 +157,12 @@ export class DSCharacterSheet extends ActorSheet {
     !option ? (option = {}) : option;
     const element = option.rightClick ? event.target : event.currentTarget;
     const dataset = element.dataset;
-    const actorData = this.object.system;
+    const system = this.object.system;
     const item = this.actor.items.filter((item) => {
       return item.id === dataset.itemid;
     })[0];
 
-    const stat = DSMechanics.getStat(
-      item.system.useWith,
-      actorData.charattribut
-    );
+    const stat = DSMechanics.getStat(item.system.useWith, system.charattribut);
 
     const preCreatedInput = this.createInputData(event, option);
     const inputData = {
@@ -173,6 +173,7 @@ export class DSCharacterSheet extends ActorSheet {
       modroll: option.rightClick,
       item: item,
       type: item.type,
+      system: system,
     };
 
     DSMechanics.modRolls(inputData);
@@ -199,7 +200,7 @@ export class DSCharacterSheet extends ActorSheet {
     const item = this.object.items.filter((item) => {
       return item.id === itemId;
     })[0];
-
+    console.log(element.dataset);
     Dialog.confirm({
       title: "Gegenstand entfernen",
       content: "Möchtest du " + item.name + " wirklich löschen?",
@@ -248,13 +249,13 @@ export class DSCharacterSheet extends ActorSheet {
   }
 
   _ressPoints(event) {
-    const actorData = this.object.system;
+    const system = this.object.system;
     const element = event.currentTarget;
 
     let currentIndex = parseInt(element.dataset.index);
     let currentActive = parseInt(element.dataset.active);
     let currentAttr = element.dataset.thisattr;
-    let currentAttrData = actorData.charattribut[currentAttr];
+    let currentAttrData = system.charattribut[currentAttr];
     let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
 
     if (currentActive === 1) {
@@ -270,11 +271,11 @@ export class DSCharacterSheet extends ActorSheet {
     }
   }
   _ressReset(event) {
-    const actorData = this.object.system;
+    const system = this.object.system;
     const element = event.currentTarget;
 
     let currentAttr = element.dataset.thisattr;
-    let currentAttrData = actorData.charattribut[currentAttr];
+    let currentAttrData = system.charattribut[currentAttr];
     let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
 
     this.actor.update({
@@ -294,6 +295,130 @@ export class DSCharacterSheet extends ActorSheet {
     item.update({
       _id: itemid,
       [itemstat]: element.checked,
+    });
+  }
+  async _addProp() {
+    const system = this.object.system;
+    const props = system.props;
+
+    let newProp = {};
+    console.log(system);
+    if (props === undefined || props === {} || props === null) {
+      newProp = {
+        slot0: {
+          name: "Neue Eigenschaft",
+          skill: "Automatiion",
+          desc: "Test",
+          handicap: false,
+        },
+      };
+    } else {
+      const nextKey = Object.keys(props).length;
+      const slot = "slot" + nextKey;
+      Object.values(props).forEach((slot, i) => {
+        newProp = {
+          ...newProp,
+          ["slot" + i]: slot,
+        };
+      });
+      newProp = {
+        [slot]: {
+          name: "Neue Eigenschaft",
+          skill: "Automatiion",
+          desc: "Test",
+          handicap: false,
+        },
+      };
+    }
+
+    await this.object.update({
+      id: this.actor.id,
+      "system.props": newProp,
+    });
+    console.log(system.props);
+  }
+
+  async _propEdit(event) {
+    console.log("_propEdit");
+    const element = event.currentTarget;
+    const system = this.object.system;
+    const dataset = element.dataset;
+    const slotIdent = "slot" + dataset.index;
+    const propData = {
+      ...this.object,
+      ...system.props[slotIdent],
+      descAdresse: "system.props." + slotIdent + ".desc",
+      handicapAdresse: "system.props." + slotIdent + ".handicap",
+      slot: slotIdent,
+    };
+    const propEditTemplate = await renderTemplate(
+      "systems/darkspace/templates/dice/dialogEditProp.html",
+      propData
+    );
+
+    let d = new Dialog({
+      title: "Test Dialog",
+      content: propEditTemplate,
+      buttons: {
+        save: {
+          icon: '<i class="fas fa-save"></i>',
+          label: "Speichern",
+          callback: (html) => {
+            const handicapAdresse = "system.props." + slotIdent + ".handicap";
+            const descAdresse = "system.props." + slotIdent + ".desc";
+            const newHandicapStatus = html.find(".handicapCheck")[0].checked;
+            const newDesc = html.find(".propRules")[0].value;
+
+            this.object.update({
+              id: this.object.id,
+              [descAdresse]: newDesc.toString(),
+              [handicapAdresse]: newHandicapStatus,
+            });
+          },
+        },
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Abbrechen",
+          callback: () => console.log("Chose Two"),
+        },
+      },
+      default: "two",
+      render: (html) =>
+        console.log("Register interactivity in the rendered dialog", html),
+      close: (html) =>
+        console.log(
+          "This always is logged no matter which option is chosen",
+          html
+        ),
+    });
+    console.log(d);
+    d.render(true);
+  }
+
+  async _deleteProp(event) {
+    const element = event.currentTarget;
+    const system = this.object.system;
+    const dataset = element.dataset;
+    const slotIdent = "slot" + dataset.index;
+
+    delete system.props[slotIdent];
+
+    let newProp = {};
+
+    Object.values(system.props).forEach((slot, i) => {
+      newProp = {
+        ...newProp,
+        ["slot" + i]: slot,
+      };
+    });
+
+    await this.object.update({
+      id: this.object.id,
+      "system.props": "",
+    });
+    await this.object.update({
+      id: this.object.id,
+      "system.props": newProp,
     });
   }
 }

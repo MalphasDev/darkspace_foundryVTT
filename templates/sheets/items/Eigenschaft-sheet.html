@@ -23,7 +23,7 @@
       <label for="{{item.id}}prop">Vorteil</label>
       {{/unless}}
     </div>
-  {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
+  {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html" context=this slot="slot0" skill=this.system.useWith.slot0.skill}}
 
   </div>
 

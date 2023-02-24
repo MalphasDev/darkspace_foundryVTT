@@ -50,13 +50,44 @@
     {{/select}}
   </div>
   {{/if}} {{else}}
-  <div class="grid col2">
-    <input
-      type="text"
-      name="system.useAktion"
-      value="{{item.system.useAktion}}"
-    />
-    {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"}}
+
+  <div class="grid col2"></div>
+
+  <div>
+    <ul>
+      {{#each system.useWith as |value key|}}
+      <li>
+        <input
+          type="text"
+          name="system.useWith.{{key}}.prop"
+          value="{{value.prop}}"
+        />
+        <div class="flex">
+          {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"
+          context=../this slot=key}}
+
+          <input
+            type="text"
+            name="system.useWith.{{key}}.action"
+            value="{{value.action}}"
+          />
+          <a
+            ><i
+              class="fa-solid fa-circle-minus deleteProp"
+              data-index="{{@index}}"
+            ></i
+          ></a>
+        </div>
+        <hr />
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+  <div class="flex" style="margin-top: 1ch">
+    <div class="tooltip">
+      <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
+      <span class="tooltiptext bottom">Aktion hinzufügen</span>
+    </div>
   </div>
   {{/if}}
 
