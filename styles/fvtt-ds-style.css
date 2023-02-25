@@ -20,6 +20,9 @@ body {
 .sheet.Charakter {
   min-width: 750px;
 }
+.sheet.journal-entry .journal-entry-content {
+  background: #171818;
+}
 h1,
 h2,
 h3,
