@@ -176,6 +176,7 @@
 
     "Nebencharakter": {
       "templates": ["commonStats", "bodyConditions", "cortexConditions"],
+      "competence": 1,
       "charattribut": {
         "Kampf": {
           "attribut": 1,

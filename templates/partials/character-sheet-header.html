@@ -34,7 +34,9 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
           placeholder="Charaktername"
         />
       </h2>
-      <span class="anmerkung">Name</span>
+      {{#ifCond actor.type "===" "Charakter"}}
+      <span class="anmerkung">Kompetenz-Stufe</span>
+      <span>{{system.competence}}</span>{{/ifCond}}
     </div>
     <!-- Unterer Bereich -->
     <div>
@@ -44,7 +46,19 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
         <div class="grid col2 borderbox round">
           {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
         </div>
-        {{/ifCond}} {{/ifCond}}
+        {{/ifCond}} {{/ifCond}} {{#ifCond actor.type "===" "Nebencharakter"}}
+        <div class="flex borderbox round">
+          <div>
+            <span>Kompetenz</span>
+            <input
+              type="number"
+              name="system.competence"
+              value="{{system.competence}}"
+              min="1"
+            />
+          </div>
+        </div>
+        {{/ifCond}}
 
         <!-- Zustandsmonitor -->
         <div>
@@ -62,6 +76,12 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
               {{#if ress}}
               <span>{{attrname}}-Punkte</span>
               <span class="flex">
+                <a
+                  class="ressReset"
+                  data-thisattr="{{attrname}}"
+                  style="margin: 0 2ch"
+                  ><i class="fa-solid fa-arrow-rotate-left"></i
+                ></a>
                 <i
                   class="fa-solid fa-minus-square decRess bigsize"
                   data-attr="{{attrname}}"

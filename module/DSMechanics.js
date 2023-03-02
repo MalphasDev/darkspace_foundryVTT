@@ -132,17 +132,14 @@ export async function rollDice(inputData) {
         return i.type === "Artifizierung";
       })
       .filter((k) => {
-        console.log("Cybernetics");
         let cyberwareProps = [];
         Object.entries(k.system.props).forEach((cyberware) => {
           cyberwareProps.push(cyberware[1].skill);
         });
-        console.log(cyberwareProps);
         return cyberwareProps.includes(roleData.skill);
       });
     cybernetics.forEach((cyberware) => {
       Object.entries(cyberware.system.props).forEach((cyberslot) => {
-        console.log(cyberware.system.props);
         if (cyberslot[1].skill === roleData.skill) {
           cyberwareProps = {
             ...cyberwareProps,

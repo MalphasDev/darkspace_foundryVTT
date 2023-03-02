@@ -9,7 +9,6 @@ export class DSPause extends Pause {
 
   /** @override */
   getData(options = {}) {
-    console.log(this);
     return { paused: game.paused };
   }
 }

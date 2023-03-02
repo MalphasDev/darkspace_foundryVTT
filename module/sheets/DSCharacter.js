@@ -34,6 +34,12 @@ export class DSCharacter extends Actor {
       system.upkeepTotal = v + system.upkeepTotal;
     }
     system.wealth = system.charattribut.Ressourcen.attribut * 2;
+    this.expCounter();
+    system.competence = Math.floor(
+      Math.sqrt(
+        (system.totalAttrXp + system.totalSkillXp + system.totalPropXp) / 100
+      )
+    );
 
     return { actorData, system, attr, config };
   }
@@ -164,25 +170,28 @@ export class DSCharacter extends Actor {
   expCounter() {
     const { actorData, system, attr, config } = this.getObjLocation();
 
-    let startEp = 0;
     let attrList = [];
     let skillList = [];
+    system.totalAttrXp = 0;
+    system.totalSkillXp = 0;
+    system.totalPropXp = 0;
 
     if (actorData.type === "Charakter") {
       attrList = config.attrList;
       skillList = config.skillList;
-      startEp = 2000;
+      system.startEp = game.settings.get("darkspace", "startxp");
     } else if (actorData.type === "Nebencharakter") {
       attrList = config.attrNpc;
       skillList = config.skillListNpc;
+      system.startEp = Math.pow(system.competence, 2) * 100;
     } else if (actorData.type === "DrohneFahrzeug") {
       attrList = config.attrVehicle;
       skillList = config.skillListVehicle;
-      startEp = (system.mk + system.size) * 100;
+      system.startEp = (system.mk + system.size) * 100;
     } else if (actorData.type === "KI") {
       attrList = config.attrAi;
       skillList = config.skillListAi;
-      startEp = 2000;
+      system.startEp = game.settings.get("darkspace", "startxpai");
     }
 
     attrList.forEach((attrIdent) => {
@@ -206,6 +215,10 @@ export class DSCharacter extends Actor {
 
     system.totalPropXp = Object.entries(system.props).length * 100;
     system.totalXp =
-      system.totalAttrXp + system.totalSkillXp + system.totalPropXp - startEp;
+      system.totalAttrXp +
+      system.totalSkillXp +
+      system.totalPropXp -
+      system.startEp;
+    system.xpAvailable = system.xp.max - system.totalXp;
   }
 }

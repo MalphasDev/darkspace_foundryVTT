@@ -77,6 +77,7 @@ export class DSCharacterSheet extends ActorSheet {
       ".addProp",
       ".deleteProp",
       ".propEdit",
+      ".showtodialog",
     ];
     window.oncontextmenu = (e) => {
       e.preventDefault();
@@ -216,7 +217,6 @@ export class DSCharacterSheet extends ActorSheet {
     const item = this.object.items.filter((item) => {
       return item.id === itemId;
     })[0];
-    console.log(element.dataset);
     Dialog.confirm({
       title: "Gegenstand entfernen",
       content: "Möchtest du " + item.name + " wirklich löschen?",
@@ -290,13 +290,19 @@ export class DSCharacterSheet extends ActorSheet {
     const system = this.object.system;
     const element = event.currentTarget;
 
-    let currentAttr = element.dataset.thisattr;
-    let currentAttrData = system.charattribut[currentAttr];
-    let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
+    const currentAttr = element.dataset.thisattr;
 
-    this.actor.update({
-      [ValueAdress]: currentAttrData.attribut,
-    });
+    const currentAttrData = system.charattribut[currentAttr];
+    const ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
+    if (currentAttrData.ress.value < currentAttrData.attribut) {
+      this.actor.update({
+        [ValueAdress]: currentAttrData.attribut,
+      });
+    } else {
+      ui.notifications.warn(
+        "Punktevorrat nicht kleiner als Attributswert. Punkte werden nicht gesenkt."
+      );
+    }
   }
   _inlineItemEdit(event) {
     const element = event.currentTarget;
@@ -318,7 +324,6 @@ export class DSCharacterSheet extends ActorSheet {
     const props = system.props;
 
     let newProp = {};
-    console.log(system);
     if (props === undefined || props === {} || props === null) {
       newProp = {
         slot0: {
@@ -351,7 +356,6 @@ export class DSCharacterSheet extends ActorSheet {
       id: this.actor.id,
       "system.props": newProp,
     });
-    console.log(system.props);
   }
 
   async _propEdit(event) {
@@ -382,8 +386,6 @@ export class DSCharacterSheet extends ActorSheet {
             const newDesc = html.find(".propRules")[0].value;
             const propName = html.find(".propName")[0].value;
             const skill = html.find(".skill")[0].value;
-
-            console.log(html);
 
             this.object.update({
               id: this.object.id,
@@ -429,5 +431,36 @@ export class DSCharacterSheet extends ActorSheet {
       id: this.object.id,
       "system.props": newProp,
     });
+  }
+  async _showtodialog(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+
+    // Erwarte "title" und "content" im dataset
+
+    const showContent = await renderTemplate(
+      "systems/darkspace/templates/dice/showContent.html",
+      dataset
+    );
+
+    new Dialog({
+      title: "Regeln für ",
+      content: showContent,
+      buttons: {
+        save: {
+          icon: '<i class="fa-regular fa-comment"></i>',
+          label: "Chat",
+          callback: () => {
+            return ChatMessage.create({ content: showContent });
+          },
+        },
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Schließen",
+          callback: () => {},
+        },
+      },
+      default: "abort",
+    }).render(true);
   }
 }

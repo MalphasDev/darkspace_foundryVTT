@@ -133,6 +133,18 @@ Hooks.once("init", function () {
     type: Boolean,
     default: false,
   });
+  game.settings.register("darkspace", "startxp", {
+    name: "Start-Erfahrung für Charaktere",
+    config: true,
+    type: Number,
+    default: 2000,
+  });
+  game.settings.register("darkspace", "startxpai", {
+    name: "Start-Erfahrung für KI-Charaktere",
+    config: true,
+    type: Number,
+    default: 2000,
+  });
 
   preloadHandlebarsTemplates();
 });
