@@ -158,7 +158,22 @@
       <!-- Kraft Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Kraft" skillAttr=system.charattribut.Körper.attribut
-      skillVal=system.charattribut.Körper.skill.Kraft}} {{/ifCond}}
+      skillVal=system.charattribut.Körper.skill.Kraft}}
+
+      <!-- Beweglichkeit Schutz -->
+      {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
+      skillname="Beweglichkeit" skillAttr=system.charattribut.Körper.attribut
+      skillVal=system.charattribut.Körper.skill.Beweglichkeit}} {{/ifCond}}
+
+      <!-- Beweglichkeit Größe -->
+      {{#ifCond actor.type "===" "DrohneFahrzeug"}}
+      {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
+      skillname="Größe" skillAttr=system.mk skillVal=system.size}}
+
+      <!-- Beweglichkeit Beschleunigung -->
+      {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
+      skillname="Beschleunigung" skillAttr=system.charattribut.Leistung.attribut
+      skillVal=system.charattribut.Leistung.skill.Beschleunigung}} {{/ifCond}}
 
       <!-- Synthese Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"

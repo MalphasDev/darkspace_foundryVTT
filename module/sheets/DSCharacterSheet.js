@@ -1,5 +1,6 @@
 import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
+import { edit as propEdit } from "../DSprops.js";
 
 export class DSCharacterSheet extends ActorSheet {
   get template() {
@@ -9,9 +10,7 @@ export class DSCharacterSheet extends ActorSheet {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
     Custom: "systems/darkspace/templates/dice/chatCustom.html",
     Item: "systems/darkspace/templates/dice/chatItem.html",
-    Unarmed: "systems/darkspace/templates/dice/chatUnarmed.html",
     Waffe: "systems/darkspace/templates/dice/chatWeapon.html",
-    Panzerung: "systems/darkspace/templates/dice/chatArmor.html",
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
   };
 
@@ -120,17 +119,34 @@ export class DSCharacterSheet extends ActorSheet {
     const system = this.object.system;
     const dataset = element.dataset;
 
+    let attrVal = DSMechanics.getStat(dataset.skill, system.charattribut).attr;
+    let skillVal = DSMechanics.getStat(dataset.skill, system.charattribut).fert;
+    let attrName = DSMechanics.getStat(
+      dataset.skill,
+      system.charattribut
+    ).attrName;
+
+    if (dataset.skill === "MK" || dataset.skill === "Modulklasse") {
+      attrVal = system.size;
+      skillVal = system.mk;
+      attrName = "Größe";
+    }
+    if (dataset.skill === "Größe") {
+      attrVal = system.mk;
+      skillVal = system.size;
+      attrName = "Modulklasse";
+    }
+
     const inputData = {
       eventData: element,
       actorId: this.actor.id,
-      dynattr: DSMechanics.getStat(dataset.skill, system.charattribut).attr,
-      dynskill: DSMechanics.getStat(dataset.skill, system.charattribut).fert,
+      dynattr: attrVal,
+      dynskill: skillVal,
       system: this.object.system,
       rollname: dataset.rollname,
       roleData: {
-        attribute: DSMechanics.getStat(dataset.skill, system.charattribut)
-          .attrName,
-        skill: DSMechanics.getStat(dataset.skill, system.charattribut).fertName,
+        attribute: attrName,
+        skill: dataset.skill,
         rollname: false,
       },
       removehighest: element.className.includes("disadv"),
@@ -308,7 +324,7 @@ export class DSCharacterSheet extends ActorSheet {
         slot0: {
           name: "Neue Eigenschaft",
           skill: "Automatiion",
-          desc: "Test",
+          desc: "Regeln",
           handicap: false,
         },
       };
@@ -325,7 +341,7 @@ export class DSCharacterSheet extends ActorSheet {
         [slot]: {
           name: "Neue Eigenschaft",
           skill: "Automatiion",
-          desc: "Test",
+          desc: "Regeln",
           handicap: false,
         },
       };
@@ -339,60 +355,53 @@ export class DSCharacterSheet extends ActorSheet {
   }
 
   async _propEdit(event) {
-    console.log("_propEdit");
-    const element = event.currentTarget;
-    const system = this.object.system;
-    const dataset = element.dataset;
-    const slotIdent = "slot" + dataset.index;
-    const propData = {
-      ...this.object,
-      ...system.props[slotIdent],
-      descAdresse: "system.props." + slotIdent + ".desc",
-      handicapAdresse: "system.props." + slotIdent + ".handicap",
-      slot: slotIdent,
-    };
-    const propEditTemplate = await renderTemplate(
+    const propData = propEdit(event, this);
+    propData.charakterProp = true;
+
+    propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/dialogEditProp.html",
       propData
     );
 
-    let d = new Dialog({
-      title: "Test Dialog",
-      content: propEditTemplate,
+    new Dialog({
+      title: "Eigenschaft editieren",
+      content: propData.propEditTemplate,
       buttons: {
         save: {
           icon: '<i class="fas fa-save"></i>',
           label: "Speichern",
           callback: (html) => {
-            const handicapAdresse = "system.props." + slotIdent + ".handicap";
-            const descAdresse = "system.props." + slotIdent + ".desc";
+            const propAdresse = "system.props." + propData.slot;
+
+            const handicapAdresse = propAdresse + ".handicap";
+            const descAdresse = propAdresse + ".desc";
+            const propNameAdresse = propAdresse + ".prop";
+            const propSkillAdresse = propAdresse + ".skill";
+
             const newHandicapStatus = html.find(".handicapCheck")[0].checked;
             const newDesc = html.find(".propRules")[0].value;
+            const propName = html.find(".propName")[0].value;
+            const skill = html.find(".skill")[0].value;
+
+            console.log(html);
 
             this.object.update({
               id: this.object.id,
               [descAdresse]: newDesc.toString(),
               [handicapAdresse]: newHandicapStatus,
+              [propNameAdresse]: propName,
+              [propSkillAdresse]: skill,
             });
           },
         },
         abort: {
           icon: '<i class="fas fa-times"></i>',
           label: "Abbrechen",
-          callback: () => console.log("Chose Two"),
+          callback: () => {},
         },
       },
-      default: "two",
-      render: (html) =>
-        console.log("Register interactivity in the rendered dialog", html),
-      close: (html) =>
-        console.log(
-          "This always is logged no matter which option is chosen",
-          html
-        ),
-    });
-    console.log(d);
-    d.render(true);
+      default: "save",
+    }).render(true);
   }
 
   async _deleteProp(event) {

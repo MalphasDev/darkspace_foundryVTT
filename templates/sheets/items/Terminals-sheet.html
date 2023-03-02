@@ -1,28 +1,24 @@
-<form class="{{cssClass}} item sheet-content" autocomplete="off">
-  {{> "systems/darkspace/templates/partials/items/header.html"}}
-  <div class="flex around">
-    <!--Itemsheet-Body-->
-
-    <div>{{> "systems/darkspace/templates/partials/items/weapons.html"}}</div>
-    <div>{{>"systems/darkspace/templates/partials/items/MkSize.html"}}</div>
+<form class="{{cssClass}} item sheet-content grid col2" autocomplete="off">
+  <div>
+    {{> "systems/darkspace/templates/partials/items/header.html"}}
+    <div class="bigsize flex around">
+      {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
+    </div>
+    <div class="grid col3">
+      {{> "systems/darkspace/templates/partials/items/weapons.html"}}
+    </div>
+    <hr />
+    <div>
+      <h3>Zustände</h3>
+      {{> "systems/darkspace/templates/partials/techCortexHealth.html"}}
+      <div>{{> "systems/darkspace/templates/partials/items/bots.html"}}</div>
+    </div>
+    <hr />
+    <div>{{> "systems/darkspace/templates/partials/items/itemProp.html"}}</div>
   </div>
   <div>
-    {{#with system.ress.bots}}
-    <div class="borderbox">
-      <div>
-        <div
-          style="height: 10px; background: var(--effect); margin-bottom: 10px; 
-          width: calc(100% / {{max}} * {{value}});"
-        ></div>
-      </div>
-      <div class="flex between verticalalign">
-        <i class="fa-solid fa-minus decRess pointer" data-attr="bots.value"></i>
-        <h3 class="text_c" style="margin: 0">Bots ({{value}}/{{max}})</h3>
-        <i class="fa-solid fa-plus incRess pointer" data-attr="bots.value"></i>
-      </div>
-    </div>
-    {{/with}}
+    <h2>Beschreibung</h2>
+    {{editor system.description target="system.description" button=true
+    owner=owner editable=editable rollData=rollData}}
   </div>
-  <div>{{> "systems/darkspace/templates/partials/techCortexHealth.html"}}</div>
-  {{> "systems/darkspace/templates/partials/actors/notes.html"}}
 </form>

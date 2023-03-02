@@ -3,17 +3,23 @@
   <ul class="item-list">
     {{#each items.Werkzeug}}
     <li class="item" data-item-id="{{this._id}}">
-      <div class="grid col3-211">
+      <div
+        class="grid"
+        style="grid-template-columns: auto 10ch 45px; gap: 1ch 0"
+      >
         <span
           class="itemname rollItem"
           draggable="true"
           data-itemid="{{this._id}}"
           ><i class="fa-solid fa-tablet-alt"></i> {{this.name}}
-          <span class="anmerkung">({{this.system.useWith}})</span></span
+          <span class="anmerkung">({{this.system.useWith}})</span>
+          <div>
+            {{> "systems/darkspace/templates/partials/items/inlineHealth.html"}}
+          </div></span
         >
 
-        <span>
-          {{>
+        <span class="cell_c"
+          >{{>
           "systems/darkspace/templates/partials/items/MkSize_display.html"}}</span
         >
         <div class="cell_r">
@@ -24,15 +30,23 @@
     </li>
     {{/each}} {{#each items.Medkit}}
     <li class="item" data-item-id="{{this._id}}">
-      <div class="grid col3-211">
+      <div
+        class="grid"
+        style="grid-template-columns: auto 10ch 45px; gap: 1ch 0"
+      >
         <span
           class="itemname rollItem"
           draggable="true"
           data-itemid="{{this._id}}"
           ><i class="fa-solid fa-first-aid"></i> {{this.name}}
-          <span class="anmerkung">({{this.system.useWith}})</span></span
-        >
-        <span
+          <span class="anmerkung">({{this.system.useWith}})</span>
+
+          <div>
+            {{> "systems/darkspace/templates/partials/items/inlineHealth.html"}}
+          </div>
+        </span>
+
+        <span class="cell_c"
           >{{>
           "systems/darkspace/templates/partials/items/MkSize_display.html"}}</span
         >
@@ -44,16 +58,22 @@
     </li>
     {{/each}} {{#each items.Gegenstand}}
     <li class="item" data-item-id="{{this._id}}">
-      <div class="grid col3-211">
+      <div
+        class="grid"
+        style="grid-template-columns: auto 10ch 45px; gap: 1ch 0"
+      >
         <span
           class="itemname rollItem"
           draggable="true"
           data-itemid="{{this._id}}"
           >{{this.name}}
-          <span class="anmerkung">({{this.system.useWith}})</span></span
+          <span class="anmerkung">({{this.system.useWith}})</span>
+          <div>
+            {{> "systems/darkspace/templates/partials/items/inlineHealth.html"}}
+          </div></span
         >
 
-        <span
+        <span class="cell_c"
           >{{>
           "systems/darkspace/templates/partials/items/MkSize_display.html"}}</span
         >

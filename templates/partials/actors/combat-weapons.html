@@ -7,10 +7,16 @@
       <div>
         <div class="grid col-weapons">
           <span
-            class="itemname rollItem"
-            draggable="true"
-            data-itemid="{{this._id}}"
-            ><i class="fa-solid fa-gun"></i> {{this.name}}</span
+            ><span
+              class="itemname rollItem"
+              draggable="true"
+              data-itemid="{{this._id}}"
+              ><i class="fa-solid fa-gun"></i> {{this.name}}</span
+            >
+            <div>
+              {{>
+              "systems/darkspace/templates/partials/items/inlineHealth.html"}}
+            </div></span
           >
 
           <span class="derivedValue tooltip"
@@ -42,11 +48,17 @@
       <div>
         <div class="grid col-weapons">
           <span
-            class="itemname rollItem"
-            draggable="true"
-            data-itemid="{{this._id}}"
-            ><i class="fa-solid fa-hammer"></i> {{this.name}}
-          </span>
+            ><span
+              class="itemname rollItem"
+              draggable="true"
+              data-itemid="{{this._id}}"
+              ><i class="fa-solid fa-hammer"></i> {{this.name}}
+            </span>
+            <div>
+              {{>
+              "systems/darkspace/templates/partials/items/inlineHealth.html"}}
+            </div></span
+          >
 
           <span class="derivedValue tooltip"
             ><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}<span
@@ -75,12 +87,17 @@
     <li class="item" data-item-id="{{this._id}}">
       <div class="grid col-weapons">
         <span
-          class="itemname rollItem"
-          draggable="true"
-          data-itemid="{{this._id}}"
-          ><i class="fa-solid fa-tablet-alt"></i> {{this.name}}
-          <span class="anmerkung">({{this.system.useWith}})</span></span
+          ><span
+            class="itemname rollItem"
+            draggable="true"
+            data-itemid="{{this._id}}"
+            ><i class="fa-solid fa-tablet-alt"></i> {{this.name}}
+          </span>
+          <div>
+            {{> "systems/darkspace/templates/partials/items/inlineHealth.html"}}
+          </div></span
         >
+
         <span class="derivedValue tooltip"
           ><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}<span
             class="tooltiptext top"

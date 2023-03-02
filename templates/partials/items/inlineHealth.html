@@ -1,0 +1,7 @@
+{{#each system.techConditions as |value key|}} {{#if this}}{{#with (lookup
+../system.techConditionLabel key)}}
+<i class="{{this.fontsymbol}}"></i>
+{{/with}} {{/if}} {{/each}} {{#each system.cortexConditions as |value key|}}
+{{#if this}}{{#with (lookup ../system.cortexConditionLabel key)}}
+<i class="{{this.fontsymbol}}"></i>
+{{/with}} {{/if}} {{/each}}

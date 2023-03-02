@@ -5,6 +5,7 @@ import * as DSHealth from "../DSHealth.js";
 export class DSCharacter extends Actor {
   getStat(fert) {
     let dbAttr;
+
     if (
       this.system.charattribut === undefined ||
       this.system.charattribut === null
@@ -163,8 +164,6 @@ export class DSCharacter extends Actor {
   expCounter() {
     const { actorData, system, attr, config } = this.getObjLocation();
 
-    let attrEpTotal = 0;
-    let skillEpTotal = 0;
     let startEp = 0;
     let attrList = [];
     let skillList = [];
@@ -183,7 +182,7 @@ export class DSCharacter extends Actor {
     } else if (actorData.type === "KI") {
       attrList = config.attrAi;
       skillList = config.skillListAi;
-      startEp = system.mk * 200;
+      startEp = 2000;
     }
 
     attrList.forEach((attrIdent) => {
@@ -191,7 +190,7 @@ export class DSCharacter extends Actor {
       let attrWert = attributName[attrIdent].attribut;
       let attrEp =
         ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;
-      attrEpTotal += attrEp;
+      system.totalAttrXp += attrEp;
 
       let skillSet = attributName[attrIdent].skill;
 
@@ -200,20 +199,13 @@ export class DSCharacter extends Actor {
           let skillWert = skillSet[skillIdent];
           let skillEp =
             ((skillWert * (skillWert + 1) * (2 * skillWert + 1)) / 6) * 4;
-          skillEpTotal += skillEp;
+          system.totalSkillXp += skillEp;
         }
       });
     });
 
-    var propertyList = actorData.items.filter((e) => {
-      return e.type === "Eigenschaft";
-    });
-    var artList = actorData.items.filter((i) => {
-      return i.type === "Artifizierung";
-    });
-    system.totalAttrXp = attrEpTotal;
-    system.totalSkillXp = skillEpTotal;
-    system.totalPropXp = (propertyList.length + artList.length) * 100;
-    system.totalXp = attrEpTotal + skillEpTotal + system.totalPropXp - startEp;
+    system.totalPropXp = Object.entries(system.props).length * 100;
+    system.totalXp =
+      system.totalAttrXp + system.totalSkillXp + system.totalPropXp - startEp;
   }
 }

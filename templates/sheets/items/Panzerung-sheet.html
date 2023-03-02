@@ -1,18 +1,28 @@
-<form class="{{cssClass}} item" autocomplete="off">
-  {{> "systems/darkspace/templates/partials/items/header.html"}}
+<form class="{{cssClass}} item grid col2" autocomplete="off">
+  <div>
+    {{> "systems/darkspace/templates/partials/items/header.html"}}
 
-  <div class="flex around">
-    {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
-    <div class="tooltip">
-      <span>
-        <i class="fa-solid fa-shield-alt"></i>
-        <input type="number" disabled value="{{system.structure}}" />
-      </span>
-      <span class="tooltiptext top">Struktur</span>
+    <div class="flex around">
+      {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
+      <div class="tooltip">
+        <span>
+          <i class="fa-solid fa-shield-alt"></i>
+          <input type="number" disabled value="{{system.structure}}" />
+        </span>
+        <span class="tooltiptext top">Struktur</span>
+      </div>
     </div>
+    <hr />
+    <div>
+      <h3>Zustände</h3>
+      {{> "systems/darkspace/templates/partials/techCortexHealth.html"}}
+    </div>
+    <hr />
+    <div>{{> "systems/darkspace/templates/partials/items/itemProp.html"}}</div>
   </div>
-  <div>{{> "systems/darkspace/templates/partials/techCortexHealth.html"}}</div>
-  <div class="sheet-content">
-    {{> "systems/darkspace/templates/partials/actors/notes.html"}}
+  <div>
+    <h2>Beschreibung</h2>
+    {{editor system.description target="system.description" button=true
+    owner=owner editable=editable rollData=rollData}}
   </div>
 </form>

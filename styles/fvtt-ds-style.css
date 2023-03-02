@@ -722,7 +722,7 @@ input[type="checkbox"] + label[for="ranged"]:hover {
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
-
+  font-size: 0.8rem;
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 10;
@@ -736,6 +736,10 @@ input[type="checkbox"] + label[for="ranged"]:hover {
 .tooltiptext.right {
   top: -5px;
   left: 105%;
+}
+.tooltiptext.left {
+  top: -5px;
+  right: 105%;
 }
 .tooltiptext.bottom {
   width: 120px;
