@@ -1,57 +1,35 @@
 <section>
   <div>
-    <h2><i class="fa-solid fa-dna"></i> Eigenschaften</h2>
-    <ul class="item-list">
-      {{#each system.props}}
-      <li class="item flex between">
-        <input type="text" name="system.props.{{@key}}.name" value="{{name}}">
+    <h2 class="flex between"><span><i class="fa-solid fa-dna"></i> Eigenschaften</span>
+    
+      <span class="tooltip">
+        <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
+        <span class="tooltiptext left">Eigenschaft hinzufügen</span>
+      </span>
+    </h2>
 
-        <a class="propEdit" title="Eigenschaft bearbeiten" data-index="{{@index}}">
+    
+
+    <ul class="item-list">
+      {{#each system.props as |value key|}}
+
+      <li class="item flex between">
+        <span>{{prop}} <i class="fa-solid fa-caret-right"></i>
+        <span class="anmerkung">{{skill}}</span></span>
+
+        <span><a class="propEdit" title="Eigenschaft bearbeiten" data-index="{{@index}}">
           <i class="fa-solid fa-edit"></i>
         </a>
-
-        <select name="system.props.{{@key}}.skill">
-          {{#select skill}}
-          
-          {{#ifCond ../this.actor.type "===" "Charakter"}}
-          {{#each ../this.config.skillList}}
-          <option value="{{this}}">{{this}}</option>
-          {{/each}}
-          {{/ifCond}}
-          {{#ifCond ../this.actor.type "===" "Nebencharakter"}}
-          {{#each ../this.config.skillListNpc}}
-          <option value="{{this}}">{{this}}</option>
-          {{/each}}
-          {{/ifCond}}
-          {{#ifCond ../this.actor.type "===" "DrohneFahrzeug"}}
-          {{#each ../this.config.skillListVehicle}}
-          <option value="{{this}}">{{this}}</option>
-          {{/each}}
-          {{/ifCond}}
-          {{#ifCond ../this.actor.type "===" "KI"}}
-          {{#each ../this.config.skillListAi}}
-          <option value="{{this}}">{{this}}</option>
-          {{/each}}
-          {{/ifCond}}
-          {{/select}}
-
-        </select>
-
         <a
         ><i
-          class="fa-solid fa-circle-minus deleteProp"
+          class="fa-solid fa-trash deleteProp"
           data-index="{{@index}}"
         ></i
-      ></a>
+      ></a></span>
       </li>
       {{/each}}
     </ul>
-    <div class="flex" style="margin-top: 1ch">
-      <div class="tooltip">
-        <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
-        <span class="tooltiptext bottom">Eigenschaft hinzufügen</span>
-      </div>
-    </div>
+
   </div>
   <div>
     <h2><i class="fa-solid fa-microchip"></i> Artifizierungen</h2>
@@ -66,7 +44,7 @@
             border-left: 1px solid;
             padding-left: 5px;
             margin-left: 20px;">
-            {{#each system.useWith}}
+            {{#each system.props}}
             <li>{{this.skill}} ({{this.action}})</li>
             {{/each}}
 

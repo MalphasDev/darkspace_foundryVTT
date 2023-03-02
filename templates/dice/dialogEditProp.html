@@ -1,13 +1,42 @@
-<div>
-  <h2>Regeln für {{name}}</h2>
-  {{log this}}
-  <label for="prop{{slot}}handicap">Handicap?</label>
-  <input
-    type="checkbox"
-    class="handicapCheck"
-    id="prop{{slot}}handicap"
-    {{checked
-    handicap}}
-  />
-  <textarea class="propRules" cols="30" rows="10">{{desc}}</textarea>
+<div id="{{id}}_propEdit">
+  <span class="flex between"
+    ><h2>
+      <span><input type="text" class="propName" value="{{prop}}" /> </span>
+    </h2>
+
+    <span class="flex center"
+      ><label for="prop{{slot}}handicap"> Handicap </label>
+
+      <input
+        type="checkbox"
+        class="handicapCheck"
+        id="prop{{slot}}handicap"
+        {{checked
+        handicap}} /></span
+  ></span>
+  <hr />
+  <div class="flex between">
+    <span>Fertigkeit</span>
+    <select name="system.props.{{slot}}.skill" class="skill">
+      <option value="Automatismus" type="text">Automatismus</option>
+      {{> "systems/darkspace/templates/partials/skillOptions.html" @root
+      skill=skill type=ownertype}}
+    </select>
+  </div>
+  {{#unless charakterProp}}
+  <div class="flex between">
+    <span>Aktion</span>
+    <input
+      type="text"
+      class="actionName"
+      value="{{action}}"
+      style="width: 22ch"
+    />
+  </div>
+  {{/unless}}
+  <hr />
+  <div>
+    <h3>Regeln</h3>
+    <textarea class="propRules" cols="30" rows="10">{{desc}}</textarea>
+  </div>
 </div>

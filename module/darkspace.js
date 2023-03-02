@@ -27,6 +27,7 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "character-sheet-stats.html",
 
     partialAddress + "techCortexHealth.html",
+    partialAddress + "skillOptions.html",
     //Buttons
     partialAddress + "actors/actionBtn.html",
     partialAddress + "actors/protectionBtn.html",
@@ -39,7 +40,6 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "actors/health.html",
     partialAddress + "actors/combat-armor.html",
     partialAddress + "actors/combat-weapons.html",
-    partialAddress + "actors/notes.html",
 
     //Items
     partialAddress + "items/header.html",
@@ -47,16 +47,17 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "items/editDeleteEquip.html",
     partialAddress + "items/MkSize.html",
     partialAddress + "items/MkSize_display.html",
+    partialAddress + "items/itemProp.html",
+    partialAddress + "items/bots.html",
+    partialAddress + "items/inlineHealth.html",
 
     //Misc
     diceAddress + "dice-msg.html",
+    partialAddress + "notes.html",
 
     //Dialog
     diceAddress + "dialogMkSize.html",
-    diceAddress + "dialogName.html",
-    diceAddress + "dialogDescMod.html",
     diceAddress + "dialogWeapon.html",
-    diceAddress + "dialogSkillDropdown.html",
 
     //Chat
     diceAddress + "chatWeapon.html",

@@ -27,6 +27,7 @@ export async function rollDice(inputData) {
   rollformular = attr + "d10x";
 
   var rollResult = new Roll(rollformular);
+
   await rollResult.evaluate({ async: true });
 
   const sortedResult = rollResult.terms[0].results
@@ -123,22 +124,25 @@ export async function rollDice(inputData) {
     handicapList.forEach((handicap) => {
       handicaps.push(handicap[1]);
     });
+
+    // Artfizierungen zusammenstellen
     var cyberwareProps = {};
     var cybernetics = inputData.object.items
       .filter((i) => {
         return i.type === "Artifizierung";
       })
       .filter((k) => {
+        console.log("Cybernetics");
         let cyberwareProps = [];
-        Object.entries(k.system.useWith).forEach((cyberware) => {
+        Object.entries(k.system.props).forEach((cyberware) => {
           cyberwareProps.push(cyberware[1].skill);
         });
         console.log(cyberwareProps);
         return cyberwareProps.includes(roleData.skill);
       });
     cybernetics.forEach((cyberware) => {
-      Object.entries(cyberware.system.useWith).forEach((cyberslot) => {
-        console.log(cyberware.system.useWith);
+      Object.entries(cyberware.system.props).forEach((cyberslot) => {
+        console.log(cyberware.system.props);
         if (cyberslot[1].skill === roleData.skill) {
           cyberwareProps = {
             ...cyberwareProps,
@@ -149,11 +153,9 @@ export async function rollDice(inputData) {
               action: cyberslot[1].action,
             },
           };
-          console.log("ADD ", cyberwareProps, " FOR " + cyberslot[1].skill);
         }
       });
     });
-    console.log(cyberwareProps);
   }
 
   let cardData = {
@@ -286,12 +288,9 @@ export async function _resolveDice(inputData) {
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
     Custom: "systems/darkspace/templates/dice/chatCustom.html",
-    Unarmed: "systems/darkspace/templates/dice/chatUnarmed.html",
     Schusswaffe: "systems/darkspace/templates/dice/chatWeapon.html",
     Nahkampfwaffe: "systems/darkspace/templates/dice/chatWeapon.html",
-    Panzerung: "systems/darkspace/templates/dice/chatArmor.html",
     Artifizierung: "systems/darkspace/templates/dice/chatCybernetics.html",
-    Unterbringung: "systems/darkspace/templates/dice/chatHousing.html",
     Item: "systems/darkspace/templates/dice/chatItem.html",
     Werkzeug: "systems/darkspace/templates/dice/chatItem.html",
     Terminals: "systems/darkspace/templates/dice/chatWeapon.html",

@@ -1,4 +1,4 @@
-import * as props from "./props.js";
+import * as props from "./DSprops.js";
 
 export const darkspace = {};
 console.log(darkspace);

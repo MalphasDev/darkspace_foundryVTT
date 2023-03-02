@@ -9,8 +9,11 @@
         <div class="grid col-weapons">
 
 
-          <span class="itemname" draggable="true" data-itemid="{{this._id}}"></i> {{this.name}}
-          </span>
+          <span><span class="itemname" draggable="true" data-itemid="{{this._id}}"></i> {{this.name}}
+          </span><div>
+            {{>
+            "systems/darkspace/templates/partials/items/inlineHealth.html"}}
+          </div></span>
 
           <span class="tooltip"><i class="fa-solid fa-shield"></i> {{this.system.structure}}<span
               class="tooltiptext top"

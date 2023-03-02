@@ -1,97 +1,69 @@
-<form class="{{cssClass}} item sheet-content" autocomplete="off">
-  {{> "systems/darkspace/templates/partials/items/header.html"}}
-  <hr />
-  <div class="flex around">
-    {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
-  </div>
-
-  <hr />
-
-  <input
-    type="checkbox"
-    name="system.prosthetic"
-    id="{{_id}}_prosthetic"
-    {{checked
-    system.prosthetic}}
-    class="hidden"
-  />
-  <label for="{{_id}}_prosthetic" class="flex">
-    {{#if system.prosthetic}}Prothese{{else}}Implantat{{/if}}
-  </label>
-
-  <hr />
-
-  {{#if system.prosthetic}} {{#if this.item.parent.type}}
+<form class="{{cssClass}} item sheet-content grid col2" autocomplete="off">
   <div>
-    <select name="system.useAttr" class="container_center">
-      <!--Charaktere-->
-      {{#select system.useAttr}} {{#ifCond this.item.parent.type "==="
-      "Charakter"}} {{#each config.attrList}}
-      <option value="{{this}}" type="text">{{this}}</option>
-      {{/each}} {{/ifCond}}
-
-      <!--NPCs-->
-      {{#ifCond this.item.parent.type "===" "Nebencharakter"}} {{#each
-      config.attrListNpc}}
-      <option value="{{this}}" type="text">{{this}}</option>
-      {{/each}} {{/ifCond}}
-
-      <!--Fahrzeuge-->
-      {{#ifCond this.item.parent.type "===" "DrohneFahrzeug"}} {{#each
-      config.attrListVehicle}}
-      <option value="{{this}}" type="text">{{this}}</option>
-      {{/each}} {{/ifCond}}
-
-      <!--KIs-->
-      {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrListAi}}
-      <option value="{{this}}" type="text">{{this}}</option>
-      {{/each}} {{/ifCond}}
-    </select>
-    {{/select}}
-  </div>
-  {{/if}} {{else}}
-
-  <div class="grid col2"></div>
-
-  <div>
-    <ul>
-      {{#each system.useWith as |value key|}}
-      <li>
-        <input
-          type="text"
-          name="system.useWith.{{key}}.prop"
-          value="{{value.prop}}"
-        />
-        <div class="flex">
-          {{> "systems/darkspace/templates/dice/dialogSkillDropdown.html"
-          context=../this slot=key}}
-
-          <input
-            type="text"
-            name="system.useWith.{{key}}.action"
-            value="{{value.action}}"
-          />
-          <a
-            ><i
-              class="fa-solid fa-circle-minus deleteProp"
-              data-index="{{@index}}"
-            ></i
-          ></a>
-        </div>
-        <hr />
-      </li>
-      {{/each}}
-    </ul>
-  </div>
-  <div class="flex" style="margin-top: 1ch">
-    <div class="tooltip">
-      <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
-      <span class="tooltiptext bottom">Aktion hinzufügen</span>
+    {{> "systems/darkspace/templates/partials/items/header.html"}}
+    <hr />
+    <div class="flex around bigsize">
+      {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
     </div>
-  </div>
-  {{/if}}
+    <hr />
+    <div>
+      <h3>Zustände</h3>
+      {{> "systems/darkspace/templates/partials/techCortexHealth.html"}}
+    </div>
+    <hr />
+    <label for="{{_id}}_prosthetic" class="flex">
+      {{#if system.prosthetic}}Prothese{{else}}Implantat{{/if}} </label
+    ><input
+      type="checkbox"
+      name="system.prosthetic"
+      id="{{_id}}_prosthetic"
+      {{checked
+      system.prosthetic}}
+      class="hidden"
+    />
+    {{#if system.prosthetic}} {{#if this.item.parent.type}}
+    <div class="grid col2-12">
+      <select name="system.useAttr">
+        <!--Charaktere-->
+        {{#select system.useAttr}} {{#ifCond this.item.parent.type "==="
+        "Charakter"}} {{#each config.attrList}}
+        <option value="{{this}}" type="text">{{this}}</option>
+        {{/each}} {{/ifCond}}
 
-  <!--
+        <!--NPCs-->
+        {{#ifCond this.item.parent.type "===" "Nebencharakter"}} {{#each
+        config.attrListNpc}}
+        <option value="{{this}}" type="text">{{this}}</option>
+        {{/each}} {{/ifCond}}
+
+        <!--Fahrzeuge-->
+        {{#ifCond this.item.parent.type "===" "DrohneFahrzeug"}} {{#each
+        config.attrListVehicle}}
+        <option value="{{this}}" type="text">{{this}}</option>
+        {{/each}} {{/ifCond}}
+
+        <!--KIs-->
+        {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrListAi}}
+        <option value="{{this}}" type="text">{{this}}</option>
+        {{/each}} {{/ifCond}} {{/select}}
+      </select>
+      {{log this}}
+      <span
+        >Maximaler Attributswert um {{system.mk}} auf
+        <i class="fa-solid fa-arrow-up-wide-short"></i> {{system.attrMaxBonus}}
+        erhöht.</span
+      >
+    </div>
+    {{else}}
+    <span class="anmerkung">
+      Für die Auswahl eines Attributes, muss die Artifizierungen einem
+      Charakter, Nebencharakter, Fahrzeug/Drohne oder KI zugeweisen werden.
+    </span>
+    {{/if}} {{else}}
+    <div>{{> "systems/darkspace/templates/partials/items/itemProp.html"}}</div>
+    {{/if}}
+
+    <!--
     <hr>
     <div class="flex evenly">
         <input type="checkbox" class="symbol" id="isArmor" {{checked this.armor}} name="system.armor">
@@ -110,8 +82,12 @@
     {{/if}}
 
     </div>
-
     
 -->
-  {{> "systems/darkspace/templates/partials/actors/notes.html"}}
+  </div>
+  <div>
+    <h2>Beschreibung</h2>
+    {{editor system.description target="system.description" button=true
+    owner=owner editable=editable rollData=rollData}}
+  </div>
 </form>

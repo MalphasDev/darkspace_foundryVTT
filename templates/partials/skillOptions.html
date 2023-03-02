@@ -1,0 +1,20 @@
+<!--Charaktere-->
+{{#select this.skill}} {{#ifCond this.type "===" "Charakter"}}{{#each
+config.skillList}}
+<option value="{{this}}" type="text">{{this}}</option>
+{{/each}} {{/ifCond}}
+
+<!--NPCs-->
+{{#ifCond this.type "===" "Nebencharakter"}} {{#each config.skillListNpc}}
+<option value="{{this}}" type="text">{{this}}</option>
+{{/each}} {{/ifCond}}
+
+<!--Fahrzeuge-->
+{{#ifCond this.type "===" "DrohneFahrzeug"}} {{#each config.skillListVehicle}}
+<option value="{{this}}" type="text">{{this}}</option>
+{{/each}} {{/ifCond}}
+
+<!--KIs-->
+{{#ifCond this.type "===" "KI"}} {{#each config.attrListAi}}
+<option value="{{this}}" type="text">{{this}}</option>
+{{/each}} {{/ifCond}} {{/select}}

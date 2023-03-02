@@ -70,7 +70,7 @@
               <span class="tooltip">
                 <i class="fa-solid fa-dna"></i>
 
-                <span class="tooltiptext top">{{this.name}}</span>
+                <span class="tooltiptext top">{{this.prop}}</span>
               </span>
 
               {{/unless}} {{/ifCond}} {{/each}}</span
@@ -80,12 +80,12 @@
               {{#if handicap}}<span class="tooltip">
                 <i class="fa-solid fa-minus-circle handicap"></i>
 
-                <span class="tooltiptext top">{{this.name}}</span> </span
+                <span class="tooltiptext top">{{this.prop}}</span> </span
               >{{/if}} {{/ifCond}} {{/each}}
             </span>
             <span>
               {{#each ../../items.Artifizierung}} {{#unless
-              this.system.prosthetic}} {{#each system.useWith}}{{#ifCond
+              this.system.prosthetic}} {{#each system.props}}{{#ifCond
               this.skill "===" fertname}}
               <span class="tooltip">
                 <i class="fa-solid fa-microchip"></i>

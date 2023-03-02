@@ -4,9 +4,9 @@
     "templates": {
       "commonStats": {
         "initMod": 0,
-        "notes": ""
+        "notes": "",
+        "props": {}
       },
-      "props": {},
       "bodyConditions": {
         "bodyConditions": {
           "struck": false,
@@ -53,6 +53,7 @@
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Fokus": 0,
             "Manövrieren": 0,
@@ -62,6 +63,7 @@
         },
         "Ausstrahlung": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Charisma": 0,
             "Einschüchtern": 0,
@@ -71,6 +73,7 @@
         },
         "Geschick": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Heimlichkeit": 0,
             "Motorik": 0,
@@ -80,6 +83,7 @@
         },
         "Konstitution": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Athletik": 0,
             "Fitness": 0,
@@ -89,6 +93,7 @@
         },
         "Intelligenz": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
@@ -98,6 +103,7 @@
         },
         "Intuition": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Cortex": 0,
             "Kreativität": 0,
@@ -107,6 +113,7 @@
         },
         "Anomalie": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Glück": 0
           },
@@ -118,6 +125,7 @@
         },
         "Konzentration": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Willenskraft": 0
           },
@@ -129,6 +137,7 @@
         },
         "Kybernese": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Synthese": 0
           },
@@ -140,6 +149,7 @@
         },
         "Netzwerk": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Kontakte": 0
           },
@@ -151,6 +161,7 @@
         },
         "Ressourcen": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Finanzen": 0
           },
@@ -168,18 +179,22 @@
       "charattribut": {
         "Kampf": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": { "Kampftechnik": 0, "Schusswaffen": 0, "Nahkampfwaffen": 0 }
         },
         "Körper": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": { "Ausdruck": 0, "Beweglichkeit": 0, "Kraft": 0 }
         },
         "Intelligenz": {
-          "attribut": 0,
+          "attribut": 1,
+          "attrmax": 5,
           "skill": { "Cortex": 0, "Intellekt": 0, "Wahrnehmung": 0 }
         },
         "Kybernese": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Synthese": 0
           },
@@ -199,14 +214,17 @@
       "charattribut": {
         "Leistung": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": { "Beschleunigung": 0, "Servos": 0 }
         },
         "Energie": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": { "Tarnen": 0, "Verteilung": 0 }
         },
         "Kybernese": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Synthese": 0,
             "Cortex": 0
@@ -214,6 +232,7 @@
         },
         "Sensoren": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": { "Fokus": 0, "Wahrnehmung": 0 }
         }
       }
@@ -225,6 +244,7 @@
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Fokus": 0,
             "Manövrieren": 0,
@@ -234,6 +254,7 @@
         },
         "Ausstrahlung": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Charisma": 0,
             "Einschüchtern": 0,
@@ -243,6 +264,7 @@
         },
         "Konzentration": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Heimlichkeit": 0,
             "Kampftechnik": 0,
@@ -252,6 +274,7 @@
         },
         "Kybernese": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Athletik": 0,
             "Nahkampfwaffen": 0,
@@ -261,6 +284,7 @@
         },
         "Intelligenz": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
@@ -270,6 +294,7 @@
         },
         "Intuition": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Cortex": 0,
             "Kreativität": 0,
@@ -279,6 +304,7 @@
         },
         "Anomalie": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Glück": 0
           },
@@ -290,6 +316,7 @@
         },
         "Netzwerk": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Kontakte": 0
           },
@@ -301,6 +328,7 @@
         },
         "Ressourcen": {
           "attribut": 1,
+          "attrmax": 5,
           "skill": {
             "Finanzen": 0
           },
@@ -330,6 +358,7 @@
         "size": 2,
         "description": "",
         "equipped": false,
+        "props": {},
         "ress": {
           "bots": {
             "value": 0
@@ -349,8 +378,7 @@
           "dos": false,
           "offline": false,
           "rooted": false
-        },
-        "properties": ""
+        }
       }
     },
     "Schusswaffe": {
@@ -374,14 +402,6 @@
       "templates": ["itemBase"]
     },
     "Artifizierung": {
-      "useWith": {
-        "slot0": {
-          "prop": "Eigenschaft",
-          "skill": "Synthese",
-          "action": "Aktion"
-        }
-      },
-
       "weapon": false,
       "armor": false,
       "prosthetic": false,
@@ -395,10 +415,6 @@
     "Gegenstand": {
       "useWith": "Logik",
       "templates": ["itemBase"]
-    },
-    "Eigenschaft": {
-      "useWith": { "slot0": { "skill": "Synthese", "action": "Aktion" } },
-      "handicap": false
     }
   }
 }

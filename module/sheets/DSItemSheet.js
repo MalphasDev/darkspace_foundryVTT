@@ -1,4 +1,7 @@
+import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
+import { edit as propEdit } from "../DSprops.js";
+
 export class DSItemSheet extends ItemSheet {
   get template() {
     return `systems/darkspace/templates/sheets/items/${this.object.type}-sheet.html`;
@@ -6,7 +9,7 @@ export class DSItemSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["darkspace", "sheet", "item"],
-      width: 320,
+      width: 640,
       height: 480,
       tabs: [
         {
@@ -20,7 +23,7 @@ export class DSItemSheet extends ItemSheet {
 
   getData() {
     const system = super.getData();
-    system.config = CONFIG.darkspace;
+    system.config = darkspace;
     system.system = this.item.system;
 
     return system;
@@ -32,7 +35,7 @@ export class DSItemSheet extends ItemSheet {
     super.activateListeners(html);
     html.find(".incRess, .decRess").click(this._onModRess.bind(this));
 
-    const classIdent = [".ressPoints", ".addProp", ".deleteProp"];
+    const classIdent = [".ressPoints", ".addProp", ".deleteProp", ".propEdit"];
 
     classIdent.forEach((ident) => {
       eval(
@@ -93,12 +96,19 @@ export class DSItemSheet extends ItemSheet {
   async _addProp() {
     const system = this.object.system;
 
-    const nextKey = Object.keys(system.useWith).length;
+    const nextKey = Object.keys(system.props).length;
+
+    if (nextKey + 1 > system.mk) {
+      ui.notifications.warn(
+        "Die Anzahl der Eigenschaften darf nicht höher sein, als die Modulklasse (MK)"
+      );
+      return;
+    }
 
     const slot = "slot" + nextKey;
 
     const newActions = {
-      ...system.useWith,
+      ...system.props,
       [slot]: {
         prop: "Neue Eigenschaft",
         skill: "Automatismus",
@@ -108,21 +118,68 @@ export class DSItemSheet extends ItemSheet {
 
     await this.object.update({
       id: this.object.id,
-      "system.useWith": newActions,
+      "system.props": newActions,
     });
   }
+
+  async _propEdit(event) {
+    const propData = propEdit(event, this);
+    propData.charakterProp = false;
+    propData.propEditTemplate = await renderTemplate(
+      "systems/darkspace/templates/dice/dialogEditProp.html",
+      propData
+    );
+
+    new Dialog({
+      title: "Eigenschaft editieren",
+      content: propData.propEditTemplate,
+      buttons: {
+        save: {
+          icon: '<i class="fas fa-save"></i>',
+          label: "Speichern",
+          callback: (html) => {
+            const propAdresse = "system.props." + propData.slot;
+
+            const handicapAdresse = propAdresse + ".handicap";
+            const descAdresse = propAdresse + ".desc";
+            const propNameAdresse = propAdresse + ".prop";
+            const actionNameAdresse = propAdresse + ".action";
+
+            const newHandicapStatus = html.find(".handicapCheck")[0].checked;
+            const newDesc = html.find(".propRules")[0].value;
+            const propName = html.find(".propName")[0].value;
+            const actionName = html.find(".actionName")[0].value;
+
+            this.object.update({
+              id: this.object.id,
+              [descAdresse]: newDesc.toString(),
+              [handicapAdresse]: newHandicapStatus,
+              [propNameAdresse]: propName,
+              [actionNameAdresse]: actionName,
+            });
+          },
+        },
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Abbrechen",
+          callback: () => {},
+        },
+      },
+      default: "save",
+    }).render(true);
+  }
+
   async _deleteProp(event) {
     const element = event.currentTarget;
     const system = this.object.system;
     const dataset = element.dataset;
-    console.log(dataset.index, system.useWith);
     const slotIdent = "slot" + dataset.index;
 
-    delete system.useWith[slotIdent];
+    delete system.props[slotIdent];
 
     let newActions = {};
 
-    Object.values(system.useWith).forEach((slot, i) => {
+    Object.values(system.props).forEach((slot, i) => {
       newActions = {
         ...newActions,
         ["slot" + i]: slot,
@@ -131,11 +188,11 @@ export class DSItemSheet extends ItemSheet {
 
     await this.object.update({
       id: this.object.id,
-      "system.useWith": "",
+      "system.props": "",
     });
     await this.object.update({
       id: this.object.id,
-      "system.useWith": newActions,
+      "system.props": newActions,
     });
   }
 }

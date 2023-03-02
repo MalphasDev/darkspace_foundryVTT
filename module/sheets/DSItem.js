@@ -9,15 +9,6 @@ export class DSItem extends Item {
     return { itemData, system, config };
   }
 
-  itemData() {
-    const { itemData, system, config } = this.getObjLocation();
-    const itemRess = system.ress;
-    itemRess.bots = {
-      value: system.ress.bots.value,
-      max: system.mk * system.size,
-      remain: system.mk * system.size - system.ress.bots.value,
-    };
-  }
   weaponData() {
     const { itemData, system, config } = this.getObjLocation();
     system.dmg = system.size * 2 + system.mk;
@@ -64,6 +55,13 @@ export class DSItem extends Item {
     system.hitArrayCortex = DSHealth.getHealth(system.mk * 2, 0);
     system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
 
+    const itemRess = system.ress;
+    itemRess.bots = {
+      value: system.ress.bots.value,
+      max: system.mk * system.size - Object.entries(system.props).length,
+      remain: system.mk * system.size - system.ress.bots.value,
+    };
+
     // Waffen //
 
     if (this.type === "Schusswaffe" || this.type === "Nahkampfwaffe") {
@@ -78,12 +76,6 @@ export class DSItem extends Item {
 
     if (this.type === "Artifizierung") {
       this.artData();
-    }
-
-    //Alles außer Eigenschaft und Besonderheiten
-    if (itemData.type != "Eigenschaft") {
-      // Ressourcen
-      this.itemData();
     }
   }
 
