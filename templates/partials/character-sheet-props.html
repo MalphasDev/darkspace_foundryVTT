@@ -13,8 +13,8 @@
     <ul class="item-list">
       {{#each system.props as |value key|}}
 
-      <li class="item flex between">
-        <span>{{prop}} <i class="fa-solid fa-caret-right"></i>
+      <li class="item flex between" >
+        <span class="showtodialog pointer" data-title="{{prop}}" data-content="{{desc}}">{{prop}} <i class="fa-solid fa-caret-right"></i>
         <span class="anmerkung">{{skill}}</span></span>
 
         <span><a class="propEdit" title="Eigenschaft bearbeiten" data-index="{{@index}}">

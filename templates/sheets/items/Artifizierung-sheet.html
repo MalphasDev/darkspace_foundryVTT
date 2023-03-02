@@ -29,25 +29,24 @@
         "Charakter"}} {{#each config.attrList}}
         <option value="{{this}}" type="text">{{this}}</option>
         {{/each}} {{/ifCond}}
-
         <!--NPCs-->
-        {{#ifCond this.item.parent.type "===" "Nebencharakter"}} {{#each
-        config.attrListNpc}}
+        {{#ifCond this.item.parent.type "===" "Nebencharakter"}}{{#each
+        config.attrNpc}}
         <option value="{{this}}" type="text">{{this}}</option>
         {{/each}} {{/ifCond}}
 
         <!--Fahrzeuge-->
         {{#ifCond this.item.parent.type "===" "DrohneFahrzeug"}} {{#each
-        config.attrListVehicle}}
+        config.attrVehicle}}
         <option value="{{this}}" type="text">{{this}}</option>
         {{/each}} {{/ifCond}}
 
         <!--KIs-->
-        {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrListAi}}
+        {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrAi}}
         <option value="{{this}}" type="text">{{this}}</option>
         {{/each}} {{/ifCond}} {{/select}}
       </select>
-      {{log this}}
+
       <span
         >Maximaler Attributswert um {{system.mk}} auf
         <i class="fa-solid fa-arrow-up-wide-short"></i> {{system.attrMaxBonus}}

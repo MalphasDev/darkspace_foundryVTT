@@ -35,7 +35,13 @@ export class DSItemSheet extends ItemSheet {
     super.activateListeners(html);
     html.find(".incRess, .decRess").click(this._onModRess.bind(this));
 
-    const classIdent = [".ressPoints", ".addProp", ".deleteProp", ".propEdit"];
+    const classIdent = [
+      ".ressPoints",
+      ".addProp",
+      ".deleteProp",
+      ".propEdit",
+      ".showtodialog",
+    ];
 
     classIdent.forEach((ident) => {
       eval(
@@ -194,5 +200,36 @@ export class DSItemSheet extends ItemSheet {
       id: this.object.id,
       "system.props": newActions,
     });
+  }
+  async _showtodialog(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+
+    // Erwarte "title" und "content" im dataset
+
+    const showContent = await renderTemplate(
+      "systems/darkspace/templates/dice/showContent.html",
+      dataset
+    );
+
+    new Dialog({
+      title: "Regeln für ",
+      content: showContent,
+      buttons: {
+        save: {
+          icon: '<i class="fa-regular fa-comment"></i>',
+          label: "Chat",
+          callback: () => {
+            return ChatMessage.create({ content: showContent });
+          },
+        },
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Schließen",
+          callback: () => {},
+        },
+      },
+      default: "abort",
+    }).render(true);
   }
 }

@@ -1,31 +1,38 @@
 <div>
   <div class="anmerkung flex between">
-    <ul class="flex">
-      <li class="pill padding" style="margin: 0 2px">
-        <span>Attribute</span>
-        <span>{{system.totalAttrXp}} EP</span>
-      </li>
-      <li class="pill padding" style="margin: 0 2px">
-        <span>Fertigkeiten</span>
-        <span>{{system.totalSkillXp}} EP</span>
-      </li>
-      <li class="pill padding" style="margin: 0 2px">
-        <span>Eigenschaften</span>
-        <span>{{system.totalPropXp}} EP</span>
-      </li>
-    </ul>
+    <span
+      ><ul class="flex">
+        <li class="pill padding" style="margin: 0 2px">
+          <span>Attribute</span>
+          <span>{{system.totalAttrXp}} EP</span>
+        </li>
+        <li class="pill padding" style="margin: 0 2px">
+          <span>Fertigkeiten</span>
+          <span>{{system.totalSkillXp}} EP</span>
+        </li>
+        <li class="pill padding" style="margin: 0 2px">
+          <span>Eigenschaften</span>
+          <span>{{system.totalPropXp}} EP</span>
+        </li>
+      </ul>
+
+      <div>Start EP: {{system.startEp}}</div></span
+    >
     <span class="pill padding" style="margin: 0 2px">
-      <span>{{system.totalXp}} /</span>
-      <input
-        name="system.xp.max"
-        value="{{system.xp.max}}"
-        type="number"
-        min="0"
-        max="10"
-        style="flex: 1"
-      />
-      EP
-    </span>
+      <div>
+        <span>{{system.totalXp}} /</span>
+        <input
+          name="system.xp.max"
+          value="{{system.xp.max}}"
+          type="number"
+          min="0"
+          max="10"
+          style="flex: 1"
+        />
+        EP
+      </div>
+      <div>{{system.xpAvailable}} verfügbar</div></span
+    >
   </div>
   <hr />
 
