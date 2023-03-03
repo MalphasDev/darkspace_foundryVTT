@@ -22,7 +22,6 @@ async function preloadHandlebarsTemplates() {
     //Charakter-Partials
     partialAddress + "character-sheet-header.html",
     partialAddress + "character-sheet-items.html",
-    partialAddress + "character-sheet-combat.html",
     partialAddress + "character-sheet-props.html",
     partialAddress + "character-sheet-stats.html",
 
@@ -50,6 +49,7 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "items/itemProp.html",
     partialAddress + "items/bots.html",
     partialAddress + "items/inlineHealth.html",
+    partialAddress + "items/itemcore.html",
 
     //Misc
     diceAddress + "dice-msg.html",

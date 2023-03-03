@@ -235,6 +235,11 @@
           "attribut": 1,
           "attrmax": 5,
           "skill": { "Fokus": 0, "Wahrnehmung": 0 }
+        },
+        "Kampf": {
+          "attribut": 1,
+          "attrmax": 5,
+          "skill": { "Schusswaffen": 0, "Nahkampfwaffen": 0 }
         }
       }
     },
@@ -385,10 +390,12 @@
     },
     "Schusswaffe": {
       "useWith": "Schusswaffen",
+      "weapon": true,
       "templates": ["itemBase"]
     },
     "Nahkampfwaffe": {
       "useWith": "Nahkampfwaffen",
+      "weapon": true,
       "templates": ["itemBase"]
     },
     "Werkzeug": {
@@ -397,6 +404,7 @@
     },
     "Terminals": {
       "useWith": "Cortex",
+      "weapon": true,
       "templates": ["itemBase"]
     },
     "Medkit": {

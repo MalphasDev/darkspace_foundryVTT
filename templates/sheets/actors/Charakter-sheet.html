@@ -44,13 +44,15 @@
 
     <!--Kampfrelevante Werte-->
     <section class="tab combat" data-group="primary" data-tab="combat">
-      {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}} {{>
+        "systems/darkspace/templates/partials/actors/combat-armor.html"}}
       {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
     <!--Items-->
     <section class="tab items" data-group="primary" data-tab="items">
-      {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}} {{>
+        "systems/darkspace/templates/partials/actors/combat-armor.html"}}
       {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
@@ -62,11 +64,6 @@
           <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
         </div>
 
-        {{#ifCond actor.type "!=" "Charakter"}}
-        <div></div>
-        {{/ifCond}}
-
-        {{#ifCond actor.type "===" "Charakter"}}
         <div class="attrfeld">
           <div class="flex between">
             <span class="attrname">Unterhalt</span>
@@ -92,7 +89,7 @@
             {{/each}}
           </ul>
         </div>
-        {{/ifCond}}
+        
         {{>"systems/darkspace/templates/partials/notes.html"}}
       </div>
 

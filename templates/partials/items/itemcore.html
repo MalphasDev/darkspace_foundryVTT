@@ -1,0 +1,26 @@
+<div class="grid col2">
+  <div>
+    <div class="borderarea">
+      <h3>Größe, Modulklasse und Bots</h3>
+      <div class="bigsize flex around">
+        {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
+      </div>
+      <div style="margin-top: 1ch">
+        {{> "systems/darkspace/templates/partials/items/bots.html"}}
+      </div>
+    </div>
+
+    <div class="borderarea">
+      {{> "systems/darkspace/templates/partials/items/itemProp.html"}}
+    </div>
+  </div>
+  <div>
+    <div class="borderarea">
+      <h3>Zustände</h3>
+      {{> "systems/darkspace/templates/partials/techCortexHealth.html"}}
+    </div>
+    <h2>Beschreibung</h2>
+    {{editor system.description target="system.description" button=true
+    owner=owner editable=editable rollData=rollData}}
+  </div>
+</div>

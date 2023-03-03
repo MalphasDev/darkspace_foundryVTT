@@ -4,13 +4,15 @@ import { edit as propEdit } from "../DSprops.js";
 
 export class DSItemSheet extends ItemSheet {
   get template() {
-    return `systems/darkspace/templates/sheets/items/${this.object.type}-sheet.html`;
+    return `systems/darkspace/templates/sheets/items/${
+      this.object.system.weapon ? "weapon" : "item"
+    }-sheet.html`;
   }
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["darkspace", "sheet", "item"],
       width: 640,
-      height: 480,
+      height: 570,
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -91,11 +93,17 @@ export class DSItemSheet extends ItemSheet {
     if (event.currentTarget.className.includes("incRess")) {
       ressMod = 1;
     }
+    const adressArray = ressAttr.split(".");
 
     if (typeof stat === "number") {
       this.object.update({
         id: this.object.id,
-        [ValueAdress]: stat + ressMod,
+        [ValueAdress]:
+          stat + ressMod < 0
+            ? 0
+            : stat + ressMod > this.object.system.ress[adressArray[0]].max
+            ? this.object.system.ress[adressArray[0]].max
+            : stat + ressMod,
       });
     }
   }

@@ -345,7 +345,7 @@ export class DSCharacterSheet extends ActorSheet {
     if (props === undefined || props === {} || props === null) {
       newProp = {
         slot0: {
-          name: "Neue Eigenschaft",
+          prop: "Neue Eigenschaft",
           skill: "Automatiion",
           desc: "Regeln",
           handicap: false,
@@ -362,7 +362,7 @@ export class DSCharacterSheet extends ActorSheet {
       });
       newProp = {
         [slot]: {
-          name: "Neue Eigenschaft",
+          prop: "Neue Eigenschaft",
           skill: "Automatiion",
           desc: "Regeln",
           handicap: false,
@@ -441,13 +441,22 @@ export class DSCharacterSheet extends ActorSheet {
       };
     });
 
-    await this.object.update({
-      id: this.object.id,
-      "system.props": "",
-    });
-    await this.object.update({
-      id: this.object.id,
-      "system.props": newProp,
+    Dialog.confirm({
+      title: "Eigenschaft entfernen",
+      content: "Möchtest du diese Eigenschaft wirklich löschen?",
+      yes: async () => {
+        ui.notifications.info("Gegenstand gelöscht");
+        await this.object.update({
+          id: this.object.id,
+          "system.props": "",
+        });
+        await this.object.update({
+          id: this.object.id,
+          "system.props": newProp,
+        });
+      },
+      no: () => {},
+      defaultYes: true,
     });
   }
   async _showtodialog(event) {

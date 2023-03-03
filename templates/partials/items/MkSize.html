@@ -30,3 +30,9 @@
     <span class="tooltiptext top">Modulklasse</span>
   </span>
 </div>
+{{#ifCond item.type "===" "Panzerung"}}
+<span>
+  <i class="fa-solid fa-shield-alt"></i>
+  <input type="number" disabled value="{{system.structure}}" />
+</span>
+{{/ifCond}}

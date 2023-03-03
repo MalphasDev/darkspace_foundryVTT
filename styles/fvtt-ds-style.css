@@ -465,6 +465,12 @@ ul {
   background: var(--effect);
   transition: 0.2s ease;
 }
+.borderarea {
+  border: 1px solid var(--main);
+  padding: 10px 10px;
+  border-radius: 5px;
+  margin: 20px 0;
+}
 
 .round {
   border-radius: 10px;
@@ -494,13 +500,14 @@ li .inline_block {
   display: inline-block;
 }
 .iconbox,
-li.pill {
+.pill {
   border: 1px solid;
   border-radius: 4px;
   width: max-content;
   font-size: 8pt;
+  margin: 0 2px;
 }
-li.pill.padding {
+.pill.padding {
   padding: 1px 2px;
 }
 li input[type="checkbox"]:checked + label {
@@ -781,4 +788,14 @@ input[type="checkbox"] + label[for="ranged"]:hover {
 }
 .borderbox input[type="checkbox"]:checked + label * {
   color: var(--effect-b);
+}
+.fa-edit,
+.fa-trash {
+  font-size: 20px;
+  transition: 0.2s ease;
+}
+.fa-edit:hover,
+.fa-trash:hover {
+  opacity: 0.75;
+  transition: 0.2s ease;
 }

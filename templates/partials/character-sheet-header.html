@@ -1,6 +1,5 @@
 <section id="header" style="position: relative">
-  <div
-    style="background-image: url({{actor.img}}); 
+  <div style="background-image: url({{actor.img}}); 
 background-attachment: inherit;
 background-position: top;
 background-size: cover;
@@ -8,10 +7,8 @@ background-repeat: no-repeat;
 position: absolute;
 width: 100%;
 height: 60%;
-box-shadow: inset 0px -60px 40px 0px #23252a;"
-  ></div>
-  <div
-    style="
+box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
+  <div style="
       background-color: #2e2d35d6;
       width: 100%;
       height: 100%;
@@ -19,20 +16,14 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
       flex-direction: column;
       justify-content: space-between;
       position: absolute;
-    "
-  >
+    ">
     <!-- Main Header Window -->
 
     <!-- Charaktername -->
 
     <div>
       <h2 class="charname" style="margin-bottom: 0">
-        <input
-          name="name"
-          type="text"
-          value="{{actor.name}}"
-          placeholder="Charaktername"
-        />
+        <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername" />
       </h2>
       {{#ifCond actor.type "===" "Charakter"}}
       <span class="anmerkung">Kompetenz-Stufe</span>
@@ -50,12 +41,7 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
         <div class="flex borderbox round">
           <div>
             <span>Kompetenz</span>
-            <input
-              type="number"
-              name="system.competence"
-              value="{{system.competence}}"
-              min="1"
-            />
+            <input type="number" name="system.competence" value="{{system.competence}}" min="1" />
           </div>
         </div>
         {{/ifCond}}
@@ -76,27 +62,14 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
               {{#if ress}}
               <span>{{attrname}}-Punkte</span>
               <span class="flex">
-                <a
-                  class="ressReset"
-                  data-thisattr="{{attrname}}"
-                  style="margin: 0 2ch"
-                  ><i class="fa-solid fa-arrow-rotate-left"></i
-                ></a>
-                <i
-                  class="fa-solid fa-minus-square decRess bigsize"
-                  data-attr="{{attrname}}"
-                ></i>
-                <input
-                  style="font-size: 1.2rem"
-                  type="number"
-                  name="system.charattribut.{{attrname}}.ress.value"
-                  id="{{actor.id}}_{{attrname}}pkt"
-                  value="{{ress.value}}"
-                />
-                <i
-                  class="fa-solid fa-plus-square incRess bigsize"
-                  data-attr="{{attrname}}"
-                ></i>
+                <a class="ressReset" data-thisattr="{{attrname}}" style="margin: 0 2ch"><i
+                    class="fa-solid fa-arrow-rotate-left"></i></a>
+                <i class="fa-solid fa-minus-square {{#ifCond ress.value 
+                    ">" "0"}}decRess{{/ifCond}} {{#ifCond ress.value "<=" "0" }}opacity50{{/ifCond}} bigsize"
+                    data-attr="{{attrname}}"></i>
+                <input style="font-size: 1.2rem" type="number" name="system.charattribut.{{attrname}}.ress.value"
+                  id="{{actor.id}}_{{attrname}}pkt" value="{{ress.value}}" disabled/>
+                <i class="fa-solid fa-plus-square incRess bigsize" data-attr="{{attrname}}"></i>
               </span>
 
               {{/if}}
@@ -112,24 +85,14 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
             <div class="flex between">
               <span>Bots</span>
               <span class="flex">
-                <a class="ressReset" data-thisattr="bots" style="margin: 0 2ch"
-                  ><i class="fa-solid fa-arrow-rotate-left"></i
-                ></a>
-                <i
-                  class="fa-solid fa-minus-square decRess bigsize"
-                  data-attr="bots"
-                ></i>
-                <input
-                  style="font-size: 1.2rem"
-                  type="number"
-                  name="system.bots"
-                  id="{{actor.id}}_botpkt"
-                  value="{{system.bots}}"
-                />
-                <i
-                  class="fa-solid fa-plus-square incRess bigsize"
-                  data-attr="bots"
-                ></i>
+                <a class="ressReset" data-thisattr="bots" style="margin: 0 2ch"><i
+                    class="fa-solid fa-arrow-rotate-left"></i></a>
+                <i class="fa-solid fa-minus-square {{#ifCond system.bots 
+                  ">" "0"}}decRess{{/ifCond}} {{#ifCond system.bots "<=" "0" }}opacity50{{/ifCond}} bigsize"
+                    data-attr="bots"></i>
+                <input style="font-size: 1.2rem" type="number" name="system.bots" id="{{actor.id}}_botpkt"
+                  value="{{system.bots}}" disabled/>
+                <i class="fa-solid fa-plus-square incRess bigsize" data-attr="bots"></i>
               </span>
             </div>
           </li>
