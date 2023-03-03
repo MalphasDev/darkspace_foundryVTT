@@ -1,43 +1,95 @@
+{{#ifCond this.item.type "===" "Artifizierung"}}
+<label for="{{_id}}_prosthetic" class="flex">
+  {{#if system.prosthetic}}Prothese{{else}}Implantat{{/if}} </label
+><input
+  type="checkbox"
+  name="system.prosthetic"
+  id="{{_id}}_prosthetic"
+  {{checked
+  system.prosthetic}}
+  class="hidden"
+/>
+{{/ifCond}} {{#if system.prosthetic}} {{#if this.item.parent.type}}
+<div class="grid col2-12">
+  <select name="system.useAttr">
+    <!--Charaktere-->
+    {{#select system.useAttr}} {{#ifCond this.item.parent.type "==="
+    "Charakter"}} {{#each config.attrList}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}} {{/ifCond}}
+    <!--NPCs-->
+    {{#ifCond this.item.parent.type "===" "Nebencharakter"}}{{#each
+    config.attrNpc}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}} {{/ifCond}}
+
+    <!--Fahrzeuge-->
+    {{#ifCond this.item.parent.type "===" "DrohneFahrzeug"}} {{#each
+    config.attrVehicle}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}} {{/ifCond}}
+
+    <!--KIs-->
+    {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrAi}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}} {{/ifCond}} {{/select}}
+  </select>
+
+  <span
+    >Maximaler Attributswert um {{system.mk}} auf
+    <i class="fa-solid fa-arrow-up-wide-short"></i> {{system.attrMaxBonus}}
+    erhöht.</span
+  >
+</div>
+{{else}}
+<span class="anmerkung">
+  Für die Auswahl eines Attributes, muss die Artifizierungen einem Charakter,
+  Nebencharakter, Fahrzeug/Drohne oder KI zugeweisen werden.
+</span>
+{{/if}} {{else}}
 <div>
-  <h3 class="flex between">
-    Eigenschaften
-    <span class="tooltip">
-      <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
-      <span class="tooltiptext bottom">Aktion hinzufügen</span>
-    </span>
-  </h3>
-  <ul>
-    {{#each system.props as |value key|}}
-    <li class="flex between borderbox">
-      <span>
-        <span
-          class="showtodialog pointer"
-          data-title="{{value.prop}}"
-          data-content="{{value.desc}}"
-          >{{value.prop}}
+  <div>
+    <h3 class="flex between">
+      Eigenschaften
+      <span class="tooltip">
+        <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
+        <span class="tooltiptext bottom">Aktion hinzufügen</span>
+      </span>
+    </h3>
+    <ul>
+      {{#each system.props as |value key|}}
+      <li class="flex between borderbox">
+        <span>
+          <span
+            class="showtodialog pointer"
+            data-title="{{value.prop}}"
+            data-content="{{value.desc}}"
+            >{{value.prop}}
+          </span>
+
+          <div>
+            <span class="anmerkung">{{value.skill}} ({{value.action}})</span>
+          </div>
         </span>
 
-        <div>
-          <span class="anmerkung">{{value.skill}} ({{value.action}})</span>
-        </div>
-      </span>
-
-      <span
-        ><a
-          class="propEdit"
-          title="Eigenschaft bearbeiten"
-          data-index="{{@index}}"
-        >
-          <i class="fa-solid fa-edit"></i>
-        </a>
-
-        <a
-          ><i
-            class="fa-solid fa-trash deleteProp"
+        <span
+          ><a
+            class="propEdit"
+            title="Eigenschaft bearbeiten"
             data-index="{{@index}}"
-          ></i></a
-      ></span>
-    </li>
-    {{/each}}
-  </ul>
+          >
+            <i class="fa-solid fa-edit"></i>
+          </a>
+
+          <a
+            ><i
+              class="fa-solid fa-trash deleteProp"
+              data-index="{{@index}}"
+            ></i></a
+        ></span>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
 </div>
+{{/if}}

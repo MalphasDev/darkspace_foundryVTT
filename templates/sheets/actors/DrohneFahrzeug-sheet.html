@@ -38,7 +38,7 @@
 
     <!--Items-->
     <section class="tab items" data-group="primary" data-tab="items">
-      {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}}
       {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
@@ -49,6 +49,12 @@
       data-group="primary"
       data-tab="notes"
     >
+      <div
+        class="cell_t actorimgcontainer"
+        style="width: 150px; margin: 0 auto"
+      >
+        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+      </div>
       <div class="flex fcol2 start">
         {{>"systems/darkspace/templates/partials/notes.html"}}
       </div>

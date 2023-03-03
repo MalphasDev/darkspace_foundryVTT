@@ -57,6 +57,14 @@ export class DSCharacter extends Actor {
       "d10x10kh2+" +
       this.getStat("Analyse").fert;
 
+    // Fahrzeuge dürfen keine Panzerung tragen
+    actorData.deleteEmbeddedDocuments(
+      "Item",
+      this.items.armorList.map((i) => {
+        return i.id;
+      })
+    );
+
     // Passagiere und Fracht
 
     return { actorData, system, attr, config };
@@ -120,7 +128,7 @@ export class DSCharacter extends Actor {
         return a.system.equipped === true;
       })
       .map((s) => {
-        return s.system.mk;
+        return 2 * s.system.mk + s.system.size;
       })
       .sort((a, b) => b - a);
 
@@ -129,6 +137,7 @@ export class DSCharacter extends Actor {
 
     system.cortexArmorBonus =
       sortedCortexArmorList[0] + sortedCortexArmorList.length - 1;
+
     isNaN(system.cortexArmorBonus)
       ? (system.cortexArmorBonus = 0)
       : system.cortexArmorBonus;

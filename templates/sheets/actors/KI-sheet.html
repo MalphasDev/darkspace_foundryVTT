@@ -10,7 +10,15 @@
           <span class="tooltip"
             ><i class="fa-solid fa-dna"></i
             ><span class="tooltiptext bottom"
-              >Attribute, Fertigkeiten, Eigenschaften</span
+              >Attribute und Fertigkeiten</span
+            ></span
+          >
+        </a>
+        <a class="item" data-tab="props">
+          <span class="tooltip"
+            ><i class="fa-solid fa-users-cog"></i
+            ><span class="tooltiptext bottom"
+              >Eigenschaften und Artifzierungen</span
             ></span
           >
         </a>
@@ -33,12 +41,17 @@
     <!--Statblock-->
     <section class="tab stats" data-group="primary" data-tab="stats">
       {{> "systems/darkspace/templates/partials/character-sheet-stats.html"}}
+    </section>
+
+    <!--Props und Artifizierung-->
+    <section class="tab combat" data-group="primary" data-tab="props">
       {{>"systems/darkspace/templates/partials/character-sheet-props.html"}}
     </section>
 
     <!--Items-->
     <section class="tab items" data-group="primary" data-tab="items">
-      {{>"systems/darkspace/templates/partials/character-sheet-combat.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-armor.html"}}
       {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
@@ -49,6 +62,12 @@
       data-group="primary"
       data-tab="notes"
     >
+      <div
+        class="cell_t actorimgcontainer"
+        style="width: 150px; margin: 0 auto"
+      >
+        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+      </div>
       <div class="flex fcol2 start">
         {{>"systems/darkspace/templates/partials/notes.html"}}
       </div>

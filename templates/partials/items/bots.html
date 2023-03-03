@@ -1,17 +1,18 @@
-<div>
-  {{#with system.ress.bots}}
-  <div class="borderbox">
-    <div>
-      <div
-        style="height: 10px; background: var(--effect); margin-bottom: 10px; 
-          width: calc(100% / {{max}} * {{value}});"
-      ></div>
-    </div>
-    <div class="flex between verticalalign">
-      <i class="fa-solid fa-minus decRess pointer" data-attr="bots.value"></i>
-      <h3 class="text_c" style="margin: 0">Bots ({{value}}/{{max}})</h3>
-      <i class="fa-solid fa-plus incRess pointer" data-attr="bots.value"></i>
-    </div>
+{{#with system.ress.bots}}
+<div class="attrfeld">
+  <!--Bots-->
+
+  <div class="flex between">
+    <span>Bots <span class="anmerkung">(max. {{max}})</span></span>
+    <span class="flex">
+      <i class="fa-solid fa-minus-square decRess bigsize {{#ifCond value "<=" " 0" }}opacity50{{/ifCond}}"
+        data-attr="bots.value"></i>
+      <input style="font-size: 1.2rem" type="number" name="system.bots" id="{{actor.id}}_botpkt" value="{{value}}"
+        min="0" max="{{max}}" disabled/>
+
+      <i class="fa-solid fa-plus-square incRess bigsize {{#ifCond value ">=" max}}opacity50{{/ifCond}}"
+        data-attr="bots.value"></i>
+    </span>
   </div>
-  {{/with}}
 </div>
+{{/with}}
