@@ -42,7 +42,7 @@
   
   <li class="inline_block pill padding" style="width: 100%;">
     <div class="item" data-item-id="{{this._id}}">
-      <p class="Eigenschaftname"><i class="fa-solid fa-dna"></i> {{name}}</p>
+      <p class="Eigenschaftname"><i class="fa-solid fa-dna"></i> {{name}}</p><hr>
       <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
@@ -51,21 +51,27 @@
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname handicap">
         <i class="fa-solid fa-dna"></i> {{name}}
-        <div style="max-width: 267px">{{{desc}}}</div>
-      </p>
+      </p><hr>
+      <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
 
   {{/each}}{{#each cybernetics}}
-  
   <li class="inline_block pill padding" style="width: 100%;">
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname artifizierung">
-        <i class="fa-solid fa-user-cog"></i> {{name}}
-        <span><i class="fa-solid fa-caret-right"></i> {{prop}} ({{skill}} <i class="fa-solid fa-caret-right"></i> {{action}})</span>
-        <div style="max-width: 267px">{{{desc}}}</div>
+        <i class="fa-solid fa-user-cog"></i> 
+        {{name}}
+        <span>
+          <i class="fa-solid fa-caret-right"></i>
+          {{prop}} ({{skill}} <i class="fa-solid fa-caret-right"></i> {{action}})
+        </span>
       </p>
+      <hr>
+      <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
   {{/each}}
 </ul>
+
+

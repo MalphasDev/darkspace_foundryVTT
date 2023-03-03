@@ -232,6 +232,7 @@ export class DSCharacterSheet extends ActorSheet {
   async _modRess(event) {
     let ressAttr = event.currentTarget.dataset.attr;
     let attrKey = "system.charattribut." + ressAttr + ".ress.value";
+
     let ressMod = 0;
     if (event.currentTarget.className.includes("decRess")) {
       ressMod = -1;
@@ -240,7 +241,13 @@ export class DSCharacterSheet extends ActorSheet {
       ressMod = 1;
     }
 
-    let newInc = this.actor.system.charattribut[ressAttr].ress.value + ressMod;
+    let newInc = 0;
+    if (ressAttr != "bots") {
+      newInc = this.actor.system.charattribut[ressAttr].ress.value + ressMod;
+    } else {
+      attrKey = "system.bots";
+      newInc = this.actor.system.bots + ressMod;
+    }
 
     this.actor.update({
       id: this.actor.id,
@@ -293,10 +300,21 @@ export class DSCharacterSheet extends ActorSheet {
     const currentAttr = element.dataset.thisattr;
 
     const currentAttrData = system.charattribut[currentAttr];
-    const ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
-    if (currentAttrData.ress.value < currentAttrData.attribut) {
+    let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
+    let ressValue = 0;
+    let currentRess = 0;
+    if (currentAttr != "bots") {
+      ressValue = currentAttrData.attribut;
+      currentRess = currentAttrData.ress.value;
+    } else {
+      ValueAdress = "system.bots";
+      ressValue = system.mk * system.size;
+      currentRess = system.bots;
+    }
+
+    if (currentRess < ressValue) {
       this.actor.update({
-        [ValueAdress]: currentAttrData.attribut,
+        [ValueAdress]: ressValue,
       });
     } else {
       ui.notifications.warn(

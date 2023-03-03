@@ -104,6 +104,36 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"
           </li>
 
           {{/each}}
+          <!-- BOTS für KIs und Fahrzeuge-->
+          {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
+          "Nebencharakter"}}
+          <li class="attrfeld">
+            <!--Bots-->
+            <div class="flex between">
+              <span>Bots</span>
+              <span class="flex">
+                <a class="ressReset" data-thisattr="bots" style="margin: 0 2ch"
+                  ><i class="fa-solid fa-arrow-rotate-left"></i
+                ></a>
+                <i
+                  class="fa-solid fa-minus-square decRess bigsize"
+                  data-attr="bots"
+                ></i>
+                <input
+                  style="font-size: 1.2rem"
+                  type="number"
+                  name="system.bots"
+                  id="{{actor.id}}_botpkt"
+                  value="{{system.bots}}"
+                />
+                <i
+                  class="fa-solid fa-plus-square incRess bigsize"
+                  data-attr="bots"
+                ></i>
+              </span>
+            </div>
+          </li>
+          {{/ifCond}}{{/ifCond}}
         </ul>
       </div>
     </div>

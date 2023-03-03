@@ -131,6 +131,10 @@ export class DSItemSheet extends ItemSheet {
   async _propEdit(event) {
     const propData = propEdit(event, this);
     propData.charakterProp = false;
+    if (this.actor != null) {
+      propData.ownertype = this.actor.type;
+    }
+    console.log(propData);
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/dialogEditProp.html",
       propData
@@ -150,10 +154,12 @@ export class DSItemSheet extends ItemSheet {
             const descAdresse = propAdresse + ".desc";
             const propNameAdresse = propAdresse + ".prop";
             const actionNameAdresse = propAdresse + ".action";
+            const propSkillAdresse = propAdresse + ".skill";
 
             const newHandicapStatus = html.find(".handicapCheck")[0].checked;
             const newDesc = html.find(".propRules")[0].value;
             const propName = html.find(".propName")[0].value;
+            const skill = html.find(".skill")[0].value;
             const actionName = html.find(".actionName")[0].value;
 
             this.object.update({
@@ -162,6 +168,7 @@ export class DSItemSheet extends ItemSheet {
               [handicapAdresse]: newHandicapStatus,
               [propNameAdresse]: propName,
               [actionNameAdresse]: actionName,
+              [propSkillAdresse]: skill,
             });
           },
         },
