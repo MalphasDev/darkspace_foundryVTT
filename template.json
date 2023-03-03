@@ -241,6 +241,7 @@
     "KI": {
       "mk": 1,
       "size": 1,
+
       "templates": ["commonStats", "cortexConditions"],
       "charattribut": {
         "Aufmerksamkeit": {

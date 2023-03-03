@@ -59,7 +59,10 @@
       Charakter, Nebencharakter, Fahrzeug/Drohne oder KI zugeweisen werden.
     </span>
     {{/if}} {{else}}
-    <div>{{> "systems/darkspace/templates/partials/items/itemProp.html"}}</div>
+    <div>
+      {{> "systems/darkspace/templates/partials/items/itemProp.html"
+      ownertype=this.item.parent.type}}
+    </div>
     {{/if}}
 
     <!--

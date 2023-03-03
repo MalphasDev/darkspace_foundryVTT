@@ -148,6 +148,7 @@ export async function rollDice(inputData) {
               skill: cyberslot[1].skill,
               prop: cyberslot[1].prop,
               action: cyberslot[1].action,
+              desc: cyberslot[1].desc,
             },
           };
         }
