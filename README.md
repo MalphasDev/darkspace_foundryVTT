@@ -12,5 +12,9 @@ Sadly not yet. This system is currently developed in German, with no intention (
 
 ## Kompalilität
 
-Release v0.93 für Foundry VTT 9.x
-Vorherige Releases sind nicht aufgrund von geänderten Regeln und Bugs nicht empfohlen und waren hauptsächlich für Alpha-Tests vorgesehen.
+Release v0.985 für Foundry VTT 10.291
+Vorherige Releases sind nicht aufgrund von geänderten Regeln und Bugs nicht empfohlen.
+
+##  Wie spielt man?
+
+Das Kurzregelwerk ist bisher noch nicht veröffentlicht. Alle neugierigen können mir aber eine Email info@dark-space-rpg.de oder auf Discord Malphas#9269 schreiben, um eine Vorabversion zu erhalten.

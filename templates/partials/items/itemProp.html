@@ -1,6 +1,18 @@
 {{#ifCond this.item.type "===" "Artifizierung"}}
-<label for="{{_id}}_prosthetic" class="flex">
-  {{#if system.prosthetic}}Prothese{{else}}Implantat{{/if}} </label
+<label for="{{_id}}_prosthetic" class="grid center col3-121" style="
+background-color: var(--main);
+padding: 3px 0px;
+border-radius: 5px;"
+
+
+>
+  {{#if system.prosthetic}}
+  <span><i class="fa-regular fa-circle-left"></i></span><span>Prothese</span><span><i class="fa-solid fa-circle-right"></i></span>
+  {{else}}
+  <span><i class="fa-solid fa-circle-left"></i></span><span>Implantat</span><span><i class="fa-regular fa-circle-right"></i></span>
+  
+  
+  {{/if}} </label
 ><input
   type="checkbox"
   name="system.prosthetic"
@@ -9,8 +21,9 @@
   system.prosthetic}}
   class="hidden"
 />
+<hr>
 {{/ifCond}} {{#if system.prosthetic}} {{#if this.item.parent.type}}
-<div class="grid col2-12">
+<div class="">
   <select name="system.useAttr">
     <!--Charaktere-->
     {{#select system.useAttr}} {{#ifCond this.item.parent.type "==="
@@ -35,10 +48,8 @@
     {{/each}} {{/ifCond}} {{/select}}
   </select>
 
-  <span
-    >Maximaler Attributswert um {{system.mk}} auf
-    <i class="fa-solid fa-arrow-up-wide-short"></i> {{system.attrMaxBonus}}
-    erhöht.</span
+  <div
+    >Maximaler Attributswert auf {{system.attrMaxBonus}} erhöht.</div
   >
 </div>
 {{else}}
@@ -46,7 +57,8 @@
   Für die Auswahl eines Attributes, muss die Artifizierungen einem Charakter,
   Nebencharakter, Fahrzeug/Drohne oder KI zugeweisen werden.
 </span>
-{{/if}} {{else}}
+{{/if}} {{/if}}
+
 <div>
   <div>
     <h3 class="flex between">
@@ -92,4 +104,3 @@
     </ul>
   </div>
 </div>
-{{/if}}

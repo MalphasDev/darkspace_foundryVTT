@@ -54,6 +54,7 @@ export class DSCharacterSheet extends ActorSheet {
     context.flags = actorData.flags;
     context.config = darkspace;
     context.debugModeOn = game.settings.get("darkspace", "debugmode");
+
     return context;
   }
 
@@ -78,6 +79,7 @@ export class DSCharacterSheet extends ActorSheet {
       ".deleteProp",
       ".propEdit",
       ".showtodialog",
+      ".renderapp",
     ];
     window.oncontextmenu = (e) => {
       e.preventDefault();
@@ -88,6 +90,7 @@ export class DSCharacterSheet extends ActorSheet {
         this._rollItem(e, { rightClick: true });
       }
     };
+
     classIdent.forEach((ident) => {
       eval(
         `html.find("${ident}").click(this.${
@@ -489,5 +492,18 @@ export class DSCharacterSheet extends ActorSheet {
       },
       default: "abort",
     }).render(true);
+  }
+  async _renderapp(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const itemId = dataset.itemid
+    const actorid = dataset.actorid
+
+    const document = await game.actors.get(actorid);
+    console.log(document);
+    const sheet = document.sheet;
+    if ( sheet._minimized ) return sheet.maximize();
+    else return sheet.render(true);
+
   }
 }

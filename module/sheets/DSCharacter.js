@@ -105,6 +105,12 @@ export class DSCharacter extends Actor {
     items.meleeList = actorData.items.filter((f) => {
       return f.type === "Nahkampfwaffe";
     });
+    items.weapon = actorData.items.filter((f) => {
+      return f.type === "Waffe";
+    });
+    items.eigenschaft = actorData.items.filter((f) => {
+      return f.type === "Eigenschaft";
+    });
     items.armorList = actorData.items.filter((i) => {
       return i.type === "Panzerung";
     });
@@ -114,6 +120,8 @@ export class DSCharacter extends Actor {
     items.terminalList = actorData.items.filter((i) => {
       return i.type === "Terminals";
     });
+
+
 
     const sortedArmorStructureList = items.armorList
       .filter((a) => {

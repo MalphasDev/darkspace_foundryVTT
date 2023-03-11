@@ -71,12 +71,9 @@ export class DSCombat extends Combat {
         });
       }
     } else {
-      ids.forEach(async (id, index) => {
+      ids.forEach(async (id, index) => { // Wenn was kaputt genagen ist, dann hier!
         var currentCombatant = Array.from(
-          actorData.filter((d) => {
-            return d._id == id;
-          })
-        )[0];
+          actorData.get(id));
 
         let iniId;
         if (currentCombatant.actor.type === "Charakter") {
