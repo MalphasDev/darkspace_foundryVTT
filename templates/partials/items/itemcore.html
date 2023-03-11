@@ -10,6 +10,15 @@
       </div>
     </div>
 
+{{#if item.actor}}
+<div class="flex between borderarea">
+  <span>Fertigkeit</span>
+  <select name="system.useWith" id="{{id}}_useWith">
+    {{> "systems/darkspace/templates/partials/skillOptions.html" @root
+    skill=system.useWith type=item.actor.type}}
+  </select>
+</div>
+{{/if}}
     <div class="borderarea">
       {{> "systems/darkspace/templates/partials/items/itemProp.html"}}
     </div>

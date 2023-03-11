@@ -319,7 +319,7 @@ ul {
   display: grid;
   grid-gap: 0 1rem;
 }
-.gridcenter {
+.grid.center {
   justify-items: center;
   align-items: center;
 }
@@ -562,10 +562,12 @@ option {
 a.rollSkill {
   width: 100%;
 }
+.pointer:hover,
 .rollItem:hover,
 .fertfeld li:hover {
   background: linear-gradient(90deg, var(--effect) 0%, var(--effect-a) 100%);
 }
+.pointer:hover *,
 .rollItem:hover,
 .rollItem:hover *,
 .fertfeld li:hover * {

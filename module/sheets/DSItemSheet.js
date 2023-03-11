@@ -4,6 +4,11 @@ import { edit as propEdit } from "../DSprops.js";
 
 export class DSItemSheet extends ItemSheet {
   get template() {
+    
+    if (this.object.type === "Drohne") { // Hier sollte vielleicht irgendwann eine clevere Lösung her?
+      return `systems/darkspace/templates/sheets/items/drone-sheet.html`;
+    }
+
     return `systems/darkspace/templates/sheets/items/${
       this.object.system.weapon ? "weapon" : "item"
     }-sheet.html`;
@@ -43,6 +48,7 @@ export class DSItemSheet extends ItemSheet {
       ".deleteProp",
       ".propEdit",
       ".showtodialog",
+      ".renderApp"
     ];
 
     classIdent.forEach((ident) => {
@@ -246,5 +252,20 @@ export class DSItemSheet extends ItemSheet {
       },
       default: "abort",
     }).render(true);
+  }
+  async _renderApp(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const actorId = dataset.actorid
+
+
+    const document = await game.actors.get(actorId);
+    console.log(document);
+    const sheet = document.sheet;
+    this.close()
+    if ( sheet._minimized ) return sheet.maximize();
+    else return sheet.render(true);
+
+    
   }
 }

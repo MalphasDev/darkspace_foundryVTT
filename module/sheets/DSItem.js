@@ -36,14 +36,38 @@ export class DSItem extends Item {
   // medkitData() {}
   artData() {
     const { itemData, system, config } = this.getObjLocation();
-    system.attrMaxBonus = system.mk + 5;
+    const attrMax = 5 // Das irgendwann mal anpassen, damit abgefragt werden kann, wie lange man Attribute erhöhen kann.
+    system.attrMaxBonus = system.mk + attrMax - Object.entries(system.props).length;
   }
-  // propData() {}
+  droneData() {
+    const { itemData, system, config } = this.getObjLocation();
+    system.droneList = game.actors.filter((drone)=>{
+      return drone.type === "DrohneFahrzeug"
+    })
+    system.droneData = game.actors.get(system.droneId)
+  }
+
 
   prepareData() {
     super.prepareData();
 
     const { itemData, system, config } = this.getObjLocation();
+
+    if (this.type === "Schusswaffe" || this.type === "Nahkampfwaffe") {
+      this.weaponData();
+    }
+    if (this.type === "Schusswaffe") {
+      this.gunData();
+    }
+    if (this.type === "Terminals") {
+      this.terminalData();
+    }
+    if (this.type === "Artifizierung") {
+      this.artData();
+    }
+    if (this.type === "Drohne") {
+      this.droneData();
+    }
 
     // Struktur und Schutz //
     system.structure = parseInt(system.size) + parseInt(system.mk);
@@ -55,28 +79,17 @@ export class DSItem extends Item {
     system.hitArrayCortex = DSHealth.getHealth(system.mk * 2, 0);
     system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
 
-    const itemRess = system.ress;
+
+    if (this.type != "Drohne") {
+      const itemRess = system.ress;
     itemRess.bots = {
       value: system.ress.bots.value,
       max: system.mk * system.size - Object.entries(system.props).length,
       remain: system.mk * system.size - system.ress.bots.value,
     };
-
-    // Waffen //
-
-    if (this.type === "Schusswaffe" || this.type === "Nahkampfwaffe") {
-      this.weaponData();
     }
-    if (this.type === "Schusswaffe") {
-      this.gunData();
-    }
-    if (this.type === "Terminals") {
-      this.terminalData();
-    }
-
-    if (this.type === "Artifizierung") {
-      this.artData();
-    }
+    
+    
   }
 
   async _preCreate(createData, options, user) {

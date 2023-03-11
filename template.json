@@ -357,7 +357,8 @@
       "Terminals",
       "Medkit",
       "Artifizierung",
-      "Gegenstand"
+      "Gegenstand","Drohne"
+     
     ],
     "templates": {
       "itemBase": {
@@ -425,6 +426,9 @@
     "Gegenstand": {
       "useWith": "Logik",
       "templates": ["itemBase"]
+    },
+    "Drohne": {
+      "droneId": ""
     }
   }
 }

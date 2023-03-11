@@ -68,6 +68,7 @@ async function preloadHandlebarsTemplates() {
     sidebarAddress + "combat-tracker.html",
     sidebarAddress + "customAE.html",
     sidebarAddress + "chat-log.html",
+
   ];
 
   return loadTemplates(templatePaths);
@@ -219,7 +220,11 @@ Handlebars.registerHelper({
     return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
   },
 });
+
+
+
 Hooks.once("ready", async function () {
+  
   Hooks.on("hotbarDrop", (bar, data, slot) => createDSMacro(data, slot));
 });
 /* -------------------------------------------- */
@@ -234,24 +239,29 @@ Hooks.once("ready", async function () {
  * @returns {Promise}
  */
 async function createDSMacro(data, slot) {
-  if (data.type !== "Item") return;
-  if (!("data" in data))
-    return ui.notifications.warn(
-      "You can only create macro buttons for owned Items"
-    );
-  const item = data.data;
 
+  if (data.type !== "Item") return;
+  if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
+    return ui.notifications.warn("You can only create macro buttons for owned Items");
+  }
+
+  const item = await Item.fromDropData(data);
+  
   // Create the macro command
-  const command = `game.darkspace.rollItemMacro("${item.name}");`;
-  let macro = await Macro.create({
-    name: item.name,
-    type: "script",
-    img: item.img,
-    command: command,
-    flags: { "darkspace.itemMacro": true },
-  });
+  const command = `game.darkspace.rollItemMacro("${data.uuid}");`;
+  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+  if (!macro) {
+    macro = await Macro.create({
+      name: item.name,
+      type: "script",
+      img: item.img,
+      command: command,
+      flags: { "darkspace.itemMacro": true }
+    });
+  }
   game.user.assignHotbarMacro(macro, slot);
-  return false;
+  return true;
+
 }
 
 /**
@@ -275,9 +285,7 @@ function rollItemMacro(itemName) {
       `Your controlled Actor does not have an item named ${itemName}`
     );
 
-  const activeItem = actor.items.filter((f) => {
-    return f.id === item.id;
-  })[0];
+  const activeItem = actor.items.get(item.id);
 
   const dbAttr = actor.data.data.charattribut;
   const stat = DSMechanics.getStat(item.data.data.useWith, dbAttr);
@@ -292,6 +300,8 @@ function rollItemMacro(itemName) {
     object: {},
     type: item.type,
   };
+
+  console.log(itemName,inputData);
   // Trigger the item roll
   DSMechanics.modRolls(inputData, {});
 }
