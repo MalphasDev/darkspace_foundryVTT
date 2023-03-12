@@ -467,10 +467,18 @@ export class DSCharacterSheet extends ActorSheet {
     const dataset = element.dataset;
 
     // Erwarte "title" und "content" im dataset
+    const cyberwarePropsDataset = Array.from(element.getElementsByClassName("cyberprops")).map((p)=>{return p.dataset})
+    
+    const messageData = {...dataset, cyberwareProp: {}}
+
+    cyberwarePropsDataset.forEach(cyberProp => {
+      messageData.cyberwareProp[cyberProp.title] = cyberProp.content
+    });
+    
 
     const showContent = await renderTemplate(
       "systems/darkspace/templates/dice/showContent.html",
-      dataset
+      messageData
     );
 
     new Dialog({
