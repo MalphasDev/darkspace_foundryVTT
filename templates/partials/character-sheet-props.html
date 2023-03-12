@@ -34,9 +34,9 @@
   <div>
     <h2><i class="fa-solid fa-microchip"></i> Artifizierungen</h2>
     <ul class="item-list">
-      {{#each items.Artifizierung}}
-      <li class="item flex between item" data-item-id="{{this._id}}">
-        <span class="item-control" title="Edit Item">{{name}}
+      {{#each items.Artifizierung as |value key|}}
+      <li class="item grid" style="grid-template-columns: auto 10ch 45px; gap: 1ch 0" data-item-id="{{this._id}}">
+        <span class="item-control showtodialog pointer" data-title="{{name}}" title="Edit Item">{{name}}
           <span class="anmerkung"></span>
           {{#if system.prosthetic}}{{system.useAttr}}{{else}}
 
@@ -45,7 +45,8 @@
             padding-left: 5px;
             margin-left: 20px;">
             {{#each system.props}}
-            <li>{{prop}} <i class="fa-solid fa-caret-right"></i> {{skill}} ({{action}})</li>
+            <li>{{prop}} <i class="cyberprops fa-solid fa-caret-right" data-title="{{prop}}" data-content="{{desc}}"></i> {{skill}} ({{action}})</li>
+            
             {{/each}}
 
           </ul>
@@ -54,6 +55,8 @@
 
           {{/if}}
         </span></span>
+        <span>{{>
+          "systems/darkspace/templates/partials/items/MkSize_display.html"}}</span>
         <div>
           {{>
           "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
