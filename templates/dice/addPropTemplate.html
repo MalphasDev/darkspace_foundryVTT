@@ -1,0 +1,29 @@
+{{log this}}
+
+<div>
+    <select name="propTemplate">
+        {{#each templates}}
+        <option value="{{@key}}">{{prop}}</option>
+        {{/each}}
+        {{#if itemProp}}
+        {{#each templatesTech}}
+        <option value="{{@key}}">Tech: {{prop}}</option>
+        {{/each}}
+        {{/if}}
+        {{#if combatProp}}
+        {{#each templatesCombat}}
+        <option value="{{@key}}">Kampf: {{prop}}</option>
+        {{/each}}
+        {{/if}}
+    </select>
+    {{#if skillListType}}
+    <select name="propTemplateSkill">
+        {{#each (lookup config skillListType)}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+    </select>
+    {{/if}}
+    {{#if itemProp}}
+    <input type="text" name="propAction">
+    {{/if}}
+</div>

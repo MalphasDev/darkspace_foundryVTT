@@ -2,12 +2,7 @@ import * as props from "./DSprops.js";
 
 export const darkspace = {};
 console.log(darkspace);
-darkspace.upkeep = {
-  supplies: "darkspace.supplies",
-  shelter: "darkspace.shelter",
-  entertaiment: "darkspace.entertaiment",
-  misc: "darkspace.misc",
-};
+
 darkspace.props = {
   props: props.getProps(),
   handicaps: props.getHandicaps(),

@@ -1,0 +1,16 @@
+<span class="anmerkung inlinebutton">
+  <span class="buttonpill">
+    <a class="spendbot" data-itemid="{{this._id}}"><i class="fa-solid fa-up-right"></i></a>
+    |
+    <a class="spendbot" data-itemid="{{this._id}}" data-regen="true"><i class="fa-solid fa-plus"></i></a>
+  </span>
+  <span style="margin-left: 10px;">
+    {{#with this.system.ress.bots}}
+    {{#times value}}
+    <i class="fa-solid fa-square"></i>
+    {{/times}}
+    {{#times remain}}
+    <i class="fa-regular fa-square"></i>
+    {{/times}}
+    {{/with}}</span>
+</span>

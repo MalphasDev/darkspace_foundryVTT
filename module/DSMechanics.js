@@ -279,7 +279,9 @@ export async function _resolveDice(inputData) {
       actor,
       basedmg: cardData.system.dmg,
       bonusdmg: cardData.total_BC,
+      critbonus: parseInt(inputData.dynskill),
       dmg: cardData.system.dmg + cardData.total_BC,
+      critdmg: cardData.system.dmg * 2 + cardData.total_BC + parseInt(inputData.dynskill)
     };
   }
 

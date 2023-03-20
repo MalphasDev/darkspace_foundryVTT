@@ -1,18 +1,61 @@
-<div>
-  <h2>Waffen</h2>
+<!-- combat-weapons.html -->
+<section class="relative">
+  <h2>{{localize "darkspace.Waffen"}}</h2>
 
-  <ul class="item-list">
-    {{#each items.Schusswaffe}}
-    <li class="item" data-item-id="{{this._id}}">
-      <div>
-        <div class="grid col-weapons">
-          <span
-            ><span
+  <input type="checkbox" id="weaponlistcheckbox" class="hidden itemlistdetails" name="system.sheetui.weaponlist" {{checked system.sheetui.weaponlist}}/>
+  <label class="compactlabel pointer" for="weaponlistcheckbox">{{#if system.sheetui.weaponlist}}
+    Übersicht
+    {{/if}}
+    {{#unless system.sheetui.weaponlist}}
+    Details
+    {{/unless}}<i class="fa-solid fa-eye"></i></label>
+
+  <ul class="item-list compact">
+    {{#each items.weapons}}
+    <li class="item weapon " data-itemid="{{this._id}}">
+      <span
               class="itemname rollItem"
               draggable="true"
               data-itemid="{{this._id}}"
-              ><i class="fa-solid fa-gun"></i> {{this.name}}</span
-            >
+              >
+              <img src="{{this.img}}" alt="{{this.name}}">
+              {{this.name}}
+      </span>
+    </li>
+    {{/each}}
+    {{#each items.terminals}}
+    <li class="item weapon " data-itemid="{{this._id}}">
+      <span
+              class="itemname rollItem"
+              draggable="true"
+              data-itemid="{{this._id}}"
+              >
+              <img src="{{this.img}}" alt="{{this.name}}">
+              {{this.name}}
+      </span>
+    </li>
+    {{/each}}
+  </ul>
+
+  
+  <ul class="item-list open">
+    {{#each items.weapons}}
+
+    
+
+    <li class="item weapon" data-itemid="{{this._id}}">
+      <div>
+        <div class="grid col-weapons">
+          <span>
+            
+            <span
+              class="itemname rollItem"
+              draggable="true"
+              data-itemid="{{this._id}}"
+              >
+              <img src="{{this.img}}" alt="{{this.name}}">
+              {{this.name}}
+              </span>
             <div>
               {{>
               "systems/darkspace/templates/partials/items/inlineHealth.html"}}
@@ -41,57 +84,25 @@
             "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
           </div>
         </div>
-      </div>
-    </li>
-    {{/each}} {{#each items.Nahkampfwaffe}}
-    <li class="item" data-item-id="{{this._id}}">
-      <div>
-        <div class="grid col-weapons">
-          <span
-            ><span
-              class="itemname rollItem"
-              draggable="true"
-              data-itemid="{{this._id}}"
-              ><i class="fa-solid fa-hammer"></i> {{this.name}}
-            </span>
-            <div>
-              {{>
-              "systems/darkspace/templates/partials/items/inlineHealth.html"}}
-            </div></span
-          >
-
-          <span class="derivedValue tooltip"
-            ><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}<span
-              class="tooltiptext top"
-              ><i class="fa-solid fa-bolt"></i>{{this.system.dmg}} = 2 x
-              <i class="fa-solid fa-expand-arrows-alt"></i>{{this.system.size}}
-              + <i class="fa-solid fa-microchip"></i>{{this.system.mk}}</span
-            ></span
-          >
-          <span>Nahkampf</span>
-          <span class="text_c">
-            {{>
-            "systems/darkspace/templates/partials/items/MkSize_display.html"}}
-          </span>
-
-          <div class="cell_r">
-            {{>
-            "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
-          </div>
+        <div>
+          {{> "systems/darkspace/templates/partials/actors/inventar_inlinebots.html"}}
+          {{> "systems/darkspace/templates/partials/actors/inventar_proplist.html"}}
         </div>
       </div>
     </li>
-    {{/each}}
-    <h2>Terminals</h2>
-    {{#each items.Terminals}}
-    <li class="item" data-item-id="{{this._id}}">
+    {{/each}} 
+    <h2>{{localize "darkspace.Terminals"}}</h2>
+    {{#each items.terminals}}
+    <li class="item weapon" data-itemid="{{this._id}}">
       <div class="grid col-weapons">
         <span
           ><span
-            class="itemname rollItem"
-            draggable="true"
-            data-itemid="{{this._id}}"
-            ><i class="fa-solid fa-tablet-alt"></i> {{this.name}}
+          class="itemname rollItem"
+          draggable="true"
+          data-itemid="{{this._id}}"
+          >
+          <img src="{{this.img}}" alt="{{this.name}}">
+          {{this.name}}
           </span>
           <div>
             {{> "systems/darkspace/templates/partials/items/inlineHealth.html"}}
@@ -112,7 +123,7 @@
             class="inlineItemEdit hidden"
             id="{{this._id}}_equipped"
             data-itemStat="system.equipped"
-            data-itemId="{{this._id}}"
+            data-itemid="{{this._id}}"
             {{checked
             system.equipped}}
           />
@@ -135,7 +146,11 @@
           "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
         </div>
       </div>
+      <div>
+        {{> "systems/darkspace/templates/partials/actors/inventar_inlinebots.html"}}
+        {{> "systems/darkspace/templates/partials/actors/inventar_proplist.html"}}
+      </div>
     </li>
     {{/each}}
   </ul>
-</div>
+</section>

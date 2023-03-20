@@ -52,16 +52,16 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
         </div>
       </div>
 
-      <div>
+      <div class="ressbox">
         <!-- Ressourcen -->
         <ul>
           {{#each system.charattribut as |attrobj attrname|}}
+          {{#if ress}}
           <li class="attrfeld">
             <!--ATTRIBUTE für Charaktere-->
             <div class="flex between">
-              {{#if ress}}
-              <span>{{attrname}}-Punkte</span>
-              <span class="flex">
+              <h4>{{ress.name}}</h4>
+              <span class="flex" style="margin-right: 1ch">
                 <a class="ressReset" data-thisattr="{{attrname}}" style="margin: 0 2ch"><i
                     class="fa-solid fa-arrow-rotate-left"></i></a>
                 <i class="fa-solid fa-minus-square {{#ifCond ress.value 
@@ -72,9 +72,9 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
                 <i class="fa-solid fa-plus-square incRess bigsize" data-attr="{{attrname}}"></i>
               </span>
 
-              {{/if}}
             </div>
           </li>
+          {{/if}}
 
           {{/each}}
           <!-- BOTS für KIs und Fahrzeuge-->
@@ -83,8 +83,8 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
           <li class="attrfeld">
             <!--Bots-->
             <div class="flex between">
-              <span>Bots</span>
-              <span class="flex">
+              <h4>Bots</h4>
+              <span class="flex" style="margin-right: 1ch">
                 <a class="ressReset" data-thisattr="bots" style="margin: 0 2ch"><i
                     class="fa-solid fa-arrow-rotate-left"></i></a>
                 <i class="fa-solid fa-minus-square {{#ifCond system.bots 

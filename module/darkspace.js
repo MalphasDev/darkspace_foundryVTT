@@ -9,7 +9,6 @@ import { DSChatlog } from "./DSChatlog.js";
 import { DSPause } from "./DSPause.js";
 import { DSHotbar } from "./DSHotbar.js";
 import * as DSMechanics from "./DSMechanics.js";
-import * as DSHealth from "./DSHealth.js";
 
 async function preloadHandlebarsTemplates() {
   const baseAddress = "systems/darkspace/templates/";
@@ -39,6 +38,8 @@ async function preloadHandlebarsTemplates() {
     partialAddress + "actors/health.html",
     partialAddress + "actors/combat-armor.html",
     partialAddress + "actors/combat-weapons.html",
+    partialAddress + "actors/inventar_proplist.html",
+    partialAddress + "actors/inventar_inlinebots.html",
 
     //Items
     partialAddress + "items/header.html",
@@ -239,7 +240,7 @@ Hooks.once("ready", async function () {
  * @returns {Promise}
  */
 async function createDSMacro(data, slot) {
-
+  console.log("createDSMacro",data,slot);
   if (data.type !== "Item") return;
   if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
     return ui.notifications.warn("You can only create macro buttons for owned Items");
@@ -260,6 +261,7 @@ async function createDSMacro(data, slot) {
     });
   }
   game.user.assignHotbarMacro(macro, slot);
+  console.log(marco,slot);
   return true;
 
 }

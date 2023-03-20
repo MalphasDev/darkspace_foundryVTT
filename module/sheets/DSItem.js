@@ -30,7 +30,7 @@ export class DSItem extends Item {
     const { itemData, system, config } = this.getObjLocation();
     system.dmg = system.size + system.mk * 2;
     // Senorreichweite //
-    system.range = Math.pow(system.size + system.mk, 2) * 10;
+    system.range = Math.pow(system.mk * 2, 2) * 10;
     system.aeCost = system.mk * 2;
   }
   // medkitData() {}
@@ -76,7 +76,7 @@ export class DSItem extends Item {
     system.techConditionLabel = config.techConditionLabel;
     system.cortexConditionLabel = config.cortexConditionLabel;
 
-    system.hitArrayCortex = DSHealth.getHealth(system.mk * 2, 0);
+    system.hitArrayCortex = DSHealth.getHealth(system.mk*2, system.size);
     system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
 
 
@@ -84,8 +84,8 @@ export class DSItem extends Item {
       const itemRess = system.ress;
     itemRess.bots = {
       value: system.ress.bots.value,
-      max: system.mk * system.size - Object.entries(system.props).length,
-      remain: system.mk * system.size - system.ress.bots.value,
+      max: system.mk - Object.entries(system.props).length,
+      remain: system.mk - Object.entries(system.props).length - system.ress.bots.value,
     };
     }
     

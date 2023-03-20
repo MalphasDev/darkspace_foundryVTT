@@ -8,6 +8,7 @@
   --effect: #fafdec;
   --effect-a: #fafdec00;
   --effect-b: #d72800;
+  --clickable: #ff9200
 }
 
 body {
@@ -457,9 +458,12 @@ ul {
   justify-self: right;
   color: var(--effect);
 }
+.pointer,
 .rollSkill,
+.collapsible,
 .rollItem {
   cursor: pointer;
+  transition: 0.2s ease;
 }
 .borderbox.rollSkill:hover,
 .borderbox.rollItem:hover {
@@ -565,17 +569,12 @@ option {
 a.rollSkill {
   width: 100%;
 }
-.pointer:hover,
-.rollItem:hover,
-.fertfeld li:hover {
-  background: linear-gradient(90deg, var(--effect) 0%, var(--effect-a) 100%);
-}
 .pointer:hover *,
 .rollItem:hover,
 .rollItem:hover *,
 .fertfeld li:hover * {
-  color: var(--main);
-  font-weight: 700;
+  color: var(--clickable);
+  transition: 0.2s ease;
 }
 .fertfeld li:hover .fa-circle {
   color: var(--secondary);
@@ -633,12 +632,13 @@ a.rollSkill {
   max-height: 150px;
   overflow: scroll;
 }
-.pointer,
-.collapsible {
-  cursor: pointer;
-}
+
 .einzug_ul {
   margin-left: 4ch;
+}
+
+.relative {
+  position: relative;
 }
 
 .evalDice,
@@ -651,11 +651,18 @@ a.rollSkill {
 .kritDice {
   color: #00ff7e;
 }
-.tab.combat li.item,
+.tab.props li.item,
 .tab.items li.item {
-  border-bottom: solid 1px #948686;
-  padding: 5px 0 0 0;
-  margin: 0px 0;
+  border: 1px solid;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 5px 10px;
+  background-color: #2c3c465e;
+  background: linear-gradient(
+    90deg,
+    rgba(44, 60, 70, 0.4) 90%,
+    rgba(44, 60, 70, 0.8) 100%
+  );
 }
 
 input[type="checkbox"].item-quick-edit,
@@ -803,4 +810,113 @@ input[type="checkbox"] + label[for="ranged"]:hover {
 .fa-trash:hover {
   opacity: 0.75;
   transition: 0.2s ease;
+  color: var(--clickable);
+}
+.inventarlist {
+  border-left: 1px solid;
+  padding-left: 5px;
+  margin-left: 20px;
+}
+#pause {
+  width: 100%;
+  height: 70%;
+  position: fixed;
+  top: 30%;
+  left: 0;
+  pointer-events: none;
+  z-index: var(--z-index-ui);
+  background: none;
+}
+#pause.paused {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+#pause img {
+  position: absolute;
+  top: calc(50% - 64px);
+  left: calc(50% - 64px);
+  height: 128px;
+  width: 128px;
+  opacity: 0.5;
+  border: none;
+  --fa-animation-duration: 5s;
+}
+#pause .anti {
+  top: calc(50% - 96px);
+  left: calc(50% - 96px);
+  height: 192px;
+  width: 192px;
+  border: none;
+  --fa-animation-duration: 8s;
+}
+.pausetext {
+  position: absolute;
+  height: auto;
+  top: calc(50% - 2.1rem);
+  font-size: 3rem;
+  text-shadow: 0 0 10px black;
+}
+.ressbox {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.ressbox > ul {
+  margin: 20px 0;
+  width: 90%;
+}
+.ressbox h4 {
+  margin: 0 0 0 1ch;
+  font-size: 1rem;
+}
+.ressbox .attrfeld {
+  margin-bottom: 1ch;
+}
+.inlinebutton {
+  display: flex;
+  margin: 5px;
+}
+.buttonpill {
+  width: 8ch;
+  border: 1px solid;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-around;
+}
+.itemname {
+  display: flex;
+}
+.itemname img {
+  width: 20px;
+  height: 20px;
+}
+.item-list.compact {
+  display: flex;
+  flex-wrap: wrap;
+  height: 0;
+  overflow: hidden;
+}
+
+.tab.items .compact .item {
+  margin: 0 5px 5px 0;
+}
+input[type="checkbox"].itemlistdetails:checked ~ .open {
+  height: 0;
+  overflow: hidden;
+}
+input[type="checkbox"].itemlistdetails:checked ~ .compact {
+  height: auto;
+  overflow: hidden;
+}
+.tab.items label.compactlabel {
+  display: block;
+    outline: 1px solid;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+input[type="radio"] + label, input[type="checkbox"] + label {
+  background-color: var(--secondary);
 }

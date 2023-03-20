@@ -1,55 +1,46 @@
-<section>
+<section class="relative">
   <div>
-    <h2 class="flex between"><span><i class="fa-solid fa-dna"></i> Eigenschaften</span>
-    
-      <span class="tooltip">
-        <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
-        <span class="tooltiptext left">Eigenschaft hinzufügen</span>
-      </span>
-    </h2>
+    <h2 class="flex between"><span><i class="fa-solid fa-dna"></i> {{localize "darkspace.Eigenschaften"}}</span>
 
-    
+      <span><span class="tooltip">
+          <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
+          <span class="tooltiptext left">Eigenschaft hinzufügen</span>
+        </span>
+
+        <span class="tooltip">
+          <i class="fa-solid fa-database pointer bigsize addPropTemplate"></i>
+          <span class="tooltiptext left">Eigenschaft von Template hinzufügen</span>
+        </span></span>
+    </h2>
 
     <ul class="item-list">
       {{#each system.props as |value key|}}
 
-      <li class="item flex between" >
-        <span class="showtodialog pointer" data-title="{{prop}}" data-content="{{desc}}">{{prop}} <i class="fa-solid fa-caret-right"></i>
-        <span class="anmerkung">{{skill}}</span></span>
+      <li class="item flex between">
+        <span class="showtodialog pointer" data-title="{{prop}}" data-content="{{desc}}">{{prop}} <i
+            class="fa-solid fa-caret-right"></i>
+          <span class="anmerkung">{{skill}}</span></span>
 
         <span><a class="propEdit" title="Eigenschaft bearbeiten" data-index="{{@index}}">
-          <i class="fa-solid fa-edit"></i>
-        </a>
-        <a
-        ><i
-          class="fa-solid fa-trash deleteProp"
-          data-index="{{@index}}"
-        ></i
-      ></a></span>
+            <i class="fa-solid fa-edit"></i>
+          </a>
+          <a><i class="fa-solid fa-trash deleteProp" data-index="{{@index}}"></i></a></span>
       </li>
       {{/each}}
     </ul>
 
   </div>
   <div>
-    <h2><i class="fa-solid fa-microchip"></i> Artifizierungen</h2>
+    <h2><i class="fa-solid fa-microchip"></i> {{localize "darkspace.Artifizierungen"}}</h2>
     <ul class="item-list">
-      {{#each items.Artifizierung as |value key|}}
-      <li class="item grid" style="grid-template-columns: auto 10ch 45px; gap: 1ch 0" data-item-id="{{this._id}}">
+      {{#each items.cybernetics as |value key|}}
+      <li class="item grid" style="grid-template-columns: auto 10ch 45px; gap: 1ch 0" data-itemid="{{this._id}}">
         <span class="item-control showtodialog pointer" data-title="{{name}}" title="Edit Item">{{name}}
           <span class="anmerkung"></span>
           {{#if system.prosthetic}}{{system.useAttr}}{{else}}
 
-          <ul class="anmerkung" style="
-            border-left: 1px solid;
-            padding-left: 5px;
-            margin-left: 20px;">
-            {{#each system.props}}
-            <li>{{prop}} <i class="cyberprops fa-solid fa-caret-right" data-title="{{prop}}" data-content="{{desc}}"></i> {{skill}} ({{action}})</li>
-            
-            {{/each}}
 
-          </ul>
+          {{> "systems/darkspace/templates/partials/actors/inventar_proplist.html"}}
 
 
 
