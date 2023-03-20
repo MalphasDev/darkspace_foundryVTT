@@ -1,11 +1,12 @@
 <div id="{{id}}_propEdit">
+
   <span class="flex between"
     ><h2>
       <span><input type="text" class="propName" value="{{prop}}" /> </span>
     </h2>
 
     <span class="flex center"
-      ><label for="prop{{slot}}handicap"> Handicap </label>
+      ><label for="prop{{slot}}handicap"> {{localize "darkspace.Handicap"}} </label>
 
       <input
         type="checkbox"
@@ -16,16 +17,16 @@
   ></span>
   <hr />
   <div class="flex between">
-    <span>Fertigkeit</span>
+    <span>{{localize "darkspace.Fertigkeiten"}}</span>
     <select name="system.props.{{slot}}.skill" class="skill">
-      <option value="Automatismus" type="text">Automatismus</option>
+      <option value="Automatismus" type="text">{{localize "darkspace.Automatismus"}}</option>
       {{> "systems/darkspace/templates/partials/skillOptions.html" @root
       skill=skill type=ownertype}}
     </select>
   </div>
   {{#unless charakterProp}}
   <div class="flex between">
-    <span>Aktion</span>
+    <span>{{localize "darkspace.Aktion"}}</span>
     <input
       type="text"
       class="actionName"
@@ -36,7 +37,7 @@
   {{/unless}}
   <hr />
   <div>
-    <h3>Regeln</h3>
+    <h3>{{localize "darkspace.Regeln"}}</h3>
     <textarea class="propRules" cols="30" rows="10">{{desc}}</textarea>
   </div>
 </div>

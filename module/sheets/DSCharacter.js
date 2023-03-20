@@ -81,14 +81,10 @@ export class DSCharacter extends Actor {
     super.prepareData();
     const items = this.items;
     const { actorData, system, attr, config } = this.getObjLocation();
+    
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
-
-    // //Eigenschaften
-    var propertyList = actorData.items.filter((e) => {
-      return e.type === "Eigenschaft";
-    });
 
     // Ressourcen
     let attributNames = Object.keys(attr);
@@ -120,6 +116,7 @@ export class DSCharacter extends Actor {
     items.terminalList = actorData.items.filter((i) => {
       return i.type === "Terminals";
     });
+
 
 
 
@@ -163,9 +160,9 @@ export class DSCharacter extends Actor {
 
     system.armorCortex = "Synthese";
 
-    // +++++++++++++++++++
-    // ++++ Conitions ++++
-    // +++++++++++++++++++
+    // ++++++++++++++++++++
+    // ++++ Conditions ++++
+    // ++++++++++++++++++++
 
     system.bodyConditionLabel = config.bodyConditionLabel;
     system.techConditionLabel = config.techConditionLabel;
@@ -182,6 +179,8 @@ export class DSCharacter extends Actor {
     system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
 
     this.expCounter();
+
+
   }
 
   expCounter() {

@@ -1,16 +1,46 @@
 <!-- combat-armor.html -->
-<div>
-  <h2>Panzerung</h2>
+<section class="relative">
+  <h2>{{localize "darkspace.Panzerung"}}</h2>
 
-  <ul class="item-list">
-    {{#each items.Panzerung}}
-    <li class="item" data-item-id="{{this._id}}">
+  <input type="checkbox" id="armorlistcheckbox" class="hidden itemlistdetails" name="system.sheetui.armorlist" {{checked system.sheetui.armorlist}}/>
+  <label class="compactlabel pointer" for="armorlistcheckbox">{{#if system.sheetui.armorlist}}
+    Übersicht
+    {{/if}}
+    {{#unless system.sheetui.armorlist}}
+    Details
+    {{/unless}}<i class="fa-solid fa-eye"></i></label>
+
+
+  <ul class="item-list compact">
+    {{#each items.armor}}
+    <li class="item armor " data-itemid="{{this._id}}">
+      <span
+              class="itemname"
+              draggable="true"
+              data-itemid="{{this._id}}"
+              >
+              <img src="{{this.img}}" alt="{{this.name}}">
+              {{this.name}}
+      </span>
+    </li>
+    {{/each}}
+  </ul>
+
+  <ul class="item-list open">
+    {{#each items.armor}}
+    <li class="item armor" data-itemid="{{this._id}}">
       <div>
         <div class="grid col-weapons">
 
 
-          <span><span class="itemname" draggable="true" data-itemid="{{this._id}}"></i> {{this.name}}
-          </span><div>
+          <span><span
+            class="itemname rollItem"
+            draggable="true"
+            data-itemid="{{this._id}}"
+            >
+            <img src="{{this.img}}" alt="{{this.name}}">
+            {{this.name}}
+            </span><div>
             {{>
             "systems/darkspace/templates/partials/items/inlineHealth.html"}}
           </div></span>
@@ -29,7 +59,7 @@
               class="inlineItemEdit hidden"
               id="{{this._id}}_equipped" 
               data-itemStat="system.equipped"
-              data-itemId="{{this._id}}" 
+              data-itemid="{{this._id}}" 
               {{checked system.equipped}}>
             
             <label for="{{this._id}}_equipped" class="{{#unless system.equipped}}opacity50 {{/unless}}inline">
@@ -47,8 +77,12 @@
             "systems/darkspace/templates/partials/items/editDeleteEquip.html"}}
           </div>
         </div>
+        <div>
+          {{> "systems/darkspace/templates/partials/actors/inventar_inlinebots.html"}}
+          {{> "systems/darkspace/templates/partials/actors/inventar_proplist.html"}}
+        </div>
       </div>
     </li>{{/each}}
   </ul>
 
-</div>
+</section>

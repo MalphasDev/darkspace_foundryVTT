@@ -1,6 +1,6 @@
 import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
-import { edit as propEdit } from "../DSprops.js";
+import {getProps, edit as propEdit } from "../DSprops.js";
 
 export class DSCharacterSheet extends ActorSheet {
   get template() {
@@ -19,7 +19,7 @@ export class DSCharacterSheet extends ActorSheet {
       template:
         "systems/darkspace/templates/sheets/actors/Character-sheet.html",
       classes: ["darkspace", "sheet", "Charakter"],
-      width: 800,
+      width: 900,
       height: 800,
       tabs: [
         {
@@ -37,19 +37,57 @@ export class DSCharacterSheet extends ActorSheet {
     const actorData = this.actor.toObject(false);
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
 
-    let itemType = Array.from(
-      context.items.map((i) => {
-        return i.type;
-      })
-    );
-    let inventory = {};
-    itemType.forEach((itemType) => {
-      inventory[itemType] = context.items.filter((item) => {
-        return item.type == itemType;
-      });
-    });
-    context.items = inventory;
+    let weapons = {};
+    let armor = {};
+    let utilities = {};
+    let cybernetics = {};
+    let drone = {};
+    let terminals = {};
 
+    actorData.items.forEach((item, i) => {
+      switch (item.type) {
+        case "Schusswaffe":
+        case "Nahkampfwaffe":
+          weapons = { ...weapons, [Object.entries(weapons).length]: item };
+          break;
+        case "Terminals":
+          terminals = { ...terminals, [Object.entries(terminals).length]: item };
+          break;
+        case "Panzerung":
+          armor = { ...armor, [Object.entries(armor).length]: item };
+          break;
+        case "Werkzeug":
+        case "Medkit":
+        case "Gegenstand":
+          utilities = {
+            ...utilities,
+            [Object.entries(utilities).length]: item,
+          };
+          break;
+        case "Artifizierung":
+          cybernetics = {
+            ...cybernetics,
+            [Object.entries(cybernetics).length]: item,
+          };
+          break;
+        case "Drohne":
+          drone = { ...drone, [Object.entries(drone).length]: item };
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    context.items = {
+      weapons: weapons,
+      armor: armor,
+      utilities: utilities,
+      cybernetics: cybernetics,
+      drone: drone,
+      terminals:terminals
+    };
+    
     context.system = actorData.system;
     context.flags = actorData.flags;
     context.config = darkspace;
@@ -76,9 +114,11 @@ export class DSCharacterSheet extends ActorSheet {
       ".ressReset",
       ".inlineItemEdit",
       ".addProp",
+      ".addPropTemplate",
       ".deleteProp",
       ".propEdit",
       ".showtodialog",
+      ".spendbot",
       ".renderapp",
     ];
     window.oncontextmenu = (e) => {
@@ -105,6 +145,7 @@ export class DSCharacterSheet extends ActorSheet {
        * @param ev - The event object
        */
       let handler = (ev) => this._onDragStart(ev);
+
       // Find all items on the character sheet.
       html.find("li.item").each((i, li) => {
         // Ignore for the header row.
@@ -206,9 +247,9 @@ export class DSCharacterSheet extends ActorSheet {
   _itemEdit(event) {
     event.preventDefault();
     const element = event.currentTarget;
-    const itemId = element.dataset.itemId;
+    const itemid = element.dataset.itemid;
     const item = this.object.items.filter((item) => {
-      return item.id === itemId;
+      return item.id === itemid;
     })[0];
 
     item.sheet.render(true);
@@ -216,16 +257,16 @@ export class DSCharacterSheet extends ActorSheet {
   _itemDelete(event) {
     event.preventDefault();
     const element = event.currentTarget;
-    const itemId = element.dataset.itemId;
+    const itemid = element.dataset.itemid;
     const item = this.object.items.filter((item) => {
-      return item.id === itemId;
+      return item.id === itemid;
     })[0];
     Dialog.confirm({
       title: "Gegenstand entfernen",
       content: "Möchtest du " + item.name + " wirklich löschen?",
       yes: () => {
         ui.notifications.info("Gegenstand gelöscht");
-        return this.actor.deleteEmbeddedDocuments("Item", [itemId]);
+        return this.actor.deleteEmbeddedDocuments("Item", [itemid]);
       },
       no: () => {},
       defaultYes: true,
@@ -259,7 +300,7 @@ export class DSCharacterSheet extends ActorSheet {
   }
 
   async _itemQuickEdit(event) {
-    const id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    const id = $(event.currentTarget).parents(".item").attr("data-itemid");
     const target = $(event.currentTarget).attr("data-target");
     const item = duplicate(this.actor.getEmbeddedDocument("Item", id));
     let targetValue;
@@ -340,19 +381,24 @@ export class DSCharacterSheet extends ActorSheet {
       [itemstat]: element.checked,
     });
   }
-  async _addProp() {
+  async _addProp(event, template) {
     const system = this.object.system;
     const props = system.props;
+  
+    let propTemplate = template
+    if (!template) {
+      propTemplate = {
+      prop: "Neue Eigenschaft",
+      skill: "Automation",
+      desc: "Regeln",
+      handicap: false,}
+    }
 
     let newProp = {};
     if (props === undefined || props === {} || props === null) {
       newProp = {
-        slot0: {
-          prop: "Neue Eigenschaft",
-          skill: "Automatiion",
-          desc: "Regeln",
-          handicap: false,
-        },
+        slot0: propTemplate
+     
       };
     } else {
       const nextKey = Object.keys(props).length;
@@ -364,12 +410,7 @@ export class DSCharacterSheet extends ActorSheet {
         };
       });
       newProp = {
-        [slot]: {
-          prop: "Neue Eigenschaft",
-          skill: "Automatiion",
-          desc: "Regeln",
-          handicap: false,
-        },
+        [slot]: propTemplate,
       };
     }
 
@@ -382,6 +423,8 @@ export class DSCharacterSheet extends ActorSheet {
   async _propEdit(event) {
     const propData = propEdit(event, this);
     propData.charakterProp = true;
+    
+
 
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/dialogEditProp.html",
@@ -417,6 +460,7 @@ export class DSCharacterSheet extends ActorSheet {
             });
           },
         },
+        
         abort: {
           icon: '<i class="fas fa-times"></i>',
           label: "Abbrechen",
@@ -425,6 +469,59 @@ export class DSCharacterSheet extends ActorSheet {
       },
       default: "save",
     }).render(true);
+  }
+
+  async _addPropTemplate(event) {
+    const propData = {templates: getProps(), config:darkspace}
+    switch (this.actor.type) {
+      case "Charakter":
+        propData.skillListType = "skillList"
+        break;
+      case "Nebencharakter":
+        propData.skillListType = "skillListNpc"
+        break;
+      case "DrohneFahrzeug":
+        propData.skillListType = "skillListVehicle"
+        break;
+      case "KI":
+        propData.skillListType = "skillListAi"
+        break;
+    
+      default:
+        break;
+    }
+    
+    propData.propEditTemplate = await renderTemplate(
+      "systems/darkspace/templates/dice/addPropTemplate.html",
+      propData
+    );
+
+    new Dialog({
+      title: "Eigenschaft editieren",
+      content: propData.propEditTemplate,
+      buttons: {
+        save: {
+          icon: '<i class="fas fa-save"></i>',
+          label: "Speichern",
+          callback: (html) => {
+            const prop = propData.templates[html.find("[name='propTemplate']")[0].value]
+            const skill = html.find("[name='propTemplateSkill']")[0].value
+            const template = {
+              ...prop,skill:skill
+            }
+            this._addProp(event,template)
+          },
+        },
+        
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Abbrechen",
+          callback: () => {},
+        },
+      },
+      default: "save",
+    }).render(true);
+
   }
 
   async _deleteProp(event) {
@@ -467,14 +564,17 @@ export class DSCharacterSheet extends ActorSheet {
     const dataset = element.dataset;
 
     // Erwarte "title" und "content" im dataset
-    const cyberwarePropsDataset = Array.from(element.getElementsByClassName("cyberprops")).map((p)=>{return p.dataset})
-    
-    const messageData = {...dataset, cyberwareProp: {}}
-
-    cyberwarePropsDataset.forEach(cyberProp => {
-      messageData.cyberwareProp[cyberProp.title] = cyberProp.content
+    const cyberwarePropsDataset = Array.from(
+      element.getElementsByClassName("cyberprops")
+    ).map((p) => {
+      return p.dataset;
     });
-    
+
+    const messageData = { ...dataset, cyberwareProp: {} };
+
+    cyberwarePropsDataset.forEach((cyberProp) => {
+      messageData.cyberwareProp[cyberProp.title] = cyberProp.content;
+    });
 
     const showContent = await renderTemplate(
       "systems/darkspace/templates/dice/showContent.html",
@@ -501,17 +601,41 @@ export class DSCharacterSheet extends ActorSheet {
       default: "abort",
     }).render(true);
   }
+  async _spendbot(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const actor = this.actor;
+    const item = actor.items.get(dataset.itemid);
+
+    if (dataset.regen == "true") {
+      if (item.system.ress.bots.value < item.system.ress.bots.max) {
+        await item.update({
+          "system.ress.bots.value": item.system.ress.bots.value + 1,
+        });
+        return;
+      } else {
+        ui.notifications.warn("Maximale Bots.");
+        return;
+      }
+    }
+
+    if (item.system.ress.bots.value > 0) {
+      await item.update({
+        "system.ress.bots.value": item.system.ress.bots.value - 1,
+      });
+    } else {
+      ui.notifications.warn("Keine Bots verfügbar.");
+    }
+  }
   async _renderapp(event) {
     const element = event.currentTarget;
     const dataset = element.dataset;
-    const itemId = dataset.itemid
-    const actorid = dataset.actorid
+    const itemId = dataset.itemid;
+    const actorid = dataset.actorid;
 
     const document = await game.actors.get(actorid);
-    console.log(document);
     const sheet = document.sheet;
-    if ( sheet._minimized ) return sheet.maximize();
+    if (sheet._minimized) return sheet.maximize();
     else return sheet.render(true);
-
   }
 }

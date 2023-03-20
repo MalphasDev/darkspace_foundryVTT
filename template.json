@@ -5,7 +5,12 @@
       "commonStats": {
         "initMod": 0,
         "notes": "",
-        "props": {}
+        "props": {},
+        "sheetui": {
+          "itemlist": true,
+          "weaponlist": true,
+          "armorlist": true
+        }
       },
       "bodyConditions": {
         "bodyConditions": {
@@ -34,6 +39,7 @@
           "rooted": false
         }
       }
+      
     },
     "Charakter": {
       "templates": ["commonStats", "bodyConditions", "cortexConditions"],
@@ -118,6 +124,7 @@
             "Glück": 0
           },
           "ress": {
+            "name": "Vorteile",
             "value": 0,
             "min": 0,
             "max": 10
@@ -130,6 +137,7 @@
             "Willenskraft": 0
           },
           "ress": {
+            "name": "Test",
             "value": 0,
             "min": 0,
             "max": 10
@@ -142,6 +150,7 @@
             "Synthese": 0
           },
           "ress": {
+            "name": "Protokolle",
             "value": 0,
             "min": 0,
             "max": 10
@@ -154,6 +163,7 @@
             "Kontakte": 0
           },
           "ress": {
+            "name": "Gefallen",
             "value": 0,
             "min": 0,
             "max": 10
@@ -166,6 +176,7 @@
             "Finanzen": 0
           },
           "ress": {
+            "name": "Materialien",
             "value": 0,
             "min": 0,
             "max": 10
@@ -200,6 +211,7 @@
             "Synthese": 0
           },
           "ress": {
+            "name": "Protokolle",
             "value": 0,
             "min": 0,
             "max": 10
@@ -229,6 +241,12 @@
           "skill": {
             "Synthese": 0,
             "Cortex": 0
+          },
+          "ress": {
+            "name": "Protokolle",
+            "value": 0,
+            "min": 0,
+            "max": 10
           }
         },
         "Sensoren": {
@@ -316,6 +334,7 @@
             "Glück": 0
           },
           "ress": {
+            "name": "Vorteile",
             "value": 0,
             "min": 0,
             "max": 10
@@ -328,6 +347,7 @@
             "Kontakte": 0
           },
           "ress": {
+            "name": "Gefallen",
             "value": 0,
             "min": 0,
             "max": 10
@@ -340,6 +360,7 @@
             "Finanzen": 0
           },
           "ress": {
+            "name": "Materialien",
             "value": 0,
             "min": 0,
             "max": 10
@@ -369,6 +390,7 @@
         "props": {},
         "ress": {
           "bots": {
+            "name": "Bots",
             "value": 0
           }
         },

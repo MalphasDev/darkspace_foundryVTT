@@ -1,6 +1,39 @@
 {
-  "darkspace.supplies": "Versorgung",
-  "darkspace.shelter": "Unterkunft",
-  "darkspace.entertaiment": "Unterhaltung",
-  "darkspace.misc": "Sonstiges"
+  "darkspace.Probe": "Probe",
+  "darkspace.Regeln": "Regeln",
+
+  "darkspace.Würfelpool": "Würfelpool",
+
+  "darkspace.Aktion": "Aktion",
+  "darkspace.Automatismus": "Automatismus",
+  "darkspace.Zustände": "Zustände",
+
+  "darkspace.Attribut": "Attribut",
+  "darkspace.Attribute": "Attribute",
+  "darkspace.Fertigkeit": "Fertigkeit",
+  "darkspace.Fertigkeiten": "Fertigkeiten",
+
+  "darkspace.Eigenschaft": "Eigenschaft",
+  "darkspace.Eigenschaften": "Eigenschaften",
+  "darkspace.Handicap": "Handicap",
+
+  "darkspace.Waffen": "Waffen",
+  "darkspace.Panzerung": "Panzerung",
+  "darkspace.Terminals": "Terminals",
+  "darkspace.Gegenstände": "Gegenstände",
+  "darkspace.Artifizierungen": "Artifizierungen",
+  "darkspace.Maschinen": "Drohnen und Fahrzeuge",
+
+  "darkspace.sizemkbot": "Größe, Modulklasse und Bots",
+
+  "darkspace.Beschreibung": "Beschreibung",
+  "darkspace.Notizen": "Notizen",
+
+  "darkspace.Versorgung": "Versorgung",
+  "darkspace.Unterkunft": "Unterkunft",
+  "darkspace.Unterhaltung": "Unterhaltung",
+  "darkspace.Sonstiges": "Sonstiges",
+
+
+  "darkspace.connectDrohnes": "Angeschlossene Drohnen oder Fahrzeuge verknüpfen"
 }

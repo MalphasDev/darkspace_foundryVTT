@@ -1,4 +1,5 @@
 <form class="{{cssClass}} grid actorForm" autocomplete="off" onunload="">
+
   <!--Info-Header-->
   {{>"systems/darkspace/templates/partials/character-sheet-header.html"}}
 
@@ -14,14 +15,6 @@
           <span class="tooltip"><i class="fa-solid fa-users-cog"></i><span class="tooltiptext bottom">Eigenschaften und
               Artifzierungen</span></span>
         </a>
-        <!--
-        <a class="item" data-tab="combat">
-          <span class="tooltip"
-            ><i class="fa-solid fa-fist-raised"></i
-            ><span class="tooltiptext bottom">Waffen und Rüstung</span></span
-          >
-        </a>
-      -->
         <a class="item" data-tab="items">
           <span class="tooltip"><i class="fa-solid fa-suitcase"></i><span
               class="tooltiptext bottom">Inventar</span></span>
@@ -38,25 +31,19 @@
     </section>
 
     <!--Props und Artifizierung-->
-    <section class="tab combat" data-group="primary" data-tab="props">
+    <section class="tab props" data-group="primary" data-tab="props">
       {{>"systems/darkspace/templates/partials/character-sheet-props.html"}}
-    </section>
-
-    <!--Kampfrelevante Werte-->
-    <section class="tab combat" data-group="primary" data-tab="combat">
-      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}} {{>
-        "systems/darkspace/templates/partials/actors/combat-armor.html"}}
-      {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
     <!--Items-->
     <section class="tab items" data-group="primary" data-tab="items">
-      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}} {{>
-        "systems/darkspace/templates/partials/actors/combat-armor.html"}}
-      {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-armor.html"}}
+      {{> "systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
     <!--Notizen-->
+
 
     <section class="tab notes sheet-content" data-group="primary" data-tab="notes">
       <div class="flex fcol2 start wrap">
@@ -78,7 +65,7 @@
             {{#each system.upkeep as |key name|}}
             <li>
             <li class="gridleftcenter fertname grid col2-21">
-              <p>{{name}}</p>
+              <p>{{localize (lookup (concat "darkspace." name) "string")}}</p>
               <div class="skillbox">
                 <input class="value_box" name="system.upkeep.{{name}}" value="{{this}}" type="number" min="0"
                   max="10" />
@@ -89,7 +76,7 @@
             {{/each}}
           </ul>
         </div>
-        
+
         {{>"systems/darkspace/templates/partials/notes.html"}}
       </div>
 
@@ -102,7 +89,7 @@
           {{#each this}}
           <li class="item">
             {{name}} {{id}}
-            <a class="item-control itemDelete" title="Delete Item" data-item-id="{{this._id}}"><i
+            <a class="item-control itemDelete" title="Delete Item" data-itemid="{{this._id}}"><i
                 class="fa-solid fa-trash"></i></a>
           </li>
 

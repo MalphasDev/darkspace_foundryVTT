@@ -1,11 +1,11 @@
 import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
-import { edit as propEdit } from "../DSprops.js";
+import { getProps, getTechProps,getCombatProps, edit as propEdit } from "../DSprops.js";
 
 export class DSItemSheet extends ItemSheet {
   get template() {
-    
-    if (this.object.type === "Drohne") { // Hier sollte vielleicht irgendwann eine clevere Lösung her?
+    if (this.object.type === "Drohne") {
+      // Hier sollte vielleicht irgendwann eine clevere Lösung her?
       return `systems/darkspace/templates/sheets/items/drone-sheet.html`;
     }
 
@@ -47,8 +47,9 @@ export class DSItemSheet extends ItemSheet {
       ".addProp",
       ".deleteProp",
       ".propEdit",
+      ".addPropTemplate",
       ".showtodialog",
-      ".renderApp"
+      ".renderApp",
     ];
 
     classIdent.forEach((ident) => {
@@ -113,7 +114,7 @@ export class DSItemSheet extends ItemSheet {
       });
     }
   }
-  async _addProp() {
+  async _addProp(event, template) {
     const system = this.object.system;
 
     const nextKey = Object.keys(system.props).length;
@@ -125,21 +126,98 @@ export class DSItemSheet extends ItemSheet {
       return;
     }
 
+    console.log(template);
+
+    let propTemplate = template;
+    if (!template) {
+      propTemplate = {
+        prop: "Neue Eigenschaft",
+        skill: "Automation",
+        desc: "Regeln",
+        action: "Neue Aktion",
+        handicap: false,
+      };
+    }
+
     const slot = "slot" + nextKey;
 
     const newActions = {
       ...system.props,
-      [slot]: {
-        prop: "Neue Eigenschaft",
-        skill: "Automatismus",
-        action: "Neue Aktion",
-      },
+      [slot]: propTemplate,
     };
 
     await this.object.update({
       id: this.object.id,
       "system.props": newActions,
     });
+  }
+  async _addPropTemplate(event) {
+
+    const propData = {
+      templates: getProps(),
+      templatesTech: getTechProps(),
+      templatesCombat: getCombatProps(),
+      config: darkspace,
+      itemProp: true,
+      combatProp: this.object.type === "Schusswaffe" || this.object.type === "Nahkampfwaffe"
+    };
+
+    if(!!this.actor) {
+      switch (this.actor.type) {
+        case "Charakter":
+          propData.skillListType = "skillList";
+          break;
+        case "Nebencharakter":
+          propData.skillListType = "skillListNpc";
+          break;
+        case "DrohneFahrzeug":
+          propData.skillListType = "skillListVehicle";
+          break;
+        case "KI":
+          propData.skillListType = "skillListAi";
+          break;
+  
+        default:
+          break;
+      }
+    } else {
+      propData.skillListType = false
+    }
+
+    propData.propEditTemplate = await renderTemplate(
+      "systems/darkspace/templates/dice/addPropTemplate.html",
+      propData
+    );
+
+    new Dialog({
+      title: "Eigenschaft editieren",
+      content: propData.propEditTemplate,
+      buttons: {
+        save: {
+          icon: '<i class="fas fa-save"></i>',
+          label: "Speichern",
+          callback: (html) => {
+            const prop =
+              propData.templates[html.find("[name='propTemplate']")[0].value];
+            const skill = html.find("[name='propTemplateSkill']")[0].value;
+            const action = html.find("[name='propAction']")[0].value;
+            const template = {
+              ...prop,
+              skill: skill,
+              action: action,
+            };
+            this._addProp(event, template);
+          },
+        },
+
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Abbrechen",
+          callback: () => {},
+        },
+      },
+      default: "save",
+    }).render(true);
   }
 
   async _propEdit(event) {
@@ -148,7 +226,6 @@ export class DSItemSheet extends ItemSheet {
     if (this.actor != null) {
       propData.ownertype = this.actor.type;
     }
-    console.log(propData);
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/dialogEditProp.html",
       propData
@@ -256,16 +333,12 @@ export class DSItemSheet extends ItemSheet {
   async _renderApp(event) {
     const element = event.currentTarget;
     const dataset = element.dataset;
-    const actorId = dataset.actorid
-
+    const actorId = dataset.actorid;
 
     const document = await game.actors.get(actorId);
-    console.log(document);
     const sheet = document.sheet;
-    this.close()
-    if ( sheet._minimized ) return sheet.maximize();
+    this.close();
+    if (sheet._minimized) return sheet.maximize();
     else return sheet.render(true);
-
-    
   }
 }
