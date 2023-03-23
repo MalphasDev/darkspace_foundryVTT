@@ -12,7 +12,7 @@
       </div>
     </div>
 
-{{#if item.actor}}
+{{#ifCond item.type "!=" "Artifizierung"}}
 <div class="flex between borderarea">
   <span>{{localize "darkspace.Fertigkeit"}}</span>
   <select name="system.useWith" id="{{id}}_useWith">
@@ -20,7 +20,7 @@
     skill=system.useWith type=item.actor.type}}
   </select>
 </div>
-{{/if}}
+{{/ifCond}}
     <div class="borderarea">
       {{> "systems/darkspace/templates/partials/items/itemProp.html"}}
     </div>

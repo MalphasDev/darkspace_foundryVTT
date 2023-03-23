@@ -52,9 +52,9 @@
             >{{#each ../items.Artifizierung}} {{#if system.prosthetic}}
             {{#ifCond system.useAttr "===" attrname}}
             <i class="fa-solid fa-arrow-up-wide-short"></i>
-            {{system.attrMaxBonus}}{{/ifCond}}{{/if}}{{/each}}</span
-          ></span
-        >
+            {{system.attrMaxBonus}}{{/ifCond}}{{/if}}{{/each}}
+          </span>
+        </span>
 
         <span class="flex end">
           <span class="attrvalue">
@@ -66,6 +66,19 @@
               min="0"
               max="10"
             />
+            
+            <input
+            title="Maximaler {{attrname}}-Wert {{attrmax}}"
+            style="background-color: #0000006e;
+            color: #ffffff85;
+            font-size: 0.8rem;"
+            class="value_box"
+            value="{{attrmax}}"
+            type="number"
+            disabled
+          />
+        
+        
           </span>
         </span>
       </div>

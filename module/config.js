@@ -86,7 +86,7 @@ const tempTree = fetch("systems/darkspace/template.json")
   .then((tempData) => {
     return tempData;
   });
-
+  
 const accessTempTree = () => {
   tempTree.then((a) => {
     let attrList = Object.keys(a.Actor.Charakter.charattribut);

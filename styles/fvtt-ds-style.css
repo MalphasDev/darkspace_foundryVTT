@@ -422,6 +422,9 @@ ul {
 .red {
   color: red;
 }
+.darkred {
+  color: rgb(209, 0, 0);
+}
 .green {
   color: green;
 }
@@ -582,7 +585,7 @@ a.rollSkill {
 
 /* ----------------------------------------*/
 .handicap {
-  color: #940000;
+  color: var(--effect-b);
 }
 .merit {
   background-color: var(--primary-color);

@@ -71,38 +71,22 @@ export class DSCombat extends Combat {
         });
       }
     } else {
-      ids.forEach(async (id, index) => { // Wenn was kaputt genagen ist, dann hier!
-        var currentCombatant = actorData.get(id)
-
-        let iniId;
-        if (currentCombatant.actor.type === "Charakter") {
-          iniId = "Fokus";
-        }
-        if (currentCombatant.actor.type === "Nebencharakter") {
-          iniId = "Intellekt";
-        }
-        if (currentCombatant.actor.type === "DrohneFahrzeug") {
-          iniId = "Cortex";
-        }
-        if (currentCombatant.actor.type === "KI") {
-          iniId = "Fokus";
-        }
-
+      ids.forEach(async (id, index) => {
+        // Wenn was kaputt genagen ist, dann hier!
+        var currentCombatant = actorData.get(id);
+        const ini = DSMechanics.getStat(
+          "Fokus",
+          currentCombatant.actor.system.charattribut
+        );
         let inputData = {
           eventData: {},
           actorId: currentCombatant.id,
           actorData: actorData,
           removehighest: false,
           object: {},
-          dynattr: DSMechanics.getStat(
-            iniId,
-            currentCombatant.actor.system.charattribut
-          ).attr,
-          dynskill: DSMechanics.getStat(
-            iniId,
-            currentCombatant.actor.system.charattribut
-          ).fert,
-          roleData: { attribute: "Aufmerksamkeit", skill: "Fokus" },
+          dynattr: ini.attr,
+          dynskill: ini.fert,
+          roleData: { attribute: ini.attrName, skill: ini.fertName },
         };
 
         let outputData = await DSMechanics.rollDice(inputData).then(
@@ -115,14 +99,16 @@ export class DSCombat extends Combat {
 
         // Chatausgabe
 
-        // let cardData = outputData.cardData;
-        // let messageData = outputData.messageData;
-        // messageData.content = await renderTemplate(
-        //   "systems/darkspace/templates/dice/chatInitiative.html",
-        //   cardData
-        // );
+        let cardData = outputData.cardData;
+        let messageData = outputData.messageData;
+
+        console.log(cardData,messageData);
+        messageData.content = await renderTemplate(
+          "systems/darkspace/templates/dice/chatInitiative.html",
+          cardData
+        );
         AudioHelper.play({ src: CONFIG.sounds.dice });
-        // return ChatMessage.create(messageData);
+        return ChatMessage.create(messageData);
       });
     }
 

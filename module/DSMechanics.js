@@ -156,6 +156,10 @@ export async function rollDice(inputData) {
     });
   }
 
+  console.log();
+
+  
+  
   let cardData = {
     ...roleData,
     ...diceResult,
@@ -169,6 +173,18 @@ export async function rollDice(inputData) {
     total_AB: total_AB,
     total_BC: total_BC,
     total_AC: total_AC,
+  }
+  if (inputData.actorData != undefined) {
+    cardData = {
+      ...cardData,
+      actor: inputData.actorData.get(inputData.actorId)
+    }
+  };
+  if (inputData.actorData === undefined) {
+    cardData = {
+      ...cardData,
+      // Actorname
+    }
   };
 
   if (inputData.item != undefined) {
@@ -262,7 +278,7 @@ export async function modRolls(inputData) {
  */
 export async function _resolveDice(inputData) {
   let outputData = this.rollDice(inputData);
-
+  
   let actor = {};
   let messageData = {};
   let cardData = {};

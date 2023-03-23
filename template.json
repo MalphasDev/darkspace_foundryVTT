@@ -137,7 +137,7 @@
             "Willenskraft": 0
           },
           "ress": {
-            "name": "Test",
+            "name": "Disziplinen",
             "value": 0,
             "min": 0,
             "max": 10
@@ -189,6 +189,11 @@
       "templates": ["commonStats", "bodyConditions", "cortexConditions"],
       "competence": 1,
       "charattribut": {
+        "Aufmerksamkeit": {
+          "attribut": 1,
+          "attrmax": 5,
+          "skill": { "Fokus": 0, "Menschenkenntnis": 0, "Wahrnehmung": 0 }
+        },
         "Kampf": {
           "attribut": 1,
           "attrmax": 5,
@@ -202,7 +207,20 @@
         "Intelligenz": {
           "attribut": 1,
           "attrmax": 5,
-          "skill": { "Cortex": 0, "Intellekt": 0, "Wahrnehmung": 0 }
+          "skill": { "Cortex": 0, "Intellekt": 0, "Technologie": 0 }
+        },
+        "Konzentration": {
+          "attribut": 1,
+          "attrmax": 5,
+          "skill": {
+            "Willenskraft": 0
+          },
+          "ress": {
+            "name": "Disziplinen",
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
         },
         "Kybernese": {
           "attribut": 1,
@@ -294,7 +312,7 @@
             "Heimlichkeit": 0,
             "Kampftechnik": 0,
             "Schusswaffen": 0,
-            "Willlenskraft": 0
+            "Willenskraft": 0
           }
         },
         "Kybernese": {
