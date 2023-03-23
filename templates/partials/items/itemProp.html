@@ -78,11 +78,16 @@ border-radius: 5px;"
       {{#each system.props as |value key|}}
       <li class="flex between borderbox">
         <span>
+          
           <span
             class="showtodialog pointer"
             data-title="{{value.prop}}"
             data-content="{{value.desc}}"
-            >{{value.prop}}
+            >
+            {{#if handicap}}
+            <i class="fa-solid fa-minus-circle handicap"></i>
+            {{/if}}
+            {{value.prop}}
           </span>
 
           <div>

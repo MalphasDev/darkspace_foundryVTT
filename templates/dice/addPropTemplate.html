@@ -1,18 +1,17 @@
-{{log this}}
-
 <div>
     <select name="propTemplate">
         {{#each templates}}
-        <option value="{{@key}}">{{prop}}</option>
+        <option value="{{@key}}">{{prop}}{{#if handicap}} (Handicap){{/if}}</option>
+        
         {{/each}}
         {{#if itemProp}}
         {{#each templatesTech}}
-        <option value="{{@key}}">Tech: {{prop}}</option>
+        <option value="{{@key}}">Tech: {{prop}}{{#if handicap}} (Handicap){{/if}}</option></option>
         {{/each}}
         {{/if}}
         {{#if combatProp}}
         {{#each templatesCombat}}
-        <option value="{{@key}}">Kampf: {{prop}}</option>
+        <option value="{{@key}}">Kampf: {{prop}}{{#if handicap}} (Handicap){{/if}}</option></option>
         {{/each}}
         {{/if}}
     </select>

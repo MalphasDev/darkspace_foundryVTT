@@ -47,7 +47,6 @@ export class DSItem extends Item {
     system.droneData = game.actors.get(system.droneId)
   }
 
-
   prepareData() {
     super.prepareData();
 
@@ -88,7 +87,8 @@ export class DSItem extends Item {
       remain: system.mk - Object.entries(system.props).length - system.ress.bots.value,
     };
     }
-    
+    const unsortedSkillList = [].concat(config.skillList,config.skillListNpc,config.skillListAi,config.skillListVehicle).sort()
+    system.allSkills = new Set(unsortedSkillList)
     
   }
 

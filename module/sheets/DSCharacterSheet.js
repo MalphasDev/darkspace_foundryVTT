@@ -1,6 +1,6 @@
 import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
-import {getProps, edit as propEdit } from "../DSprops.js";
+import {getProps,getHandicaps, edit as propEdit } from "../DSprops.js";
 
 export class DSCharacterSheet extends ActorSheet {
   get template() {
@@ -419,7 +419,61 @@ export class DSCharacterSheet extends ActorSheet {
       "system.props": newProp,
     });
   }
+  async _addPropTemplate(event) {
 
+    const propData = {templates: getProps().concat(getHandicaps()), config:darkspace}
+    switch (this.actor.type) {
+      case "Charakter":
+        propData.skillListType = "skillList"
+        break;
+      case "Nebencharakter":
+        propData.skillListType = "skillListNpc"
+        break;
+      case "DrohneFahrzeug":
+        propData.skillListType = "skillListVehicle"
+        break;
+      case "KI":
+        propData.skillListType = "skillListAi"
+        break;
+    
+      default:
+        break;
+    }
+    
+    propData.propEditTemplate = await renderTemplate(
+      "systems/darkspace/templates/dice/addPropTemplate.html",
+      propData
+    );
+
+    new Dialog({
+      title: "Eigenschaft aus Datenbank hinzufügen",
+      content: propData.propEditTemplate,
+      buttons: {
+        save: {
+          icon: '<i class="fas fa-save"></i>',
+          label: "Speichern",
+          callback: (html) => {
+            
+            const prop = propData.templates[html.find("[name='propTemplate']")[0].value]
+            const skill = html.find("[name='propTemplateSkill']")[0].value
+            console.log(prop);
+            const template = {
+              ...prop,skill:skill
+            }
+            this._addProp(event,template)
+          },
+        },
+        
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Abbrechen",
+          callback: () => {},
+        },
+      },
+      default: "save",
+    }).render(true);
+
+  }
   async _propEdit(event) {
     const propData = propEdit(event, this);
     propData.charakterProp = true;
@@ -471,58 +525,7 @@ export class DSCharacterSheet extends ActorSheet {
     }).render(true);
   }
 
-  async _addPropTemplate(event) {
-    const propData = {templates: getProps(), config:darkspace}
-    switch (this.actor.type) {
-      case "Charakter":
-        propData.skillListType = "skillList"
-        break;
-      case "Nebencharakter":
-        propData.skillListType = "skillListNpc"
-        break;
-      case "DrohneFahrzeug":
-        propData.skillListType = "skillListVehicle"
-        break;
-      case "KI":
-        propData.skillListType = "skillListAi"
-        break;
-    
-      default:
-        break;
-    }
-    
-    propData.propEditTemplate = await renderTemplate(
-      "systems/darkspace/templates/dice/addPropTemplate.html",
-      propData
-    );
 
-    new Dialog({
-      title: "Eigenschaft editieren",
-      content: propData.propEditTemplate,
-      buttons: {
-        save: {
-          icon: '<i class="fas fa-save"></i>',
-          label: "Speichern",
-          callback: (html) => {
-            const prop = propData.templates[html.find("[name='propTemplate']")[0].value]
-            const skill = html.find("[name='propTemplateSkill']")[0].value
-            const template = {
-              ...prop,skill:skill
-            }
-            this._addProp(event,template)
-          },
-        },
-        
-        abort: {
-          icon: '<i class="fas fa-times"></i>',
-          label: "Abbrechen",
-          callback: () => {},
-        },
-      },
-      default: "save",
-    }).render(true);
-
-  }
 
   async _deleteProp(event) {
     const element = event.currentTarget;

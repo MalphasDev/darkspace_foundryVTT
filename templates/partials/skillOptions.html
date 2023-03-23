@@ -1,5 +1,12 @@
+{{#select this.skill}}
+{{#unless type}}<option value="Test">
+    {{#each system.allSkills}}
+    <option value="{{this}}" type="text">{{this}}</option>
+    {{/each}}
+{{/unless}}
+    
 <!--Charaktere-->
-{{#select this.skill}} {{#ifCond this.type "===" "Charakter"}}{{#each
+{{#ifCond this.type "===" "Charakter"}}{{#each
 config.skillList}}
 <option value="{{this}}" type="text">{{this}}</option>
 {{/each}} {{/ifCond}}

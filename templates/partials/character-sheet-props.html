@@ -17,7 +17,9 @@
       {{#each system.props as |value key|}}
 
       <li class="item flex between">
-        <span class="showtodialog pointer" data-title="{{prop}}" data-content="{{desc}}">{{prop}} <i
+        <span class="showtodialog pointer" data-title="{{prop}}" data-content="{{desc}}">{{#if handicap}}
+          <i class="fa-solid fa-minus-circle handicap"></i>
+          {{/if}}{{prop}} <i
             class="fa-solid fa-caret-right"></i>
           <span class="anmerkung">{{skill}}</span></span>
 
@@ -36,15 +38,11 @@
       {{#each items.cybernetics as |value key|}}
       <li class="item grid" style="grid-template-columns: auto 10ch 45px; gap: 1ch 0" data-itemid="{{this._id}}">
         <span class="item-control showtodialog pointer" data-title="{{name}}" title="Edit Item">{{name}}
-          <span class="anmerkung"></span>
-          {{#if system.prosthetic}}{{system.useAttr}}{{else}}
-
-
+          <span class="anmerkung">
+          {{#if system.prosthetic}}{{system.useAttr}} (<i class="fa-solid fa-up-long"></i> {{system.attrMaxBonus}}){{/if}}
+          </span>
           {{> "systems/darkspace/templates/partials/actors/inventar_proplist.html"}}
-
-
-
-          {{/if}}
+          
         </span></span>
         <span>{{>
           "systems/darkspace/templates/partials/items/MkSize_display.html"}}</span>

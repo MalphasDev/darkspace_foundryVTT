@@ -45,18 +45,10 @@ export class DSCharacter extends Actor {
   }
   npcData(actorData, system, attr, config) {
     system.armorId = "Kraft";
-    system.initiative =
-      this.getStat("Beweglichkeit").attr +
-      "d10x10kh2+" +
-      this.getStat("Beweglichkeit").fert;
     return { actorData, system, attr, config };
   }
   droneData(actorData, system, attr, config) {
-    system.initiative =
-      this.getStat("Analyse").attr +
-      "d10x10kh2+" +
-      this.getStat("Analyse").fert;
-
+    system.structure = system.mk + system.size;
     // Fahrzeuge dürfen keine Panzerung tragen
     actorData.deleteEmbeddedDocuments(
       "Item",
@@ -71,9 +63,6 @@ export class DSCharacter extends Actor {
   }
 
   aiData(actorData, system, attr, config) {
-    system.initiative =
-      this.getStat("Fokus").attr + "d10x10kh2+" + this.getStat("Fokus").fert;
-
     return { actorData, system, attr, config };
   }
 
@@ -81,7 +70,6 @@ export class DSCharacter extends Actor {
     super.prepareData();
     const items = this.items;
     const { actorData, system, attr, config } = this.getObjLocation();
-    
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
@@ -117,8 +105,38 @@ export class DSCharacter extends Actor {
       return i.type === "Terminals";
     });
 
-
-
+    let itemSizeArray = items.map((item) => {return item.system.size})
+    let correctSize = []
+    itemSizeArray.forEach((i)=>{
+      if(i=== undefined) {} else {correctSize.push(i)}
+    })
+    itemSizeArray = correctSize.sort((a,b) => {return a - b})
+    itemSizeArray.forEach((size,i) => {
+      
+      switch (size) {
+        case 1:
+          itemSizeArray[i] = 0.0625
+          break;
+          case 2:
+            itemSizeArray[i] =0.125
+          break;
+          case 3:
+            itemSizeArray[i] =0.25
+          break;
+          case 4:
+            itemSizeArray[i] =0.5
+          break;
+          case 5:
+            itemSizeArray[i] =1
+          break;
+        default:
+          break;
+      }
+    });
+    if (itemSizeArray.length>0) { 
+      system.carriage = Math.ceil(itemSizeArray.reduce((a,b)=>{return a+b})*100,2)
+    }
+    
 
     const sortedArmorStructureList = items.armorList
       .filter((a) => {
@@ -146,6 +164,14 @@ export class DSCharacter extends Actor {
     isNaN(system.cortexArmorBonus)
       ? (system.cortexArmorBonus = 0)
       : system.cortexArmorBonus;
+
+    const prostetics = items.artList.filter((a) => {
+      return a.system.prosthetic === true;
+    })[0];
+    if (prostetics != undefined) {
+      system.charattribut[prostetics.system.useAttr].attrmax =
+        prostetics.system.attrMaxBonus;
+    }
 
     this.type === "Charakter"
       ? this.charakterData(actorData, system, attr, config)
@@ -176,11 +202,12 @@ export class DSCharacter extends Actor {
 
     system.hitArray = DSHealth.getHealth(armorAttr, armorSkill);
     system.hitArrayCortex = DSHealth.getHealth(cortexAttr, cortexSkill);
-    system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
+    system.hitArrayTech = DSHealth.getHealth(
+      system.size,
+      system.structure + system.mk
+    );
 
     this.expCounter();
-
-
   }
 
   expCounter() {

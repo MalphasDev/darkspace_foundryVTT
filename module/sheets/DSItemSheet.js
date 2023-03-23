@@ -1,6 +1,14 @@
 import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
-import { getProps, getTechProps,getCombatProps, edit as propEdit } from "../DSprops.js";
+import {
+  getProps,
+  getHandicaps,
+  getTechProps,
+  getTechhandicaps,
+  getCombatProps,
+  getCombatHandicaps,
+  edit as propEdit,
+} from "../DSprops.js";
 
 export class DSItemSheet extends ItemSheet {
   get template() {
@@ -152,17 +160,18 @@ export class DSItemSheet extends ItemSheet {
     });
   }
   async _addPropTemplate(event) {
-
     const propData = {
-      templates: getProps(),
-      templatesTech: getTechProps(),
-      templatesCombat: getCombatProps(),
+      templates: getProps().concat(getHandicaps()),
+      templatesTech: getTechProps().concat(getTechhandicaps()),
+      templatesCombat: getCombatProps().concat(getCombatHandicaps()),
       config: darkspace,
       itemProp: true,
-      combatProp: this.object.type === "Schusswaffe" || this.object.type === "Nahkampfwaffe"
+      combatProp:
+        this.object.type === "Schusswaffe" ||
+        this.object.type === "Nahkampfwaffe",
     };
 
-    if(!!this.actor) {
+    if (!!this.actor) {
       switch (this.actor.type) {
         case "Charakter":
           propData.skillListType = "skillList";
@@ -176,12 +185,12 @@ export class DSItemSheet extends ItemSheet {
         case "KI":
           propData.skillListType = "skillListAi";
           break;
-  
+
         default:
           break;
       }
     } else {
-      propData.skillListType = false
+      propData.skillListType = false;
     }
 
     propData.propEditTemplate = await renderTemplate(

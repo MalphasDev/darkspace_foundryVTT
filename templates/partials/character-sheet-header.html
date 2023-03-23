@@ -34,7 +34,7 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
       <div>
         {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
         "Nebencharakter"}}
-        <div class="grid col2 borderbox round">
+        <div class="borderbox bigsize flex around">
           {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
         </div>
         {{/ifCond}} {{/ifCond}} {{#ifCond actor.type "===" "Nebencharakter"}}
