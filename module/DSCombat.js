@@ -102,7 +102,6 @@ export class DSCombat extends Combat {
         let cardData = outputData.cardData;
         let messageData = outputData.messageData;
 
-        console.log(cardData,messageData);
         messageData.content = await renderTemplate(
           "systems/darkspace/templates/dice/chatInitiative.html",
           cardData

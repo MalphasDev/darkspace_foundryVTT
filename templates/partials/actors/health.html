@@ -10,7 +10,7 @@
       </li>
       {{/ifCond}} {{/ifCond}} {{#each system.bodyConditions as |value key|}}
 
-      <li class="flex borderbox round">
+      <li class="flex borderbox round" style="height: 55px;">
         <input
           type="checkbox"
           class="noDisplay"
@@ -29,7 +29,12 @@
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
             {{/with}}
-            <div>{{lookup ../this.actor.system.hitArray @index}}</div>
+            <div>
+              <div style="height: 15px;">
+                {{lookup ../this.actor.system.hitArray @index}}
+              </div>
+              <div style="height: 15px;" class="anmerkung">({{lookup ../this.actor.system.hitArrayBase @index}})</div>
+            </div>
           </div>
         </label>
       </li>
@@ -109,7 +114,7 @@
   <div class="grid col2">
     <!-- Aufrappeln -->
     <div>
-      <h3><i class="fa-solid fa-running"></i>Aufrappeln</h3>
+      <h3><i class="fa-solid fa-running"></i>{{localize "darkspace.Aufrappeln"}}</h3>
       <div>
         {{#ifCond actor.type "===" "Charakter"}}
         <!-- Aufrappeln FIT -->
@@ -140,7 +145,7 @@
     </div>
     <!-- Schutz -->
     <div>
-      <h3><i class="fa-solid fa-shield-alt"></i>Schutzprobe</h3>
+      <h3><i class="fa-solid fa-shield-alt"></i>{{localize "darkspace.Schutzprobe"}}</h3>
 
       {{#ifCond actor.type "===" "Charakter"}}
 

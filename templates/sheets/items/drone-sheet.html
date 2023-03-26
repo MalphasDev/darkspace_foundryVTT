@@ -6,7 +6,7 @@
 <h2>{{localize "darkspace.connectDrohnes"}}</h2>
 <div class="grid col2-21">
     <div class="borderarea">
-        <p>Wähle ein Fahrzeug oder Drohne aus, die mit deinem Inventar verbunden werden soll. Wird Drohne oder das Fahrzeug nicht angezeigt, lassen deine SL prüfen, ob die Drohne bzw. das Fahrzeug dir zugeordnet ist.</p>
+        <p>{{localize "darkspace.chooseDrone"}}</p>
         </div>
         <div class="borderarea">
 
@@ -17,7 +17,7 @@
                 {{/each}}
                 {{/select}}
             </select>
-            <button class="renderApp" data-actorid="{{system.droneData.id}}">Öffne Bogen für {{system.droneData.name}}</button>
+            <button class="renderApp" data-actorid="{{system.droneData.id}}">{{system.droneData.name}}</button>
         </div>
     </div>
 </form>

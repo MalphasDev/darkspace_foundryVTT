@@ -14,70 +14,25 @@ darkspace.props = {
 // Zustände erfassen
 
 darkspace.bodyConditionLabel = {
-  struck: {
-    name: "Angeschlagen",
-    fontsymbol: "fa-solid fa-dizzy",
-  },
-  ko: {
-    name: "Außer Gefecht",
-    fontsymbol: "fa-solid fa-times-circle",
-  },
-  wounded: {
-    name: "Verwundet",
-    fontsymbol: "fa-solid fa-band-aid",
-  },
-  crippled: {
-    name: "Verkrüppelt",
-    fontsymbol: "fa-solid fa-user-injured",
-  },
-  dead: {
-    name: "Tod",
-    fontsymbol: "fa-solid fa-skull",
-  },
+  struck: "fa-solid fa-dizzy",
+  ko: "fa-solid fa-times-circle",
+  wounded: "fa-solid fa-band-aid",
+  crippled: "fa-solid fa-user-injured",
+  dead: "fa-solid fa-skull",
 };
 darkspace.techConditionLabel = {
-  scratched: {
-    name: "Angekratzt",
-    fontsymbol: "fa-solid fa-exclamation-triangle",
-  },
-  unstable: {
-    name: "Instabil",
-    fontsymbol: "fa-solid fa-times-circle",
-  },
-  offline: {
-    name: "Ausgeschaltet",
-    fontsymbol: "fa-solid fa-battery-quarter",
-  },
-  defect: {
-    name: "Defekt",
-    fontsymbol: "fa-solid fa-car-crash",
-  },
-  destroyed: {
-    name: "Zerstört",
-    fontsymbol: "fa-solid fa-ban",
-  },
+  scratched: "fa-solid fa-exclamation-triangle",
+  unstable: "fa-solid fa-times-circle",
+  offline: "fa-solid fa-battery-quarter",
+  defect: "fa-solid fa-car-crash",
+  destroyed: "fa-solid fa-ban",
 };
 darkspace.cortexConditionLabel = {
-  overflow: {
-    name: "Überlauf",
-    fontsymbol: "fa-solid fa-stream",
-  },
-  crash: {
-    name: "Crash",
-    fontsymbol: "fa-solid fa-bug",
-  },
-  dos: {
-    name: "DoS",
-    fontsymbol: "fa-solid fa-terminal",
-  },
-  offline: {
-    name: "Abschaltung",
-    fontsymbol: "fa-solid fa-power-off",
-  },
-  rooted: {
-    name: "Gerootet",
-    fontsymbol: "fa-solid fa-network-wired",
-  },
+  overflow: "fa-solid fa-stream",
+  crash: "fa-solid fa-bug",
+  dos: "fa-solid fa-terminal",
+  offline: "fa-solid fa-power-off",
+  rooted: "fa-solid fa-network-wired",
 };
 
 // Stellt Liste mit Attributen und Fertigkeiten zusammen
@@ -86,7 +41,7 @@ const tempTree = fetch("systems/darkspace/template.json")
   .then((tempData) => {
     return tempData;
   });
-  
+
 const accessTempTree = () => {
   tempTree.then((a) => {
     let attrList = Object.keys(a.Actor.Charakter.charattribut);

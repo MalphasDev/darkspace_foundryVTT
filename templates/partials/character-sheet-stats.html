@@ -11,7 +11,7 @@
           <span>{{system.totalSkillXp}} EP</span>
         </li>
         <li class="pill padding">
-          <span>Eigenschaften</span>
+          <span>{{localize "darkspace.Eigenschaften"}}</span>
           <span>{{system.totalPropXp}} EP</span>
         </li>
       </ul>
@@ -35,7 +35,7 @@
         />
         EP
       </div>
-      <div class="pill padding">{{system.xpAvailable}} EP verfügbar</div></span
+      <div class="pill padding">{{system.xpAvailable}} {{localize "darkspace.EpAvailable"}}</div></span
     >
   </div>
   <hr />
@@ -44,10 +44,11 @@
     {{#each system.charattribut as |attrobj attrname|}}
     <li class="attrfeld">
       <!--ATTRIBUTE für Charaktere-->
-
+      
       <div class="flex between">
         <span class="attrname"
-          >{{attrname}}
+          >
+          {{localize (lookup (concat "darkspace." attrname) "string")}}
           <span style="margin: 0 1ch"
             >{{#each ../items.Artifizierung}} {{#if system.prosthetic}}
             {{#ifCond system.useAttr "===" attrname}}
@@ -87,7 +88,7 @@
         {{#each skill as |fertval fertname|}}
         <li class="fertname flex between">
           <a class="rollSkill" data-skill="{{fertname}}">
-            {{fertname}}
+            {{localize (lookup (concat "darkspace." fertname) "string")}}
             <span
               >{{#each ../../system.props}} {{#ifCond skill "===" fertname}}
               {{#unless handicap}}

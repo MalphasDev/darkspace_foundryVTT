@@ -156,7 +156,6 @@ export async function rollDice(inputData) {
     });
   }
 
-  console.log();
 
   
   

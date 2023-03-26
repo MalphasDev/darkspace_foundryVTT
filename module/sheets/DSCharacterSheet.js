@@ -79,6 +79,7 @@ export class DSCharacterSheet extends ActorSheet {
       }
     });
 
+
     context.items = {
       weapons: weapons,
       armor: armor,
@@ -456,7 +457,6 @@ export class DSCharacterSheet extends ActorSheet {
             
             const prop = propData.templates[html.find("[name='propTemplate']")[0].value]
             const skill = html.find("[name='propTemplateSkill']")[0].value
-            console.log(prop);
             const template = {
               ...prop,skill:skill
             }

@@ -34,47 +34,47 @@ export function getProps() {
   const props = [
     {
       prop: "Ausgleichen",
-      desc: "Der Charakter verringert negative Würfelpool-Modifikatoren für Proben mit der verbundenen Fertigkeit für 1 AE oder KoP pro WPM.",
+      desc: "Der Charakter ignoriert negative Würfelpool-Modifikatoren und Erschwernisse für Proben mit der verbundenen Fertigkeit für eine Aktion pro Aktivierung.",
       handicap: false,
     },
     {
       prop: "Bollwerk",
-      desc: "Konkurrierende Proben gegen die verbundene Fertigkeiten verringern ihr Ergebnis um 1 pro AE bzw ZS oder KoP um 1. Das Ergebnis einer Verteidigungen oder Schutzprobe mit der verbundenen Fertigkeit kann um 1 pro AE oder KoP erhöht werden.",
+      desc: "Verteidigungen, Aufrappeln oder Schutzproben mit der verbundenen Fertigkeit haben durch eine Aktivierung automatisch einen Erfolg. Konkurrierende Proben gegen die verbundene Fertigkeit bzw. die verbundene Aktion verlieren bei einer Aktivierung den höchsten Würfel aus ihrer Probe.",
       handicap: false,
     },
     {
       prop: "Detailarbeit",
-      desc: "Der Charakter kann eine Probe mit der verbundenen Fertigkeit zu einer langfristigen Probe machen und dafür +2 auf seine Probe erhalten. Für je +1 auf die Zeitstufe einer langfristigen Probe wird das Ergebnis der Probe um +1 erhöht (maximal insgesamt +5).",
+      desc: "Durch eine Aktivierung wird die benötigte Zeitstufe der Aktion auf das Ergebnis addiert. Der Charakter kann sich für eine Aktion (auch wenn es sich nicht um eine langfristige Probe handelt) beliebig viel Zeit lassen.",
+      handicap: false,
+    },
+    {
+      prop: "Effizient",
+      desc: "Durch eine Aktivierung wird die benötigte Zeitstufe für Proben mit der verbundenen Fertigkeit um 1 reduziert.",
       handicap: false,
     },
     {
       prop: "Forcieren",
-      desc: "Der Charakter fügt einer Probe mit der verbundenen Fertigkeit +1W für je 2 AE oder KoP hinzu. Er kann maximal die Stufe der verbundenen Fertigkeit als zusätzliche Würfel hinzufügen. Er kann der Probe so lange Würfel hinzufügen, wie die Spielleitung nicht das Ergebnis der Probe beschrieben hat.",
+      desc: "Die Aktion wird bei einer Aktivierung automatisch als Erfolg gewertet. Die Probe muss trotzdem abgelegt werden. Bei einem Misserfolg oder Patzer bleibt der Erfolg zwar bestehen, aber es kommt zu unerwünschten Nebenwirkungen.",
       handicap: false,
     },
     {
       prop: "Reflexartig",
-      desc: "Der Charakter kann für 1 KoP mit der verbundenen Fertigkeit auch dann Verteidigungen durchführen, wenn der Angreifer ihn nicht in der Initiative überholt.",
+      desc: "Durch eine Aktivierung können Aktionen der verbundenen Fertigkeit als Verteidigungen eingesetzt werden. Die AE-Kosten sinken dadurch (wie bei allen Verteidigungen) auf 1.",
       handicap: false,
     },
     {
       prop: "Routiniert",
-      desc: "Die AE-Kosten sinken um 1 AE pro KoP bis zu einem Minimum von 2 AE. Bei langfristigen Aktionen wird die Zeitstufe um 1 für je 2 KoP gesenkt. Sinkt sie dadurch auf 0, wird aus der langfristigen Probe eine normale Fertigkeitsprobe.",
-      handicap: false,
-    },
-    {
-      prop: "Schadensbegrenzung",
-      desc: "Der Charakter ignoriert für 2 AE oder KoP einen Patzer.",
+      desc: "Dem Würfelwurf wird bei einer Aktivierung automatisch eine 10 hinzugefügt (die aber nicht die Regel der 10 auslöst).",
       handicap: false,
     },
     {
       prop: "Versiert",
-      desc: "Verzichtet der Charakter auf 1W für die Probe, erhöht er das Ergebnis der Probe um +2.",
+      desc: "Übersteigt das Ergebnis den Schwierigkeitsgrad um 5 oder mehr, kann die Probe durch eine Aktivierung als kritischen Erfolg gewertet werden.",
       handicap: false,
     },
     {
       prop: "Verstärkt",
-      desc: "Übersteigt das Ergebnis den Schwierigkeitsgrad um 5 oder mehr, kann der Charakter 1 AE oder KoP ausgeben, um die Probe als kritischen Erfolg zu werten.",
+      desc: "Pro Aktivierung wird das Ergebnis der Probe um +2 erhöht.",
       handicap: false,
     },
   ];

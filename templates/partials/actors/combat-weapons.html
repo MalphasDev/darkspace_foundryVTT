@@ -4,10 +4,10 @@
 
   <input type="checkbox" id="weaponlistcheckbox" class="hidden itemlistdetails" name="system.sheetui.weaponlist" {{checked system.sheetui.weaponlist}}/>
   <label class="compactlabel pointer" for="weaponlistcheckbox">{{#if system.sheetui.weaponlist}}
-    Übersicht
+    {{localize "darkspace.Übersicht"}}
     {{/if}}
     {{#unless system.sheetui.weaponlist}}
-    Details
+    {{localize "darkspace.Details"}}
     {{/unless}}<i class="fa-solid fa-eye"></i></label>
 
   <ul class="item-list compact">
@@ -133,8 +133,8 @@
             class="{{#unless system.equipped}}opacity50 {{/unless}}inline"
           >
             <i class="fa-solid fa-shield-alt"></i>
-            {{#if system.equipped}}Ausgerüstet{{/if}} {{#unless
-            system.equipped}}Abgelegt{{/unless}}
+            {{#if system.equipped}}{{localize "darkspace.Ausgerüstet"}}{{/if}} {{#unless
+            system.equipped}}{{localize "darkspace.Abgelegt"}}{{/unless}}
           </label>
         </span>
         <span class="text_c">

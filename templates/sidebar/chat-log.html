@@ -50,23 +50,6 @@
         
     </div>
 
-    <div id="chat-controls" class="flexrow">
-        <label class="chat-control-icon"><i class="fa-solid fa-dice-d20"></i></label>
-        <select class="roll-type-select" name="rollMode">
-            <optgroup label="Default Roll Mode">
-            <option value="publicroll" selected="">Public Roll</option>
-            <option value="gmroll">Private GM Roll</option>
-            <option value="blindroll">Blind GM Roll</option>
-            <option value="selfroll">Self Roll</option>
-            </optgroup>
-        </select>
-
-        <div class="control-buttons">
-            <a class="export-log" title="Export Chat Log"><i class="fa-solid fa-save"></i></a>
-            <a class="delete chat-flush" title="Clear Chat Log"><i class="fa-solid fa-trash"></i></a>
-        </div>
-    </div>
-
     <form id="chat-form">
         <textarea id="chat-message" autocomplete="off" title="{{localize "CHAT.Chat"}}"></textarea>
     </form>

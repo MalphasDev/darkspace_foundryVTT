@@ -134,8 +134,6 @@ export class DSItemSheet extends ItemSheet {
       return;
     }
 
-    console.log(template);
-
     let propTemplate = template;
     if (!template) {
       propTemplate = {

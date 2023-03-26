@@ -7,9 +7,9 @@ border-radius: 5px;"
 
 >
   {{#if system.prosthetic}}
-  <span><i class="fa-regular fa-circle-left"></i></span><span>Prothese</span><span><i class="fa-solid fa-circle-right"></i></span>
+  <span><i class="fa-regular fa-circle-left"></i></span><span>{{localize "darkspace.Prothese"}}</span><span><i class="fa-solid fa-circle-right"></i></span>
   {{else}}
-  <span><i class="fa-solid fa-circle-left"></i></span><span>Implantat</span><span><i class="fa-regular fa-circle-right"></i></span>
+  <span><i class="fa-solid fa-circle-left"></i></span><span>{{localize "darkspace.Implantat"}}</span><span><i class="fa-regular fa-circle-right"></i></span>
   
   
   {{/if}} </label
@@ -49,13 +49,11 @@ border-radius: 5px;"
   </select>
 
   <div
-    >Maximaler Attributswert auf {{system.attrMaxBonus}} erhöht.</div
-  >
+    >{{localize "darkspace.Attribut"}}-Max  {{system.attrMaxBonus}}</div>
 </div>
 {{else}}
 <span class="anmerkung">
-  Für die Auswahl eines Attributes, muss die Artifizierungen einem Charakter,
-  Nebencharakter, Fahrzeug/Drohne oder KI zugeweisen werden.
+  {{localize "darkspace.chooseAttr"}}
 </span>
 {{/if}} {{/if}}
 
@@ -66,11 +64,11 @@ border-radius: 5px;"
       <span>
         <span class="tooltip">
           <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
-          <span class="tooltiptext bottom">Aktion hinzufügen</span>
+          <span class="tooltiptext bottom">{{localize "darkspace.addAction"}}</span>
         </span>
         <span class="tooltip">
           <i class="fa-solid fa-database pointer bigsize addPropTemplate"></i>
-          <span class="tooltiptext left">Eigenschaft von Template hinzufügen</span>
+          <span class="tooltiptext left">{{localize "darkspace.addProp"}}</span>
         </span>
       </span>
     </h3>

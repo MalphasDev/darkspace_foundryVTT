@@ -105,38 +105,48 @@ export class DSCharacter extends Actor {
       return i.type === "Terminals";
     });
 
-    let itemSizeArray = items.map((item) => {return item.system.size})
-    let correctSize = []
-    itemSizeArray.forEach((i)=>{
-      if(i=== undefined) {} else {correctSize.push(i)}
-    })
-    itemSizeArray = correctSize.sort((a,b) => {return a - b})
-    itemSizeArray.forEach((size,i) => {
-      
+    let itemSizeArray = items.map((item) => {
+      return item.system.size;
+    });
+    let correctSize = [];
+    itemSizeArray.forEach((i) => {
+      if (i === undefined) {
+      } else {
+        correctSize.push(i);
+      }
+    });
+    itemSizeArray = correctSize.sort((a, b) => {
+      return a - b;
+    });
+    itemSizeArray.forEach((size, i) => {
       switch (size) {
         case 1:
-          itemSizeArray[i] = 0.0625
+          itemSizeArray[i] = 0.0625;
           break;
-          case 2:
-            itemSizeArray[i] =0.125
+        case 2:
+          itemSizeArray[i] = 0.125;
           break;
-          case 3:
-            itemSizeArray[i] =0.25
+        case 3:
+          itemSizeArray[i] = 0.25;
           break;
-          case 4:
-            itemSizeArray[i] =0.5
+        case 4:
+          itemSizeArray[i] = 0.5;
           break;
-          case 5:
-            itemSizeArray[i] =1
+        case 5:
+          itemSizeArray[i] = 1;
           break;
         default:
           break;
       }
     });
-    if (itemSizeArray.length>0) { 
-      system.carriage = Math.ceil(itemSizeArray.reduce((a,b)=>{return a+b})*100,2)
+    if (itemSizeArray.length > 0) {
+      system.carriage = Math.ceil(
+        itemSizeArray.reduce((a, b) => {
+          return a + b;
+        }) * 100,
+        2
+      );
     }
-    
 
     const sortedArmorStructureList = items.armorList
       .filter((a) => {
@@ -190,9 +200,31 @@ export class DSCharacter extends Actor {
     // ++++ Conditions ++++
     // ++++++++++++++++++++
 
-    system.bodyConditionLabel = config.bodyConditionLabel;
-    system.techConditionLabel = config.techConditionLabel;
-    system.cortexConditionLabel = config.cortexConditionLabel;
+    Object.keys(config.bodyConditionLabel).forEach((element) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.bodyConditionLabel[element];
+      system.bodyConditionLabel = {
+        ...system.bodyConditionLabel,
+        [element]: { name: conditionName, fontsymbol: symbolName },
+      };
+    });
+    Object.keys(config.techConditionLabel).forEach((element) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.techConditionLabel[element];
+      system.techConditionLabel = {
+        ...system.techConditionLabel,
+        [element]: { name: conditionName, fontsymbol: symbolName },
+      };
+    });
+
+    Object.keys(config.cortexConditionLabel).forEach((element) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.cortexConditionLabel[element];
+      system.cortexConditionLabel = {
+        ...system.cortexConditionLabel,
+        [element]: { name: conditionName, fontsymbol: symbolName },
+      };
+    });
 
     const armorAttr = this.getStat(system.armorId).attr; // Konsti
     const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
@@ -201,6 +233,10 @@ export class DSCharacter extends Actor {
       system.cortexArmorBonus + this.getStat(system.armorCortex).fert; // Synthese
 
     system.hitArray = DSHealth.getHealth(armorAttr, armorSkill);
+    system.hitArrayBase = DSHealth.getHealth(
+      armorAttr,
+      this.getStat(system.armorId).fert
+    );
     system.hitArrayCortex = DSHealth.getHealth(cortexAttr, cortexSkill);
     system.hitArrayTech = DSHealth.getHealth(
       system.size,

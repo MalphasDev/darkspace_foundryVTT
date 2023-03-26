@@ -120,7 +120,10 @@ Hooks.once("init", function () {
   //     id: "crippled",
   //     label: "Verkrüppelt",
   //   },
-  //   { icon: iconFolder + "skull-solid.svg", id: "dead", label: "Tod" },
+  //   { 
+  //     icon: iconFolder + "skull-solid.svg", 
+  //     id: "dead", 
+  //     label: "Tod" },
   // ];
 
   Items.unregisterSheet("core", ItemSheet);
@@ -240,7 +243,7 @@ Hooks.once("ready", async function () {
  * @returns {Promise}
  */
 async function createDSMacro(data, slot) {
-  console.log("createDSMacro",data,slot);
+  // console.log("createDSMacro",data,slot);
   if (data.type !== "Item") return;
   if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
     return ui.notifications.warn("You can only create macro buttons for owned Items");
@@ -261,7 +264,7 @@ async function createDSMacro(data, slot) {
     });
   }
   game.user.assignHotbarMacro(macro, slot);
-  console.log(marco,slot);
+  // console.log(marco,slot);
   return true;
 
 }
@@ -303,7 +306,7 @@ function rollItemMacro(itemName) {
     type: item.type,
   };
 
-  console.log(itemName,inputData);
+  // console.log(itemName,inputData);
   // Trigger the item roll
   DSMechanics.modRolls(inputData, {});
 }

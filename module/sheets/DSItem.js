@@ -75,8 +75,8 @@ export class DSItem extends Item {
     system.techConditionLabel = config.techConditionLabel;
     system.cortexConditionLabel = config.cortexConditionLabel;
 
-    system.hitArrayCortex = DSHealth.getHealth(system.mk*2, system.size);
-    system.hitArrayTech = DSHealth.getHealth(system.size, system.mk);
+    system.hitArrayCortex = DSHealth.getHealth(system.mk, system.size + system.structure);
+    system.hitArrayTech = DSHealth.getHealth(system.size, system.mk + system.structure);
 
 
     if (this.type != "Drohne") {
@@ -89,7 +89,7 @@ export class DSItem extends Item {
     }
     const unsortedSkillList = [].concat(config.skillList,config.skillListNpc,config.skillListAi,config.skillListVehicle).sort()
     system.allSkills = new Set(unsortedSkillList)
-    
+
   }
 
   async _preCreate(createData, options, user) {

@@ -12,7 +12,7 @@
         value="{{system.size}}"
       />
     </span>
-    <span class="tooltiptext top">Größe</span></span
+    <span class="tooltiptext top">{{localize "darkspace.Größe"}}</span></span
   >
 </div>
 {{/ifCond}}
@@ -29,7 +29,7 @@
         value="{{system.mk}}"
       />
     </span>
-    <span class="tooltiptext top">Modulklasse</span>
+    <span class="tooltiptext top">{{localize "darkspace.Modulklasse"}}</span>
   </span>
 </div>
 {{#ifCond actor.type "!=" "KI"}}
@@ -39,7 +39,7 @@
       <i class="fa-solid fa-cube"></i>
       <input type="number" disabled value="{{system.structure}}" />
     </span>
-    <span class="tooltiptext top">Struktur</span>
+    <span class="tooltiptext top">{{localize "darkspace.Struktur"}}</span>
   </span>
 </div>
 {{/ifCond}}
