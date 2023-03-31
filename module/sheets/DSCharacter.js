@@ -57,12 +57,33 @@ export class DSCharacter extends Actor {
       })
     );
 
+    const props = actorData.items.filter((f) => {
+      return f.type === "Eigenschaft";
+    });
+
+    config.attrVehicle.forEach((attribute) => {
+      system.charattribut[attribute].attrmax = system.structure - props.length;
+    });
+
     // Passagiere und Fracht
 
     return { actorData, system, attr, config };
   }
 
   aiData(actorData, system, attr, config) {
+    const props = actorData.items.filter((f) => {
+      return f.type === "Eigenschaft";
+    });
+
+    config.attrAi.forEach((attribute) => {
+      system.charattribut[attribute].attrmax = system.mk * 2 - props.length;
+    });
+
+    // if (prostetics != undefined) {
+    //   system.charattribut[prostetics.system.useAttr].attrmax =
+    //     prostetics.system.attrMaxBonus;
+    // }
+
     return { actorData, system, attr, config };
   }
 
@@ -175,31 +196,59 @@ export class DSCharacter extends Actor {
       ? (system.cortexArmorBonus = 0)
       : system.cortexArmorBonus;
 
-    const prostetics = items.artList.filter((a) => {
-      return a.system.prosthetic === true;
-    })[0];
-    if (prostetics != undefined) {
-      system.charattribut[prostetics.system.useAttr].attrmax =
-        prostetics.system.attrMaxBonus;
-    }
 
-    this.type === "Charakter"
-      ? this.charakterData(actorData, system, attr, config)
-      : null;
-    this.type === "Nebencharakter"
-      ? this.npcData(actorData, system, attr, config)
-      : null;
-    this.type === "DrohneFahrzeug"
-      ? this.droneData(actorData, system, attr, config)
-      : null;
-    this.type === "KI" ? this.aiData(actorData, system, attr, config) : null;
+      let currentAttrList
+      switch (this.type) {
+        case "Charakter":
+          this.charakterData(actorData, system, attr, config)
+          currentAttrList = config.attrList
+          break;
+        case "Nebencharakter":
+          this.npcData(actorData, system, attr, config)
+          currentAttrList = config.attrNpc
+          break;
+        case "DrohneFahrzeug":
+          this.droneData(actorData, system, attr, config)
+          currentAttrList = config.attrVehicle
+          break;
+        case "KI":
+          this.aiData(actorData, system, attr, config)
+          currentAttrList = config.attrAi
+          break;
+        default:
+          break;
+      }
+
 
     system.armorCortex = "Synthese";
+
+    // +++++++++++++++++++++++++
+    // ++++ Attribut Maxima ++++
+    // +++++++++++++++++++++++++
+
+    currentAttrList.forEach((attribut) => {
+      if (attr[attribut].attrmaxmod === undefined) {
+        attr[attribut].attrmaxmod = 0;
+      }
+
+      const prostetics = items.artList.filter((a) => {
+        return a.system.prosthetic === true;
+      })[0];
+
+      if (prostetics != undefined && prostetics.system.useAttr === attribut) {
+        attr[attribut].attrmax =
+          attr[attribut].attrmaxmod + prostetics.system.attrMaxBonus;
+      } else {
+        attr[attribut].attrmax = 5 + attr[attribut].attrmaxmod;
+      }
+      
+    });
+
 
     // ++++++++++++++++++++
     // ++++ Conditions ++++
     // ++++++++++++++++++++
-
+    
     Object.keys(config.bodyConditionLabel).forEach((element) => {
       let conditionName = game.i18n.translations.darkspace[element];
       let symbolName = config.bodyConditionLabel[element];
@@ -207,6 +256,7 @@ export class DSCharacter extends Actor {
         ...system.bodyConditionLabel,
         [element]: { name: conditionName, fontsymbol: symbolName },
       };
+
     });
     Object.keys(config.techConditionLabel).forEach((element) => {
       let conditionName = game.i18n.translations.darkspace[element];
@@ -291,13 +341,24 @@ export class DSCharacter extends Actor {
         }
       });
     });
-
+    
+    if(system.xp === undefined) { system.xp = {value: 0, max: 0}}
     system.totalPropXp = Object.entries(system.props).length * 100;
     system.totalXp =
       system.totalAttrXp +
       system.totalSkillXp +
       system.totalPropXp -
       system.startEp;
+      
     system.xpAvailable = system.xp.max - system.totalXp;
+  }
+  async _preCreate(createData, options, user) {
+    await super._preCreate(createData, options, user);
+
+    let actorType = createData.type;
+
+    const updateData = {};
+    updateData["img"] = "systems/darkspace/icons/actorDefault/actorIcon_" + actorType + ".svg";
+    await this.updateSource(updateData);
   }
 }

@@ -1,4 +1,5 @@
 import * as DSHealth from "../DSHealth.js";
+import {getStat} from "../DSMechanics.js"
 
 export class DSItem extends Item {
   getObjLocation() {
@@ -36,7 +37,9 @@ export class DSItem extends Item {
   // medkitData() {}
   artData() {
     const { itemData, system, config } = this.getObjLocation();
-    const attrMax = 5 // Das irgendwann mal anpassen, damit abgefragt werden kann, wie lange man Attribute erhöhen kann.
+    let artStat
+    if (itemData.actor != null) artStat = getStat(itemData.system.useWith,itemData.actor.system.charattribut)
+    const attrMax = artStat? artStat.attrmax : 5 // Das irgendwann mal anpassen, damit abgefragt werden kann, wie lange man Attribute erhöhen kann.
     system.attrMaxBonus = system.mk + attrMax - Object.entries(system.props).length;
   }
   droneData() {
@@ -72,8 +75,24 @@ export class DSItem extends Item {
     system.structure = parseInt(system.size) + parseInt(system.mk);
 
     // Zustände
-    system.techConditionLabel = config.techConditionLabel;
-    system.cortexConditionLabel = config.cortexConditionLabel;
+
+    Object.keys(config.techConditionLabel).forEach((element) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.techConditionLabel[element];
+      system.techConditionLabel = {
+        ...system.techConditionLabel,
+        [element]: { name: conditionName, fontsymbol: symbolName },
+      };
+    });
+
+    Object.keys(config.cortexConditionLabel).forEach((element) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.cortexConditionLabel[element];
+      system.cortexConditionLabel = {
+        ...system.cortexConditionLabel,
+        [element]: { name: conditionName, fontsymbol: symbolName },
+      };
+    });
 
     system.hitArrayCortex = DSHealth.getHealth(system.mk, system.size + system.structure);
     system.hitArrayTech = DSHealth.getHealth(system.size, system.mk + system.structure);

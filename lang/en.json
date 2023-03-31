@@ -1,5 +1,5 @@
 {
-    "darkspace.Probe": "Probe",
+"darkspace.Probe": "Probe",
 "darkspace.Regeln": "Rules",
 
 "darkspace.Würfelpool": "Dice pool",
@@ -47,6 +47,8 @@
 "darkspace.Artifzierungen": "Artifacts",
 "darkspace.Prothese": "Prosthesis",
 "darkspace.Implantat": "Implant",
+
+"darkspace.Entstellungen": "Disfigurement",
 
 "darkspace.Inventar": "Inventory",
 
@@ -138,5 +140,6 @@
 "darkspace.Verteilung": "Distribution",
 "darkspace.Wahrnehmung": "Perception",
 "darkspace.Willenskraft": "Willpower",
-"darkspace.Überzeugen": "Persuasion"
+"darkspace.Überzeugen": "Persuasion",
+"darkspace.Cyberpathie": "Cyberpathie"
 }

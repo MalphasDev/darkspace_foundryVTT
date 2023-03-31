@@ -1,41 +1,23 @@
 {{#ifCond actor.type "!=" "KI"}}
 <div class="text_c tooltip">
-  <span
-    ><span><i class="fa-solid fa-expand-arrows-alt"></i></span>
+  <span><span><i class="fa-solid fa-expand-arrows-alt"></i></span>
     <span>
-      <input
-        class="cell_c"
-        name="system.size"
-        type="number"
-        min="0"
-        max="20"
-        value="{{system.size}}"
-      />
+      <input class="cell_c" name="system.size" type="number" min="0" max="20" value="{{system.size}}" />
     </span>
-    <span class="tooltiptext top">{{localize "darkspace.Größe"}}</span></span
-  >
+    <span class="tooltiptext top">{{localize "darkspace.Größe"}}</span></span>
 </div>
 {{/ifCond}}
 <div class="text_c tooltip">
-  <span
-    ><span><i class="fa-solid fa-microchip"></i></span>
+  <span><span><i class="fa-solid fa-microchip"></i></span>
     <span>
-      <input
-        class="cell_c"
-        name="system.mk"
-        type="number"
-        min="0"
-        max="10"
-        value="{{system.mk}}"
-      />
+      <input class="cell_c" name="system.mk" type="number" min="0" max="10" value="{{system.mk}}" />
     </span>
     <span class="tooltiptext top">{{localize "darkspace.Modulklasse"}}</span>
   </span>
 </div>
 {{#ifCond actor.type "!=" "KI"}}
 <div class="text_c tooltip">
-  <span
-    ><span>
+  <span><span>
       <i class="fa-solid fa-cube"></i>
       <input type="number" disabled value="{{system.structure}}" />
     </span>
@@ -43,4 +25,12 @@
   </span>
 </div>
 {{/ifCond}}
-
+{{#ifCond actor.type "===" "KI"}}
+<input class="hidden" id="isCyborgBtn{{actor.id}}" type="checkbox" name="system.isCyborg" value="system.isCyborg"
+  {{checked system.isCyborg}}>
+<label style="
+flex: 0 1 50%;
+width: auto;
+font-size: 1rem;" 
+for="isCyborgBtn{{actor.id}}">Cyborg</label>
+{{/ifCond}}

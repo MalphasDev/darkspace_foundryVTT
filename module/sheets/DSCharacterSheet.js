@@ -1,6 +1,6 @@
 import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
-import {getProps,getHandicaps, edit as propEdit } from "../DSprops.js";
+import { getProps, getHandicaps, edit as propEdit } from "../DSprops.js";
 
 export class DSCharacterSheet extends ActorSheet {
   get template() {
@@ -51,7 +51,10 @@ export class DSCharacterSheet extends ActorSheet {
           weapons = { ...weapons, [Object.entries(weapons).length]: item };
           break;
         case "Terminals":
-          terminals = { ...terminals, [Object.entries(terminals).length]: item };
+          terminals = {
+            ...terminals,
+            [Object.entries(terminals).length]: item,
+          };
           break;
         case "Panzerung":
           armor = { ...armor, [Object.entries(armor).length]: item };
@@ -79,16 +82,15 @@ export class DSCharacterSheet extends ActorSheet {
       }
     });
 
-
     context.items = {
       weapons: weapons,
       armor: armor,
       utilities: utilities,
       cybernetics: cybernetics,
       drone: drone,
-      terminals:terminals
+      terminals: terminals,
     };
-    
+
     context.system = actorData.system;
     context.flags = actorData.flags;
     context.config = darkspace;
@@ -121,6 +123,7 @@ export class DSCharacterSheet extends ActorSheet {
       ".showtodialog",
       ".spendbot",
       ".renderapp",
+      ".decattr",
     ];
     window.oncontextmenu = (e) => {
       e.preventDefault();
@@ -131,7 +134,6 @@ export class DSCharacterSheet extends ActorSheet {
         this._rollItem(e, { rightClick: true });
       }
     };
-
     classIdent.forEach((ident) => {
       eval(
         `html.find("${ident}").click(this.${
@@ -139,14 +141,10 @@ export class DSCharacterSheet extends ActorSheet {
         }.bind(this))`
       );
     });
-    /* A drag and drop function. */
-    if (this.actor.owner) {
-      /**
-       * When the user starts dragging, call the _onDragStart function.
-       * @param ev - The event object
-       */
-      let handler = (ev) => this._onDragStart(ev);
 
+
+    /* A drag and drop function. */
+    let handler = (ev) => this._onDragStart(ev);
       // Find all items on the character sheet.
       html.find("li.item").each((i, li) => {
         // Ignore for the header row.
@@ -154,8 +152,8 @@ export class DSCharacterSheet extends ActorSheet {
         // Add draggable attribute and dragstart listener.
         li.setAttribute("draggable", true);
         li.addEventListener("dragstart", handler, false);
+
       });
-    }
   }
 
   createInputData(event, option) {
@@ -203,6 +201,7 @@ export class DSCharacterSheet extends ActorSheet {
     return inputData;
   }
 
+
   async _rollSkill(event, option) {
     event.preventDefault();
     const preCreatedInput = this.createInputData(event, option);
@@ -219,12 +218,21 @@ export class DSCharacterSheet extends ActorSheet {
     !option ? (option = {}) : option;
     const element = option.rightClick ? event.target : event.currentTarget;
     const dataset = element.dataset;
+
     const system = this.object.system;
     const item = this.actor.items.filter((item) => {
-      return item.id === dataset.itemid;
+      return item.id === dataset.itemId;
     })[0];
 
-    const stat = DSMechanics.getStat(item.system.useWith, system.charattribut);
+    let usedSkill;
+
+    if (dataset.ua === "true") {
+      usedSkill = "Kampftechnik";
+    } else {
+      usedSkill = item.system.useWith;
+    }
+
+    const stat = DSMechanics.getStat(usedSkill, system.charattribut);
 
     const preCreatedInput = this.createInputData(event, option);
     const inputData = {
@@ -234,10 +242,9 @@ export class DSCharacterSheet extends ActorSheet {
       roleData: { attribute: stat.attrName, skill: stat.fertName },
       modroll: option.rightClick,
       item: item,
-      type: item.type,
+      type: item ? item.type : "Nahkampfwaffe",
       system: system,
     };
-
     DSMechanics.modRolls(inputData);
   }
 
@@ -248,7 +255,7 @@ export class DSCharacterSheet extends ActorSheet {
   _itemEdit(event) {
     event.preventDefault();
     const element = event.currentTarget;
-    const itemid = element.dataset.itemid;
+    const itemid = element.dataset.itemId;
     const item = this.object.items.filter((item) => {
       return item.id === itemid;
     })[0];
@@ -258,7 +265,7 @@ export class DSCharacterSheet extends ActorSheet {
   _itemDelete(event) {
     event.preventDefault();
     const element = event.currentTarget;
-    const itemid = element.dataset.itemid;
+    const itemid = element.dataset.itemId;
     const item = this.object.items.filter((item) => {
       return item.id === itemid;
     })[0];
@@ -370,7 +377,7 @@ export class DSCharacterSheet extends ActorSheet {
   _inlineItemEdit(event) {
     const element = event.currentTarget;
     const itemList = this.object.items;
-    const itemid = element.dataset.itemid;
+    const itemid = element.dataset.itemId;
     const itemstat = element.dataset.itemstat;
 
     const item = itemList.filter((i) => {
@@ -385,21 +392,25 @@ export class DSCharacterSheet extends ActorSheet {
   async _addProp(event, template) {
     const system = this.object.system;
     const props = system.props;
-  
-    let propTemplate = template
+
+    if (template.handicap === "true") {
+      template.handicap = true;
+    }
+
+    let propTemplate = template;
     if (!template) {
       propTemplate = {
-      prop: "Neue Eigenschaft",
-      skill: "Automation",
-      desc: "Regeln",
-      handicap: false,}
+        prop: "Neue Eigenschaft",
+        skill: "Automation",
+        desc: "Regeln",
+        handicap: false,
+      };
     }
 
     let newProp = {};
     if (props === undefined || props === {} || props === null) {
       newProp = {
-        slot0: propTemplate
-     
+        slot0: propTemplate,
       };
     } else {
       const nextKey = Object.keys(props).length;
@@ -421,26 +432,28 @@ export class DSCharacterSheet extends ActorSheet {
     });
   }
   async _addPropTemplate(event) {
-
-    const propData = {templates: getProps().concat(getHandicaps()), config:darkspace}
+    const propData = {
+      templates: getProps().concat(getHandicaps()),
+      config: darkspace,
+    };
     switch (this.actor.type) {
       case "Charakter":
-        propData.skillListType = "skillList"
+        propData.skillListType = "skillList";
         break;
       case "Nebencharakter":
-        propData.skillListType = "skillListNpc"
+        propData.skillListType = "skillListNpc";
         break;
       case "DrohneFahrzeug":
-        propData.skillListType = "skillListVehicle"
+        propData.skillListType = "skillListVehicle";
         break;
       case "KI":
-        propData.skillListType = "skillListAi"
+        propData.skillListType = "skillListAi";
         break;
-    
+
       default:
         break;
     }
-    
+
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/addPropTemplate.html",
       propData
@@ -454,16 +467,17 @@ export class DSCharacterSheet extends ActorSheet {
           icon: '<i class="fas fa-save"></i>',
           label: "Speichern",
           callback: (html) => {
-            
-            const prop = propData.templates[html.find("[name='propTemplate']")[0].value]
-            const skill = html.find("[name='propTemplateSkill']")[0].value
+            const prop =
+              propData.templates[html.find("[name='propTemplate']")[0].value];
+            const skill = html.find("[name='propTemplateSkill']")[0].value;
             const template = {
-              ...prop,skill:skill
-            }
-            this._addProp(event,template)
+              ...prop,
+              skill: skill,
+            };
+            this._addProp(event, template);
           },
         },
-        
+
         abort: {
           icon: '<i class="fas fa-times"></i>',
           label: "Abbrechen",
@@ -472,13 +486,10 @@ export class DSCharacterSheet extends ActorSheet {
       },
       default: "save",
     }).render(true);
-
   }
   async _propEdit(event) {
     const propData = propEdit(event, this);
     propData.charakterProp = true;
-    
-
 
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/dialogEditProp.html",
@@ -514,7 +525,7 @@ export class DSCharacterSheet extends ActorSheet {
             });
           },
         },
-        
+
         abort: {
           icon: '<i class="fas fa-times"></i>',
           label: "Abbrechen",
@@ -524,8 +535,6 @@ export class DSCharacterSheet extends ActorSheet {
       default: "save",
     }).render(true);
   }
-
-
 
   async _deleteProp(event) {
     const element = event.currentTarget;
@@ -608,7 +617,7 @@ export class DSCharacterSheet extends ActorSheet {
     const element = event.currentTarget;
     const dataset = element.dataset;
     const actor = this.actor;
-    const item = actor.items.get(dataset.itemid);
+    const item = actor.items.get(dataset.itemId);
 
     if (dataset.regen == "true") {
       if (item.system.ress.bots.value < item.system.ress.bots.max) {
@@ -633,12 +642,48 @@ export class DSCharacterSheet extends ActorSheet {
   async _renderapp(event) {
     const element = event.currentTarget;
     const dataset = element.dataset;
-    const itemId = dataset.itemid;
+    const itemId = dataset.itemId;
     const actorid = dataset.actorid;
 
     const document = await game.actors.get(actorid);
     const sheet = document.sheet;
     if (sheet._minimized) return sheet.maximize();
     else return sheet.render(true);
+  }
+  _decattr(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const actor = this.actor;
+    const attr = actor.system.charattribut;
+    const currentAttrModAdress =
+      "system.charattribut." + dataset.attr + ".attrmaxmod";
+    const currentAttrMod = attr[dataset.attr].attrmaxmod;
+
+    new Dialog({
+      title: "Entstellungen",
+      buttons: {
+        disfigurement: {
+          icon: '<i class="fa-solid fa-user-injured"></i>',
+          callback: () => {
+            actor.update({
+              [currentAttrModAdress]: currentAttrMod - 1,
+            });
+          },
+        },
+        regain: {
+          icon: '<i class="fa-solid fa-notes-medical"></i>',
+          callback: () => {
+            actor.update({
+              [currentAttrModAdress]: currentAttrMod + 1,
+            });
+          },
+        },
+        abort: {
+          icon: '<i class="fas fa-times"></i>',
+          callback: () => {},
+        },
+      },
+      default: "abort",
+    }).render(true);
   }
 }

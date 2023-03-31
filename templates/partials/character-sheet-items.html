@@ -15,8 +15,8 @@
 
   <ul class="item-list compact">
     {{#each items.utilities}}
-    <li class="item" data-itemid="{{this._id}}">
-      <span class="itemname rollItem" draggable="true" data-itemid="{{this._id}}">
+    <li class="item" data-item-id="{{this._id}}">
+      <span class="itemname rollItem" data-item-id="{{this._id}}">
         <img src="{{this.img}}" alt="{{this.name}}">
         {{this.name}}
       </span>
@@ -27,9 +27,9 @@
 
   <ul class="item-list open">
     {{#each items.utilities}}
-    <li class="item utility" data-itemid="{{this._id}}">
+    <li class="item utility" data-item-id="{{this._id}}">
       <div class="grid" style="grid-template-columns: auto 10ch 10ch 45px; gap: 1ch 0">
-        <span class="itemname rollItem" draggable="true" data-itemid="{{this._id}}">
+        <span class="itemname rollItem" data-item-id="{{this._id}}">
           <img src="{{this.img}}" alt="{{this.name}}">
           {{this.name}} <span class="anmerkung">({{this.system.useWith}})</span>
         </span>
@@ -59,9 +59,9 @@
 
   <ul class="item-list">
     {{#each items.drone}}
-    <li class="item" data-itemid="{{_id}}">
+    <li class="item" data-item-id="{{_id}}">
       <div class="grid" style="grid-template-columns: auto 10ch 45px; gap: 1ch 0">
-        <span class="itemname renderapp pointer" draggable="true" data-actorid="{{system.droneId}}">
+        <span class="itemname renderapp pointer" data-actorid="{{system.droneId}}">
           <span>{{name}}:
             {{system.droneData.name}}</span> <i class="fa-solid fa-link"></i>
           {{#with system.droneData}}

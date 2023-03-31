@@ -121,6 +121,7 @@ export async function rollDice(inputData) {
       .filter((skill) => {
         return skill[1].skill === roleData.skill;
       });
+      
     handicapList.forEach((handicap) => {
       handicaps.push(handicap[1]);
     });
@@ -155,9 +156,6 @@ export async function rollDice(inputData) {
       });
     });
   }
-
-
-  
   
   let cardData = {
     ...roleData,
@@ -173,10 +171,11 @@ export async function rollDice(inputData) {
     total_BC: total_BC,
     total_AC: total_AC,
   }
+  
   if (inputData.actorData != undefined) {
     cardData = {
       ...cardData,
-      actor: inputData.actorData.get(inputData.actorId)
+      actor: inputData.actorData
     }
   };
   if (inputData.actorData === undefined) {
@@ -203,11 +202,11 @@ export async function rollDice(inputData) {
     messageData: messageData,
     cardData: cardData,
   };
-
   return outputData;
 }
 
 export async function modRolls(inputData) {
+  
   let attrModLocal;
   let fertModLocal;
 
@@ -265,7 +264,6 @@ export async function modRolls(inputData) {
       attrModLocal: 0,
       fertModLocal: 0,
     };
-
     this._resolveDice(inputData);
   }
 }
@@ -276,6 +274,7 @@ export async function modRolls(inputData) {
  * @returns an object with the following properties:
  */
 export async function _resolveDice(inputData) {
+  
   let outputData = this.rollDice(inputData);
   
   let actor = {};
@@ -286,9 +285,9 @@ export async function _resolveDice(inputData) {
     cardData = a.cardData;
     actor = a.actor;
   });
-  if (inputData.item === undefined) {
-    cardData = { ...cardData, actor };
-  } else {
+  const currentActor = game.actors.get(messageData.speaker.actor)
+  const stats = currentActor.system.charattribut
+  if (inputData.item != undefined) {
     cardData = {
       ...cardData,
       actor,
@@ -298,8 +297,24 @@ export async function _resolveDice(inputData) {
       dmg: cardData.system.dmg + cardData.total_BC,
       critdmg: cardData.system.dmg * 2 + cardData.total_BC + parseInt(inputData.dynskill)
     };
+  } else if (inputData.eventData.dataset.ua) {
+    cardData = {
+      ...cardData,
+      actor,
+      basedmg: stats.Geschick.attribut*2+stats.Konstitution.attribut,
+      bonusdmg: cardData.total_BC,
+      critbonus: parseInt(inputData.dynskill),
+      dmg: stats.Geschick.attribut*2+stats.Konstitution.attribut + cardData.total_BC,
+      critdmg: stats.Geschick.attribut*2+stats.Konstitution.attribut * 2 + cardData.total_BC + parseInt(inputData.dynskill),
+      img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
+      name: "Waffenloser Angriff",
+      type: "Waffenlos"
+    };
+  } else {
+    cardData = { ...cardData, actor };
   }
-
+  console.log(cardData);
+  
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
     Custom: "systems/darkspace/templates/dice/chatCustom.html",
@@ -316,7 +331,7 @@ export async function _resolveDice(inputData) {
     chatTempPath[inputData.type],
     cardData
   );
-
+ 
   AudioHelper.play({ src: CONFIG.sounds.dice });
   return ChatMessage.create(messageData);
 }
@@ -330,6 +345,7 @@ export function getStat(fert, dbAttr) {
         fert: value.skill[fert],
         attrName: key,
         fertName: fert,
+        attrmax: value.attrmax
       };
     }
   });

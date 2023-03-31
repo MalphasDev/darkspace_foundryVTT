@@ -14,11 +14,11 @@
 
   <ul class="item-list compact">
     {{#each items.armor}}
-    <li class="item armor " data-itemid="{{this._id}}">
+    <li class="item armor " data-item-id="{{this._id}}">
       <span
               class="itemname"
               draggable="true"
-              data-itemid="{{this._id}}"
+              data-item-id="{{this._id}}"
               >
               <img src="{{this.img}}" alt="{{this.name}}">
               {{this.name}}
@@ -29,7 +29,7 @@
 
   <ul class="item-list open">
     {{#each items.armor}}
-    <li class="item armor" data-itemid="{{this._id}}">
+    <li class="item armor" data-item-id="{{this._id}}">
       <div>
         <div class="grid col-weapons">
 
@@ -37,7 +37,7 @@
           <span><span
             class="itemname rollItem"
             draggable="true"
-            data-itemid="{{this._id}}"
+            data-item-id="{{this._id}}"
             >
             <img src="{{this.img}}" alt="{{this.name}}">
             {{this.name}}
@@ -60,7 +60,7 @@
               class="inlineItemEdit hidden"
               id="{{this._id}}_equipped" 
               data-itemStat="system.equipped"
-              data-itemid="{{this._id}}" 
+              data-item-id="{{this._id}}" 
               {{checked system.equipped}}>
             
             <label for="{{this._id}}_equipped" class="{{#unless system.equipped}}opacity50 {{/unless}}inline">

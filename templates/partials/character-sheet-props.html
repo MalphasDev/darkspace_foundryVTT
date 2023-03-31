@@ -36,7 +36,7 @@
     <h2><i class="fa-solid fa-microchip"></i> {{localize "darkspace.Artifizierungen"}}</h2>
     <ul class="item-list">
       {{#each items.cybernetics as |value key|}}
-      <li class="item grid" style="grid-template-columns: auto 10ch 45px; gap: 1ch 0" data-itemid="{{this._id}}">
+      <li class="item grid" style="grid-template-columns: auto 10ch 45px; gap: 1ch 0" data-item-id="{{this._id}}">
         <span class="item-control showtodialog pointer" data-title="{{name}}" title="Edit Item">{{name}}
           <span class="anmerkung">
           {{#if system.prosthetic}}{{system.useAttr}} (<i class="fa-solid fa-up-long"></i> {{system.attrMaxBonus}}){{/if}}

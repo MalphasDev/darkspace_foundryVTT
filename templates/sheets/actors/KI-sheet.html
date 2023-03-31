@@ -38,14 +38,122 @@
       </nav>
     </section>
 
+
     <!--Statblock-->
     <section class="tab stats" data-group="primary" data-tab="stats">
       {{> "systems/darkspace/templates/partials/character-sheet-stats.html"}}
+
+      {{#if system.isCyborg}}
+      <div>
+        <hr>
+        <ul class="grid col2" style="gap: 1ch">
+          {{#each system.cyborgStats as |attrobj attrname|}}
+          <li class="attrfeld">
+            <!--ATTRIBUTE für Charaktere-->
+            
+            <div class="flex between">
+              <span class="attrname"
+                >
+                {{localize (lookup (concat "darkspace." attrname) "string")}}
+                <span style="margin: 0 1ch"
+                  >{{#each ../items.Artifizierung}} {{#if system.prosthetic}}
+                  {{#ifCond system.useAttr "===" attrname}}
+                  <i class="fa-solid fa-arrow-up-wide-short"></i>
+                  {{system.attrMaxBonus}}{{/ifCond}}{{/if}}{{/each}}
+                </span>
+              </span>
+      
+              <span class="flex end">
+                <span class="attrvalue">
+                  <input
+                    class="value_box"
+                    name="system.cyborgStats.{{attrname}}.attribut"
+                    value="{{attrobj.attribut}}"
+                    type="number"
+                    min="0"
+                    max="10"
+                  />
+                  
+                  <input
+                  title="Maximaler {{attrname}}-Wert {{attrmax}}"
+                  style="background-color: #0000006e;
+                  color: #ffffff85;
+                  font-size: 0.8rem;"
+                  class="value_box"
+                  value="{{attrmax}}"
+                  type="number"
+                  disabled
+                />
+              
+              
+                </span>
+              </span>
+            </div>
+            <!--FERTIGKEITEN-->
+            <ul class="fertfeld">
+              {{#each skill as |fertval fertname|}}
+              <li class="fertname flex between">
+                <a class="rollSkill" data-skill="{{fertname}}">
+                  {{localize (lookup (concat "darkspace." fertname) "string")}}
+                  <span
+                    >{{#each ../../system.props}} {{#ifCond skill "===" fertname}}
+                    {{#unless handicap}}
+                    <span class="tooltip">
+                      <i class="fa-solid fa-dna"></i>
+      
+                      <span class="tooltiptext top">{{this.prop}}</span>
+                    </span>
+      
+                    {{/unless}} {{/ifCond}} {{/each}}</span
+                  >
+                  <span>
+                    {{#each ../../system.props}} {{#ifCond skill "===" fertname}}
+                    {{#if handicap}}<span class="tooltip">
+                      <i class="fa-solid fa-minus-circle handicap"></i>
+      
+                      <span class="tooltiptext top">{{this.prop}}</span> </span
+                    >{{/if}} {{/ifCond}} {{/each}}
+                  </span>
+                  <span>
+                    {{#each ../../items.Artifizierung}} {{#unless
+                    this.system.prosthetic}} {{#each system.props}}{{#ifCond
+                    this.skill "===" fertname}}
+                    <span class="tooltip">
+                      <i class="fa-solid fa-microchip"></i>
+      
+                      <span class="tooltiptext top"
+                        >{{../name}}
+                        <i class="fa-solid fa-caret-right"></i> {{action}}</span
+                      > </span
+                    >{{/ifCond}} {{/each}} {{/unless}} {{/each}}
+                  </span>
+                </a>
+                <div class="skillbox">
+                  <input
+                    class="value_box"
+                    name="system.cyborgStats.{{attrname}}.skill.{{fertname}}"
+                    value="{{this}}"
+                    type="number"
+                    min="0"
+                    max="10"
+                  />
+                </div>
+              </li>
+              {{/each}}
+            </ul>
+          </li>
+      
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}}
+
     </section>
 
     <!--Props und Artifizierung-->
     <section class="tab combat" data-group="primary" data-tab="props">
       {{>"systems/darkspace/templates/partials/character-sheet-props.html"}}
+
     </section>
 
     <!--Items-->
@@ -77,7 +185,7 @@
         <div>
         <ul class="item-list">
           {{#each items}}
-          <li class="item" data-itemid="{{this._id}}">
+          <li class="item" data-item-id="{{this._id}}">
             {{name}}
             <a class="item-control itemDelete" title="Delete Item"
               ><i class="fa-solid fa-trash"></i

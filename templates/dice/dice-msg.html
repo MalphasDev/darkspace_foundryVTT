@@ -26,12 +26,7 @@
   90deg, transparent 0%, #00ff7e 50%, transparent 100% );" {{/if}}
   {{#if fumble}} style="color: var(--effect); background: linear-gradient(90deg, transparent 0%, red 50%, transparent 100%);" {{/if}}>
   {{#if disadv}}
-  
-  
   {{this.total_BC}}{{else}}{{this.total_AB}}
-
-  
-  
   {{/if}}
 </div>
 
@@ -41,14 +36,16 @@
   {{#each merits}}
   
   <li class="inline_block pill padding" style="width: 100%;">
-    <div class="item" data-itemid="{{this._id}}">
+    <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname"><i class="fa-solid fa-dna"></i> {{prop}}</p><hr>
       <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
-  {{/each}} {{#each handicaps}}
+  {{/each}} 
+  
+  {{#each handicaps}}
   <li class="inline_block pill padding" style="width: 100%;">
-    <div class="item" data-itemid="{{this._id}}">
+    <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname handicap">
         <i class="fa-solid fa-dna"></i> {{prop}}
       </p><hr>
@@ -58,7 +55,7 @@
 
   {{/each}}{{#each cybernetics}}
   <li class="inline_block pill padding" style="width: 100%;">
-    <div class="item" data-itemid="{{this._id}}">
+    <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname artifizierung">
         <i class="fa-solid fa-user-cog"></i> 
         {{name}}

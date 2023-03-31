@@ -2,7 +2,8 @@
 <section class="relative">
   <h2>{{localize "darkspace.Waffen"}}</h2>
 
-  <input type="checkbox" id="weaponlistcheckbox" class="hidden itemlistdetails" name="system.sheetui.weaponlist" {{checked system.sheetui.weaponlist}}/>
+  <input type="checkbox" id="weaponlistcheckbox" class="hidden itemlistdetails" name="system.sheetui.weaponlist"
+    {{checked system.sheetui.weaponlist}} />
   <label class="compactlabel pointer" for="weaponlistcheckbox">{{#if system.sheetui.weaponlist}}
     {{localize "darkspace.Übersicht"}}
     {{/if}}
@@ -11,69 +12,73 @@
     {{/unless}}<i class="fa-solid fa-eye"></i></label>
 
   <ul class="item-list compact">
+    <li class="item weapon" data-ua="true" data-item-id="{{actor.id}}">
+      <span class="itemname rollItem" draggable="false" data-ua="true" data-item-id="{{actor.id}}">
+        Waffenloser Angriff
+      </span>
+    </li>
     {{#each items.weapons}}
-    <li class="item weapon " data-itemid="{{this._id}}">
-      <span
-              class="itemname rollItem"
-              draggable="true"
-              data-itemid="{{this._id}}"
-              >
-              <img src="{{this.img}}" alt="{{this.name}}">
-              {{this.name}}
+    <li class="item weapon " data-item-id="{{this._id}}">
+      <span class="itemname rollItem"  data-item-id="{{this._id}}">
+        <img src="{{this.img}}" alt="{{this.name}}">
+        {{this.name}}
       </span>
     </li>
     {{/each}}
     {{#each items.terminals}}
-    <li class="item weapon " data-itemid="{{this._id}}">
-      <span
-              class="itemname rollItem"
-              draggable="true"
-              data-itemid="{{this._id}}"
-              >
-              <img src="{{this.img}}" alt="{{this.name}}">
-              {{this.name}}
+    <li class="item weapon " data-item-id="{{this._id}}">
+      <span class="itemname rollItem"  data-item-id="{{this._id}}">
+        <img src="{{this.img}}" alt="{{this.name}}">
+        {{this.name}}
       </span>
     </li>
     {{/each}}
   </ul>
 
-  
+
   <ul class="item-list open">
+    <li class="item weapon" data-ua="true" data-item-id="{{actor.id}}">
+      <div>
+        <div class="grid col-weapons"> <span class="itemname rollItem" draggable="false" data-ua="true"
+            data-item-id="{{actor.id}}">
+            Waffenloser Angriff
+          </span>
+
+          <span class="derivedValue tooltip"><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}
+            <span class="tooltiptext top"><i class="fa-solid fa-bolt"></i>{{this.system.dmg}} = 2 x
+              <i class="fa-solid fa-expand-arrows-alt"></i>{{this.system.size}}
+              + <i class="fa-solid fa-microchip"></i>{{this.system.mk}}</span>
+          </span>
+        </div>
+      </div>
+
+    </li>
     {{#each items.weapons}}
 
-    
 
-    <li class="item weapon" data-itemid="{{this._id}}">
+
+    <li class="item weapon" data-item-id="{{this._id}}">
       <div>
         <div class="grid col-weapons">
           <span>
-            
-            <span
-              class="itemname rollItem"
-              draggable="true"
-              data-itemid="{{this._id}}"
-              >
+
+            <span class="itemname rollItem"  data-item-id="{{this._id}}">
               <img src="{{this.img}}" alt="{{this.name}}">
               {{this.name}}
-              </span>
+            </span>
             <div>
               {{>
               "systems/darkspace/templates/partials/items/inlineHealth.html"}}
-            </div></span
-          >
-
-          <span class="derivedValue tooltip"
-            ><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}
-            <span class="tooltiptext top"
-              ><i class="fa-solid fa-bolt"></i>{{this.system.dmg}} = 2 x
-              <i class="fa-solid fa-expand-arrows-alt"></i>{{this.system.size}}
-              + <i class="fa-solid fa-microchip"></i>{{this.system.mk}}</span
-            >
+            </div>
           </span>
-          <span class="derivedValue"
-            ><i class="fa-solid fa-arrows-alt-h"></i>
-            {{this.system.range}}</span
-          >
+
+          <span class="derivedValue tooltip"><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}
+            <span class="tooltiptext top"><i class="fa-solid fa-bolt"></i>{{this.system.dmg}} = 2 x
+              <i class="fa-solid fa-expand-arrows-alt"></i>{{this.system.size}}
+              + <i class="fa-solid fa-microchip"></i>{{this.system.mk}}</span>
+          </span>
+          <span class="derivedValue"><i class="fa-solid fa-arrows-alt-h"></i>
+            {{this.system.range}}</span>
           <span class="text_c">
             {{>
             "systems/darkspace/templates/partials/items/MkSize_display.html"}}
@@ -90,48 +95,29 @@
         </div>
       </div>
     </li>
-    {{/each}} 
+    {{/each}}
     <h2>{{localize "darkspace.Terminals"}}</h2>
     {{#each items.terminals}}
-    <li class="item weapon" data-itemid="{{this._id}}">
+    <li class="item weapon" data-item-id="{{this._id}}">
       <div class="grid col-weapons">
-        <span
-          ><span
-          class="itemname rollItem"
-          draggable="true"
-          data-itemid="{{this._id}}"
-          >
-          <img src="{{this.img}}" alt="{{this.name}}">
-          {{this.name}}
+        <span><span class="itemname rollItem"  data-item-id="{{this._id}}">
+            <img src="{{this.img}}" alt="{{this.name}}">
+            {{this.name}}
           </span>
           <div>
             {{> "systems/darkspace/templates/partials/items/inlineHealth.html"}}
-          </div></span
-        >
+          </div>
+        </span>
 
-        <span class="derivedValue tooltip"
-          ><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}<span
-            class="tooltiptext top"
-            ><i class="fa-solid fa-bolt"></i>{{this.system.dmg}} =
+        <span class="derivedValue tooltip"><i class="fa-solid fa-bolt"></i> {{this.system.dmg}}<span
+            class="tooltiptext top"><i class="fa-solid fa-bolt"></i>{{this.system.dmg}} =
             <i class="fa-solid fa-expand-arrows-alt"></i>{{this.system.size}} +
-            2 x <i class="fa-solid fa-microchip"></i>{{this.system.mk}}</span
-          ></span
-        >
+            2 x <i class="fa-solid fa-microchip"></i>{{this.system.mk}}</span></span>
         <span>
-          <input
-            type="checkbox"
-            class="inlineItemEdit hidden"
-            id="{{this._id}}_equipped"
-            data-itemStat="system.equipped"
-            data-itemid="{{this._id}}"
-            {{checked
-            system.equipped}}
-          />
+          <input type="checkbox" class="inlineItemEdit hidden" id="{{this._id}}_equipped"
+            data-itemStat="system.equipped" data-item-id="{{this._id}}" {{checked system.equipped}} />
 
-          <label
-            for="{{this._id}}_equipped"
-            class="{{#unless system.equipped}}opacity50 {{/unless}}inline"
-          >
+          <label for="{{this._id}}_equipped" class="{{#unless system.equipped}}opacity50 {{/unless}}inline">
             <i class="fa-solid fa-shield-alt"></i>
             {{#if system.equipped}}{{localize "darkspace.Ausgerüstet"}}{{/if}} {{#unless
             system.equipped}}{{localize "darkspace.Abgelegt"}}{{/unless}}

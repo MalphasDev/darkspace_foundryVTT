@@ -59,7 +59,7 @@
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Fokus": 0,
             "Manövrieren": 0,
@@ -69,7 +69,7 @@
         },
         "Ausstrahlung": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Charisma": 0,
             "Einschüchtern": 0,
@@ -79,7 +79,7 @@
         },
         "Geschick": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Heimlichkeit": 0,
             "Motorik": 0,
@@ -89,7 +89,7 @@
         },
         "Konstitution": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Athletik": 0,
             "Fitness": 0,
@@ -99,7 +99,7 @@
         },
         "Intelligenz": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
@@ -109,7 +109,7 @@
         },
         "Intuition": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Cortex": 0,
             "Kreativität": 0,
@@ -119,67 +119,57 @@
         },
         "Anomalie": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Glück": 0
           },
           "ress": {
             "name": "Vorteile",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Konzentration": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Willenskraft": 0
           },
           "ress": {
             "name": "Disziplinen",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Kybernese": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Synthese": 0
           },
           "ress": {
             "name": "Protokolle",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Netzwerk": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Kontakte": 0
           },
           "ress": {
             "name": "Gefallen",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Ressourcen": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Finanzen": 0
           },
           "ress": {
             "name": "Materialien",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         }
       }
@@ -191,48 +181,44 @@
       "charattribut": {
         "Aufmerksamkeit": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Fokus": 0, "Menschenkenntnis": 0, "Wahrnehmung": 0 }
         },
         "Kampf": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Kampftechnik": 0, "Schusswaffen": 0, "Nahkampfwaffen": 0 }
         },
         "Körper": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Ausdruck": 0, "Beweglichkeit": 0, "Kraft": 0 }
         },
         "Intelligenz": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Cortex": 0, "Intellekt": 0, "Technologie": 0 }
         },
         "Konzentration": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Willenskraft": 0
           },
           "ress": {
             "name": "Disziplinen",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Kybernese": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Synthese": 0
           },
           "ress": {
             "name": "Protokolle",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         }
       }
@@ -245,36 +231,34 @@
       "charattribut": {
         "Leistung": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Beschleunigung": 0, "Servos": 0 }
         },
         "Energie": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Tarnen": 0, "Verteilung": 0 }
         },
         "Kybernese": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Synthese": 0,
             "Cortex": 0
           },
           "ress": {
             "name": "Protokolle",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Sensoren": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Fokus": 0, "Wahrnehmung": 0 }
         },
         "Kampf": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": { "Schusswaffen": 0, "Nahkampfwaffen": 0 }
         }
       }
@@ -285,19 +269,19 @@
 
       "templates": ["commonStats", "cortexConditions"],
       "charattribut": {
-        "Aufmerksamkeit": {
+        "Sensoren": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Fokus": 0,
-            "Manövrieren": 0,
+            "Cyberpathie": 0,
             "Menschenkenntnis": 0,
             "Wahrnehmung": 0
           }
         },
         "Ausstrahlung": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Charisma": 0,
             "Einschüchtern": 0,
@@ -307,27 +291,33 @@
         },
         "Konzentration": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Heimlichkeit": 0,
             "Kampftechnik": 0,
             "Schusswaffen": 0,
             "Willenskraft": 0
+          },"ress": {
+            "name": "Disziplinen",
+            "value": 0
           }
         },
         "Kybernese": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
-            "Athletik": 0,
+            "Manövrieren": 0,
             "Nahkampfwaffen": 0,
             "Unterstützungswaffen": 0,
             "Synthese": 0
+          },"ress": {
+            "name": "Protokolle",
+            "value": 0
           }
         },
         "Intelligenz": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
@@ -337,7 +327,7 @@
         },
         "Intuition": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Cortex": 0,
             "Kreativität": 0,
@@ -347,42 +337,50 @@
         },
         "Anomalie": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Glück": 0
           },
           "ress": {
             "name": "Vorteile",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Netzwerk": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Kontakte": 0
           },
           "ress": {
             "name": "Gefallen",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
         },
         "Ressourcen": {
           "attribut": 1,
-          "attrmax": 5,
+          "attrmaxmod": 0,
           "skill": {
             "Finanzen": 0
           },
           "ress": {
             "name": "Materialien",
-            "value": 0,
-            "min": 0,
-            "max": 10
+            "value": 0
           }
+        }
+        
+      },
+      "isCyborg": false,
+      "cyborgStats": {
+        "Leistung": {
+          "attribut": 1,
+          "attrmaxmod": 0,
+          "skill": { "Beschleunigung": 0, "Servos": 0 }
+        },
+        "Energie": {
+          "attribut": 1,
+          "attrmaxmod": 0,
+          "skill": { "Tarnen": 0, "Verteilung": 0 }
         }
       }
     }

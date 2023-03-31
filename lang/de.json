@@ -48,6 +48,8 @@
   "darkspace.Prothese": "Prothese",
   "darkspace.Implantat": "Implantat",
 
+  "darkspace.Entstellungen": "Entstellungen",
+
   "darkspace.Inventar": "Inventar",
 
   "darkspace.Größe": "Größe",
@@ -138,5 +140,6 @@
   "darkspace.Verteilung": "Verteilung",
   "darkspace.Wahrnehmung": "Wahrnehmung",
   "darkspace.Willenskraft": "Willenskraft",
-  "darkspace.Überzeugen": "Überzeugen"
+  "darkspace.Überzeugen": "Überzeugen",
+  "darkspace.Cyberpathie": "Cyberpathie"
 }

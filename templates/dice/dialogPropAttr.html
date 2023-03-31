@@ -7,7 +7,7 @@
       <span class="cell_c"><i class="fa-solid fa-trash"></i></span>
     </li>
     {{#each this}} {{#each this}}
-    <li class="item grid col2" data-itemid="{{this._id}}">
+    <li class="item grid col2" data-item-id="{{this._id}}">
       <span class="itemname" draggable="true">
         {{#ifCond system.type "===" "Eigenschaft"}}
         <i class="fa-solid fa-dna"></i>
@@ -16,7 +16,7 @@
         {{/ifCond}} {{this.name}}</span
       >
       <!-- <span></span> -->
-      <input type="checkbox" class="cell_c" data-itemid="{{this.id}}" />
+      <input type="checkbox" class="cell_c" data-item-id="{{this.id}}" />
     </li>
     {{/each}} {{/each}}
   </ul>

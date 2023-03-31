@@ -98,33 +98,33 @@ Hooks.once("init", function () {
   const iconFolder = "systems/darkspace/icons/";
 
   /* Defining the status effects that can be applied to tokens. */
-
-  // CONFIG.statusEffects = [
-  //   {
-  //     icon: iconFolder + "dizzy-solid.svg",
-  //     id: "struck",
-  //     label: "Angeschlagen",
-  //   },
-  //   {
-  //     icon: iconFolder + "times-circle-solid.svg",
-  //     id: "ko",
-  //     label: "Außer Gefecht",
-  //   },
-  //   {
-  //     icon: iconFolder + "band-aid-solid.svg",
-  //     id: "wounded",
-  //     label: "Verwundet",
-  //   },
-  //   {
-  //     icon: iconFolder + "user-injured-solid.svg",
-  //     id: "crippled",
-  //     label: "Verkrüppelt",
-  //   },
-  //   { 
-  //     icon: iconFolder + "skull-solid.svg", 
-  //     id: "dead", 
-  //     label: "Tod" },
-  // ];
+console.log(CONFIG);
+  CONFIG.statusEffects = [
+    {
+      icon: iconFolder + "dizzy-solid.svg",
+      id: "struck",
+      label: "Angeschlagen",
+    },
+    {
+      icon: iconFolder + "times-circle-solid.svg",
+      id: "ko",
+      label: "Außer Gefecht",
+    },
+    {
+      icon: iconFolder + "band-aid-solid.svg",
+      id: "wounded",
+      label: "Verwundet",
+    },
+    {
+      icon: iconFolder + "user-injured-solid.svg",
+      id: "crippled",
+      label: "Verkrüppelt",
+    },
+    { 
+      icon: iconFolder + "skull-solid.svg", 
+      id: "dead", 
+      label: "Tod" },
+  ];
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("darkspace", DSItemSheet, { makeDefault: true });
@@ -156,9 +156,8 @@ Hooks.once("init", function () {
 
 Hooks.once("ready", function () {
   const isGM = game.users.current.isGM;
-  const gameVersion = game.version;
-  console.log("Dark Space Version " + gameVersion + " loaded.");
-  console.log(game);
+  const gameVersion = game.world.systemVersion;
+  console.log("Dark Space Version " + gameVersion + " loaded.",game);
 });
 
 Handlebars.registerHelper("disabled", function (condition) {
@@ -226,56 +225,57 @@ Handlebars.registerHelper({
 });
 
 
-
-Hooks.once("ready", async function () {
+Hooks.once("ready", async function() {
   
-  Hooks.on("hotbarDrop", (bar, data, slot) => createDSMacro(data, slot));
+  // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
+  Hooks.on("hotbarDrop", (bar, data, slot) => {
+
+    if(data.type=== "Item" && data.uuid.includes('Actor.')) {
+      createDSMacro(data, slot)
+      return false
+    }
+  });
 });
+
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
 
-/**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
- * @param {Object} data     The dropped data
- * @param {number} slot     The hotbar slot to use
- * @returns {Promise}
- */
 async function createDSMacro(data, slot) {
-  // console.log("createDSMacro",data,slot);
+//  console.log("createDSMacro",data,slot);
   if (data.type !== "Item") return;
   if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
     return ui.notifications.warn("You can only create macro buttons for owned Items");
   }
 
   const item = await Item.fromDropData(data);
+  let command
+  if (item.type === "Drohne") {
+    command = `Hotbar.toggleDocumentSheet("Actor.${item.system.droneId}")`
+  } else {
+    command = `game.darkspace.rollItemMacro("${data.uuid}");`;
+  }
   
   // Create the macro command
-  const command = `game.darkspace.rollItemMacro("${data.uuid}");`;
+   
   let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
       type: "script",
       img: item.img,
       command: command,
-      flags: { "darkspace.itemMacro": true }
+      flags: { "darkspace.itemMacro": true },
     });
   }
   game.user.assignHotbarMacro(macro, slot);
-  // console.log(marco,slot);
-  return true;
-
+  return false
 }
 
-/**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
- * @param {string} itemName
- * @return {Promise}
- */
+
 function rollItemMacro(itemName) {
+  console.log("rollItemMacro");
   const speaker = ChatMessage.getSpeaker();
   let actor;
   /* Checking if the speaker has a token and if not, it is checking if the speaker has an actor. If the
@@ -284,30 +284,30 @@ function rollItemMacro(itemName) {
   not have an item with the name of the itemName. */
   if (speaker.token) actor = game.actors.tokens[speaker.token];
   if (!actor) actor = game.actors.get(speaker.actor);
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null;
-  if (!item)
-    return ui.notifications.warn(
-      `Your controlled Actor does not have an item named ${itemName}`
-    );
+  const item = actor ? actor.items.find((i) => i.uuid === itemName) : null;
+  // if (!item)
+  //   return ui.notifications.warn(
+  //     `Your controlled Actor does not have an item named ${itemName}`
+  //   );
 
-  const activeItem = actor.items.get(item.id);
 
-  const dbAttr = actor.data.data.charattribut;
-  const stat = DSMechanics.getStat(item.data.data.useWith, dbAttr);
+  const dbAttr = actor.system.charattribut;
+  const stat = DSMechanics.getStat(item.system.useWith, dbAttr);
+
 
   const inputData = {
-    actorData: actor,
+    object: actor,
     actorId: actor.id,
-    item: item,
     dynattr: stat.attr,
     dynskill: stat.fert,
     modroll: false,
-    object: {},
     type: item.type,
+    item: item,
+    roleData: {attribute: stat.attrName, skill: stat.fertName},
+    removehighest: false,
+    system: actor.system,
   };
 
-  // console.log(itemName,inputData);
-  // Trigger the item roll
   DSMechanics.modRolls(inputData, {});
 }
 
