@@ -58,6 +58,7 @@ export class DSItemSheet extends ItemSheet {
       ".addPropTemplate",
       ".showtodialog",
       ".renderApp",
+      ".spendbot"
     ];
 
     classIdent.forEach((ident) => {
@@ -206,7 +207,7 @@ export class DSItemSheet extends ItemSheet {
           callback: (html) => {
             const prop =
               propData.templates[html.find("[name='propTemplate']")[0].value];
-            const skill = html.find("[name='propTemplateSkill']")[0].value;
+            const skill = typeof html.find("[name='propTemplateSkill']")[0] !== "undefined" ? html.find("[name='propTemplateSkill']")[0].value : undefined;
             const action = html.find("[name='propAction']")[0].value;
             const template = {
               ...prop,
@@ -347,5 +348,32 @@ export class DSItemSheet extends ItemSheet {
     this.close();
     if (sheet._minimized) return sheet.maximize();
     else return sheet.render(true);
+  }
+
+  // Das hier zu einer Funktion machen ... vielleicht in DSMechanics?
+  async _spendbot(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const item = this.object
+    
+    if (dataset.regen == "true") {
+      if (item.system.ress.bots.value < item.system.ress.bots.max) {
+        await item.update({
+          "system.ress.bots.value": item.system.ress.bots.value + 1,
+        });
+        return;
+      } else {
+        ui.notifications.warn("Maximale Bots.");
+        return;
+      }
+    }
+
+    if (item.system.ress.bots.value > 0) {
+      await item.update({
+        "system.ress.bots.value": item.system.ress.bots.value - 1,
+      });
+    } else {
+      ui.notifications.warn("Keine Bots verfügbar.");
+    }
   }
 }

@@ -13,7 +13,7 @@ export class DSItem extends Item {
   weaponData() {
     const { itemData, system, config } = this.getObjLocation();
     system.dmg = system.size * 2 + system.mk;
-    system.aeCost = system.size * 2;
+    system.aeCost = system.size;
   }
   gunData() {
     const { itemData, system, config } = this.getObjLocation();
@@ -32,15 +32,14 @@ export class DSItem extends Item {
     system.dmg = system.size + system.mk * 2;
     // Senorreichweite //
     system.range = Math.pow(system.mk * 2, 2) * 10;
-    system.aeCost = system.mk * 2;
+    system.aeCost = system.mk;
   }
   // medkitData() {}
   artData() {
     const { itemData, system, config } = this.getObjLocation();
     let artStat
-    if (itemData.actor != null) artStat = getStat(itemData.system.useWith,itemData.actor.system.charattribut)
-    const attrMax = artStat? artStat.attrmax : 5 // Das irgendwann mal anpassen, damit abgefragt werden kann, wie lange man Attribute erhöhen kann.
-    system.attrMaxBonus = system.mk + attrMax - Object.entries(system.props).length;
+    if (itemData.actor != null) artStat = getStat(itemData.system.useWith,itemData.actor.system.charattribut).attrmax ?? 5
+    system.attrMaxBonus = system.mk + artStat - Object.entries(system.props).length;
   }
   droneData() {
     const { itemData, system, config } = this.getObjLocation();
@@ -95,7 +94,7 @@ export class DSItem extends Item {
     });
 
     system.hitArrayCortex = DSHealth.getHealth(system.mk, system.size + system.structure);
-    system.hitArrayTech = DSHealth.getHealth(system.size, system.mk + system.structure);
+    system.hitArray = DSHealth.getHealth(system.size, system.mk + system.structure);
 
 
     if (this.type != "Drohne") {
@@ -108,7 +107,6 @@ export class DSItem extends Item {
     }
     const unsortedSkillList = [].concat(config.skillList,config.skillListNpc,config.skillListAi,config.skillListVehicle).sort()
     system.allSkills = new Set(unsortedSkillList)
-
   }
 
   async _preCreate(createData, options, user) {

@@ -21,13 +21,34 @@ export class DSCharacter extends Actor {
     const actorData = this;
     const system = this.system;
     const attr = system.charattribut;
+    const ress = system.ressources;
     const config = CONFIG.darkspace;
 
-    return { actorData, system, attr, config };
+    return { actorData, system, attr, ress, config };
   }
 
-  charakterData(actorData, system, attr, config) {
+  charakterData(actorData, system, attr, ress, config) {
     system.armorId = "Fitness";
+    const armorAttr = this.getStat(system.armorId).attr; // Konsti
+    const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
+
+    // \/ Daraus eine Funktion machen... am besten in DSHealth.. würde jedenfalls Sinn ergeben.
+    Object.keys(config.bodyConditionLabel).forEach((element,index) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.bodyConditionLabel[element];
+      system.bodymon = {
+        ...system.bodymon,
+        [element]: {
+          name: conditionName,
+          fontsymbol: symbolName,
+          hit: DSHealth.getHealth(armorAttr, armorSkill)[index],
+          hitBase: DSHealth.getHealth(
+            armorAttr,
+            this.getStat(system.armorId).fert
+          )[index],
+        },
+      };
+    });
 
     system.upkeepTotal = 0;
     for (let [k, v] of Object.entries(system.upkeep)) {
@@ -41,13 +62,34 @@ export class DSCharacter extends Actor {
       )
     );
 
-    return { actorData, system, attr, config };
+    return { actorData, system, attr, ress, config };
   }
-  npcData(actorData, system, attr, config) {
+  npcData(actorData, system, attr, ress, config) {
     system.armorId = "Kraft";
-    return { actorData, system, attr, config };
+    const armorAttr = this.getStat(system.armorId).attr; // Konsti
+    const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
+    
+    // \/ Daraus eine Funktion machen... am besten in DSHealth.. würde jedenfalls Sinn ergeben.
+    Object.keys(config.bodyConditionLabel).forEach((element,index) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.bodyConditionLabel[element];
+      system.bodymon = {
+        ...system.bodymon,
+        [element]: {
+          name: conditionName,
+          fontsymbol: symbolName,
+          hit: DSHealth.getHealth(armorAttr, armorSkill)[index],
+          hitBase: DSHealth.getHealth(
+            armorAttr,
+            this.getStat(system.armorId).fert
+          )[index],
+        },
+      };
+    });
+
+    return { actorData, system, attr, ress, config };
   }
-  droneData(actorData, system, attr, config) {
+  droneData(actorData, system, attr, ress, config) {
     system.structure = system.mk + system.size;
     // Fahrzeuge dürfen keine Panzerung tragen
     actorData.deleteEmbeddedDocuments(
@@ -61,16 +103,33 @@ export class DSCharacter extends Actor {
       return f.type === "Eigenschaft";
     });
 
+    // ++++++++++++++++++++++++++++++++++
+    // ++++ Zustandsmonitor Maschine ++++
+    // ++++++++++++++++++++++++++++++++++
+
     config.attrVehicle.forEach((attribute) => {
       system.charattribut[attribute].attrmax = system.structure - props.length;
     });
 
-    // Passagiere und Fracht
+    Object.keys(config.techConditionLabel).forEach((element, index) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.techConditionLabel[element];
+      system.bodymon = {
+        ...system.bodymon,
+        [element]: {
+          name: conditionName,
+          fontsymbol: symbolName,
+          hit: DSHealth.getHealth(system.size, system.structure + system.mk)[
+            index
+          ],
+        },
+      };
+    });
 
-    return { actorData, system, attr, config };
+    return { actorData, system, attr, ress, config };
   }
 
-  aiData(actorData, system, attr, config) {
+  aiData(actorData, system, attr, ress, config) {
     const props = actorData.items.filter((f) => {
       return f.type === "Eigenschaft";
     });
@@ -84,25 +143,16 @@ export class DSCharacter extends Actor {
     //     prostetics.system.attrMaxBonus;
     // }
 
-    return { actorData, system, attr, config };
+    return { actorData, system, attr, ress, config };
   }
 
   prepareData() {
     super.prepareData();
     const items = this.items;
-    const { actorData, system, attr, config } = this.getObjLocation();
+    const { actorData, system, attr, ress, config } = this.getObjLocation();
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
-
-    // Ressourcen
-    let attributNames = Object.keys(attr);
-    for (var i = 0; attributNames.length > i; i++) {
-      if (attr[attributNames[i]].ress != undefined) {
-        attr[attributNames[i]].ress.remaining =
-          attr[attributNames[i]].ress.max - attr[attributNames[i]].ress.value;
-      }
-    }
 
     items.gunList = actorData.items.filter((f) => {
       return f.type === "Schusswaffe";
@@ -196,30 +246,27 @@ export class DSCharacter extends Actor {
       ? (system.cortexArmorBonus = 0)
       : system.cortexArmorBonus;
 
-
-      let currentAttrList
-      switch (this.type) {
-        case "Charakter":
-          this.charakterData(actorData, system, attr, config)
-          currentAttrList = config.attrList
-          break;
-        case "Nebencharakter":
-          this.npcData(actorData, system, attr, config)
-          currentAttrList = config.attrNpc
-          break;
-        case "DrohneFahrzeug":
-          this.droneData(actorData, system, attr, config)
-          currentAttrList = config.attrVehicle
-          break;
-        case "KI":
-          this.aiData(actorData, system, attr, config)
-          currentAttrList = config.attrAi
-          break;
-        default:
-          break;
-      }
-
-
+    let currentAttrList;
+    switch (this.type) {
+      case "Charakter":
+        this.charakterData(actorData, system, attr, ress, config);
+        currentAttrList = config.attrList;
+        break;
+      case "Nebencharakter":
+        this.npcData(actorData, system, attr, ress, config);
+        currentAttrList = config.attrNpc;
+        break;
+      case "DrohneFahrzeug":
+        this.droneData(actorData, system, attr, ress, config);
+        currentAttrList = config.attrVehicle;
+        break;
+      case "KI":
+        this.aiData(actorData, system, attr, ress, config);
+        currentAttrList = config.attrAi;
+        break;
+      default:
+        break;
+    }
     system.armorCortex = "Synthese";
 
     // +++++++++++++++++++++++++
@@ -241,63 +288,34 @@ export class DSCharacter extends Actor {
       } else {
         attr[attribut].attrmax = 5 + attr[attribut].attrmaxmod;
       }
-      
     });
 
+    // ++++++++++++++++++++++++
+    // ++++ Cortex-Monitor ++++
+    // ++++++++++++++++++++++++
 
-    // ++++++++++++++++++++
-    // ++++ Conditions ++++
-    // ++++++++++++++++++++
-    
-    Object.keys(config.bodyConditionLabel).forEach((element) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.bodyConditionLabel[element];
-      system.bodyConditionLabel = {
-        ...system.bodyConditionLabel,
-        [element]: { name: conditionName, fontsymbol: symbolName },
-      };
-
-    });
-    Object.keys(config.techConditionLabel).forEach((element) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.techConditionLabel[element];
-      system.techConditionLabel = {
-        ...system.techConditionLabel,
-        [element]: { name: conditionName, fontsymbol: symbolName },
-      };
-    });
-
-    Object.keys(config.cortexConditionLabel).forEach((element) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.cortexConditionLabel[element];
-      system.cortexConditionLabel = {
-        ...system.cortexConditionLabel,
-        [element]: { name: conditionName, fontsymbol: symbolName },
-      };
-    });
-
-    const armorAttr = this.getStat(system.armorId).attr; // Konsti
-    const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
     const cortexAttr = this.getStat(system.armorCortex).attr; // Kybernese
     const cortexSkill =
       system.cortexArmorBonus + this.getStat(system.armorCortex).fert; // Synthese
 
-    system.hitArray = DSHealth.getHealth(armorAttr, armorSkill);
-    system.hitArrayBase = DSHealth.getHealth(
-      armorAttr,
-      this.getStat(system.armorId).fert
-    );
-    system.hitArrayCortex = DSHealth.getHealth(cortexAttr, cortexSkill);
-    system.hitArrayTech = DSHealth.getHealth(
-      system.size,
-      system.structure + system.mk
-    );
+    Object.keys(config.cortexConditionLabel).forEach((element,index) => {
+      let conditionName = game.i18n.translations.darkspace[element];
+      let symbolName = config.cortexConditionLabel[element];
+      system.cortexmon = {
+        ...system.cortexmon,
+        [element]: {
+          name: conditionName,
+          fontsymbol: symbolName,
+          hit: DSHealth.getHealth(cortexAttr, cortexSkill)[index],
+        },
+      };
+    });
 
     this.expCounter();
   }
 
   expCounter() {
-    const { actorData, system, attr, config } = this.getObjLocation();
+    const { actorData, system, attr, ress, config } = this.getObjLocation();
 
     let attrList = [];
     let skillList = [];
@@ -341,15 +359,17 @@ export class DSCharacter extends Actor {
         }
       });
     });
-    
-    if(system.xp === undefined) { system.xp = {value: 0, max: 0}}
+
+    if (system.xp === undefined) {
+      system.xp = { value: 0, max: 0 };
+    }
     system.totalPropXp = Object.entries(system.props).length * 100;
     system.totalXp =
       system.totalAttrXp +
       system.totalSkillXp +
       system.totalPropXp -
       system.startEp;
-      
+
     system.xpAvailable = system.xp.max - system.totalXp;
   }
   async _preCreate(createData, options, user) {
@@ -358,7 +378,8 @@ export class DSCharacter extends Actor {
     let actorType = createData.type;
 
     const updateData = {};
-    updateData["img"] = "systems/darkspace/icons/actorDefault/actorIcon_" + actorType + ".svg";
+    updateData["img"] =
+      "systems/darkspace/icons/actorDefault/actorIcon_" + actorType + ".svg";
     await this.updateSource(updateData);
   }
 }

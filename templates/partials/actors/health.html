@@ -8,8 +8,13 @@
       <li>
         <i class="fa-solid fa-heartbeat health-icon"></i>
       </li>
-      {{/ifCond}} {{/ifCond}} {{#each system.bodyConditions as |value key|}}
-
+      {{/ifCond}} {{/ifCond}}
+      {{#ifCond this.actor.type "===" "DrohneFahrzeug"}}
+      <li>
+        <i class="fa-solid fa-cogs health-icon"></i>
+      </li>
+      {{/ifCond}}
+       {{#each system.bodyConditions as |value key|}}
       <li class="flex borderbox round" style="height: 55px;">
         <input
           type="checkbox"
@@ -25,56 +30,23 @@
           for="{{../actor.id}}_bodyConditions_{{key}}"
         >
           <div class="tooltip">
-            {{#with (lookup ../system.bodyConditionLabel key)}}
+            {{#with (lookup ../system.bodymon key)}}
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
-            {{/with}}
-            <div>
-              <div style="height: 15px;">
-                {{lookup ../this.actor.system.hitArray @index}}
-              </div>
-              <div style="height: 15px;" class="anmerkung">({{lookup ../this.actor.system.hitArrayBase @index}})</div>
+            <div style="height: 15px;">
+              {{hit}}
             </div>
-          </div>
-        </label>
-      </li>
-      {{/each}}
-    </ul>
-
-    <!-- Tech Health -->
-
-    <ul class="flex start">
-      {{#ifCond this.actor.type "===" "DrohneFahrzeug"}}
-      <li>
-        <i class="fa-solid fa-cogs health-icon"></i>
-      </li>
-      {{/ifCond}} {{#each system.techConditions as |value key|}}
-
-      <li class="flex borderbox round">
-        <input
-          type="checkbox"
-          class="noDisplay"
-          {{checked
-          value}}
-          name="system.techConditions.{{key}}"
-          id="{{../actor.id}}_techConditions_{{key}}"
-        />
-
-        <label
-          class="flex center borderbox"
-          for="{{../actor.id}}_techConditions_{{key}}"
-        >
-          <div class="tooltip">
-            {{#with (lookup ../system.techConditionLabel key)}}
-            <i class="{{this.fontsymbol}}"></i>
-            <span class="tooltiptext top">{{this.name}}</span>
+            {{#ifCond ../../this.actor.type "!=" "DrohneFahrzeug"}}
+            <div style="height: 15px;" class="anmerkung">({{hitBase}})</div>
+            {{/ifCond}}
             {{/with}}
-            <div>{{lookup ../this.actor.system.hitArrayTech @index}}</div>
           </div>
         </label>
       </li>
       {{/each}}
     </ul>
+
+
     <!-- Cortex Health -->
 
     <ul class="flex start">
@@ -82,7 +54,6 @@
         <i class="fa-solid fa-memory health-icon"></i>
       </li>
       {{#each system.cortexConditions as |value key|}}
-
       <li class="flex borderbox round">
         <input
           type="checkbox"
@@ -97,14 +68,15 @@
           class="flex center borderbox"
           for="{{../actor.id}}_cortexConditions_{{key}}"
         >
-          <div class="tooltip">
-            {{#with (lookup ../system.cortexConditionLabel key)}}
-            <i class="{{this.fontsymbol}}"></i>
-            <span class="tooltiptext top">{{this.name}}</span>
-            {{/with}}
-            <div>{{lookup ../this.actor.system.hitArrayCortex @index}}</div>
+        <div class="tooltip">
+          {{#with (lookup ../system.cortexmon key)}}
+          <i class="{{this.fontsymbol}}"></i>
+          <span class="tooltiptext top">{{this.name}}</span>
+          <div style="height: 15px;">
+            {{hit}}
           </div>
-        </label>
+          {{/with}}
+        </div>
       </li>
       {{/each}}
     </ul>

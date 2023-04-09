@@ -69,7 +69,6 @@ async function preloadHandlebarsTemplates() {
     sidebarAddress + "combat-tracker.html",
     sidebarAddress + "customAE.html",
     sidebarAddress + "chat-log.html",
-
   ];
 
   return loadTemplates(templatePaths);
@@ -98,7 +97,7 @@ Hooks.once("init", function () {
   const iconFolder = "systems/darkspace/icons/";
 
   /* Defining the status effects that can be applied to tokens. */
-console.log(CONFIG);
+  console.log(CONFIG);
   CONFIG.statusEffects = [
     {
       icon: iconFolder + "dizzy-solid.svg",
@@ -120,10 +119,11 @@ console.log(CONFIG);
       id: "crippled",
       label: "Verkrüppelt",
     },
-    { 
-      icon: iconFolder + "skull-solid.svg", 
-      id: "dead", 
-      label: "Tod" },
+    {
+      icon: iconFolder + "skull-solid.svg",
+      id: "dead",
+      label: "Tod",
+    },
   ];
 
   Items.unregisterSheet("core", ItemSheet);
@@ -157,7 +157,7 @@ console.log(CONFIG);
 Hooks.once("ready", function () {
   const isGM = game.users.current.isGM;
   const gameVersion = game.world.systemVersion;
-  console.log("Dark Space Version " + gameVersion + " loaded.",game);
+  console.log("Dark Space Version " + gameVersion + " loaded.", game);
 });
 
 Handlebars.registerHelper("disabled", function (condition) {
@@ -224,15 +224,12 @@ Handlebars.registerHelper({
   },
 });
 
-
-Hooks.once("ready", async function() {
-  
+Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => {
-
-    if(data.type=== "Item" && data.uuid.includes('Actor.')) {
-      createDSMacro(data, slot)
-      return false
+    if (data.type === "Item" && data.uuid.includes("Actor.")) {
+      createDSMacro(data, slot);
+      return false;
     }
   });
 });
@@ -242,23 +239,32 @@ Hooks.once("ready", async function() {
 /* -------------------------------------------- */
 
 async function createDSMacro(data, slot) {
-//  console.log("createDSMacro",data,slot);
   if (data.type !== "Item") return;
-  if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
-    return ui.notifications.warn("You can only create macro buttons for owned Items");
+  if (!data.uuid.includes("Actor.") && !data.uuid.includes("Token.")) {
+    return ui.notifications.warn(
+      "You can only create macro buttons for owned Items"
+    );
   }
 
   const item = await Item.fromDropData(data);
-  let command
-  if (item.type === "Drohne") {
-    command = `Hotbar.toggleDocumentSheet("Actor.${item.system.droneId}")`
-  } else {
-    command = `game.darkspace.rollItemMacro("${data.uuid}");`;
+  let command;
+  switch (item.type) {
+    case "Drohne":
+      command = `Hotbar.toggleDocumentSheet("Actor.${item.system.droneId}")`;
+      break;
+    case "Artifizierung":
+      command = `Hotbar.toggleDocumentSheet("${data.uuid}")`;
+      break;
+    default:
+      command = `game.darkspace.rollItemMacro("${data.uuid}");`;
+      break;
   }
-  
+
   // Create the macro command
-   
-  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+
+  let macro = game.macros.find(
+    (m) => m.name === item.name && m.command === command
+  );
 
   if (!macro) {
     macro = await Macro.create({
@@ -270,30 +276,24 @@ async function createDSMacro(data, slot) {
     });
   }
   game.user.assignHotbarMacro(macro, slot);
-  return false
+  return false;
 }
 
-
-function rollItemMacro(itemName) {
-  console.log("rollItemMacro");
-  const speaker = ChatMessage.getSpeaker();
-  let actor;
+function rollItemMacro(itemUuid) {
   /* Checking if the speaker has a token and if not, it is checking if the speaker has an actor. If the
-  speaker has an actor, it is checking if the actor has an item with the name of the itemName. If
-  the actor has an item with the name of the itemName, it is returning a warning that the actor does
-  not have an item with the name of the itemName. */
-  if (speaker.token) actor = game.actors.tokens[speaker.token];
-  if (!actor) actor = game.actors.get(speaker.actor);
-  const item = actor ? actor.items.find((i) => i.uuid === itemName) : null;
-  // if (!item)
-  //   return ui.notifications.warn(
-  //     `Your controlled Actor does not have an item named ${itemName}`
-  //   );
+  speaker has an actor, it is checking if the actor has an item with the name of the itemUuid. If
+  the actor has an item with the name of the itemUuid, it is returning a warning that the actor does
+  not have an item with the name of the itemUuid. */
 
+  const actorId = itemUuid.split(".")[1];
+  // const itemId = itemUuid.split(".")[3];
 
+  // if (speaker.token) actor = game.actors.tokens[speaker.token];
+  const actor = game.actors.get(actorId);
+  const item = actor ? actor.items.find((i) => i.uuid === itemUuid) : null;
+  
   const dbAttr = actor.system.charattribut;
   const stat = DSMechanics.getStat(item.system.useWith, dbAttr);
-
 
   const inputData = {
     object: actor,
@@ -303,12 +303,18 @@ function rollItemMacro(itemName) {
     modroll: false,
     type: item.type,
     item: item,
-    roleData: {attribute: stat.attrName, skill: stat.fertName},
+    roleData: { attribute: stat.attrName, skill: stat.fertName },
     removehighest: false,
     system: actor.system,
   };
 
   DSMechanics.modRolls(inputData, {});
 }
+
+// Hooks.on("targetToken", (user, token) => {
+//   let targetData = canvas.tokens.placeables.filter(token => token.isTargeted)
+//   let tagetActorData = targetData.map(target => target.actor)
+//   console.log(tagetActorData);
+// });
 
 //Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html)); //Wird gebraucht um in eine interaktive Nachricht in der Sidebar zu erzeugen

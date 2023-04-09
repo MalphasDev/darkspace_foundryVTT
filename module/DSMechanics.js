@@ -1,3 +1,4 @@
+import { DSCombatTracker } from "./DSCombatTracker.js";
 /**
  * It takes an inputData object, rolls dice, and returns a chat message.
  * @param inputData - {
@@ -121,7 +122,7 @@ export async function rollDice(inputData) {
       .filter((skill) => {
         return skill[1].skill === roleData.skill;
       });
-      
+
     handicapList.forEach((handicap) => {
       handicaps.push(handicap[1]);
     });
@@ -156,7 +157,7 @@ export async function rollDice(inputData) {
       });
     });
   }
-  
+
   let cardData = {
     ...roleData,
     ...diceResult,
@@ -170,20 +171,20 @@ export async function rollDice(inputData) {
     total_AB: total_AB,
     total_BC: total_BC,
     total_AC: total_AC,
-  }
-  
+  };
+
   if (inputData.actorData != undefined) {
     cardData = {
       ...cardData,
-      actor: inputData.actorData
-    }
-  };
+      actor: inputData.actorData,
+    };
+  }
   if (inputData.actorData === undefined) {
     cardData = {
       ...cardData,
       // Actorname
-    }
-  };
+    };
+  }
 
   if (inputData.item != undefined) {
     cardData = {
@@ -197,16 +198,15 @@ export async function rollDice(inputData) {
       ...inputData.item,
     };
   }
-
   let outputData = {
     messageData: messageData,
     cardData: cardData,
+    actorId: inputData.actorId,
   };
   return outputData;
 }
 
 export async function modRolls(inputData) {
-  
   let attrModLocal;
   let fertModLocal;
 
@@ -274,47 +274,76 @@ export async function modRolls(inputData) {
  * @returns an object with the following properties:
  */
 export async function _resolveDice(inputData) {
-  
+  const combatTracker = new DSCombatTracker();
+
   let outputData = this.rollDice(inputData);
-  
-  let actor = {};
+  let actorId;
   let messageData = {};
   let cardData = {};
   await outputData.then((a) => {
     messageData = a.messageData;
     cardData = a.cardData;
-    actor = a.actor;
+    actorId = a.actorId;
   });
-  const currentActor = game.actors.get(messageData.speaker.actor)
-  const stats = currentActor.system.charattribut
+  if (actorId === "" || actorId === undefined)
+    actorId = messageData.speaker.actor;
+  const currentActor = game.actors.get(actorId);
+  const stats = currentActor.system.charattribut;
   if (inputData.item != undefined) {
     cardData = {
       ...cardData,
-      actor,
+      currentActor,
       basedmg: cardData.system.dmg,
       bonusdmg: cardData.total_BC,
       critbonus: parseInt(inputData.dynskill),
-      dmg: cardData.system.dmg + cardData.total_BC,
-      critdmg: cardData.system.dmg * 2 + cardData.total_BC + parseInt(inputData.dynskill)
+      dmg: cardData.crit
+        ? cardData.system.dmg * 2 +
+          cardData.total_BC +
+          parseInt(inputData.dynskill)
+        : cardData.system.dmg + cardData.total_BC,
     };
   } else if (inputData.eventData.dataset.ua) {
     cardData = {
       ...cardData,
-      actor,
-      basedmg: stats.Geschick.attribut*2+stats.Konstitution.attribut,
+      currentActor,
+      basedmg: stats.Geschick.attribut * 2 + stats.Konstitution.attribut,
       bonusdmg: cardData.total_BC,
       critbonus: parseInt(inputData.dynskill),
-      dmg: stats.Geschick.attribut*2+stats.Konstitution.attribut + cardData.total_BC,
-      critdmg: stats.Geschick.attribut*2+stats.Konstitution.attribut * 2 + cardData.total_BC + parseInt(inputData.dynskill),
+      dmg:
+        stats.Geschick.attribut * 2 +
+        stats.Konstitution.attribut +
+        cardData.total_BC,
+      critdmg:
+        stats.Geschick.attribut * 2 +
+        stats.Konstitution.attribut * 2 +
+        cardData.total_BC +
+        parseInt(inputData.dynskill),
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",
-      type: "Waffenlos"
+      type: "Waffenlos",
     };
   } else {
-    cardData = { ...cardData, actor };
+    cardData = { ...cardData, currentActor };
   }
-  console.log(cardData);
-  
+  const targetTokens = canvas.tokens.placeables
+    .filter((token) => token.isTargeted)
+    .map((target) => target.actor);
+
+  if (targetTokens.length > 0) {
+    const targetData = targetTokens.map((token) => {
+      return token;
+    });
+    cardData = {
+      ...cardData,
+      targetData: targetData,
+    };
+  }
+
+  combatTracker.itemAe(
+    inputData.actorId,
+    cardData.system ? cardData.system.aeCost : 0
+  );
+
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
     Custom: "systems/darkspace/templates/dice/chatCustom.html",
@@ -331,7 +360,7 @@ export async function _resolveDice(inputData) {
     chatTempPath[inputData.type],
     cardData
   );
- 
+
   AudioHelper.play({ src: CONFIG.sounds.dice });
   return ChatMessage.create(messageData);
 }
@@ -345,7 +374,7 @@ export function getStat(fert, dbAttr) {
         fert: value.skill[fert],
         attrName: key,
         fertName: fert,
-        attrmax: value.attrmax
+        attrmax: value.attrmax,
       };
     }
   });

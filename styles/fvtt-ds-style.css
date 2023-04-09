@@ -506,6 +506,9 @@ label > *:hover {
 li .inline_block {
   display: inline-block;
 }
+.uiicon {
+  width: 50px;
+}
 .iconbox,
 .pill {
   border: 1px solid;

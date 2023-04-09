@@ -103,18 +103,6 @@ export class DSCombatTracker extends CombatTracker {
       }
     }
     this._getNewField();
-
-    // combat.turns.forEach((combatant) => {
-    //   if (combatant.getFlag("darkspace", "target") === undefined) {
-    //     combatant.setFlag("darkspace", "target", false);
-    //   }
-    //   combatant.setFlag(
-    //     "darkspace",
-    //     "target",
-    //     combatant.initiative <= parseInt(newField)
-    //   ); // target Flagge wird auf true gesetzt
-    // });
-
     this.render();
   }
 
@@ -170,7 +158,7 @@ export class DSCombatTracker extends CombatTracker {
     const combat = this.viewed;
     var currentTargetId = this.getCurrentTargetId();
 
-    let hitTarget = event.currentTarget.dataset.combatantId;
+    const hitTarget = event.currentTarget.dataset.combatantId;
     let hitTargetIni = combat.combatants.filter((i) => {
       return hitTarget === i._id;
     })[0].initiative;
@@ -178,5 +166,21 @@ export class DSCombatTracker extends CombatTracker {
     this._increaseAE(event, { aeCost: 1, hitTarget: hitTarget });
 
     // combat.setInitiative(hitTarget, hitTargetIni + 1);
+  }
+  async itemAe(actorId, aeCost) {
+    const combat = this.viewed;
+    if (combat != null) {
+      const rollingActor = this.viewed.turns.filter(
+        (actor) => actor.actorId === actorId
+      )[0];
+
+      if (rollingActor.id === combat.current.combatantId) {
+        // this._increaseAE({}, { aeCost: aeCost, hitTarget: rollingActor.id });
+        combat.sendAE += parseInt(aeCost);
+        combat.targetCombatant = rollingActor.id;
+        this._getNewField();
+        this.render(true);
+      }
+    }
   }
 }

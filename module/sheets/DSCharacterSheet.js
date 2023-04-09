@@ -113,8 +113,6 @@ export class DSCharacterSheet extends ActorSheet {
       ".itemDelete",
       ".rollSkill",
       ".rollItem",
-      ".ressPoints",
-      ".ressReset",
       ".inlineItemEdit",
       ".addProp",
       ".addPropTemplate",
@@ -142,18 +140,16 @@ export class DSCharacterSheet extends ActorSheet {
       );
     });
 
-
     /* A drag and drop function. */
     let handler = (ev) => this._onDragStart(ev);
-      // Find all items on the character sheet.
-      html.find("li.item").each((i, li) => {
-        // Ignore for the header row.
-        if (li.classList.contains("item-header")) return;
-        // Add draggable attribute and dragstart listener.
-        li.setAttribute("draggable", true);
-        li.addEventListener("dragstart", handler, false);
-
-      });
+    // Find all items on the character sheet.
+    html.find("li.item").each((i, li) => {
+      // Ignore for the header row.
+      if (li.classList.contains("item-header")) return;
+      // Add draggable attribute and dragstart listener.
+      li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", handler, false);
+    });
   }
 
   createInputData(event, option) {
@@ -200,7 +196,6 @@ export class DSCharacterSheet extends ActorSheet {
 
     return inputData;
   }
-
 
   async _rollSkill(event, option) {
     event.preventDefault();
@@ -282,28 +277,20 @@ export class DSCharacterSheet extends ActorSheet {
   }
 
   async _modRess(event) {
-    let ressAttr = event.currentTarget.dataset.attr;
-    let attrKey = "system.charattribut." + ressAttr + ".ress.value";
+    const ress = event.currentTarget.dataset.ress;
+    const targetClass = event.currentTarget.className;
+    const attrKey = "system.ressources." + ress;
 
-    let ressMod = 0;
-    if (event.currentTarget.className.includes("decRess")) {
-      ressMod = -1;
-    }
-    if (event.currentTarget.className.includes("incRess")) {
-      ressMod = 1;
-    }
-
-    let newInc = 0;
-    if (ressAttr != "bots") {
-      newInc = this.actor.system.charattribut[ressAttr].ress.value + ressMod;
-    } else {
-      attrKey = "system.bots";
-      newInc = this.actor.system.bots + ressMod;
-    }
-
+    
+    let ressMod = targetClass.includes("decRess")
+    ? -1
+    : targetClass.includes("incRess")
+    ? 1
+    : 0;
+    
     this.actor.update({
       id: this.actor.id,
-      [attrKey]: newInc,
+      [attrKey]: this.actor.system.ressources[ress] + ressMod,
     });
   }
 
@@ -322,58 +309,7 @@ export class DSCharacterSheet extends ActorSheet {
     setProperty(item, target, targetValue);
     this.actor.updateEmbeddedDocuments("Item", [item]);
   }
-
-  _ressPoints(event) {
-    const system = this.object.system;
-    const element = event.currentTarget;
-
-    let currentIndex = parseInt(element.dataset.index);
-    let currentActive = parseInt(element.dataset.active);
-    let currentAttr = element.dataset.thisattr;
-    let currentAttrData = system.charattribut[currentAttr];
-    let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
-
-    if (currentActive === 1) {
-      this.actor.update({
-        id: this.actor.id,
-        [ValueAdress]: currentIndex,
-      });
-    } else {
-      this.actor.update({
-        id: this.actor.id,
-        [ValueAdress]: currentAttrData.ress.value + currentIndex,
-      });
-    }
-  }
-  _ressReset(event) {
-    const system = this.object.system;
-    const element = event.currentTarget;
-
-    const currentAttr = element.dataset.thisattr;
-
-    const currentAttrData = system.charattribut[currentAttr];
-    let ValueAdress = "system.charattribut." + currentAttr + ".ress.value";
-    let ressValue = 0;
-    let currentRess = 0;
-    if (currentAttr != "bots") {
-      ressValue = currentAttrData.attribut;
-      currentRess = currentAttrData.ress.value;
-    } else {
-      ValueAdress = "system.bots";
-      ressValue = system.mk * system.size;
-      currentRess = system.bots;
-    }
-
-    if (currentRess < ressValue) {
-      this.actor.update({
-        [ValueAdress]: ressValue,
-      });
-    } else {
-      ui.notifications.warn(
-        "Punktevorrat nicht kleiner als Attributswert. Punkte werden nicht gesenkt."
-      );
-    }
-  }
+  
   _inlineItemEdit(event) {
     const element = event.currentTarget;
     const itemList = this.object.items;

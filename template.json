@@ -21,15 +21,6 @@
           "dead": false
         }
       },
-      "techConditions": {
-        "techConditions": {
-          "scratched": false,
-          "unstable": false,
-          "offline": false,
-          "defect": false,
-          "destroyed": false
-        }
-      },
       "cortexConditions": {
         "cortexConditions": {
           "overflow": false,
@@ -122,10 +113,6 @@
           "attrmaxmod": 0,
           "skill": {
             "Glück": 0
-          },
-          "ress": {
-            "name": "Vorteile",
-            "value": 0
           }
         },
         "Konzentration": {
@@ -133,10 +120,6 @@
           "attrmaxmod": 0,
           "skill": {
             "Willenskraft": 0
-          },
-          "ress": {
-            "name": "Disziplinen",
-            "value": 0
           }
         },
         "Kybernese": {
@@ -144,10 +127,6 @@
           "attrmaxmod": 0,
           "skill": {
             "Synthese": 0
-          },
-          "ress": {
-            "name": "Protokolle",
-            "value": 0
           }
         },
         "Netzwerk": {
@@ -155,10 +134,6 @@
           "attrmaxmod": 0,
           "skill": {
             "Kontakte": 0
-          },
-          "ress": {
-            "name": "Gefallen",
-            "value": 0
           }
         },
         "Ressourcen": {
@@ -166,12 +141,15 @@
           "attrmaxmod": 0,
           "skill": {
             "Finanzen": 0
-          },
-          "ress": {
-            "name": "Materialien",
-            "value": 0
           }
         }
+      },
+      "ressources": {
+        "Vorteile": 0,
+        "Disziplinen": 0,
+        "Protokolle": 0,
+        "Gefallen": 0,
+        "Materialien": 0
       }
     },
 
@@ -204,10 +182,6 @@
           "attrmaxmod": 0,
           "skill": {
             "Willenskraft": 0
-          },
-          "ress": {
-            "name": "Disziplinen",
-            "value": 0
           }
         },
         "Kybernese": {
@@ -215,29 +189,31 @@
           "attrmaxmod": 0,
           "skill": {
             "Synthese": 0
-          },
-          "ress": {
-            "name": "Protokolle",
-            "value": 0
           }
         }
+      },
+      "ressources": {
+        "Disziplinen": 0,
+        "Protokolle": 0
       }
     },
     "DrohneFahrzeug": {
       "mk": 1,
       "size": 1,
 
-      "templates": ["commonStats", "techConditions", "cortexConditions"],
+      "templates": ["commonStats", "cortexConditions"],
+      "bodyConditions": {
+        "scratched": false,
+        "unstable": false,
+        "offline": false,
+        "defect": false,
+        "destroyed": false
+      },
       "charattribut": {
         "Leistung": {
           "attribut": 1,
           "attrmaxmod": 0,
           "skill": { "Beschleunigung": 0, "Servos": 0 }
-        },
-        "Energie": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Tarnen": 0, "Verteilung": 0 }
         },
         "Kybernese": {
           "attribut": 1,
@@ -245,10 +221,6 @@
           "skill": {
             "Synthese": 0,
             "Cortex": 0
-          },
-          "ress": {
-            "name": "Protokolle",
-            "value": 0
           }
         },
         "Sensoren": {
@@ -261,6 +233,12 @@
           "attrmaxmod": 0,
           "skill": { "Schusswaffen": 0, "Nahkampfwaffen": 0 }
         }
+      },
+        
+      "ressources": {
+        "Bots": 0,
+        "Energie": 0,
+        "Protokolle": 0
       }
     },
     "KI": {
@@ -297,9 +275,6 @@
             "Kampftechnik": 0,
             "Schusswaffen": 0,
             "Willenskraft": 0
-          },"ress": {
-            "name": "Disziplinen",
-            "value": 0
           }
         },
         "Kybernese": {
@@ -310,9 +285,6 @@
             "Nahkampfwaffen": 0,
             "Unterstützungswaffen": 0,
             "Synthese": 0
-          },"ress": {
-            "name": "Protokolle",
-            "value": 0
           }
         },
         "Intelligenz": {
@@ -340,10 +312,6 @@
           "attrmaxmod": 0,
           "skill": {
             "Glück": 0
-          },
-          "ress": {
-            "name": "Vorteile",
-            "value": 0
           }
         },
         "Netzwerk": {
@@ -351,10 +319,6 @@
           "attrmaxmod": 0,
           "skill": {
             "Kontakte": 0
-          },
-          "ress": {
-            "name": "Gefallen",
-            "value": 0
           }
         },
         "Ressourcen": {
@@ -362,13 +326,16 @@
           "attrmaxmod": 0,
           "skill": {
             "Finanzen": 0
-          },
-          "ress": {
-            "name": "Materialien",
-            "value": 0
           }
         }
         
+      },
+      "ressources": {
+        "Vorteile": 0,
+        "Disziplinen": 0,
+        "Protokolle": 0,
+        "Gefallen": 0,
+        "Materialien": 0
       },
       "isCyborg": false,
       "cyborgStats": {
@@ -376,11 +343,6 @@
           "attribut": 1,
           "attrmaxmod": 0,
           "skill": { "Beschleunigung": 0, "Servos": 0 }
-        },
-        "Energie": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Tarnen": 0, "Verteilung": 0 }
         }
       }
     }

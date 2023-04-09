@@ -15,16 +15,7 @@
     <span class="tooltiptext top">{{localize "darkspace.Modulklasse"}}</span>
   </span>
 </div>
-{{#ifCond actor.type "!=" "KI"}}
-<div class="text_c tooltip">
-  <span><span>
-      <i class="fa-solid fa-cube"></i>
-      <input type="number" disabled value="{{system.structure}}" />
-    </span>
-    <span class="tooltiptext top">{{localize "darkspace.Struktur"}}</span>
-  </span>
-</div>
-{{/ifCond}}
+
 {{#ifCond actor.type "===" "KI"}}
 <input class="hidden" id="isCyborgBtn{{actor.id}}" type="checkbox" name="system.isCyborg" value="system.isCyborg"
   {{checked system.isCyborg}}>
