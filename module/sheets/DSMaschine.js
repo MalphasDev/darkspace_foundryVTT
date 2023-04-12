@@ -2,12 +2,12 @@ import { DSCharacterSheet } from "./DSCharacterSheet.js";
 /**
  * @noInheritDoc
  */
-export class DSDrohneFahrzeug extends DSCharacterSheet {
+export class DSMaschine extends DSCharacterSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       template:
-        "systems/darkspace/templates/sheets/actors/DrohneFahrzeug-sheet.html",
-      classes: ["darkspace", "sheet", "DrohneFahrzeug"],
+        "systems/darkspace/templates/sheets/actors/Maschine-sheet.html",
+      classes: ["darkspace", "sheet", "Maschine"],
       width: 800,
       height: 600,
       tabs: [

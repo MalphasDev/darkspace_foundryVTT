@@ -32,7 +32,7 @@ async function preloadHandlebarsTemplates() {
 
     //NPCs
     sheetsAddress + "actors/Nebencharakter-sheet.html",
-    sheetsAddress + "actors/DrohneFahrzeug-sheet.html",
+    sheetsAddress + "actors/Maschine-sheet.html",
 
     //Sub-Partials für Actors
     partialAddress + "actors/health.html",
@@ -292,14 +292,12 @@ function rollItemMacro(itemUuid) {
   const actor = game.actors.get(actorId);
   const item = actor ? actor.items.find((i) => i.uuid === itemUuid) : null;
   
-  const dbAttr = actor.system.charattribut;
+  const dbAttr = actor.system.stats;
   const stat = DSMechanics.getStat(item.system.useWith, dbAttr);
 
   const inputData = {
     object: actor,
     actorId: actor.id,
-    dynattr: stat.attr,
-    dynskill: stat.fert,
     modroll: false,
     type: item.type,
     item: item,

@@ -37,7 +37,7 @@ border-radius: 5px;"
     {{/each}} {{/ifCond}}
 
     <!--Fahrzeuge-->
-    {{#ifCond this.item.parent.type "===" "DrohneFahrzeug"}} {{#each
+    {{#ifCond this.item.parent.type "===" "Maschine"}} {{#each
     config.attrVehicle}}
     <option value="{{this}}" type="text">{{this}}</option>
     {{/each}} {{/ifCond}}

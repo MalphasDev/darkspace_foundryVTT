@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["Charakter", "Nebencharakter", "DrohneFahrzeug", "KI"],
+    "types": ["Charakter", "Nebencharakter", "Maschine", "KI","DrohneFahrzeug"],
     "templates": {
       "commonStats": {
         "initMod": 0,
@@ -47,7 +47,7 @@
         "Sonstiges": 0
       },
 
-      "charattribut": {
+      "stats": {
         "Aufmerksamkeit": {
           "attribut": 1,
           "attrmaxmod": 0,
@@ -156,7 +156,7 @@
     "Nebencharakter": {
       "templates": ["commonStats", "bodyConditions", "cortexConditions"],
       "competence": 1,
-      "charattribut": {
+      "stats": {
         "Aufmerksamkeit": {
           "attribut": 1,
           "attrmaxmod": 0,
@@ -197,7 +197,8 @@
         "Protokolle": 0
       }
     },
-    "DrohneFahrzeug": {
+    "DrohneFahrzeug": {},
+    "Maschine": {
       "mk": 1,
       "size": 1,
 
@@ -209,7 +210,7 @@
         "defect": false,
         "destroyed": false
       },
-      "charattribut": {
+      "stats": {
         "Leistung": {
           "attribut": 1,
           "attrmaxmod": 0,
@@ -246,7 +247,7 @@
       "size": 1,
 
       "templates": ["commonStats", "cortexConditions"],
-      "charattribut": {
+      "stats": {
         "Sensoren": {
           "attribut": 1,
           "attrmaxmod": 0,

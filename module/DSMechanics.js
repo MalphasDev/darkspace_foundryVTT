@@ -5,15 +5,14 @@ import { DSCombatTracker } from "./DSCombatTracker.js";
  * @returns An object with the following properties:
  */
 export async function rollDice(inputData) {
-  let dynattr = parseInt(inputData.dynattr);
-  let dynskill = parseInt(inputData.dynskill);
   let attrModLocal = parseInt(inputData.attrModLocal);
   let fertModLocal = parseInt(inputData.fertModLocal);
   let roleData = inputData.roleData;
   let removehighest = inputData.removehighest;
-  const system = inputData.system;
-  let item;
   let rollformular;
+  const actor = game.actors.get(inputData.actorId)
+  const system = actor?.system;
+
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
@@ -21,9 +20,18 @@ export async function rollDice(inputData) {
 
   attrModLocal++ ? attrModLocal-- : (attrModLocal = 0);
   fertModLocal++ ? fertModLocal-- : (fertModLocal = 0);
+  
+  let attr
+  let skill
 
-  var attr = dynattr + attrModLocal;
-  var skill = dynskill + fertModLocal;
+  if (inputData.type === "Custom") {
+    attr = inputData.attr
+    skill = inputData.skill
+  } else {
+    attr = system.stats[roleData.attribute].attribut
+    skill = system.stats[roleData.attribute].skill[roleData.skill]
+  }
+
 
   rollformular = attr + "d10x";
 
@@ -88,8 +96,8 @@ export async function rollDice(inputData) {
   let unEvalDice = sortedResult.splice(4, 100);
 
   let diceResult = {
-    attr: dynattr,
-    skillValue: dynskill,
+    attr: attr,
+    skillValue: skill,
     attrModLocal: attrModLocal,
     fertModLocal: fertModLocal,
     evalDiceA: evalDiceA,
@@ -288,7 +296,8 @@ export async function _resolveDice(inputData) {
   if (actorId === "" || actorId === undefined)
     actorId = messageData.speaker.actor;
   const currentActor = game.actors.get(actorId);
-  const stats = currentActor.system.charattribut;
+  const stats = currentActor?.system.stats;
+  
   if (inputData.item != undefined) {
     cardData = {
       ...cardData,
@@ -302,28 +311,25 @@ export async function _resolveDice(inputData) {
           parseInt(inputData.dynskill)
         : cardData.system.dmg + cardData.total_BC,
     };
-  } else if (inputData.eventData.dataset.ua) {
+  }
+
+  if (inputData.eventData.dataset.ua) {
     cardData = {
       ...cardData,
       currentActor,
-      basedmg: stats.Geschick.attribut * 2 + stats.Konstitution.attribut,
+      basedmg: stats[inputData.roleData.attribute].attribut,
       bonusdmg: cardData.total_BC,
       critbonus: parseInt(inputData.dynskill),
-      dmg:
-        stats.Geschick.attribut * 2 +
-        stats.Konstitution.attribut +
-        cardData.total_BC,
-      critdmg:
-        stats.Geschick.attribut * 2 +
-        stats.Konstitution.attribut * 2 +
+      dmg: cardData.crit
+      ? stats[inputData.roleData.attribute].attribut * 2 +
         cardData.total_BC +
-        parseInt(inputData.dynskill),
+        parseInt(inputData.dynskill)
+      : stats[inputData.roleData.attribute].attribut + cardData.total_BC,
+
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",
       type: "Waffenlos",
     };
-  } else {
-    cardData = { ...cardData, currentActor };
   }
   const targetTokens = canvas.tokens.placeables
     .filter((token) => token.isTargeted)

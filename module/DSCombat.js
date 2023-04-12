@@ -76,7 +76,7 @@ export class DSCombat extends Combat {
         var currentCombatant = actorData.get(id);
         const ini = DSMechanics.getStat(
           "Fokus",
-          currentCombatant.actor.system.charattribut
+          currentCombatant.actor.system.stats
         );
         let inputData = {
           eventData: {},
@@ -84,8 +84,6 @@ export class DSCombat extends Combat {
           actorData: actorData,
           removehighest: false,
           object: {},
-          dynattr: ini.attr,
-          dynskill: ini.fert,
           roleData: { attribute: ini.attrName, skill: ini.fertName },
         };
 

@@ -11,18 +11,20 @@ export class DSChatlog extends ChatLog {
 
   async customRoll(event) {
     event.preventDefault();
+    const element = event.currentTarget
 
     const dicePoolInput = document.getElementsByClassName("customDicePool");
     const diceBonusInput = document.getElementsByClassName("customDiceBonus");
     const dicePool = parseInt(dicePoolInput[0].value);
     const diceBonus = parseInt(diceBonusInput[0].value);
     const inputData = {
-      dynattr: dicePool,
-      dynskill: diceBonus,
+      attr: dicePool,
+      skill: diceBonus,
       attrModLocal: 0,
       fertModLocal: 0,
+      eventData: element,
       roleData: { attribute: "", skill: "" },
-      removehighest: event.currentTarget.dataset.disadv === "true",
+      removehighest: element.dataset.disadv === "true",
       type: "Custom",
     };
     DSMechanics._resolveDice(inputData);

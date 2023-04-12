@@ -3,13 +3,13 @@
     <!-- Health -->
 
     <ul class="flex start">
-      {{#ifCond this.actor.type "!=" "DrohneFahrzeug"}} {{#ifCond
+      {{#ifCond this.actor.type "!=" "Maschine"}} {{#ifCond
       this.actor.type "!=" "KI"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_body.svg" alt="">
       </li>
       {{/ifCond}} {{/ifCond}}
-      {{#ifCond this.actor.type "===" "DrohneFahrzeug"}}
+      {{#ifCond this.actor.type "===" "Maschine"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_tech.svg" alt="">
       </li>
@@ -36,7 +36,7 @@
             <div style="height: 15px;">
               {{hit}}
             </div>
-            {{#ifCond ../../this.actor.type "!=" "DrohneFahrzeug"}}
+            {{#ifCond ../../this.actor.type "!=" "Maschine"}}
             <div style="height: 15px;" class="anmerkung">({{hitBase}})</div>
             {{/ifCond}}
             {{/with}}
@@ -91,28 +91,28 @@
         {{#ifCond actor.type "===" "Charakter"}}
         <!-- Aufrappeln FIT -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
-        skillname="Fitness" skillAttr=system.charattribut.Konstitution.attribut
-        skillVal=system.charattribut.Konstitution.skill.Fitness}} {{/ifCond}}
+        skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
+        skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
         {{#ifCond actor.type "===" "Nebencharakter"}}
         <!-- Aufrappeln KRA -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
-        skillname="Kraft" skillAttr=system.charattribut.Körper.attribut
-        skillVal=system.charattribut.Körper.skill.Kraft}} {{/ifCond}} {{#ifCond
-        actor.type "===" "DrohneFahrzeug"}}
+        skillname="Kraft" skillAttr=system.stats.Körper.attribut
+        skillVal=system.stats.Körper.skill.Kraft}} {{/ifCond}} {{#ifCond
+        actor.type "===" "Maschine"}}
         <!-- Aufrappeln Größe -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Größe" skillAttr=system.size skillVal=system.size}}
-        {{/ifCond}} {{#ifCond actor.type "!=" "DrohneFahrzeug"}}
+        {{/ifCond}} {{#ifCond actor.type "!=" "Maschine"}}
         <!-- Aufrappeln WIL -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Willenskraft"
-        skillAttr=system.charattribut.Konzentration.attribut
-        skillVal=system.charattribut.Konzentration.skill.Willenskraft}}
+        skillAttr=system.stats.Konzentration.attribut
+        skillVal=system.stats.Konzentration.skill.Willenskraft}}
         {{/ifCond}}
         <!-- Aufrappeln SYN -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
-        skillname="Synthese" skillAttr=system.charattribut.Kybernese.attribut
-        skillVal=system.charattribut.Kybernese.skill.Synthese}}
+        skillname="Synthese" skillAttr=system.stats.Kybernese.attribut
+        skillVal=system.stats.Kybernese.skill.Synthese}}
       </div>
     </div>
     <!-- Schutz -->
@@ -123,39 +123,39 @@
 
       <!-- Motorik Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Motorik" skillAttr=system.charattribut.Geschick.attribut
-      skillVal=system.charattribut.Geschick.skill.Motorik}}
+      skillname="Motorik" skillAttr=system.stats.Geschick.attribut
+      skillVal=system.stats.Geschick.skill.Motorik}}
 
       <!-- Fitness Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Fitness" skillAttr=system.charattribut.Konstitution.attribut
-      skillVal=system.charattribut.Konstitution.skill.Fitness}} {{/ifCond}}
+      skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
+      skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
       {{#ifCond actor.type "===" "Nebencharakter"}}
 
       <!-- Kraft Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Kraft" skillAttr=system.charattribut.Körper.attribut
-      skillVal=system.charattribut.Körper.skill.Kraft}}
+      skillname="Kraft" skillAttr=system.stats.Körper.attribut
+      skillVal=system.stats.Körper.skill.Kraft}}
 
       <!-- Beweglichkeit Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Beweglichkeit" skillAttr=system.charattribut.Körper.attribut
-      skillVal=system.charattribut.Körper.skill.Beweglichkeit}} {{/ifCond}}
+      skillname="Beweglichkeit" skillAttr=system.stats.Körper.attribut
+      skillVal=system.stats.Körper.skill.Beweglichkeit}} {{/ifCond}}
 
       <!-- Beweglichkeit Größe -->
-      {{#ifCond actor.type "===" "DrohneFahrzeug"}}
+      {{#ifCond actor.type "===" "Maschine"}}
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Größe" skillAttr=system.mk skillVal=system.size}}
 
       <!-- Beweglichkeit Beschleunigung -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Beschleunigung" skillAttr=system.charattribut.Leistung.attribut
-      skillVal=system.charattribut.Leistung.skill.Beschleunigung}} {{/ifCond}}
+      skillname="Beschleunigung" skillAttr=system.stats.Leistung.attribut
+      skillVal=system.stats.Leistung.skill.Beschleunigung}} {{/ifCond}}
 
       <!-- Synthese Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Synthese" skillAttr=system.charattribut.Kybernese.attribut
-      skillVal=system.charattribut.Kybernese.skill.Synthese}}
+      skillname="Synthese" skillAttr=system.stats.Kybernese.attribut
+      skillVal=system.stats.Kybernese.skill.Synthese}}
     </div>
   </div>
 </div>

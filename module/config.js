@@ -44,51 +44,51 @@ const tempTree = fetch("systems/darkspace/template.json")
 
 const accessTempTree = () => {
   tempTree.then((a) => {
-    let attrList = Object.keys(a.Actor.Charakter.charattribut);
+    let attrList = Object.keys(a.Actor.Charakter.stats);
     let skillList = [];
     darkspace.attrList = attrList;
 
     attrList.forEach((attr) => {
       skillList = skillList.concat(
-        Object.keys(a.Actor.Charakter.charattribut[attr].skill)
+        Object.keys(a.Actor.Charakter.stats[attr].skill)
       );
     });
     darkspace.skillList = skillList.sort();
   });
 
   tempTree.then((a) => {
-    let attrListNpc = Object.keys(a.Actor.Nebencharakter.charattribut);
+    let attrListNpc = Object.keys(a.Actor.Nebencharakter.stats);
     let skillListNpc = [];
     darkspace.attrNpc = attrListNpc;
 
     attrListNpc.forEach((attr) => {
       skillListNpc = skillListNpc.concat(
-        Object.keys(a.Actor.Nebencharakter.charattribut[attr].skill)
+        Object.keys(a.Actor.Nebencharakter.stats[attr].skill)
       );
     });
     darkspace.skillListNpc = skillListNpc.sort();
   });
 
   tempTree.then((a) => {
-    let attrListAi = Object.keys(a.Actor.KI.charattribut);
+    let attrListAi = Object.keys(a.Actor.KI.stats);
     let skillListAi = [];
     darkspace.attrAi = attrListAi;
 
     attrListAi.forEach((attr) => {
       skillListAi = skillListAi.concat(
-        Object.keys(a.Actor.KI.charattribut[attr].skill)
+        Object.keys(a.Actor.KI.stats[attr].skill)
       );
     });
     darkspace.skillListAi = skillListAi.sort();
   });
 
   tempTree.then((a) => {
-    let attrListVehicle = Object.keys(a.Actor.DrohneFahrzeug.charattribut);
+    let attrListVehicle = Object.keys(a.Actor.Maschine.stats);
     let skillListVehicle = [];
     darkspace.attrVehicle = attrListVehicle;
     attrListVehicle.forEach((attr) => {
       skillListVehicle = skillListVehicle.concat(
-        Object.keys(a.Actor.DrohneFahrzeug.charattribut[attr].skill)
+        Object.keys(a.Actor.Maschine.stats[attr].skill)
       );
     });
     darkspace.skillListVehicle = skillListVehicle.sort();

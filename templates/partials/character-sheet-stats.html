@@ -41,7 +41,7 @@
   <hr />
 
   <ul class="grid col2" style="gap: 1ch">
-    {{#each system.charattribut as |attrobj attrname|}}
+    {{#each system.stats as |attrobj attrname|}}
     <li class="attrfeld">
       <!--ATTRIBUTE für Charaktere-->
       
@@ -62,7 +62,7 @@
           <span class="attrvalue">
             <input
               class="value_box"
-              name="system.charattribut.{{attrname}}.attribut"
+              name="system.stats.{{attrname}}.attribut"
               value="{{attrobj.attribut}}"
               type="number"
               min="0"
@@ -126,7 +126,7 @@
           <div class="skillbox">
             <input
               class="value_box"
-              name="system.charattribut.{{attrname}}.skill.{{fertname}}"
+              name="system.stats.{{attrname}}.skill.{{fertname}}"
               value="{{this}}"
               type="number"
               min="0"

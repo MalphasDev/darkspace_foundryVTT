@@ -4,15 +4,23 @@ import * as DSHealth from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
   getStat(fert) {
+
+    // Kann rausgenommen werden, wenn alle Spiele einmal aktiv waren.
+    if (this.type === "DrohneFahrzeug") {
+      this.update({
+        type: "Maschine"
+      })
+    }
+
     let dbAttr;
 
     if (
-      this.system.charattribut === undefined ||
-      this.system.charattribut === null
+      this.system.stats === undefined ||
+      this.system.stats === null
     ) {
       dbAttr = {};
     } else {
-      dbAttr = this.system.charattribut;
+      dbAttr = this.system.stats;
     }
     return DSMechanics.getStat(fert, dbAttr);
   }
@@ -20,7 +28,7 @@ export class DSCharacter extends Actor {
   getObjLocation() {
     const actorData = this;
     const system = this.system;
-    const attr = system.charattribut;
+    const attr = system.stats;
     const ress = system.ressources;
     const config = CONFIG.darkspace;
 
@@ -54,7 +62,7 @@ export class DSCharacter extends Actor {
     for (let [k, v] of Object.entries(system.upkeep)) {
       system.upkeepTotal = v + system.upkeepTotal;
     }
-    system.wealth = system.charattribut.Ressourcen.attribut * 2;
+    system.wealth = system.stats.Ressourcen.attribut * 2;
     this.expCounter();
     system.competence = Math.floor(
       Math.sqrt(
@@ -108,7 +116,7 @@ export class DSCharacter extends Actor {
     // ++++++++++++++++++++++++++++++++++
 
     config.attrVehicle.forEach((attribute) => {
-      system.charattribut[attribute].attrmax = system.structure - props.length;
+      system.stats[attribute].attrmax = system.structure - props.length;
     });
 
     Object.keys(config.techConditionLabel).forEach((element, index) => {
@@ -135,16 +143,20 @@ export class DSCharacter extends Actor {
     });
 
     config.attrAi.forEach((attribute) => {
-      system.charattribut[attribute].attrmax = system.mk * 2 - props.length;
+      system.stats[attribute].attrmax = system.mk * 2 - props.length;
     });
 
     // if (prostetics != undefined) {
-    //   system.charattribut[prostetics.system.useAttr].attrmax =
+    //   system.stats[prostetics.system.useAttr].attrmax =
     //     prostetics.system.attrMaxBonus;
     // }
 
     return { actorData, system, attr, ress, config };
   }
+
+  // +++++++++++++++++++++++++++++++++++++++++++++
+  // +++++++++++ Allgemeine Actor Data +++++++++++
+  // +++++++++++++++++++++++++++++++++++++++++++++
 
   prepareData() {
     super.prepareData();
@@ -256,7 +268,7 @@ export class DSCharacter extends Actor {
         this.npcData(actorData, system, attr, ress, config);
         currentAttrList = config.attrNpc;
         break;
-      case "DrohneFahrzeug":
+      case "Maschine":
         this.droneData(actorData, system, attr, ress, config);
         currentAttrList = config.attrVehicle;
         break;
@@ -273,7 +285,9 @@ export class DSCharacter extends Actor {
     // ++++ Attribut Maxima ++++
     // +++++++++++++++++++++++++
 
-    currentAttrList.forEach((attribut) => {
+
+
+    if(currentAttrList != undefined) {currentAttrList.forEach((attribut) => {
       if (attr[attribut].attrmaxmod === undefined) {
         attr[attribut].attrmaxmod = 0;
       }
@@ -284,12 +298,12 @@ export class DSCharacter extends Actor {
 
       if (prostetics != undefined && prostetics.system.useAttr === attribut) {
         attr[attribut].attrmax =
-          attr[attribut].attrmaxmod + prostetics.system.attrMaxBonus;
-      } else {
+        attr[attribut].attrmaxmod + prostetics.system.attrMaxBonus;
+      } else {  
         attr[attribut].attrmax = 5 + attr[attribut].attrmaxmod;
       }
-    });
-
+    });}
+    
     // ++++++++++++++++++++++++
     // ++++ Cortex-Monitor ++++
     // ++++++++++++++++++++++++
@@ -331,7 +345,7 @@ export class DSCharacter extends Actor {
       attrList = config.attrNpc;
       skillList = config.skillListNpc;
       system.startEp = Math.pow(system.competence, 2) * 100;
-    } else if (actorData.type === "DrohneFahrzeug") {
+    } else if (actorData.type === "Maschine") {
       attrList = config.attrVehicle;
       skillList = config.skillListVehicle;
       system.startEp = (system.mk + system.size) * 100;

@@ -178,7 +178,7 @@ export class DSItemSheet extends ItemSheet {
         case "Nebencharakter":
           propData.skillListType = "skillListNpc";
           break;
-        case "DrohneFahrzeug":
+        case "Maschine":
           propData.skillListType = "skillListVehicle";
           break;
         case "KI":

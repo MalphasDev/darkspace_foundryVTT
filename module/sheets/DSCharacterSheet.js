@@ -159,11 +159,11 @@ export class DSCharacterSheet extends ActorSheet {
     const system = this.object.system;
     const dataset = element.dataset;
 
-    let attrVal = DSMechanics.getStat(dataset.skill, system.charattribut).attr;
-    let skillVal = DSMechanics.getStat(dataset.skill, system.charattribut).fert;
+    let attrVal = DSMechanics.getStat(dataset.skill, system.stats).attr;
+    let skillVal = DSMechanics.getStat(dataset.skill, system.stats).fert;
     let attrName = DSMechanics.getStat(
       dataset.skill,
-      system.charattribut
+      system.stats
     ).attrName;
 
     if (dataset.skill === "MK" || dataset.skill === "Modulklasse") {
@@ -180,9 +180,6 @@ export class DSCharacterSheet extends ActorSheet {
     const inputData = {
       eventData: element,
       actorId: this.actor.id,
-      dynattr: attrVal,
-      dynskill: skillVal,
-      system: this.object.system,
       rollname: dataset.rollname,
       roleData: {
         attribute: attrName,
@@ -227,13 +224,11 @@ export class DSCharacterSheet extends ActorSheet {
       usedSkill = item.system.useWith;
     }
 
-    const stat = DSMechanics.getStat(usedSkill, system.charattribut);
+    const stat = DSMechanics.getStat(usedSkill, system.stats);
 
     const preCreatedInput = this.createInputData(event, option);
     const inputData = {
       ...preCreatedInput,
-      dynattr: stat.attr,
-      dynskill: stat.fert,
       roleData: { attribute: stat.attrName, skill: stat.fertName },
       modroll: option.rightClick,
       item: item,
@@ -327,40 +322,34 @@ export class DSCharacterSheet extends ActorSheet {
   }
   async _addProp(event, template) {
     const system = this.object.system;
+
+    // Aktuelle Liste der Eigenschaften
     const props = system.props;
+    // Neue Slotbezeichnung
+    const slot = "slot" + Object.keys(props).length;
 
-    let propTemplate;
+    let newProp
 
-    if (!template) {
-      propTemplate = {
-        prop: "Neue Eigenschaft",
-        skill: "Automation",
-        desc: "Regeln",
-        handicap: false,
-      };
-    } else {if (template.handicap === "true") {
-      template.handicap = true;
-    }}
-
-    let newProp = {};
-    if (props === undefined || props === {} || props === null) {
+    // Checken, ob ein Eigenschaften-Template vorliegt.
+    if (template) {
+      if (template.handicap === "true") {
+        template.handicap = true;
+      }
+      
       newProp = {
-        slot0: propTemplate,
+        ...props,
+      [slot]: template,
       };
     } else {
-      
-      const nextKey = Object.keys(props).length;
-      const slot = "slot" + nextKey;
-      Object.values(props).forEach((slot, i) => {
-        newProp = {
-          ...newProp,
-          ["slot" + i]: slot,
-        };
-      });
       newProp = {
-        [slot]: template,
+        ...props,
+        [slot]: {prop: "Neue Eigenschaft",
+        skill: "Automation",
+        desc: "Regeln",
+        handicap: false,}
       };
     }
+
     await this.object.update({
       id: this.actor.id,
       "system.props": newProp,
@@ -378,7 +367,7 @@ export class DSCharacterSheet extends ActorSheet {
       case "Nebencharakter":
         propData.skillListType = "skillListNpc";
         break;
-      case "DrohneFahrzeug":
+      case "Maschine":
         propData.skillListType = "skillListVehicle";
         break;
       case "KI":
@@ -589,9 +578,9 @@ export class DSCharacterSheet extends ActorSheet {
     const element = event.currentTarget;
     const dataset = element.dataset;
     const actor = this.actor;
-    const attr = actor.system.charattribut;
+    const attr = actor.system.stats;
     const currentAttrModAdress =
-      "system.charattribut." + dataset.attr + ".attrmaxmod";
+      "system.stats." + dataset.attr + ".attrmaxmod";
     const currentAttrMod = attr[dataset.attr].attrmaxmod;
 
     new Dialog({
