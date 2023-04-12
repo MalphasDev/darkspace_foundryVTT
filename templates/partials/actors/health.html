@@ -5,13 +5,13 @@
     <ul class="flex start">
       {{#ifCond this.actor.type "!=" "DrohneFahrzeug"}} {{#ifCond
       this.actor.type "!=" "KI"}}
-      <li>
-        <i class="fa-solid fa-heartbeat health-icon"></i>
+      <li style="align-items: center; height: 55px">
+        <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_body.svg" alt="">
       </li>
       {{/ifCond}} {{/ifCond}}
       {{#ifCond this.actor.type "===" "DrohneFahrzeug"}}
-      <li>
-        <i class="fa-solid fa-cogs health-icon"></i>
+      <li style="align-items: center; height: 55px">
+        <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_tech.svg" alt="">
       </li>
       {{/ifCond}}
        {{#each system.bodyConditions as |value key|}}
@@ -50,11 +50,11 @@
     <!-- Cortex Health -->
 
     <ul class="flex start">
-      <li>
-        <i class="fa-solid fa-memory health-icon"></i>
+      <li style="align-items: center; height: 45px">
+        <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_hack.svg" alt="">
       </li>
       {{#each system.cortexConditions as |value key|}}
-      <li class="flex borderbox round">
+      <li class="flex borderbox round" style="height: 45px;">
         <input
           type="checkbox"
           class="noDisplay"

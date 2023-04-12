@@ -329,11 +329,8 @@ export class DSCharacterSheet extends ActorSheet {
     const system = this.object.system;
     const props = system.props;
 
-    if (template.handicap === "true") {
-      template.handicap = true;
-    }
+    let propTemplate;
 
-    let propTemplate = template;
     if (!template) {
       propTemplate = {
         prop: "Neue Eigenschaft",
@@ -341,7 +338,9 @@ export class DSCharacterSheet extends ActorSheet {
         desc: "Regeln",
         handicap: false,
       };
-    }
+    } else {if (template.handicap === "true") {
+      template.handicap = true;
+    }}
 
     let newProp = {};
     if (props === undefined || props === {} || props === null) {
@@ -349,6 +348,7 @@ export class DSCharacterSheet extends ActorSheet {
         slot0: propTemplate,
       };
     } else {
+      
       const nextKey = Object.keys(props).length;
       const slot = "slot" + nextKey;
       Object.values(props).forEach((slot, i) => {
@@ -358,10 +358,9 @@ export class DSCharacterSheet extends ActorSheet {
         };
       });
       newProp = {
-        [slot]: propTemplate,
+        [slot]: template,
       };
     }
-
     await this.object.update({
       id: this.actor.id,
       "system.props": newProp,
