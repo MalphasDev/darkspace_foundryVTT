@@ -28,11 +28,7 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
       {{#ifCond actor.type "===" "Charakter"}}
       <span class="anmerkung">{{localize "darkspace.Kompetenz"}}-{{localize "darkspace.Stufe"}}</span>
       <span>{{system.competence}}</span>{{/ifCond}}
-    </div>
-    <!-- Unterer Bereich -->
-    <div>
-      <div>
-        {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
+      {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
         "Nebencharakter"}}
         <div class="borderbox bigsize flex around">
           {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
@@ -45,11 +41,12 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
           </div>
         </div>
         {{/ifCond}}
-
-        <!-- Zustandsmonitor -->
-        <div>
-          {{> "systems/darkspace/templates/partials/actors/health.html"}}
-        </div>
+    </div>
+    <!-- Unterer Bereich -->
+    <div>
+      <!-- Zustandsmonitor -->
+      <div>
+        {{> "systems/darkspace/templates/partials/actors/health.html"}}
       </div>
 
       <div class="ressbox">

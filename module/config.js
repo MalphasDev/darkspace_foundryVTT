@@ -14,25 +14,40 @@ darkspace.props = {
 // Zustände erfassen
 
 darkspace.bodyConditionLabel = {
-  struck: "fa-solid fa-dizzy",
-  ko: "fa-solid fa-times-circle",
-  wounded: "fa-solid fa-band-aid",
-  crippled: "fa-solid fa-user-injured",
-  dead: "fa-solid fa-skull",
+  struck: { symbol: "fa-solid fa-dizzy", forbidden: [] },
+  ko: { symbol: "fa-solid fa-times-circle", forbidden: ["action"] },
+  wounded: {
+    symbol: "fa-solid fa-band-aid",
+    forbidden: ["action", "automatism"],
+  },
+  crippled: {
+    symbol: "fa-solid fa-user-injured",
+    forbidden: ["action", "automatism", "defense"],
+  },
+  dead: {
+    symbol: "fa-solid fa-skull",
+    forbidden: ["action", "automatism", "defense"],
+  },
 };
 darkspace.techConditionLabel = {
-  scratched: "fa-solid fa-exclamation-triangle",
-  unstable: "fa-solid fa-times-circle",
-  offline: "fa-solid fa-battery-quarter",
-  defect: "fa-solid fa-car-crash",
-  destroyed: "fa-solid fa-ban",
+  scratched: { symbol: "fa-solid fa-exclamation-triangle", forbidden: [] },
+  unstable: { symbol: "fa-solid fa-times-circle", forbidden: ["long"] },
+  offline: { symbol: "fa-solid fa-battery-quarter", forbidden: ["long","action"] },
+  defect: {
+    symbol: "fa-solid fa-car-crash",
+    forbidden: ["long","action", "automatism"],
+  },
+  destroyed: {
+    symbol: "fa-solid fa-ban",
+    forbidden: ["long","action", "automatism", "defense"],
+  },
 };
 darkspace.cortexConditionLabel = {
-  overflow: "fa-solid fa-stream",
-  crash: "fa-solid fa-bug",
-  dos: "fa-solid fa-terminal",
-  offline: "fa-solid fa-power-off",
-  rooted: "fa-solid fa-network-wired",
+  overflow: { symbol: "fa-solid fa-stream", hack: [] },
+  crash: { symbol: "fa-solid fa-bug", hack: [] },
+  dos: { symbol: "fa-solid fa-terminal", hack: [] },
+  offline: { symbol: "fa-solid fa-power-off", hack: [] },
+  rooted: { symbol: "fa-solid fa-network-wired", hack: [] },
 };
 
 // Stellt Liste mit Attributen und Fertigkeiten zusammen

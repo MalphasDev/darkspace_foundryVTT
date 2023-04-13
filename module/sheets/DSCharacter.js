@@ -4,20 +4,16 @@ import * as DSHealth from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
   getStat(fert) {
-
     // Kann rausgenommen werden, wenn alle Spiele einmal aktiv waren.
     if (this.type === "DrohneFahrzeug") {
       this.update({
-        type: "Maschine"
-      })
+        type: "Maschine",
+      });
     }
 
     let dbAttr;
 
-    if (
-      this.system.stats === undefined ||
-      this.system.stats === null
-    ) {
+    if (this.system.stats === undefined || this.system.stats === null) {
       dbAttr = {};
     } else {
       dbAttr = this.system.stats;
@@ -41,19 +37,19 @@ export class DSCharacter extends Actor {
     const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
 
     // \/ Daraus eine Funktion machen... am besten in DSHealth.. würde jedenfalls Sinn ergeben.
-    Object.keys(config.bodyConditionLabel).forEach((element,index) => {
+    Object.keys(config.bodyConditionLabel).forEach((element, index) => {
       let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.bodyConditionLabel[element];
       system.bodymon = {
         ...system.bodymon,
         [element]: {
           name: conditionName,
-          fontsymbol: symbolName,
+          fontsymbol: config.bodyConditionLabel[element].symbol,
           hit: DSHealth.getHealth(armorAttr, armorSkill)[index],
           hitBase: DSHealth.getHealth(
             armorAttr,
             this.getStat(system.armorId).fert
           )[index],
+          forbidden: config.bodyConditionLabel[element].forbidden,
         },
       };
     });
@@ -76,21 +72,20 @@ export class DSCharacter extends Actor {
     system.armorId = "Kraft";
     const armorAttr = this.getStat(system.armorId).attr; // Konsti
     const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
-    
+
     // \/ Daraus eine Funktion machen... am besten in DSHealth.. würde jedenfalls Sinn ergeben.
-    Object.keys(config.bodyConditionLabel).forEach((element,index) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.bodyConditionLabel[element];
+    Object.keys(config.bodyConditionLabel).forEach((element, index) => {
       system.bodymon = {
         ...system.bodymon,
         [element]: {
-          name: conditionName,
-          fontsymbol: symbolName,
+          name: game.i18n.translations.darkspace[element],
+          fontsymbol: config.bodyConditionLabel[element].symbol,
           hit: DSHealth.getHealth(armorAttr, armorSkill)[index],
           hitBase: DSHealth.getHealth(
             armorAttr,
             this.getStat(system.armorId).fert
           )[index],
+          forbidden: config.bodyConditionLabel[element].forbidden,
         },
       };
     });
@@ -120,16 +115,15 @@ export class DSCharacter extends Actor {
     });
 
     Object.keys(config.techConditionLabel).forEach((element, index) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.techConditionLabel[element];
       system.bodymon = {
         ...system.bodymon,
         [element]: {
-          name: conditionName,
-          fontsymbol: symbolName,
+          name: game.i18n.translations.darkspace[element],
+          fontsymbol: config.techConditionLabel[element].symbol,
           hit: DSHealth.getHealth(system.size, system.structure + system.mk)[
             index
           ],
+          forbidden: config.techConditionLabel[element].forbidden,
         },
       };
     });
@@ -285,25 +279,25 @@ export class DSCharacter extends Actor {
     // ++++ Attribut Maxima ++++
     // +++++++++++++++++++++++++
 
+    if (currentAttrList != undefined) {
+      currentAttrList.forEach((attribut) => {
+        if (attr[attribut].attrmaxmod === undefined) {
+          attr[attribut].attrmaxmod = 0;
+        }
 
+        const prostetics = items.artList.filter((a) => {
+          return a.system.prosthetic === true;
+        })[0];
 
-    if(currentAttrList != undefined) {currentAttrList.forEach((attribut) => {
-      if (attr[attribut].attrmaxmod === undefined) {
-        attr[attribut].attrmaxmod = 0;
-      }
+        if (prostetics != undefined && prostetics.system.useAttr === attribut) {
+          attr[attribut].attrmax =
+            attr[attribut].attrmaxmod + prostetics.system.attrMaxBonus;
+        } else {
+          attr[attribut].attrmax = 5 + attr[attribut].attrmaxmod;
+        }
+      });
+    }
 
-      const prostetics = items.artList.filter((a) => {
-        return a.system.prosthetic === true;
-      })[0];
-
-      if (prostetics != undefined && prostetics.system.useAttr === attribut) {
-        attr[attribut].attrmax =
-        attr[attribut].attrmaxmod + prostetics.system.attrMaxBonus;
-      } else {  
-        attr[attribut].attrmax = 5 + attr[attribut].attrmaxmod;
-      }
-    });}
-    
     // ++++++++++++++++++++++++
     // ++++ Cortex-Monitor ++++
     // ++++++++++++++++++++++++
@@ -312,18 +306,29 @@ export class DSCharacter extends Actor {
     const cortexSkill =
       system.cortexArmorBonus + this.getStat(system.armorCortex).fert; // Synthese
 
-    Object.keys(config.cortexConditionLabel).forEach((element,index) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.cortexConditionLabel[element];
+    Object.keys(config.cortexConditionLabel).forEach((element, index) => {
       system.cortexmon = {
         ...system.cortexmon,
         [element]: {
-          name: conditionName,
-          fontsymbol: symbolName,
+          name: game.i18n.translations.darkspace[element],
+          fontsymbol: config.cortexConditionLabel[element].symbol,
           hit: DSHealth.getHealth(cortexAttr, cortexSkill)[index],
+          hack: config.cortexConditionLabel[element].hack,
         },
       };
     });
+
+    // ++++++++++++++++++++++++++++++
+    // ++++ Verbotene Handlungen ++++
+    // ++++++++++++++++++++++++++++++
+
+    system.forbiddenActions = Object.entries(system.bodyConditions)
+      .filter(([condition, isActive]) => isActive)
+      .flatMap(([condition, isActive]) => system.bodymon[condition].forbidden)
+      .reduce(
+        (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
+        []
+      );
 
     this.expCounter();
   }

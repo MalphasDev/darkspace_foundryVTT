@@ -1,6 +1,13 @@
 <div>
+  <ul class="flex healthsymbols">
+    {{#each system.forbiddenActions}}
+    <li><img width="32px" src="systems/darkspace/icons/ui/f_{{this}}.svg" alt="{{this}}"></li>
+  {{/each}}
+  </ul>
   <div class="health-monitor">
     <!-- Health -->
+
+    
 
     <ul class="flex start">
       {{#ifCond this.actor.type "!=" "Maschine"}} {{#ifCond
