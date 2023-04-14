@@ -1,5 +1,5 @@
 import * as DSHealth from "../DSHealth.js";
-import {getStat} from "../DSMechanics.js"
+import { getStat } from "../DSMechanics.js";
 
 export class DSItem extends Item {
   getObjLocation() {
@@ -37,18 +37,21 @@ export class DSItem extends Item {
   // medkitData() {}
   artData() {
     const { itemData, system, config } = this.getObjLocation();
-    let artStat
-    if (itemData.actor != null) artStat = getStat(itemData.system.useWith,itemData.actor.system.stats).attrmax ?? 5
-    
-    system.attrMaxBonus = system.mk + artStat - Object.entries(system.props).length;
+    let artStat;
+    if (itemData.actor != null)
+      artStat =
+        getStat(itemData.system.useWith, itemData.actor.system.stats).attrmax ??
+        5;
 
+    system.attrMaxBonus =
+      system.mk + artStat - Object.entries(system.props).length;
   }
   droneData() {
     const { itemData, system, config } = this.getObjLocation();
-    system.droneList = game.actors.filter((drone)=>{
-      return drone.type === "Maschine"
-    })
-    system.droneData = game.actors.get(system.droneId)
+    system.droneList = game.actors.filter((drone) => {
+      return drone.type === "Maschine";
+    });
+    system.droneData = game.actors.get(system.droneId);
   }
 
   prepareData() {
@@ -95,20 +98,37 @@ export class DSItem extends Item {
       };
     });
 
-    system.hitArrayCortex = DSHealth.getHealth(system.mk, system.size + system.structure);
-    system.hitArray = DSHealth.getHealth(system.size, system.mk + system.structure);
-
+    system.hitArrayCortex = DSHealth.getHealth(
+      system.mk,
+      system.size + system.structure
+    );
+    system.hitArray = DSHealth.getHealth(
+      system.size,
+      system.mk + system.structure
+    );
 
     if (this.type != "Drohne") {
       const itemRess = system.ress;
-    itemRess.bots = {
-      value: system.ress.bots.value,
-      max: system.mk - Object.entries(system.props).length,
-      remain: system.mk - Object.entries(system.props).length - system.ress.bots.value,
-    };
+      itemRess.bots = {
+        value: system.ress.bots.value,
+        max: system.mk - Object.entries(system.props).length,
+        remain:
+          system.mk -
+          Object.entries(system.props).length -
+          system.ress.bots.value,
+      };
     }
-    const unsortedSkillList = [].concat(config.skillList,config.skillListNpc,config.skillListAi,config.skillListVehicle).sort()
-    system.allSkills = new Set(unsortedSkillList)
+    const unsortedSkillList = []
+      .concat(
+        config.skillList,
+        config.skillListNpc,
+        config.skillListAi,
+        config.skillListVehicle
+      )
+      .sort();
+    system.allSkills = new Set(unsortedSkillList);
+
+
   }
 
   async _preCreate(createData, options, user) {

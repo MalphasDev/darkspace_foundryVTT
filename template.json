@@ -157,39 +157,31 @@
       "templates": ["commonStats", "bodyConditions", "cortexConditions"],
       "competence": 1,
       "stats": {
-        "Aufmerksamkeit": {
+        
+        "Ausstrahlung": {
           "attribut": 1,
           "attrmaxmod": 0,
-          "skill": { "Fokus": 0, "Menschenkenntnis": 0, "Wahrnehmung": 0 }
+          "skill": { "Charisma": 0, "Manipulieren": 0 }
         },
-        "Kampf": {
+        "Geist": {
           "attribut": 1,
           "attrmaxmod": 0,
-          "skill": { "Kampftechnik": 0, "Schusswaffen": 0, "Nahkampfwaffen": 0 }
+          "skill": { "Logik": 0, "Wahrnehmung": 0 }
         },
         "Körper": {
           "attribut": 1,
           "attrmaxmod": 0,
-          "skill": { "Ausdruck": 0, "Beweglichkeit": 0, "Kraft": 0 }
-        },
-        "Intelligenz": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Cortex": 0, "Intellekt": 0, "Technologie": 0 }
-        },
-        "Konzentration": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": {
-            "Willenskraft": 0
-          }
+          "skill": { "Fitness": 0, "Kampftechnik": 0 }
         },
         "Kybernese": {
           "attribut": 1,
           "attrmaxmod": 0,
-          "skill": {
-            "Synthese": 0
-          }
+          "skill": { "Cortex": 0, "Synthese": 0 }
+        },
+        "Waffen": {
+          "attribut": 1,
+          "attrmaxmod": 0,
+          "skill": { "Schusswaffen": 0, "Nahkampfwaffen": 0 }
         }
       },
       "ressources": {
@@ -237,9 +229,9 @@
       },
         
       "ressources": {
+        "Protokolle": 0,
         "Bots": 0,
-        "Energie": 0,
-        "Protokolle": 0
+        "Energie": 0
       }
     },
     "KI": {
@@ -248,12 +240,11 @@
 
       "templates": ["commonStats", "cortexConditions"],
       "stats": {
-        "Sensoren": {
+        "Aufmerksamkeit": {
           "attribut": 1,
           "attrmaxmod": 0,
           "skill": {
             "Fokus": 0,
-            "Cyberpathie": 0,
             "Menschenkenntnis": 0,
             "Wahrnehmung": 0
           }
@@ -262,30 +253,27 @@
           "attribut": 1,
           "attrmaxmod": 0,
           "skill": {
-            "Charisma": 0,
             "Einschüchtern": 0,
             "Überzeugen": 0,
             "Verhandeln": 0
           }
         },
-        "Konzentration": {
+        "Coding": {
           "attribut": 1,
           "attrmaxmod": 0,
           "skill": {
-            "Heimlichkeit": 0,
-            "Kampftechnik": 0,
-            "Schusswaffen": 0,
-            "Willenskraft": 0
+            "Backup": 0,
+            "Cortex": 0,
+            "Streaming": 0
           }
         },
-        "Kybernese": {
+        "Kontrolle": {
           "attribut": 1,
           "attrmaxmod": 0,
           "skill": {
             "Manövrieren": 0,
             "Nahkampfwaffen": 0,
-            "Unterstützungswaffen": 0,
-            "Synthese": 0
+            "Schusswaffen": 0
           }
         },
         "Intelligenz": {
@@ -294,7 +282,6 @@
           "skill": {
             "Bildung": 0,
             "Logik": 0,
-            "Medizin": 0,
             "Raumfahrt": 0
           }
         },
@@ -302,7 +289,6 @@
           "attribut": 1,
           "attrmaxmod": 0,
           "skill": {
-            "Cortex": 0,
             "Kreativität": 0,
             "Kultur": 0,
             "Polytronik": 0
@@ -313,6 +299,20 @@
           "attrmaxmod": 0,
           "skill": {
             "Glück": 0
+          }
+        },
+        "Konzentration": {
+          "attribut": 1,
+          "attrmaxmod": 0,
+          "skill": {
+            "Willenskraft": 0
+          }
+        },
+        "Kybernese": {
+          "attribut": 1,
+          "attrmaxmod": 0,
+          "skill": {
+            "Synthese": 0
           }
         },
         "Netzwerk": {
@@ -336,7 +336,8 @@
         "Disziplinen": 0,
         "Protokolle": 0,
         "Gefallen": 0,
-        "Materialien": 0
+        "Materialien": 0,
+        "Bots": 0
       },
       "isCyborg": false,
       "cyborgStats": {

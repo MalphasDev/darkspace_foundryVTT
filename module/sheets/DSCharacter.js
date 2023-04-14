@@ -1,5 +1,5 @@
 //import { darkspace } from "../config";
-import * as DSMechanics from "../DSMechanics.js";
+import {getStat} from "../DSMechanics.js";
 import * as DSHealth from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
@@ -18,7 +18,7 @@ export class DSCharacter extends Actor {
     } else {
       dbAttr = this.system.stats;
     }
-    return DSMechanics.getStat(fert, dbAttr);
+    return getStat(fert, dbAttr);
   }
 
   getObjLocation() {
@@ -69,7 +69,7 @@ export class DSCharacter extends Actor {
     return { actorData, system, attr, ress, config };
   }
   npcData(actorData, system, attr, ress, config) {
-    system.armorId = "Kraft";
+    system.armorId = "Fitness";
     const armorAttr = this.getStat(system.armorId).attr; // Konsti
     const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
 
@@ -322,13 +322,41 @@ export class DSCharacter extends Actor {
     // ++++ Verbotene Handlungen ++++
     // ++++++++++++++++++++++++++++++
 
-    system.forbiddenActions = Object.entries(system.bodyConditions)
+    if (this.type != "KI") {
+      system.forbiddenActions = Object.entries(system.bodyConditions)
       .filter(([condition, isActive]) => isActive)
       .flatMap(([condition, isActive]) => system.bodymon[condition].forbidden)
       .reduce(
         (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
         []
       );
+    }
+
+    // ++++ Prüfen, ob Fertigkeit vorhanden ++++
+
+    items.forEach((item) => {
+      // console.log(useWith,getStat(useWith,system.stats).fertName);
+      if (item.system.useWith != getStat(item.system.useWith,system.stats).fertName) {
+        
+        item.update({
+          "system.useWith": "Logik"
+        })
+        ui.notifications.warn(`Fertigkeit ${item.system.useWith} im ${this.name} nicht gefunden. Ersetzt durch: Logik`)
+      }
+    })
+
+    
+
+    
+
+    // if (this.actor && system.useWith) {
+    //   const relevantStat = getStat(system.useWith, this.actor.system.stats);
+    //   if (Object.entries(relevantStat).length === 0) {
+    //     this.update({
+    //       "system.useWith": "Logik",
+    //     });
+    //   }
+    // }
 
     this.expCounter();
   }
@@ -349,7 +377,7 @@ export class DSCharacter extends Actor {
     } else if (actorData.type === "Nebencharakter") {
       attrList = config.attrNpc;
       skillList = config.skillListNpc;
-      system.startEp = Math.pow(system.competence, 2) * 100;
+      system.startEp = Math.pow(system.competence, 2) * 50;
     } else if (actorData.type === "Maschine") {
       attrList = config.attrVehicle;
       skillList = config.skillListVehicle;
@@ -401,4 +429,5 @@ export class DSCharacter extends Actor {
       "systems/darkspace/icons/actorDefault/actorIcon_" + actorType + ".svg";
     await this.updateSource(updateData);
   }
+
 }

@@ -101,20 +101,22 @@
         skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
         skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
         {{#ifCond actor.type "===" "Nebencharakter"}}
-        <!-- Aufrappeln KRA -->
+        <!-- Aufrappeln WID -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
-        skillname="Kraft" skillAttr=system.stats.Körper.attribut
-        skillVal=system.stats.Körper.skill.Kraft}} {{/ifCond}} {{#ifCond
+        skillname="Fitness" skillAttr=system.stats.Körper.attribut
+        skillVal=system.stats.Körper.skill.Fitness}} {{/ifCond}} {{#ifCond
         actor.type "===" "Maschine"}}
         <!-- Aufrappeln Größe -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Größe" skillAttr=system.size skillVal=system.size}}
         {{/ifCond}} {{#ifCond actor.type "!=" "Maschine"}}
+        {{#ifCond actor.type "!=" "Nebencharakter"}}
         <!-- Aufrappeln WIL -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Willenskraft"
         skillAttr=system.stats.Konzentration.attribut
         skillVal=system.stats.Konzentration.skill.Willenskraft}}
+        {{/ifCond}}
         {{/ifCond}}
         <!-- Aufrappeln SYN -->
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
@@ -137,24 +139,28 @@
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
       skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
+      
+      
       {{#ifCond actor.type "===" "Nebencharakter"}}
 
-      <!-- Kraft Schutz -->
+      <!-- Fitness Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Kraft" skillAttr=system.stats.Körper.attribut
-      skillVal=system.stats.Körper.skill.Kraft}}
+      skillname="Fitness" skillAttr=system.stats.Körper.attribut
+      skillVal=system.stats.Körper.skill.Fitness}}
 
-      <!-- Beweglichkeit Schutz -->
+      <!-- Kampftechnik Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Beweglichkeit" skillAttr=system.stats.Körper.attribut
-      skillVal=system.stats.Körper.skill.Beweglichkeit}} {{/ifCond}}
+      skillname="Kampftechnik" skillAttr=system.stats.Körper.attribut
+      skillVal=system.stats.Körper.skill.Kampftechnik}} {{/ifCond}}
 
-      <!-- Beweglichkeit Größe -->
+      
+      
       {{#ifCond actor.type "===" "Maschine"}}
+      <!-- Größe Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Größe" skillAttr=system.mk skillVal=system.size}}
 
-      <!-- Beweglichkeit Beschleunigung -->
+      <!-- Beschleunigung Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Beschleunigung" skillAttr=system.stats.Leistung.attribut
       skillVal=system.stats.Leistung.skill.Beschleunigung}} {{/ifCond}}
