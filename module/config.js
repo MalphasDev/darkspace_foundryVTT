@@ -95,6 +95,7 @@ const accessTempTree = () => {
       );
     });
     darkspace.skillListAi = skillListAi.sort();
+    
   });
 
   tempTree.then((a) => {
