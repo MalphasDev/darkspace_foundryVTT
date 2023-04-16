@@ -1,6 +1,6 @@
 //import { darkspace } from "../config";
-import {getStat} from "../DSMechanics.js";
-import * as DSHealth from "../DSHealth.js";
+import { getStat } from "../DSMechanics.js";
+import {getHealth} from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
   getStat(fert) {
@@ -44,8 +44,8 @@ export class DSCharacter extends Actor {
         [element]: {
           name: conditionName,
           fontsymbol: config.bodyConditionLabel[element].symbol,
-          hit: DSHealth.getHealth(armorAttr, armorSkill)[index],
-          hitBase: DSHealth.getHealth(
+          hit: getHealth(this.getStat(system.armorId).attr, armorSkill)[index],
+          hitBase: getHealth(
             armorAttr,
             this.getStat(system.armorId).fert
           )[index],
@@ -80,8 +80,8 @@ export class DSCharacter extends Actor {
         [element]: {
           name: game.i18n.translations.darkspace[element],
           fontsymbol: config.bodyConditionLabel[element].symbol,
-          hit: DSHealth.getHealth(armorAttr, armorSkill)[index],
-          hitBase: DSHealth.getHealth(
+          hit: getHealth(armorAttr, armorSkill)[index],
+          hitBase: getHealth(
             armorAttr,
             this.getStat(system.armorId).fert
           )[index],
@@ -120,7 +120,7 @@ export class DSCharacter extends Actor {
         [element]: {
           name: game.i18n.translations.darkspace[element],
           fontsymbol: config.techConditionLabel[element].symbol,
-          hit: DSHealth.getHealth(system.size, system.structure + system.mk)[
+          hit: getHealth(system.size, system.structure + system.mk)[
             index
           ],
           forbidden: config.techConditionLabel[element].forbidden,
@@ -312,7 +312,7 @@ export class DSCharacter extends Actor {
         [element]: {
           name: game.i18n.translations.darkspace[element],
           fontsymbol: config.cortexConditionLabel[element].symbol,
-          hit: DSHealth.getHealth(cortexAttr, cortexSkill)[index],
+          hit: getHealth(cortexAttr, cortexSkill)[index],
           hack: config.cortexConditionLabel[element].hack,
         },
       };
@@ -324,39 +324,32 @@ export class DSCharacter extends Actor {
 
     if (this.type != "KI") {
       system.forbiddenActions = Object.entries(system.bodyConditions)
-      .filter(([condition, isActive]) => isActive)
-      .flatMap(([condition, isActive]) => system.bodymon[condition].forbidden)
-      .reduce(
-        (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
-        []
-      );
+        .filter(([condition, isActive]) => isActive)
+        .flatMap(([condition, isActive]) => system.bodymon[condition].forbidden)
+        .reduce(
+          (unique, item) =>
+            unique.includes(item) ? unique : [...unique, item],
+          []
+        );
     }
 
     // ++++ Prüfen, ob Fertigkeit vorhanden ++++
 
     items.forEach((item) => {
       // console.log(useWith,getStat(useWith,system.stats).fertName);
-      if (item.system.useWith != getStat(item.system.useWith,system.stats).fertName) {
-        
+      if (
+        item.system.useWith !=
+        getStat(item.system.useWith, system.stats).fertName
+      ) {
         item.update({
-          "system.useWith": "Logik"
-        })
-        ui.notifications.warn(`Fertigkeit ${item.system.useWith} im ${this.name} nicht gefunden. Ersetzt durch: Logik`)
+          "system.useWith": "Logik",
+        });
+        ui.notifications.warn(
+          `Fertigkeit ${item.system.useWith} im ${this.name} nicht gefunden. Ersetzt durch: Logik`
+        );
       }
-    })
+    });
 
-    
-
-    
-
-    // if (this.actor && system.useWith) {
-    //   const relevantStat = getStat(system.useWith, this.actor.system.stats);
-    //   if (Object.entries(relevantStat).length === 0) {
-    //     this.update({
-    //       "system.useWith": "Logik",
-    //     });
-    //   }
-    // }
 
     this.expCounter();
   }
@@ -370,23 +363,29 @@ export class DSCharacter extends Actor {
     system.totalSkillXp = 0;
     system.totalPropXp = 0;
 
-    if (actorData.type === "Charakter") {
-      attrList = config.attrList;
-      skillList = config.skillList;
-      system.startEp = game.settings.get("darkspace", "startxp");
-    } else if (actorData.type === "Nebencharakter") {
-      attrList = config.attrNpc;
-      skillList = config.skillListNpc;
-      system.startEp = Math.pow(system.competence, 2) * 50;
-    } else if (actorData.type === "Maschine") {
-      attrList = config.attrVehicle;
-      skillList = config.skillListVehicle;
-      system.startEp = (system.mk + system.size) * 100;
-    } else if (actorData.type === "KI") {
-      attrList = config.attrAi;
-      skillList = config.skillListAi;
-      system.startEp = game.settings.get("darkspace", "startxpai");
+    switch (actorData.type) {
+      case "Charakter":
+        attrList = config.attrList;
+        skillList = config.skillList;
+        system.startEp = game.settings.get("darkspace", "startxp");
+        break;
+      case "Nebencharakter":
+        attrList = config.attrNpc;
+        skillList = config.skillListNpc;
+        system.startEp = Math.pow(system.competence, 2) * 50;
+        break;
+      case "Maschine":
+        attrList = config.attrVehicle;
+        skillList = config.skillListVehicle;
+        system.startEp = (system.mk + system.size) * 100;
+        break;
+      case "KI":
+        attrList = config.attrAi;
+        skillList = config.skillListAi;
+        system.startEp = game.settings.get("darkspace", "startxpai");
+        break;
     }
+    
 
     attrList.forEach((attrIdent) => {
       let attributName = attr;
@@ -410,7 +409,14 @@ export class DSCharacter extends Actor {
     if (system.xp === undefined) {
       system.xp = { value: 0, max: 0 };
     }
-    system.totalPropXp = Object.entries(system.props).length * 100;
+
+    const count = Object.values(system.props).reduce(
+      (acc, curr) => (curr.handicap ? acc + 1 : acc),
+      0
+    );
+
+    system.totalPropXp = (Object.entries(system.props).length - count*2) * 100;
+
     system.totalXp =
       system.totalAttrXp +
       system.totalSkillXp +
@@ -429,5 +435,4 @@ export class DSCharacter extends Actor {
       "systems/darkspace/icons/actorDefault/actorIcon_" + actorType + ".svg";
     await this.updateSource(updateData);
   }
-
 }
