@@ -147,5 +147,12 @@
   "darkspace.Backup": "Backup",
   "darkspace.Streaming": "Streaming",
   "darkspace.Manipulieren": "Manipulieren",
-  "darkspace.Geist": "Geist"
+  "darkspace.Geist": "Geist",
+
+  "darkspace.props": "Eigenschaften",
+  "darkspace.handicaps": "Handicap",
+  "darkspace.techprops": "Technische Eigenschaften",
+  "darkspace.techHandicaps": "Technische Handicap",
+  "darkspace.combatProps": "Kampf-Eigenschaften",
+  "darkspace.combatHandicaps": "Kampf-Handicap"
 }

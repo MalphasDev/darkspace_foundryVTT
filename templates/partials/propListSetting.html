@@ -1,0 +1,32 @@
+
+<div>
+
+    <section class="setting-body">
+        <section id="navbar">
+          <nav class="setting-tabs tabs flex" data-group="primary">
+            {{#each props as |entry key|}}
+            <a class="item" data-tab="{{key}}">
+                {{localize (lookup (concat "darkspace." key) "string")}}
+            </a>
+            {{/each}}
+            
+          </nav>
+        </section>
+
+    {{#each props as |entry key|}}
+
+    <section class="tab {{key}}" data-group="primary" data-tab="{{key}}">
+        <h2>{{localize (lookup (concat "darkspace." key) "string")}}</h2>
+        {{#each this}}
+    <h3>{{prop}}</h3>
+    <textarea class="desc" data-name="{{prop}}">{{desc}}</textarea>
+        {{/each}}
+    </section>
+    {{/each}}
+
+    <button class="updateObject">Speichern</button>
+
+    
+  </div>
+  
+  

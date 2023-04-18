@@ -150,7 +150,18 @@ Hooks.once("init", function () {
     type: Number,
     default: 2000,
   });
-
+  // game.settings.register("darkspace", "propListSetting", {
+  //   scope: "global",
+  //   config: false,
+  //   default: {},
+  // });
+  // game.settings.registerMenu("darkspace", "propListSetting", {
+  //   name: "My Menu",
+  //   label: "Configure My Menu",
+  //   hint: "Configure My Menu",
+  //   icon: "fas fa-cog",
+  //   type: PropListSetting,
+  // });
   preloadHandlebarsTemplates();
 });
 
@@ -291,7 +302,7 @@ function rollItemMacro(itemUuid) {
   // if (speaker.token) actor = game.actors.tokens[speaker.token];
   const actor = game.actors.get(actorId);
   const item = actor ? actor.items.find((i) => i.uuid === itemUuid) : null;
-  
+
   const dbAttr = actor.system.stats;
   const stat = DSMechanics.getStat(item.system.useWith, dbAttr);
 
@@ -307,6 +318,63 @@ function rollItemMacro(itemUuid) {
   };
 
   DSMechanics.modRolls(inputData, {});
+}
+
+class PropListSetting extends FormApplication {
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    html.find(".updateObject").click(this._updateObject.bind(this));
+  }
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      template: "systems/darkspace/templates/partials/propListSetting.html",
+      width: 600,
+      height: "auto",
+      closeOnSubmit: false,
+      tabs: [
+        {
+          navSelector: ".setting-tabs",
+          contentSelector: ".setting-body",
+          initial: "props",
+        },
+      ],
+    });
+  }
+
+  async getData() {
+    const data = super.getData();
+    data.items = game.settings.get("darkspace", "propListSetting").items || [];
+    data.props = darkspace.props;
+    return data;
+  }
+
+  async _updateObject(event) {
+    const element = event.currentTarget;
+    console.log(event);
+    let props = {};
+
+    console.log(document.querySelectorAll("textarea"));
+    const textareas = document.querySelectorAll("textarea");
+    const filteredTextareas = Array.from(textareas).filter((textarea) =>
+      textarea.classList.contains("desc")
+    );
+    Array.from(filteredTextareas).forEach((element, i) => {
+      props = {
+        ...props,
+        [i]: {
+          prop: element.dataset.name,
+          desc: element.value,
+        },
+      };
+    });
+    console.log(darkspace.props);
+    console.log(props);
+
+    // const items = [];
+
+    // await game.settings.set("darkspace", "propListSetting", {});
+  }
 }
 
 // Hooks.on("targetToken", (user, token) => {
