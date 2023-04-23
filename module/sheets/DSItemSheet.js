@@ -146,6 +146,7 @@ export class DSItemSheet extends ItemSheet {
       };
     }
 
+
     const slot = "slot" + nextKey;
 
     const newActions = {
@@ -198,15 +199,15 @@ export class DSItemSheet extends ItemSheet {
     );
 
     new Dialog({
-      title: "Eigenschaft editieren",
+      title: "Eigenschaft aus Datenbank hinzufügen",
       content: propData.propEditTemplate,
       buttons: {
         save: {
           icon: '<i class="fas fa-save"></i>',
           label: "Speichern",
           callback: (html) => {
-            const prop =
-              propData.templates[html.find("[name='propTemplate']")[0].value];
+            const fullList = propData.templates.concat(propData.templatesTech).concat(propData.templatesCombat)
+            const prop = fullList.filter((p) =>{ return p.prop === html.find("[name='propTemplate']")[0].value})[0]
             const skill = typeof html.find("[name='propTemplateSkill']")[0] !== "undefined" ? html.find("[name='propTemplateSkill']")[0].value : undefined;
             const action = html.find("[name='propAction']")[0].value;
             const template = {

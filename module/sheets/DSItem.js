@@ -1,5 +1,5 @@
-import * as DSHealth from "../DSHealth.js";
 import { getStat } from "../DSMechanics.js";
+import {getHealth} from "../DSHealth.js";
 
 export class DSItem extends Item {
   getObjLocation() {
@@ -80,29 +80,37 @@ export class DSItem extends Item {
 
     // Zustände
 
-    Object.keys(config.techConditionLabel).forEach((element) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.techConditionLabel[element];
-      system.techConditionLabel = {
-        ...system.techConditionLabel,
-        [element]: { name: conditionName, fontsymbol: symbolName },
+    Object.keys(config.techConditionLabel).forEach((element, index) => {
+      system.bodymon = {
+        ...system.bodymon,
+        [element]: {
+          name: game.i18n.translations.darkspace[element],
+          fontsymbol: config.techConditionLabel[element].symbol,
+          hit: getHealth(system.size, system.structure + system.mk)[
+            index
+          ],
+          forbidden: config.techConditionLabel[element].forbidden,
+        },
       };
     });
 
-    Object.keys(config.cortexConditionLabel).forEach((element) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      let symbolName = config.cortexConditionLabel[element];
-      system.cortexConditionLabel = {
-        ...system.cortexConditionLabel,
-        [element]: { name: conditionName, fontsymbol: symbolName },
+    Object.keys(config.cortexConditionLabel).forEach((element, index) => {
+      system.cortexmon = {
+        ...system.cortexmon,
+        [element]: {
+          name: game.i18n.translations.darkspace[element],
+          fontsymbol: config.cortexConditionLabel[element].symbol,
+          hit: getHealth(system.mk * 2, system.size)[index],
+          hack: config.cortexConditionLabel[element].hack,
+        },
       };
     });
 
-    system.hitArrayCortex = DSHealth.getHealth(
+    system.hitArrayCortex = getHealth(
       system.mk,
       system.size + system.structure
     );
-    system.hitArray = DSHealth.getHealth(
+    system.hitArray = getHealth(
       system.size,
       system.mk + system.structure
     );

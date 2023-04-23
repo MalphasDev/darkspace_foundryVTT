@@ -17,11 +17,13 @@
 
       <label class="flex center" for="{{../actor.id}}_techConditions_{{key}}">
         <div class="tooltip">
-          {{#with (lookup ../system.techConditionLabel key)}}
+          {{#with (lookup ../system.bodymon key)}}
           <i class="{{this.fontsymbol}}"></i>
           <span class="tooltiptext top">{{this.name}}</span>
+          <div style="height: 15px;">
+            {{hit}}
+          </div>
           {{/with}}
-          <div>{{lookup ../this.system.hitArray @index}}</div>
         </div>
       </label>
     </li>
@@ -48,11 +50,13 @@
 
       <label class="flex center" for="{{../actor.id}}_cortexConditions_{{key}}">
         <div class="tooltip">
-          {{#with (lookup ../system.cortexConditionLabel key)}}
+          {{#with (lookup ../system.cortexmon key)}}
           <i class="{{this.fontsymbol}}"></i>
           <span class="tooltiptext top">{{this.name}}</span>
+          <div style="height: 15px;">
+            {{hit}}
+          </div>
           {{/with}}
-          <div>{{lookup ../this.system.hitArrayCortex @index}}</div>
         </div>
       </label>
     </li>

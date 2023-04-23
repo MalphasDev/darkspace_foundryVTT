@@ -1,6 +1,14 @@
 import { darkspace } from "../config.js";
 import * as DSMechanics from "../DSMechanics.js";
-import { getProps, getHandicaps, edit as propEdit } from "../DSprops.js";
+import {
+  getProps,
+  getHandicaps,
+  getTechProps,
+  getTechhandicaps,
+  getCombatProps,
+  getCombatHandicaps,
+  edit as propEdit,
+} from "../DSprops.js";
 
 export class DSCharacterSheet extends ActorSheet {
   get template() {
@@ -368,7 +376,10 @@ export class DSCharacterSheet extends ActorSheet {
         propData.skillListType = "skillListNpc";
         break;
       case "Maschine":
+        console.log("Das is ne Maschine");
         propData.skillListType = "skillListVehicle";
+        propData.templatesTech = getTechProps().concat(getTechhandicaps());
+        propData.itemProp = true;
         break;
       case "KI":
         propData.skillListType = "skillListAi";
@@ -377,7 +388,7 @@ export class DSCharacterSheet extends ActorSheet {
       default:
         break;
     }
-
+console.log(propData);
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/addPropTemplate.html",
       propData
@@ -391,9 +402,13 @@ export class DSCharacterSheet extends ActorSheet {
           icon: '<i class="fas fa-save"></i>',
           label: "Speichern",
           callback: (html) => {
-            const prop =
-              propData.templates[html.find("[name='propTemplate']")[0].value];
-            const skill = html.find("[name='propTemplateSkill']")[0].value;
+            let fullList = propData.templates
+            if (this.actor.type === "Maschine") {
+              fullList = propData.templates.concat(propData.templatesTech)
+            }
+            const prop = fullList.filter((p) =>{ return p.prop === html.find("[name='propTemplate']")[0].value})[0]
+            const skill = typeof html.find("[name='propTemplateSkill']")[0] !== "undefined" ? html.find("[name='propTemplateSkill']")[0].value : undefined;
+
             const template = {
               ...prop,
               skill: skill,
