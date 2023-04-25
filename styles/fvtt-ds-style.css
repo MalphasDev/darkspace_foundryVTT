@@ -21,6 +21,7 @@ body {
 .sheet.Charakter {
   min-width: 750px;
 }
+
 h1,
 h2,
 h3,
@@ -105,6 +106,9 @@ textarea {
 .sheet .tabs .item {
   height: 33px;
   background-color: var(--tertiary);
+}
+.sheet.journal-entry .journal-entry-content {
+  background: transparent
 }
 .tabs .item.active {
   text-shadow: 0 0 10px #fff;
