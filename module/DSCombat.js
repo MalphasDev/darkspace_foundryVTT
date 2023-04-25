@@ -80,7 +80,7 @@ export class DSCombat extends Combat {
         );
         let inputData = {
           eventData: {},
-          actorId: currentCombatant.id,
+          actorId: currentCombatant.actor.id,
           actorData: actorData,
           removehighest: false,
           object: {},

@@ -158,6 +158,11 @@
       "competence": 1,
       "stats": {
         
+        "Aufmerksamkeit": {
+          "attribut": 1,
+          "attrmaxmod": 0,
+          "skill": { "Fokus": 0, "Wahrnehmung": 0 }
+        },
         "Ausstrahlung": {
           "attribut": 1,
           "attrmaxmod": 0,
@@ -166,7 +171,7 @@
         "Geist": {
           "attribut": 1,
           "attrmaxmod": 0,
-          "skill": { "Logik": 0, "Wahrnehmung": 0 }
+          "skill": { "Logik": 0, "Technik": 0 }
         },
         "Körper": {
           "attribut": 1,
