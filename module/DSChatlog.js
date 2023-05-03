@@ -23,7 +23,7 @@ export class DSChatlog extends ChatLog {
       attrModLocal: 0,
       fertModLocal: 0,
       eventData: element,
-      roleData: { attribute: "", skill: "" },
+      rollData: { attribute: "", skill: "" },
       removehighest: element.dataset.disadv === "true",
       type: "Custom",
     };

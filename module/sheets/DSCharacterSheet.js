@@ -189,7 +189,7 @@ export class DSCharacterSheet extends ActorSheet {
       eventData: element,
       actorId: this.actor.id,
       rollname: dataset.rollname,
-      roleData: {
+      rollData: {
         attribute: attrName,
         skill: dataset.skill,
         rollname: false,
@@ -237,7 +237,7 @@ export class DSCharacterSheet extends ActorSheet {
     const preCreatedInput = this.createInputData(event, option);
     const inputData = {
       ...preCreatedInput,
-      roleData: { attribute: stat.attrName, skill: stat.fertName },
+      rollData: { attribute: stat.attrName, skill: stat.fertName },
       modroll: option.rightClick,
       item: item,
       type: item ? item.type : "Nahkampfwaffe",

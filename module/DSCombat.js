@@ -84,7 +84,7 @@ export class DSCombat extends Combat {
           actorData: actorData,
           removehighest: false,
           object: {},
-          roleData: { attribute: ini.attrName, skill: ini.fertName },
+          rollData: { attribute: ini.attrName, skill: ini.fertName },
         };
 
         let outputData = await DSMechanics.rollDice(inputData).then(

@@ -21,17 +21,13 @@
     {{#unless crit}}
     <div class="text_c">
       <span class="chatStats bigsize bold">{{dmg}}</span>
-      <div class="anmerkung"><i class="fa-solid fa-bolt"></i>{{basedmg}}</div>
-      <div class="anmerkung">+ {{bonusdmg}}</div>
+      <div class="anmerkung"><i class="fa-solid fa-bolt"></i>{{basedmg}} + {{bonusdmg}}</div>
     </div>
     {{/unless}} {{#if crit}}
     <div class="text_c">
       <span class="chatStats bigsize bold">{{dmg}}</span>
       <div class="anmerkung" style="color: #00ff7e">
-        2 x <i class="fa-solid fa-bolt"></i>{{basedmg}}
-      </div>
-      <div class="anmerkung">
-        + {{bonusdmg}} <span style="color: #00ff7e">+ {{critbonus}}</span>
+        2 x <i class="fa-solid fa-bolt"></i>{{basedmg}} + {{bonusdmg}} + {{critbonus}}</span>
       </div>
     </div>
 

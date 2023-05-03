@@ -312,7 +312,7 @@ function rollItemMacro(itemUuid) {
     modroll: false,
     type: item.type,
     item: item,
-    roleData: { attribute: stat.attrName, skill: stat.fertName },
+    rollData: { attribute: stat.attrName, skill: stat.fertName },
     removehighest: false,
     system: actor.system,
   };

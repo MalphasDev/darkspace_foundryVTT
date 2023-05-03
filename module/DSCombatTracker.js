@@ -155,18 +155,11 @@ export class DSCombatTracker extends CombatTracker {
     return combatantList;
   }
   _hitTracker(event) {
-    const combat = this.viewed;
-    var currentTargetId = this.getCurrentTargetId();
-
-    const hitTarget = event.currentTarget.dataset.combatantId;
-    let hitTargetIni = combat.combatants.filter((i) => {
-      return hitTarget === i._id;
-    })[0].initiative;
-
-    this._increaseAE(event, { aeCost: 1, hitTarget: hitTarget });
-
-    // combat.setInitiative(hitTarget, hitTargetIni + 1);
+    const combatantId = event.currentTarget.closest('.combatant').dataset.combatantId;
+    this._increaseAE(event, { aeCost: document.getElementById(combatantId+"_ae").value, hitTarget: combatantId });
   }
+
+
   async itemAe(actorId, aeCost) {
     const combat = this.viewed;
     if (combat != null) {

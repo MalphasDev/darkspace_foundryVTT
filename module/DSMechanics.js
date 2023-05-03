@@ -7,7 +7,7 @@ import { DSCombatTracker } from "./DSCombatTracker.js";
 export async function rollDice(inputData) {
   let attrModLocal = parseInt(inputData.attrModLocal);
   let fertModLocal = parseInt(inputData.fertModLocal);
-  let roleData = inputData.roleData;
+  let rollData = inputData.rollData;
   let removehighest = inputData.removehighest;
   let rollformular;
   const actor = game.actors.get(inputData.actorId)
@@ -28,8 +28,8 @@ export async function rollDice(inputData) {
     attr = inputData.attr
     skill = inputData.skill
   } else {
-    attr = system.stats[roleData.attribute].attribut
-    skill = system.stats[roleData.attribute].skill[roleData.skill]
+    attr = system.stats[rollData.attribute].attribut
+    skill = system.stats[rollData.attribute].skill[rollData.skill]
   }
 
 
@@ -117,7 +117,7 @@ export async function rollDice(inputData) {
         return hc[1].handicap === false;
       })
       .filter((skill) => {
-        return skill[1].skill === roleData.skill;
+        return skill[1].skill === rollData.skill;
       });
     meritList.forEach((merit) => {
       merits.push(merit[1]);
@@ -128,7 +128,7 @@ export async function rollDice(inputData) {
         return hc[1].handicap === true;
       })
       .filter((skill) => {
-        return skill[1].skill === roleData.skill;
+        return skill[1].skill === rollData.skill;
       });
 
     handicapList.forEach((handicap) => {
@@ -146,11 +146,11 @@ export async function rollDice(inputData) {
         Object.entries(k.system.props).forEach((cyberware) => {
           cyberwareProps.push(cyberware[1].skill);
         });
-        return cyberwareProps.includes(roleData.skill);
+        return cyberwareProps.includes(rollData.skill);
       });
     cybernetics.forEach((cyberware) => {
       Object.entries(cyberware.system.props).forEach((cyberslot) => {
-        if (cyberslot[1].skill === roleData.skill) {
+        if (cyberslot[1].skill === rollData.skill) {
           cyberwareProps = {
             ...cyberwareProps,
             ["slot" + Object.keys(cyberwareProps).length]: {
@@ -167,7 +167,7 @@ export async function rollDice(inputData) {
   }
 
   let cardData = {
-    ...roleData,
+    ...rollData,
     ...diceResult,
     ...resultMessage,
     ...disadvMessage,
@@ -196,7 +196,7 @@ export async function rollDice(inputData) {
 
   if (inputData.item != undefined) {
     cardData = {
-      ...roleData,
+      ...rollData,
       total_AB: total_AB,
       total_BC: total_BC,
       total_AC: total_AC,
@@ -298,33 +298,34 @@ export async function _resolveDice(inputData) {
   const currentActor = game.actors.get(actorId);
   const stats = currentActor?.system.stats;
   
+
+
   if (inputData.item != undefined) {
     cardData = {
       ...cardData,
       currentActor,
       basedmg: cardData.system.dmg,
       bonusdmg: cardData.total_BC,
-      critbonus: parseInt(inputData.dynskill),
+      critbonus: this.getStat(inputData.rollData.skill,stats).fert,
       dmg: cardData.crit
         ? cardData.system.dmg * 2 +
           cardData.total_BC +
-          parseInt(inputData.dynskill)
+          this.getStat(inputData.rollData.skill,stats).fert
         : cardData.system.dmg + cardData.total_BC,
     };
   }
-
-  if (inputData.eventData.dataset.ua) {
+  if (inputData.eventData?.dataset.ua) {
     cardData = {
       ...cardData,
       currentActor,
-      basedmg: stats[inputData.roleData.attribute].attribut,
+      basedmg: stats[inputData.rollData.attribute].attribut,
       bonusdmg: cardData.total_BC,
-      critbonus: parseInt(inputData.dynskill),
+      critbonus: this.getStat(inputData.rollData.skill,stats).fert,
       dmg: cardData.crit
-      ? stats[inputData.roleData.attribute].attribut * 2 +
+      ? stats[inputData.rollData.attribute].attribut * 2 +
         cardData.total_BC +
-        parseInt(inputData.dynskill)
-      : stats[inputData.roleData.attribute].attribut + cardData.total_BC,
+        this.getStat(inputData.rollData.skill,stats).fert
+      : stats[inputData.rollData.attribute].attribut + cardData.total_BC,
 
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",
