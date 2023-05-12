@@ -94,6 +94,7 @@ export class DSCharacter extends Actor {
   }
   droneData(actorData, system, attr, ress, config) {
     system.structure = system.mk + system.size;
+    system.firewall = 10 + 2 * system.mk
     // Fahrzeuge dürfen keine Panzerung tragen
     actorData.deleteEmbeddedDocuments(
       "Item",
@@ -132,6 +133,7 @@ export class DSCharacter extends Actor {
   }
 
   aiData(actorData, system, attr, ress, config) {
+    system.firewall = 10 + 2 * system.mk
     const props = actorData.items.filter((f) => {
       return f.type === "Eigenschaft";
     });
@@ -312,7 +314,7 @@ export class DSCharacter extends Actor {
         [element]: {
           name: game.i18n.translations.darkspace[element],
           fontsymbol: config.cortexConditionLabel[element].symbol,
-          hit: getHealth(cortexAttr, cortexSkill)[index],
+          hit: getHealth(system.mk * 2, system.size)[index],
           hack: config.cortexConditionLabel[element].hack,
         },
       };

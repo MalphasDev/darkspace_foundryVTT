@@ -105,7 +105,7 @@ export class DSItem extends Item {
         },
       };
     });
-
+    system.firewall = system.mk * 2 + 10
     system.hitArrayCortex = getHealth(
       system.mk,
       system.size + system.structure

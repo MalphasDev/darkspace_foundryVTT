@@ -34,7 +34,10 @@
 
   <ul class="flex start">
     <li>
-      <i class="fa-solid fa-memory health-icon"></i>
+      <div class="flex column">
+        <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_hack.svg" alt="">
+        <span><i class="fa-solid fa-shield"></i>{{this.system.firewall}}</span>
+      </div>
     </li>
     {{#each system.cortexConditions as |value key|}}
 

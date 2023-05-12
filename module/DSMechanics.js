@@ -306,11 +306,10 @@ export async function _resolveDice(inputData) {
       currentActor,
       basedmg: cardData.system.dmg,
       bonusdmg: cardData.total_BC,
-      critbonus: this.getStat(inputData.rollData.skill,stats).fert,
+      critbonus: stats[inputData.rollData.attribute].attribut + cardData.total_BC,
       dmg: cardData.crit
         ? cardData.system.dmg * 2 +
-          cardData.total_BC +
-          this.getStat(inputData.rollData.skill,stats).fert
+          cardData.total_BC *2
         : cardData.system.dmg + cardData.total_BC,
     };
   }
@@ -320,11 +319,10 @@ export async function _resolveDice(inputData) {
       currentActor,
       basedmg: stats[inputData.rollData.attribute].attribut,
       bonusdmg: cardData.total_BC,
-      critbonus: this.getStat(inputData.rollData.skill,stats).fert,
+      critbonus: stats[inputData.rollData.attribute].attribut + cardData.total_BC,
       dmg: cardData.crit
       ? stats[inputData.rollData.attribute].attribut * 2 +
-        cardData.total_BC +
-        this.getStat(inputData.rollData.skill,stats).fert
+        cardData.total_BC * 2
       : stats[inputData.rollData.attribute].attribut + cardData.total_BC,
 
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",

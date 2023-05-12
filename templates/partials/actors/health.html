@@ -55,10 +55,15 @@
 
 
     <!-- Cortex Health -->
+    {{#ifCond actor.type "!=" "Charakter"}}
+    {{#ifCond actor.type "!=" "Nebencharakter"}}
 
     <ul class="flex start">
-      <li style="align-items: center; height: 45px">
-        <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_hack.svg" alt="">
+      <li>
+        <div class="flex column">
+          <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_hack.svg" alt="">
+          <span><i class="fa-solid fa-shield"></i>{{this.system.firewall}}</span>
+        </div>
       </li>
       {{#each system.cortexConditions as |value key|}}
       <li class="flex borderbox round" style="height: 45px;">
@@ -87,46 +92,51 @@
       </li>
       {{/each}}
     </ul>
+    {{/ifCond}}
+    {{/ifCond}}
   </div>
   <hr />
   <!-- AKTIONEN -->
-  <div class="grid col2">
-    <!-- Aufrappeln -->
+  
+    <!-- Aufrappeln 
     <div>
       <h3><i class="fa-solid fa-running"></i>{{localize "darkspace.Aufrappeln"}}</h3>
       <div>
         {{#ifCond actor.type "===" "Charakter"}}
-        <!-- Aufrappeln FIT -->
+        
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
         skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
         {{#ifCond actor.type "===" "Nebencharakter"}}
-        <!-- Aufrappeln WID -->
+       
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Fitness" skillAttr=system.stats.Körper.attribut
         skillVal=system.stats.Körper.skill.Fitness}} {{/ifCond}} {{#ifCond
         actor.type "===" "Maschine"}}
-        <!-- Aufrappeln Größe -->
+       
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Größe" skillAttr=system.size skillVal=system.size}}
         {{/ifCond}} {{#ifCond actor.type "!=" "Maschine"}}
         {{#ifCond actor.type "!=" "Nebencharakter"}}
-        <!-- Aufrappeln WIL -->
+  
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Willenskraft"
         skillAttr=system.stats.Konzentration.attribut
         skillVal=system.stats.Konzentration.skill.Willenskraft}}
         {{/ifCond}}
         {{/ifCond}}
-        <!-- Aufrappeln SYN -->
+    
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Synthese" skillAttr=system.stats.Kybernese.attribut
         skillVal=system.stats.Kybernese.skill.Synthese}}
       </div>
-    </div>
+    </div>-->
     <!-- Schutz -->
     <div>
-      <h3><i class="fa-solid fa-shield-alt"></i>{{localize "darkspace.Schutzprobe"}}</h3>
+      
+    
+    <h3><i class="fa-solid fa-shield-alt"></i>{{localize "darkspace.Schutzprobe"}}</h3>
+    <div class="grid col3">
 
       {{#ifCond actor.type "===" "Charakter"}}
 

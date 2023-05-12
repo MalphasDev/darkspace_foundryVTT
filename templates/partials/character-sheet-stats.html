@@ -50,7 +50,8 @@
           >
           {{localize (lookup (concat "darkspace." attrname) "string")}}
           <span style="margin: 0 1ch"
-            >{{#each ../items.Artifizierung}} {{#if system.prosthetic}}
+            >
+            {{#each ../items.cybernetics}} {{#if system.prosthetic}}
             {{#ifCond system.useAttr "===" attrname}}
             <i class="fa-solid fa-arrow-up-wide-short"></i>
             {{system.attrMaxBonus}}{{/ifCond}}{{/if}}{{/each}}
@@ -110,7 +111,7 @@
               >{{/if}} {{/ifCond}} {{/each}}
             </span>
             <span>
-              {{#each ../../items.Artifizierung}} {{#unless
+              {{#each ../../items.cybernetics}} {{#unless
               this.system.prosthetic}} {{#each system.props}}{{#ifCond
               this.skill "===" fertname}}
               <span class="tooltip">

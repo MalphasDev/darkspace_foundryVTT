@@ -34,7 +34,8 @@ export function getProps() {
   const props = [
     {
       prop: "Ausgleichen",
-      desc: "Durch eine Aktivierung wird der Schwierigkeitsgrad auf 18 gesetzt, falls er vorher höher war. Jede weitere Aktivierung senkt den Schwierigkeitsgrad um 2. Bei Gruppenproben gilt der modifizierte Schwierigkeitsgrad.", handicap: false,
+      desc: "Durch eine Aktivierung wird der Schwierigkeitsgrad auf 18 gesetzt, falls er vorher höher war. Jede weitere Aktivierung senkt den Schwierigkeitsgrad um 2. Bei Gruppenproben gilt der modifizierte Schwierigkeitsgrad.", 
+      handicap: false,
     },
     {
       prop: "Bollwerk",
@@ -218,7 +219,7 @@ export function getCombatProps() {
     },
     {
       prop: "Dauerangriff",
-      desc: "Nach einem Treffer darf der Charakter eine Aktivierung ausführen. Der Schaden eines Dauerangriffes entspricht dem Ergebnis der Probe + Durchschlag der Waffe. Es werden alle Zustände des betroffenen Monitors verursacht, deren Schwelle erreicht wird.",
+      desc: "Nach einem Treffer darf der Charakter eine Aktivierung ausführen. Bis der Charakter Schaden nimmt oder eine andere Verteidigung durchführt, darf er einen Angriff gegen das Ziel durchführen, sobald dessen Handlungsphase beginnt. Sobald er seinen Dauerangriff einstellen möchte, wird er ans Ende der Initiativ-Reihenfolge gesetzt (siehe auch Warten). Ziele außerhalb von Deckung dürfen nicht “Warten”.",
       handicap: false,
     },
     {
@@ -229,6 +230,11 @@ export function getCombatProps() {
     {
       prop: "Lädieren",
       desc: "Erleidet das Ziel einen Zustand, kann es sich davon nicht erholen, bis es durch eine Behandeln-Aktion versorgt wird.",
+      handicap: false,
+    },
+    {
+      prop: "Leise",
+      desc: "Der Durchschlag er Waffe wird für den Vergleich gegen den Sicherheitswert ignoriert.",
       handicap: false,
     },
     {
