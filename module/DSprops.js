@@ -34,17 +34,17 @@ export function getProps() {
   const props = [
     {
       prop: "Ausgleichen",
-      desc: "Durch eine Aktivierung wird der Schwierigkeitsgrad auf 18 gesetzt, falls er vorher höher war. Jede weitere Aktivierung senkt den Schwierigkeitsgrad um 2. Bei Gruppenproben gilt der modifizierte Schwierigkeitsgrad.", 
+      desc: "Durch eine Aktivierung wird der Schwierigkeitsgrad oder die Schwelle auf 18 gesetzt, falls sie vorher höher waren. Negative Würfelpoolmodifikatoren werden ignoriert. Bei Gruppenproben gilt der modifizierte Schwierigkeitsgrad.", 
       handicap: false,
     },
     {
       prop: "Bollwerk",
-      desc: "Verteidigungen, Aufrappeln oder Schutzproben mit der verbundenen Fertigkeit haben durch eine Aktivierung automatisch einen Erfolg. Konkurrierende Proben gegen die verbundene Fertigkeit bzw. die verbundene Aktion verlieren bei einer Aktivierung den höchsten Würfel aus ihrer Probe.",
+      desc: "Verteidigungen, Schutzproben mit der verbundenen Fertigkeit und Handlungen zum entfernen von Zuständen haben durch eine Aktivierung automatisch einen Erfolg. Konkurrierende Proben gegen die verbundene Fertigkeit bzw. die verbundene Aktion verlieren bei einer Aktivierung den höchsten Würfel aus ihrer Probe.",
       handicap: false,
     },
     {
       prop: "Detailarbeit",
-      desc: "Pro Aktivierung wird die benötigte Zeitstufe der Aktion auf das Ergebnis addiert. Der Charakter kann sich für eine Aktion (auch wenn es sich nicht um eine langfristige Probe handelt) beliebig viel Zeit lassen.",
+      desc: "Pro Aktivierung wird die benötigte Zeitstufe x 2 der Aktion auf das Ergebnis addiert.",
       handicap: false,
     },
     {
@@ -54,12 +54,12 @@ export function getProps() {
     },
     {
       prop: "Forcieren",
-      desc: "Die Aktion wird bei einer Aktivierung automatisch als Erfolg gewertet. Die Probe muss trotzdem abgelegt werden. Bei einem Misserfolg oder Patzer bleibt der Erfolg zwar bestehen, aber die Effekte eines Misserfolgs bzw. eines Patzers kommen trotzdem zur Anwendung.",
+      desc: "Durch eine Aktivierung lösen zusätzlich alle Würfel, die eine 1 oder 2 zeigen, ebenfalls die Regel der 10 (S. 6) aus.",
       handicap: false,
     },
     {
       prop: "Reflexartig",
-      desc: "Durch eine Aktivierung können Aktionen der verbundenen Fertigkeit als Verteidigungen eingesetzt werden. Die AE-Kosten sinken dadurch (wie bei allen Verteidigungen) auf 1 AE.",
+      desc: "Durch eine Aktivierung können Aktionen der verbundenen Fertigkeit als Verteidigungen (S. 39) eingesetzt werden. Die AE-Kosten sinken dadurch (wie bei allen Verteidigungen) auf 1 AE.",
       handicap: false,
     },
     {
@@ -74,7 +74,7 @@ export function getProps() {
     },
     {
       prop: "Verstärkt",
-      desc: "Pro Aktivierung wird das Ergebnis der Probe um +2 erhöht.",
+      desc: "Pro Aktivierung wird dem Ergebnis der Probe der nächst höhere Würfel oder +2 hinzugefügt.",
       handicap: false,
     },
   ];
@@ -84,12 +84,12 @@ export function getHandicaps() {
   const props = [
     {
       prop: "Berechenbar",
-      desc: "Konkurrierende Proben gegen diese Fertigkeiten addieren +2 auf ihr Ergebnis. Verteidigungen mit der verbundenen Fertigkeit werden vom Gegner ignoriert, wenn dieser ein Ergebnis von 16 oder höher hat. Durch eine Aktivierung werden diese Effekte ignoriert.",
+      desc: "Konkurrierende Proben gegen die verbundene Fertigkeiten addieren +2 auf ihr Ergebnis. Verteidigungen werden vom Gegner ignoriert, wenn dieser die verbundene Fertigkeit benutzt.",
       handicap: "true",
     },
     {
       prop: "Gelähmt",
-      desc: "Ohne Aktivierung kosten alle Aktionen und Automatismen mit der verbundenen Fertigkeit 1 AE mehr.",
+      desc: "Alle Handlungen mit der verbundenen Fertigkeit kosten doppelt so viele AE.",
       handicap: "true",
     },
     {
@@ -99,7 +99,7 @@ export function getHandicaps() {
     },
     {
       prop: "Omen",
-      desc: "Der Charakter patzt bereits bei einem Ergebnis von 10 und darunter. Er kann eine Aktivierung durchführen, um diesen Effekt zu ignorieren.",
+      desc: "Der Charakter patzt bereits bei einem Ergebnis von 10 und darunter.",
       handicap: "true",
     },
     {
@@ -114,7 +114,7 @@ export function getTechProps() {
   const props = [
     {
       prop: "Angepasst",
-      desc: "Die drei höchsten Würfel einer Probe mit der verbundenen Handlung werden um je 1 pro Aktivierung erhöht. Dadurch kann die Regel der 10 ausgelöst werden.",
+      desc: "Nachdem alle Würfel sortiert wurden, kann auf einen beliebigen Würfel die Modulklasse des Gegenstandes addiert werden. Er verändert dadurch nicht seine Position in der Ordnung und kann dadurch auch einen Wert über 10 annehmen. Für jede weitere Aktivierung kann die Modulklasse auf einen anderen Würfel addiert werden.",
       handicap: false,
     },
     {
@@ -129,7 +129,7 @@ export function getTechProps() {
     },
     {
       prop: "Gepanzert",
-      desc: "Der Gegenstand schützt pro Größe einen Zustand (beginnend beim niedrigsten) auf einem festgelegten Zustandsmonitor (Körper, Technik, Cortex). Falls der Gegenstand nicht fest verbaut ist, kann er jeden anderen Gegenstand oder Charakter schützen, zu dem er physischen Kontakt hat. Wird ein geschützter Zustand ermittelt, senkt der Gegenstand den Schaden um seine (Modulklasse + Größe) x Aktivierungen.",
+      desc: "Der Gegenstand schützt einen vorher festgelegten Zustandsmonitor (Körper, Technik, Cortex). Falls der Gegenstand nicht fest verbaut ist, kann er jeden anderen Gegenstand oder Charakter schützen, zu dem er physischen Kontakt hat. Erleidet ein gepanzerter Monitor Schaden, senkt der Gegenstand den Schaden um seine (Modulklasse + Größe) x Aktivierungen.",
       handicap: false,
     },
     {
@@ -139,12 +139,12 @@ export function getTechProps() {
     },
     {
       prop: "Kontrollknoten",
-      desc: "Jede Eigenschaft wird auf alle angeschlossenen Geräte und Geräte im gleichen Netzwerk angewendet. Ein Gerät mit der Kontrollknoten-Eigenschaft kann eine Anweisung an alle Geräte im Netzwerk senden. Wird das Gerät von einem Cortex-Zustand betroffen, wird dieser Zustand auf alle  Geräte im gleichen Netzwerk angewandt. Durch eine Aktivierung werden mit dem verbundenen Automatismus “Backup-Bots” bis zu 3 Bots im Netzwerk regeneriert.",
+      desc: "Alle Handlungen gegen Geräte im Netzwerk werden zum Kontrollknoten umgeleitet. Der Kontrollknoten darf die Eigenschaften aller Geräte im Netzwerk nutzen, als hätte er sie selbst, muss sie aber selbst aktivieren.",
       handicap: false,
     },
     {
       prop: "Regenerativ",
-      desc: "Wenn diese Eigenschaft vergeben wird, wird eine Zustandsart (Körper, Technik, Cortex) festgelegt. Durch eine Aktivierung darf dieser Gegenstand eine Synthese-Probe (Schwelle) für die Aktion “Regeneration” ablegen. Ein Zustand, dessen Schwelle erreicht wurde, wird entfernt.",
+      desc: "Wenn diese Eigenschaft vergeben wird, wird ein Monitor (Körper, Technik, Cortex) festgelegt. Pro Aktivierung heilt der Gegenstand entweder einen eigenen Zustand oder den Zustand auf dem gewählten Monitor von etwas, zu das er physischen Kontakt hat. Die Stufe des Zustandes darf die Modulklasse des Gegenstandes nicht überschreiten.",
       handicap: false,
     },
     {
@@ -154,17 +154,17 @@ export function getTechProps() {
     },
     {
       prop: "Unkompliziert",
-      desc: "Der Gegenstand darf nicht Ziel einer Cortex-Handlung sein und selbst keine Cortex-Handlungen ausführen. Der Gegenstand hat eine Elektronik oder Stromversorgung. Durch eine Aktivierung erhält eine Probe mit der verbundenen Handlung des Gegenstands einen zusätzlichen Würfel.",
+      desc: "Der Gegenstand darf nicht Ziel einer Cortex-Handlung sein und selbst keine Cortex-Handlungen ausführen. Der Gegenstand hat keine Elektronik oder Stromversorgung. Durch eine Aktivierung erhält eine Probe mit der verbundenen Handlung des Gegenstands einen zusätzlichen Würfel.",
       handicap: false,
     },
     {
       prop: "Vektorschub",
-      desc: "Der Gegenstand kann sich durch den Automatismus “Vektorschub” eine Weile (ZS 1, 15min) in der Luft halten und mit seiner Bewegung fliegen. Pro Aktivierung erhöht sich die Zeitstufe, in der der Gegenstand fliegen kann, um 1",
+      desc: "Der Gegenstand kann sich durch 15min (ZS 1) in der Luft halten und mit [Leistung ³ x MK x 4]m pro Bewegung fliegen. Pro Aktivierung erhöht sich die Zeitstufe, in der der Gegenstand fliegen kann, um 1.",
       handicap: false,
     },
     {
       prop: "Synchronisiert",
-      desc: "Durch eine Aktivierung wird die verbundene Aktion auf einem weiteren Gerät im gleichen Netzwerk durchgeführt.",
+      desc: "Durch eine Aktivierung wird der Effekt der verbundenen Aktion auf einem weiteren Gerät im gleichen Netzwerk durchgeführt.",
       handicap: false,
     },
   ];
@@ -173,33 +173,38 @@ export function getTechProps() {
 export function getTechhandicaps() {
   const props = [
     {
-      prop: "Harter Impuls",
-      desc: "Nach jeder Aktion mit dem Gegenstand muss der Charakter einen Automatismus oder eine Aktivierung durchführen, um ihn zu stabilisieren.",
+      prop: "Einseitig",
+      desc: "Mit dem Gegenstand kann nur die verbundene Aktion durchgeführt werden.",
       handicap: "true",
     },
     {
       prop: "Fehleranfällig",
-      desc: "Ein Misserfolg wird wie ein Patzer behandelt, wenn keine Aktivierung durchgeführt wird.",
+      desc: "Der Würfelpool wird durch die Modulklasse des Gegenstandes begrenzt.",
+      handicap: "true",
+    },
+    {
+      prop: "Harter Impuls",
+      desc: "Nach jeder Handlung mit dem Gegenstand verliert der Charakter 1 AE.",
       handicap: "true",
     },
     {
       prop: "Gefährlich",
-      desc: "Der Gegenstand fügt dem Anwender bei einem Misserfolg [Größe]W Schaden zu. Der Schaden kann durch eine Aktivierung verhindert werden.",
+      desc: "Der Gegenstand fügt dem Anwender bei einem Misserfolg [MK]W + [Größe] x 10 Schaden zu.",
       handicap: "true",
     },
     {
       prop: "Unhandlich",
-      desc: "Jede Aktion mit dem Gegenstand kostet 1 AE extra, wenn keine Aktivierung durchgeführt wird.",
+      desc: "Der Würfelpool wird durch die Größe des Gegenstandes begrenzt.",
       handicap: "true",
     },
     {
       prop: "Verbrauchsmaterial",
-      desc: "Der Gegenstand verringert seine Größe um 1, wenn er erfolgreich angewendet wird. Durch kritische Erfolge oder eine Aktivierung wird dieses Handicap für eine Probe ignoriert.",
+      desc: "Bei der Vergabe dieses Handicaps wird entweder die MK oder Größe des Gegenstandes festgelegt. Der Gegenstand senkt den gewählten Wert um 1, wenn er erfolgreich angewendet wird.",
       handicap: "true",
     },
     {
       prop: "Zerbrechlich",
-      desc: "Jeder Zustand, den der Gegenstand erleidet, muss mit einer Reparatur-Aktion entfernt werden. Durch eine Aktivierung können Zustände durch die normalen Regeln entfernt werden.",
+      desc: "Alle Schwierigkeitsgrade, um Zustände zu entfernen werden auf 20 gehoben. Ein Misserfolg zerstört den Gegenstand.",
       handicap: "ture",
     },
   ];
@@ -219,32 +224,37 @@ export function getCombatProps() {
     },
     {
       prop: "Dauerangriff",
-      desc: "Nach einem Treffer darf der Charakter eine Aktivierung ausführen. Bis der Charakter Schaden nimmt oder eine andere Verteidigung durchführt, darf er einen Angriff gegen das Ziel durchführen, sobald dessen Handlungsphase beginnt. Sobald er seinen Dauerangriff einstellen möchte, wird er ans Ende der Initiativ-Reihenfolge gesetzt (siehe auch Warten). Ziele außerhalb von Deckung dürfen nicht “Warten”.",
+      desc: "Nach einem Treffer darf der Charakter eine Aktivierung ausführen. Bis der Charakter Schaden nimmt oder eine andere Verteidigung durchführt, darf er einen Angriff gegen das Ziel durchführen, sobald dessen Handlungsphase beginnt. Sobald er seinen Dauerangriff einstellen möchte, wird der Charakter ans Ende der Initiativ-Reihenfolge gesetzt. Ziele außerhalb von Deckung dürfen nicht “Warten”.",
       handicap: false,
     },
     {
       prop: "Einschlag",
-      desc: "Erleidet das Ziel einen Zustand, verliert es bei einer Aktivierung zusätzlich 2 AE.",
+      desc: "Erleidet das Ziel einen Zustand, erleidet es bei einer Aktivierung zusätzlich +1W Schaden und wird zu Boden geworfen. ",
       handicap: false,
     },
     {
       prop: "Lädieren",
-      desc: "Erleidet das Ziel einen Zustand, kann es sich davon nicht erholen, bis es durch eine Behandeln-Aktion versorgt wird.",
+      desc: "Erleidet das Ziel einen Zustand durch die verbundene Aktion, kann eine Aktivierung durchgeführt werden. Alle Schwierigkeitsgrade, um Zustände zu entfernen werden auf 20 gesetzt. ",
       handicap: false,
     },
     {
-      prop: "Leise",
-      desc: "Der Durchschlag er Waffe wird für den Vergleich gegen den Sicherheitswert ignoriert.",
+      prop: "Panzerbrechend",
+      desc: "Durch eine Aktivierung können Schutzproben können keine kritischen Erfolge erzielen. Eine zweite Aktivierung verhindert Schutzproben vollständig.",
       handicap: false,
     },
     {
       prop: "Reichweitenvorteil",
-      desc: "Durch eine Aktivierung verdoppeln Fernkampfangriffe und Terminals ihre Reichweiten. Nahkampfangriffe erhöhen die Größe für den Vergleich der Waffengröße um ihre Modulklasse.",
+      desc: "Die maximale Reichweite wird durch die Modulklasse multipliziert. Durch eine Aktivierung verlieren Waffen ihre ideale Reichweite und haben keine Abzüge bis zu ihrer maximalen Reichweite. Nahkampfangriffe erhöhen die Größe für den Vergleich der Waffengröße um ihre Modulklasse.",
+      handicap: false,
+    },
+    {
+      prop: "Schalldämpfer",
+      desc: "Die Waffe gilt nicht als Fernkampfwaffe für die Regel „Laut und Tödlich“. Durch eine Aktivierung wird der Sicherheitswert bei einem Angriff ignoriert.",
       handicap: false,
     },
     {
       prop: "Schock",
-      desc: "Das Ziel verliert bei einer misslungen Schutzprobe 2 + Aktivierungen AE.",
+      desc: "Das Ziel verliert bei einer misslungenen Schutzprobe [2 + Aktivierungen] AE.",
       handicap: false,
     },
     {
@@ -264,7 +274,7 @@ export function getCombatHandicaps() {
   const props = [
     {
       prop: "Lademechanismus",
-      desc: 'Vor einem Angriff muss ein Automatismus zum Laden der Waffe durchgeführt werden. Ein Patzer blockiert die Waffe, welche mit der Aktion "Ladehemmung beseitigen”, die eine Schusswaffen-Probe (16) erfordert oder eine Aktivierung, behoben werden muss.',
+      desc: 'Vor einem Angriff muss ein Automatismus zum Laden der Waffe durchgeführt werden. Ein Patzer blockiert die Waffe, welche mit der Aktion „Ladehemmung beseitigen”, die eine Schusswaffen-Probe (16) erfordert oder eine Aktivierung, behoben werden muss.',
       handicap: "true",
     },
     {
