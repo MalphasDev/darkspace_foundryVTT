@@ -1,5 +1,5 @@
 import { getStat } from "../DSMechanics.js";
-import {getHealth} from "../DSHealth.js";
+import {getHealth,getMonitor} from "../DSHealth.js";
 
 export class DSItem extends Item {
   getObjLocation() {
@@ -29,10 +29,10 @@ export class DSItem extends Item {
   // toolData() {}
   terminalData() {
     const { itemData, system, config } = this.getObjLocation();
-    system.dmg = system.size + system.mk * 2;
+    system.dmg = system.size * 2 + system.mk;
     // Senorreichweite //
     system.range = Math.pow(system.mk * 2, 2) * 10;
-    system.aeCost = system.mk;
+    system.aeCost = "MK des Ziels";
   }
   // medkitData() {}
   artData() {
@@ -80,39 +80,35 @@ export class DSItem extends Item {
 
     // Zustände
 
-    Object.keys(config.techConditionLabel).forEach((element, index) => {
-      system.bodymon = {
-        ...system.bodymon,
-        [element]: {
-          name: game.i18n.translations.darkspace[element],
-          fontsymbol: config.techConditionLabel[element].symbol,
-          hit: getHealth(system.size, system.structure + system.mk)[
-            index
-          ],
-          forbidden: config.techConditionLabel[element].forbidden,
-        },
-      };
-    });
+    const primaryCortex = system.mk;
+    const condName = game.i18n.translations.darkspace;
+    const cortexLabel = config.cortexConditionLabel;
+    system.cortexmon = getMonitor(
+      cortexLabel,
+      primaryCortex,
+      system.size,
+      condName,
+      0
+    );
 
-    Object.keys(config.cortexConditionLabel).forEach((element, index) => {
-      system.cortexmon = {
-        ...system.cortexmon,
-        [element]: {
-          name: game.i18n.translations.darkspace[element],
-          fontsymbol: config.cortexConditionLabel[element].symbol,
-          hit: getHealth(system.mk * 2, system.size)[index],
-          hack: config.cortexConditionLabel[element].hack,
-        },
-      };
-    });
+    const techLabel = config.techConditionLabel;
+
+    system.bodymon = getMonitor(
+      techLabel,
+      system.size,
+      system.size,
+      condName,
+      0
+    );
+
     system.firewall = system.mk * 2 + 10
     system.hitArrayCortex = getHealth(
       system.mk,
-      system.size + system.structure
+      system.size
     );
     system.hitArray = getHealth(
       system.size,
-      system.mk + system.structure
+      system.size
     );
 
     if (this.type != "Drohne") {

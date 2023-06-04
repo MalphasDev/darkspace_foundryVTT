@@ -376,7 +376,6 @@ export class DSCharacterSheet extends ActorSheet {
         propData.skillListType = "skillListNpc";
         break;
       case "Maschine":
-        console.log("Das is ne Maschine");
         propData.skillListType = "skillListVehicle";
         propData.templatesTech = getTechProps().concat(getTechhandicaps());
         propData.itemProp = true;
@@ -388,7 +387,6 @@ export class DSCharacterSheet extends ActorSheet {
       default:
         break;
     }
-console.log(propData);
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/addPropTemplate.html",
       propData

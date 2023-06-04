@@ -18,20 +18,14 @@
     </span>
     <i class="fa-solid fa-history cell_c doublesize"></i>
 
-    {{#unless crit}}
+    
     <div class="text_c">
       <span class="chatStats bigsize bold">{{dmg}}</span>
       <div class="anmerkung"><i class="fa-solid fa-bolt"></i>{{basedmg}} + {{bonusdmg}}</div>
     </div>
-    {{/unless}} {{#if crit}}
-    <div class="text_c">
-      <span class="chatStats bigsize bold">{{dmg}}</span>
-      <div class="anmerkung" style="color: #00ff7e">
-        2 x <i class="fa-solid fa-bolt"></i>{{basedmg}} + {{bonusdmg}} + {{critbonus}}</span>
-      </div>
-    </div>
 
-    {{/if}} {{#ifCond type "!=" "Nahkampfwaffe"}}
+
+     {{#ifCond type "!=" "Nahkampfwaffe"}}
     <span class="chatStats bigsize bold">{{system.range}}</span>
     {{/ifCond}} {{#ifCond type "===" "Nahkampfwaffe"}}
     <span class="chatStats bigsize bold">Nahkampf</span>

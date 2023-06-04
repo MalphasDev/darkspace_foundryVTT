@@ -296,13 +296,16 @@ function rollItemMacro(itemUuid) {
   the actor has an item with the name of the itemUuid, it is returning a warning that the actor does
   not have an item with the name of the itemUuid. */
 
-  const actorId = itemUuid.split(".")[1];
+  let idIndex = itemUuid.split(".").indexOf("Actor")+1
+  const actorId = itemUuid.split(".")[idIndex];
   // const itemId = itemUuid.split(".")[3];
 
   // if (speaker.token) actor = game.actors.tokens[speaker.token];
   const actor = game.actors.get(actorId);
   const item = actor ? actor.items.find((i) => i.uuid === itemUuid) : null;
 
+  
+  console.log(item);
   const dbAttr = actor.system.stats;
   const stat = DSMechanics.getStat(item.system.useWith, dbAttr);
 

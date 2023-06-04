@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["Charakter", "Nebencharakter", "Maschine", "KI","DrohneFahrzeug"],
+    "types": ["Charakter", "Nebencharakter", "Maschine", "KI"],
     "templates": {
       "commonStats": {
         "initMod": 0,
@@ -194,7 +194,6 @@
         "Protokolle": 0
       }
     },
-    "DrohneFahrzeug": {},
     "Maschine": {
       "mk": 1,
       "size": 1,

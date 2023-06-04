@@ -18,15 +18,12 @@ darkspace.bodyConditionLabel = {
   ko: { symbol: "fa-solid fa-times-circle", forbidden: ["action"] },
   wounded: {
     symbol: "fa-solid fa-band-aid",
-    forbidden: ["action", "automatism"],
   },
   crippled: {
     symbol: "fa-solid fa-user-injured",
-    forbidden: ["action", "automatism", "defense"],
   },
   dead: {
     symbol: "fa-solid fa-skull",
-    forbidden: ["action", "automatism", "defense"],
   },
 };
 darkspace.techConditionLabel = {
@@ -35,11 +32,9 @@ darkspace.techConditionLabel = {
   offline: { symbol: "fa-solid fa-battery-quarter", forbidden: ["long","action"] },
   defect: {
     symbol: "fa-solid fa-car-crash",
-    forbidden: ["long","action", "automatism"],
   },
   destroyed: {
     symbol: "fa-solid fa-ban",
-    forbidden: ["long","action", "automatism", "defense"],
   },
 };
 darkspace.cortexConditionLabel = {

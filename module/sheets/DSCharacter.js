@@ -1,6 +1,6 @@
 //import { darkspace } from "../config";
 import { getStat } from "../DSMechanics.js";
-import {getHealth} from "../DSHealth.js";
+import { getHealth, getMonitor } from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
   getStat(fert) {
@@ -32,27 +32,16 @@ export class DSCharacter extends Actor {
   }
 
   charakterData(actorData, system, attr, ress, config) {
-    system.armorId = "Fitness";
-    const armorAttr = this.getStat(system.armorId).attr; // Konsti
-    const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
-
-    // \/ Daraus eine Funktion machen... am besten in DSHealth.. würde jedenfalls Sinn ergeben.
-    Object.keys(config.bodyConditionLabel).forEach((element, index) => {
-      let conditionName = game.i18n.translations.darkspace[element];
-      system.bodymon = {
-        ...system.bodymon,
-        [element]: {
-          name: conditionName,
-          fontsymbol: config.bodyConditionLabel[element].symbol,
-          hit: getHealth(this.getStat(system.armorId).attr, armorSkill)[index],
-          hitBase: getHealth(
-            armorAttr,
-            this.getStat(system.armorId).fert
-          )[index],
-          forbidden: config.bodyConditionLabel[element].forbidden,
-        },
-      };
-    });
+    const primaryHit = this.getStat("Fitness").attr; // Konsti
+    const condName = game.i18n.translations.darkspace;
+    const label = config.bodyConditionLabel;
+    system.bodymon = getMonitor(
+      label,
+      primaryHit,
+      system.size,
+      condName,
+      system.armorBonus
+    );
 
     system.upkeepTotal = 0;
     for (let [k, v] of Object.entries(system.upkeep)) {
@@ -69,39 +58,22 @@ export class DSCharacter extends Actor {
     return { actorData, system, attr, ress, config };
   }
   npcData(actorData, system, attr, ress, config) {
-    system.armorId = "Fitness";
-    const armorAttr = this.getStat(system.armorId).attr; // Konsti
-    const armorSkill = system.armorBonus + this.getStat(system.armorId).fert; // Fitness + Rüstung
-
-    // \/ Daraus eine Funktion machen... am besten in DSHealth.. würde jedenfalls Sinn ergeben.
-    Object.keys(config.bodyConditionLabel).forEach((element, index) => {
-      system.bodymon = {
-        ...system.bodymon,
-        [element]: {
-          name: game.i18n.translations.darkspace[element],
-          fontsymbol: config.bodyConditionLabel[element].symbol,
-          hit: getHealth(armorAttr, armorSkill)[index],
-          hitBase: getHealth(
-            armorAttr,
-            this.getStat(system.armorId).fert
-          )[index],
-          forbidden: config.bodyConditionLabel[element].forbidden,
-        },
-      };
-    });
+    const primaryHit = this.getStat("Fitness").attr; // Konsti
+    const condName = game.i18n.translations.darkspace;
+    const label = config.bodyConditionLabel;
+    system.bodymon = getMonitor(
+      label,
+      primaryHit,
+      system.size,
+      condName,
+      system.armorBonus
+    );
 
     return { actorData, system, attr, ress, config };
   }
   droneData(actorData, system, attr, ress, config) {
     system.structure = system.mk + system.size;
-    system.firewall = 10 + 2 * system.mk
-    // Fahrzeuge dürfen keine Panzerung tragen
-    actorData.deleteEmbeddedDocuments(
-      "Item",
-      this.items.armorList.map((i) => {
-        return i.id;
-      })
-    );
+    system.firewall = 10 + system.structure;
 
     const props = actorData.items.filter((f) => {
       return f.type === "Eigenschaft";
@@ -115,25 +87,22 @@ export class DSCharacter extends Actor {
       system.stats[attribute].attrmax = system.structure - props.length;
     });
 
-    Object.keys(config.techConditionLabel).forEach((element, index) => {
-      system.bodymon = {
-        ...system.bodymon,
-        [element]: {
-          name: game.i18n.translations.darkspace[element],
-          fontsymbol: config.techConditionLabel[element].symbol,
-          hit: getHealth(system.size, system.structure + system.mk)[
-            index
-          ],
-          forbidden: config.techConditionLabel[element].forbidden,
-        },
-      };
-    });
+    const condName = game.i18n.translations.darkspace;
+    const label = config.techConditionLabel;
+
+    system.bodymon = getMonitor(
+      label,
+      system.size,
+      system.size,
+      condName,
+      system.armorBonus
+    );
 
     return { actorData, system, attr, ress, config };
   }
 
   aiData(actorData, system, attr, ress, config) {
-    system.firewall = 10 + 2 * system.mk
+    system.firewall = 10 + 2 * system.mk;
     const props = actorData.items.filter((f) => {
       return f.type === "Eigenschaft";
     });
@@ -235,24 +204,9 @@ export class DSCharacter extends Actor {
         return s.system.structure;
       })
       .sort((a, b) => b - a);
-    const sortedCortexArmorList = items.terminalList
-      .filter((a) => {
-        return a.system.equipped === true;
-      })
-      .map((s) => {
-        return 2 * s.system.mk + s.system.size;
-      })
-      .sort((a, b) => b - a);
 
     system.armorBonus = sortedArmorStructureList[0];
     isNaN(system.armorBonus) ? (system.armorBonus = 0) : system.armorBonus;
-
-    system.cortexArmorBonus =
-      sortedCortexArmorList[0] + sortedCortexArmorList.length - 1;
-
-    isNaN(system.cortexArmorBonus)
-      ? (system.cortexArmorBonus = 0)
-      : system.cortexArmorBonus;
 
     let currentAttrList;
     switch (this.type) {
@@ -275,7 +229,6 @@ export class DSCharacter extends Actor {
       default:
         break;
     }
-    system.armorCortex = "Synthese";
 
     // +++++++++++++++++++++++++
     // ++++ Attribut Maxima ++++
@@ -304,21 +257,36 @@ export class DSCharacter extends Actor {
     // ++++ Cortex-Monitor ++++
     // ++++++++++++++++++++++++
 
-    const cortexAttr = this.getStat(system.armorCortex).attr; // Kybernese
-    const cortexSkill =
-      system.cortexArmorBonus + this.getStat(system.armorCortex).fert; // Synthese
+    system.armorCortex = "Synthese";
+    system.firewall = 10 + this.getStat("Synthese").attr + this.getStat("Synthese").fert
 
-    Object.keys(config.cortexConditionLabel).forEach((element, index) => {
-      system.cortexmon = {
-        ...system.cortexmon,
-        [element]: {
-          name: game.i18n.translations.darkspace[element],
-          fontsymbol: config.cortexConditionLabel[element].symbol,
-          hit: getHealth(system.mk * 2, system.size)[index],
-          hack: config.cortexConditionLabel[element].hack,
-        },
-      };
-    });
+    const sortedCortexArmorList = items.terminalList
+      .filter((a) => {
+        return a.system.equipped === true;
+      })
+      .map((s) => {
+        return s.system.structure;
+      })
+      .sort((a, b) => b - a);
+
+    system.cortexArmorBonus =
+      sortedCortexArmorList[0] + sortedCortexArmorList.length - 1;
+
+    isNaN(system.cortexArmorBonus)
+      ? (system.cortexArmorBonus = 0)
+      : system.cortexArmorBonus;
+
+    const primaryHit = this.getStat(system.armorCortex).attr;
+    const condName = game.i18n.translations.darkspace;
+    const label = config.cortexConditionLabel;
+    system.cortexmon = getMonitor(
+      label,
+      primaryHit,
+      system.size,
+      condName,
+      system.cortexArmorBonus
+    );
+
 
     // ++++++++++++++++++++++++++++++
     // ++++ Verbotene Handlungen ++++
@@ -352,7 +320,6 @@ export class DSCharacter extends Actor {
       }
     });
 
-
     this.expCounter();
   }
 
@@ -374,7 +341,7 @@ export class DSCharacter extends Actor {
       case "Nebencharakter":
         attrList = config.attrNpc;
         skillList = config.skillListNpc;
-        system.startEp = Math.pow(system.competence, 2) * 50;
+        system.startEp = Math.pow(system.competence, 2) * 50 + 300;
         break;
       case "Maschine":
         attrList = config.attrVehicle;
@@ -387,7 +354,6 @@ export class DSCharacter extends Actor {
         system.startEp = game.settings.get("darkspace", "startxpai");
         break;
     }
-    
 
     attrList.forEach((attrIdent) => {
       let attributName = attr;
@@ -417,7 +383,8 @@ export class DSCharacter extends Actor {
       0
     );
 
-    system.totalPropXp = (Object.entries(system.props).length - count*2) * 100;
+    system.totalPropXp =
+      (Object.entries(system.props).length - count * 2) * 100;
 
     system.totalXp =
       system.totalAttrXp +

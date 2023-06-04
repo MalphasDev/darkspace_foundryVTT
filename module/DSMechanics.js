@@ -10,9 +10,8 @@ export async function rollDice(inputData) {
   let rollData = inputData.rollData;
   let removehighest = inputData.removehighest;
   let rollformular;
-  const actor = game.actors.get(inputData.actorId)
+  const actor = game.actors.get(inputData.actorId);
   const system = actor?.system;
-
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
@@ -20,18 +19,17 @@ export async function rollDice(inputData) {
 
   attrModLocal++ ? attrModLocal-- : (attrModLocal = 0);
   fertModLocal++ ? fertModLocal-- : (fertModLocal = 0);
-  
-  let attr
-  let skill
+
+  let attr;
+  let skill;
 
   if (inputData.type === "Custom") {
-    attr = inputData.attr
-    skill = inputData.skill
+    attr = inputData.attr;
+    skill = inputData.skill;
   } else {
-    attr = system.stats[rollData.attribute].attribut
-    skill = system.stats[rollData.attribute].skill[rollData.skill]
+    attr = system.stats[rollData.attribute].attribut;
+    skill = system.stats[rollData.attribute].skill[rollData.skill];
   }
-
 
   rollformular = attr + "d10x";
 
@@ -288,29 +286,32 @@ export async function _resolveDice(inputData) {
   let actorId;
   let messageData = {};
   let cardData = {};
+
   await outputData.then((a) => {
     messageData = a.messageData;
     cardData = a.cardData;
     actorId = a.actorId;
   });
+  
   if (actorId === "" || actorId === undefined)
     actorId = messageData.speaker.actor;
   const currentActor = game.actors.get(actorId);
   const stats = currentActor?.system.stats;
   
+  let diceB = cardData.evalDiceB ? cardData.evalDiceB : 0
+  let diceC = cardData.evalDiceC ? cardData.evalDiceC : 0
+  let skill = cardData.skillValue
 
+  const basedmg = cardData.system?.dmg
+  const bonusdmg = diceC;
 
   if (inputData.item != undefined) {
     cardData = {
       ...cardData,
       currentActor,
-      basedmg: cardData.system.dmg,
-      bonusdmg: cardData.total_BC,
-      critbonus: stats[inputData.rollData.attribute].attribut + cardData.total_BC,
-      dmg: cardData.crit
-        ? cardData.system.dmg * 2 +
-          cardData.total_BC *2
-        : cardData.system.dmg + cardData.total_BC,
+      basedmg: basedmg,
+      bonusdmg: bonusdmg,
+      dmg: basedmg + bonusdmg,
     };
   }
   if (inputData.eventData?.dataset.ua) {
@@ -318,12 +319,8 @@ export async function _resolveDice(inputData) {
       ...cardData,
       currentActor,
       basedmg: stats[inputData.rollData.attribute].attribut,
-      bonusdmg: cardData.total_BC,
-      critbonus: stats[inputData.rollData.attribute].attribut + cardData.total_BC,
-      dmg: cardData.crit
-      ? stats[inputData.rollData.attribute].attribut * 2 +
-        cardData.total_BC * 2
-      : stats[inputData.rollData.attribute].attribut + cardData.total_BC,
+      bonusdmg: bonusdmg,
+      dmg: stats[inputData.rollData.attribute].attribut + bonusdmg,
 
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",

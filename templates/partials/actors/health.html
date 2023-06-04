@@ -22,7 +22,7 @@
       </li>
       {{/ifCond}}
        {{#each system.bodyConditions as |value key|}}
-      <li class="flex borderbox round" style="height: 55px;">
+      <li  i class="flex borderbox round" style="height: 55px;">
         <input
           type="checkbox"
           class="noDisplay"
@@ -55,8 +55,7 @@
 
 
     <!-- Cortex Health -->
-    {{#ifCond actor.type "!=" "Charakter"}}
-    {{#ifCond actor.type "!=" "Nebencharakter"}}
+
 
     <ul class="flex start">
       <li>
@@ -92,8 +91,7 @@
       </li>
       {{/each}}
     </ul>
-    {{/ifCond}}
-    {{/ifCond}}
+    
   </div>
   <hr />
   <!-- AKTIONEN -->
@@ -131,7 +129,8 @@
         skillVal=system.stats.Kybernese.skill.Synthese}}
       </div>
     </div>-->
-    <!-- Schutz -->
+
+    <!-- Schutz
     <div>
       
     
@@ -140,12 +139,12 @@
 
       {{#ifCond actor.type "===" "Charakter"}}
 
-      <!-- Motorik Schutz -->
+      
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Motorik" skillAttr=system.stats.Geschick.attribut
       skillVal=system.stats.Geschick.skill.Motorik}}
 
-      <!-- Fitness Schutz -->
+     
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
       skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
@@ -153,12 +152,11 @@
       
       {{#ifCond actor.type "===" "Nebencharakter"}}
 
-      <!-- Fitness Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Fitness" skillAttr=system.stats.Körper.attribut
       skillVal=system.stats.Körper.skill.Fitness}}
 
-      <!-- Kampftechnik Schutz -->
+
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Kampftechnik" skillAttr=system.stats.Körper.attribut
       skillVal=system.stats.Körper.skill.Kampftechnik}} {{/ifCond}}
@@ -166,19 +164,18 @@
       
       
       {{#ifCond actor.type "===" "Maschine"}}
-      <!-- Größe Schutz -->
+
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Größe" skillAttr=system.mk skillVal=system.size}}
 
-      <!-- Beschleunigung Schutz -->
+
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Beschleunigung" skillAttr=system.stats.Leistung.attribut
       skillVal=system.stats.Leistung.skill.Beschleunigung}} {{/ifCond}}
 
-      <!-- Synthese Schutz -->
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
       skillname="Synthese" skillAttr=system.stats.Kybernese.attribut
       skillVal=system.stats.Kybernese.skill.Synthese}}
     </div>
-  </div>
+  </div>  -->
 </div>
