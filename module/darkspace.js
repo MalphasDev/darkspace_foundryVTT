@@ -125,6 +125,15 @@ Hooks.once("init", function () {
       label: "Tod",
     },
   ];
+  CONFIG.Actor.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.Cards.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.Item.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.JournalEntry.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.Macro.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.Playlist.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.RollTable.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.Scene.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
+  CONFIG.Adventure.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner_maschine.png"
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("darkspace", DSItemSheet, { makeDefault: true });
@@ -169,6 +178,8 @@ Hooks.once("ready", function () {
   const isGM = game.users.current.isGM;
   const gameVersion = game.world.systemVersion;
   console.log("Dark Space Version " + gameVersion + " loaded.", game);
+  console.log("Last Major Update: 0.9832");
+  console.log(Number(gameVersion) >= 0.9832);
 });
 
 Handlebars.registerHelper("disabled", function (condition) {

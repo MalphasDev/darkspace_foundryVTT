@@ -82,7 +82,7 @@
         <div class="tooltip">
           {{#with (lookup ../system.cortexmon key)}}
           <i class="{{this.fontsymbol}}"></i>
-          <span class="tooltiptext top">{{this.name}}</span>
+          <span class="tooltiptext top">{{this.name}} ({{hit}}=10+2x)</span>
           <div style="height: 15px;">
             {{hit}}
           </div>

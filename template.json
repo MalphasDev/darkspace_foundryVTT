@@ -6,6 +6,7 @@
         "initMod": 0,
         "notes": "",
         "props": {},
+        "gameversion": 0,
         "sheetui": {
           "itemlist": true,
           "weaponlist": true,
@@ -84,8 +85,8 @@
           "skill": {
             "Athletik": 0,
             "Fitness": 0,
-            "Nahkampfwaffen": 0,
-            "Unterstützungswaffen": 0
+            "Kraft": 0,
+            "Nahkampfwaffen": 0
           }
         },
         "Intelligenz": {
@@ -95,7 +96,7 @@
             "Bildung": 0,
             "Logik": 0,
             "Medizin": 0,
-            "Raumfahrt": 0
+            "Polytronik": 0
           }
         },
         "Intuition": {
@@ -105,7 +106,7 @@
             "Cortex": 0,
             "Kreativität": 0,
             "Kultur": 0,
-            "Polytronik": 0
+            "Navigation": 0
           }
         },
         "Anomalie": {

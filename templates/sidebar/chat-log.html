@@ -1,11 +1,12 @@
-
-<section class="tab sidebar-tab directory flexcol" id="chat" data-tab="chat">
+<section class="{{cssClass}} directory flexcol" id="{{cssId}}" data-tab="{{tabName}}">
     <ol id="chat-log">
     </ol>
+    <div class="flexrow hidden jump-to-bottom">
+        <a><i class="fas fa-keyboard-down"></i> {{localize "CHAT.JumpToBottom"}}</a>
+    </div>
 
     {{#unless isStream}}
     <div id="chat-controls" class="flexrow">
-        <!-- <label class="chat-control-icon"><i class="fa-solid fa-dice-d20"></i></label> -->
         <select class="roll-type-select" name="rollMode">
             <optgroup label="{{localize 'CHAT.RollDefault'}}">
             {{#select rollMode}}
@@ -18,8 +19,8 @@
 
         {{#if user.isGM}}
         <div class="control-buttons">
-            <a class="export-log" title="{{localize 'CHAT.Export'}}"><i class="fa-solid fa-save"></i></a>
-            <a class="delete chat-flush" title="{{localize 'CHAT.Clear'}}"><i class="fa-solid fa-trash"></i></a>
+            <a class="export-log" title="{{localize 'CHAT.Export'}}"><i class="fas fa-save"></i></a>
+            <a class="delete chat-flush" title="{{localize 'CHAT.Clear'}}"><i class="fas fa-trash"></i></a>
         </div>
         {{/if}}
     </div>

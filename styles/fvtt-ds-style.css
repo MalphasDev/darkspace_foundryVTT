@@ -163,6 +163,21 @@ input:disabled {
 #module-management .package-list .package-description {
   color: var(--effect);
 }
+.jump-to-bottom {
+  bottom: 194px;
+}
+.prosemirror menu .pm-dropdown, .prosemirror menu .pm-dropdown ul,.prosemirror.menu-dialog form, .chat-message.whisper, #chat-controls .roll-type-select {
+  background: var(--secondary);
+}
+.prosemirror menu .pm-dropdown li:hover, .prosemirror menu button:hover, .prosemirror menu button.active {
+  background: var(--main);
+}
+.active.text .fa, .active.text .fa-solid {
+  color: var(--tertiary);
+}
+.mce-content-body p {
+  color: #fff;
+}
 
 .customAE {
   padding: 5px;

@@ -128,6 +128,19 @@ export class DSCharacter extends Actor {
     const items = this.items;
     const { actorData, system, attr, ress, config } = this.getObjLocation();
 
+    // Delete old template-Data
+    if (system.gameversion <= 0.9831 && this.type ==="Charakter") {
+      console.log(this.name);
+      if (system.stats.Konstitution.skill.Unterstützungswaffen === null || system.stats.Konstitution.skill.Unterstützungswaffen != undefined) {
+        console.log("Muss gelöscht werden");
+        actorData.update({
+          "system.stats.Konstitution.skill.-=Unterstützungswaffen": null,
+          "system.gameversion": 0.9832,
+        });
+      }
+    }
+    
+
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
 
@@ -208,23 +221,58 @@ export class DSCharacter extends Actor {
     system.armorBonus = sortedArmorStructureList[0];
     isNaN(system.armorBonus) ? (system.armorBonus = 0) : system.armorBonus;
 
+    // +++++++++++++
+    // ++++ PAN ++++
+    // +++++++++++++
+
+    let highestMk = actorData.items
+      .map((item) => {
+        return item.system.mk;
+      })
+      .sort((a, b) => b - a)[0];
+    if (highestMk === undefined) {
+      highestMk = 0;
+    }
+    system.pan = highestMk;
+
+    // ++++++++++++++++++++++++++++++++++++++++
+    // ++++ Fallunterscheidung Actor Types ++++
+    // ++++++++++++++++++++++++++++++++++++++++
+
     let currentAttrList;
+    let cortexThreshold = [0, 0];
     switch (this.type) {
       case "Charakter":
         this.charakterData(actorData, system, attr, ress, config);
         currentAttrList = config.attrList;
+        system.firewall =
+          10 + this.getStat("Synthese").attr + this.getStat("Synthese").fert;
+        cortexThreshold = [
+          this.getStat("Synthese").fert,
+          this.getStat("Synthese").attr,
+        ];
         break;
       case "Nebencharakter":
         this.npcData(actorData, system, attr, ress, config);
         currentAttrList = config.attrNpc;
+        system.firewall =
+          10 + this.getStat("Synthese").attr + this.getStat("Synthese").fert;
+        cortexThreshold = [
+          this.getStat("Synthese").fert,
+          this.getStat("Synthese").attr,
+        ];
         break;
       case "Maschine":
         this.droneData(actorData, system, attr, ress, config);
         currentAttrList = config.attrVehicle;
+        system.firewall = 10 + system.mk + system.size;
+        cortexThreshold = [system.size, system.mk];
         break;
       case "KI":
         this.aiData(actorData, system, attr, ress, config);
         currentAttrList = config.attrAi;
+        system.firewall = 10 + system.mk * 2;
+        cortexThreshold = [system.mk, system.mk];
         break;
       default:
         break;
@@ -258,7 +306,6 @@ export class DSCharacter extends Actor {
     // ++++++++++++++++++++++++
 
     system.armorCortex = "Synthese";
-    system.firewall = 10 + this.getStat("Synthese").attr + this.getStat("Synthese").fert
 
     const sortedCortexArmorList = items.terminalList
       .filter((a) => {
@@ -276,15 +323,14 @@ export class DSCharacter extends Actor {
       ? (system.cortexArmorBonus = 0)
       : system.cortexArmorBonus;
 
-    const primaryHit = this.getStat(system.armorCortex).attr;
     const condName = game.i18n.translations.darkspace;
     const label = config.cortexConditionLabel;
     system.cortexmon = getMonitor(
       label,
-      primaryHit,
-      system.size,
+      cortexThreshold[1],
+      cortexThreshold[0],
       condName,
-      system.cortexArmorBonus
+      system.cortexArmorBonus + system.pan
     );
 
 

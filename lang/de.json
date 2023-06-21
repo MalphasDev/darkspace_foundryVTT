@@ -137,7 +137,6 @@
   "darkspace.Synthese": "Synthese",
   "darkspace.Tarnen": "Tarnen",
   "darkspace.Technologie": "Technologie",
-  "darkspace.Unterstützungswaffen": "Unterstützungswaffen",
   "darkspace.Verhandeln": "Verhandeln",
   "darkspace.Verteilung": "Verteilung",
   "darkspace.Wahrnehmung": "Wahrnehmung",
@@ -150,6 +149,7 @@
   "darkspace.Manipulieren": "Manipulieren",
   "darkspace.Geist": "Geist",
   "darkspace.Technik": "Technik",
+  "darkspace.Navigation": "Navigation",
 
   "darkspace.props": "Eigenschaften",
   "darkspace.handicaps": "Handicap",
