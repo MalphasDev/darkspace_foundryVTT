@@ -130,7 +130,6 @@ export class DSCharacter extends Actor {
 
     // Delete old template-Data
     if (system.gameversion <= 0.9831 && this.type ==="Charakter") {
-      console.log(this.name);
       if (system.stats.Konstitution.skill.Unterstützungswaffen === null || system.stats.Konstitution.skill.Unterstützungswaffen != undefined) {
         console.log("Muss gelöscht werden");
         actorData.update({
@@ -318,6 +317,12 @@ export class DSCharacter extends Actor {
 
     system.cortexArmorBonus =
       sortedCortexArmorList[0] + sortedCortexArmorList.length - 1;
+
+      if (sortedCortexArmorList.length > 0) {
+        
+        console.log(sortedCortexArmorList);
+      }
+      console.log(this.name,cortexThreshold);
 
     isNaN(system.cortexArmorBonus)
       ? (system.cortexArmorBonus = 0)

@@ -5,7 +5,7 @@ export function getHealth(primary, size) {
   const armorMultiplier = [0, 1, 2, 3, 4];
   const realSize = size === undefined ? 5 : size
 
-  return Array.from(armorMultiplier, (x) => x * 5 + 2*realSize + primary);
+  return Array.from(armorMultiplier, (x) => x * 5 + realSize + primary);
 }
 
 export function getMonitor(label,primary,insize,condName,armor) {

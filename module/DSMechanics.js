@@ -303,7 +303,7 @@ export async function _resolveDice(inputData) {
   let skill = cardData.skillValue
 
   const basedmg = cardData.system?.dmg
-  const bonusdmg = diceC;
+  const bonusdmg = diceB + diceC;
 
   if (inputData.item != undefined) {
     cardData = {

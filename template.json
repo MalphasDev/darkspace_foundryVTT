@@ -16,8 +16,8 @@
       "bodyConditions": {
         "bodyConditions": {
           "struck": false,
-          "ko": false,
           "wounded": false,
+          "ko": false,
           "crippled": false,
           "dead": false
         }

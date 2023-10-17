@@ -15,10 +15,10 @@ darkspace.props = {
 
 darkspace.bodyConditionLabel = {
   struck: { symbol: "fa-solid fa-dizzy", forbidden: [] },
-  ko: { symbol: "fa-solid fa-times-circle", forbidden: ["action"] },
   wounded: {
     symbol: "fa-solid fa-band-aid",
   },
+  ko: { symbol: "fa-solid fa-times-circle", forbidden: ["action"] },
   crippled: {
     symbol: "fa-solid fa-user-injured",
   },

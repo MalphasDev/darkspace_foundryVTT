@@ -179,7 +179,8 @@ Hooks.once("ready", function () {
   const gameVersion = game.world.systemVersion;
   console.log("Dark Space Version " + gameVersion + " loaded.", game);
   console.log("Last Major Update: 0.9832");
-  console.log(Number(gameVersion) >= 0.9832);
+  Number(gameVersion) >= 0.9832 ? console.log("Version aktuell") : console.log("Version veraltet");
+  
 });
 
 Handlebars.registerHelper("disabled", function (condition) {
