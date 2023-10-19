@@ -15,7 +15,7 @@
     "verified": "11.300",
     "maximum": 11
   },
-  "version": 0.9832,
+  "version": "MC0.1",
   "esmodules": ["/module/darkspace.js"],
   "styles": ["/styles/fvtt-ds-style.css"],
   "packs": [],
@@ -29,6 +29,6 @@
   "gridDistance:": 1,
   "gridUnits": "m",
   "socket": true,
-  "manifest": "https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/darkspace_fvtt10x/system.json",
-  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/v0.9832.zip"
+  "manifest": "https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/darkspace_fvtt11_B/system.json",
+  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/MC0-1.zip"
 }

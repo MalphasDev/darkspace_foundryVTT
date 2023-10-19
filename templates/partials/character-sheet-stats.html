@@ -1,7 +1,11 @@
 <div>
   <div class="anmerkung flex between">
-    <span
-      ><ul class="flex">
+    <span></span>
+      <ul class="flex">
+        <li class="pill padding">
+          <span>{{localize "darkspace.competence"}}</span>
+          <span>{{system.compXp}} EP</span>
+        </li>
         <li class="pill padding">
           <span>{{localize "darkspace.Attribute"}}</span>
           <span>{{system.totalAttrXp}} EP</span>
@@ -25,32 +29,46 @@
     <span>
       <div>
         <span>{{system.totalXp}} /</span>
-        <input
-          name="system.xp.max"
-          value="{{system.xp.max}}"
-          type="number"
-          min="0"
-          max="10"
-          style="flex: 1"
-        />
+        <input name="system.xp.max" value="{{system.xp.max}}" type="number" min="0" max="10" style="flex: 1" />
         EP
       </div>
-      <div class="pill padding">{{system.xpAvailable}} {{localize "darkspace.EpAvailable"}}</div></span
-    >
+      <div class="pill padding">{{system.xpAvailable}} {{localize "darkspace.EpAvailable"}}</div>
+    </span>
   </div>
   <hr />
+  <div>
 
+    <h2>Kompetenz
+
+      <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
+      <span class="counter-container" style="margin-left: 10px;">
+        {{#times system.effectiveCompetence}}
+        <i class="counter fa-solid fa-square" data-set=full data-address="system.competence"></i>
+        {{/times}}
+        {{#times (math system.competence "-" system.effectiveCompetence)}}
+        <i class="counter fa-solid fa-square darkred" data-set=part data-address="system.competence"></i>
+        {{/times}}
+        {{#times (math 4 "-" system.competence)}}
+        <i class="counter fa-regular fa-square" data-set=false data-address="system.competence"></i>
+        {{/times}}
+      </span>
+      {{#ifCond actor.type "===" "Nebencharakter"}}
+      <span>+{{system.stats.competence.skill.Kompetenzbonus}}</span>
+      {{/ifCond}}
+      
+    </h2>
+    <hr />
+
+  </div>
   <ul class="grid col2" style="gap: 1ch">
     {{#each system.stats as |attrobj attrname|}}
     <li class="attrfeld">
       <!--ATTRIBUTE für Charaktere-->
-      
+
       <div class="flex between">
-        <span class="attrname decattr pointer" data-attr="{{attrname}}"
-          >
+        <span class="attrname decattr pointer" data-attr="{{attrname}}">
           {{localize (lookup (concat "darkspace." attrname) "string")}}
-          <span style="margin: 0 1ch"
-            >
+          <span style="margin: 0 1ch">
             {{#each ../items.cybernetics}} {{#if system.prosthetic}}
             {{#ifCond system.useAttr "===" attrname}}
             <i class="fa-solid fa-arrow-up-wide-short"></i>
@@ -61,27 +79,27 @@
 
         <span class="flex end">
           <span class="attrvalue">
-            <input
-              class="value_box"
-              name="system.stats.{{attrname}}.attribut"
-              value="{{attrobj.attribut}}"
-              type="number"
-              min="0"
-              max="10"
-            />
-            
-            <input 
-            title="Maximaler {{attrname}}-Wert {{attrmax}}"
-            style="background-color: #0000006e;
-            color: #ffffff85;
-            font-size: 0.8rem;"
-            class="value_box"
-            value="{{attrmax}}"
-            type="number"
-            disabled
-          />
-        
-        
+
+            <span class="counter-container" style="margin-left: 10px;">
+              <i class="counter fa-regular fa-minus pointer" data-set="minus"
+                data-address="system.stats.{{attrname}}.attribut"></i>
+              
+              <span>
+                {{#times attrobj.attribut}}
+                <i class="counter fa-solid fa-square pointer" data-set="true"
+                  data-address="system.stats.{{attrname}}.attribut"></i>
+                {{/times}}
+                {{#times (math 3 "-" attrobj.attribut)}}
+                <i class="counter fa-regular fa-square pointer" data-set="false"
+                  data-address="system.stats.{{attrname}}.attribut"></i>
+                {{/times}}
+              </span>
+              <i class="counter fa-regular fa-plus pointer" data-set="plus"
+              data-address="system.stats.{{attrname}}.attribut"></i>
+              
+            </span>
+
+
           </span>
         </span>
       </div>
@@ -91,8 +109,7 @@
         <li class="fertname flex between">
           <a class="rollSkill" data-skill="{{fertname}}">
             {{localize (lookup (concat "darkspace." fertname) "string")}}
-            <span
-              >{{#each ../../system.props}} {{#ifCond skill "===" fertname}}
+            <span>{{#each ../../system.props}} {{#ifCond skill "===" fertname}}
               {{#unless handicap}}
               <span class="tooltip">
                 <i class="fa-solid fa-dna"></i>
@@ -100,15 +117,13 @@
                 <span class="tooltiptext top">{{this.prop}}</span>
               </span>
 
-              {{/unless}} {{/ifCond}} {{/each}}</span
-            >
+              {{/unless}} {{/ifCond}} {{/each}}</span>
             <span>
               {{#each ../../system.props}} {{#ifCond skill "===" fertname}}
               {{#if handicap}}<span class="tooltip">
                 <i class="fa-solid fa-minus-circle handicap"></i>
 
-                <span class="tooltiptext top">{{this.prop}}</span> </span
-              >{{/if}} {{/ifCond}} {{/each}}
+                <span class="tooltiptext top">{{this.prop}}</span> </span>{{/if}} {{/ifCond}} {{/each}}
             </span>
             <span>
               {{#each ../../items.cybernetics}} {{#unless
@@ -117,22 +132,14 @@
               <span class="tooltip">
                 <i class="fa-solid fa-microchip"></i>
 
-                <span class="tooltiptext top"
-                  >{{../name}}
-                  <i class="fa-solid fa-caret-right"></i> {{action}}</span
-                > </span
-              >{{/ifCond}} {{/each}} {{/unless}} {{/each}}
+                <span class="tooltiptext top">{{../name}}
+                  <i class="fa-solid fa-caret-right"></i> {{action}}</span> </span>{{/ifCond}} {{/each}} {{/unless}}
+              {{/each}}
             </span>
           </a>
           <div class="skillbox">
-            <input
-              class="value_box"
-              name="system.stats.{{attrname}}.skill.{{fertname}}"
-              value="{{this}}"
-              type="number"
-              min="0"
-              max="10"
-            />
+            <input class="value_box" name="system.stats.{{attrname}}.skill.{{fertname}}" value="{{this}}" type="number"
+              min="0" max="10" />
           </div>
         </li>
         {{/each}}

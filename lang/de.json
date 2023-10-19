@@ -20,14 +20,14 @@
   "darkspace.defect": "Defekt",
   "darkspace.destroyed": "Zerstört",
 
-  "darkspace.overflow": "Überlauf",
-  "darkspace.crash": "Crash",
-  "darkspace.dos": "DoS",
+  "darkspace.ram": "Arbeitsspeicher",
+  "darkspace.cpu": "Prozessor",
+  "darkspace.interface": "Interface",
+  "darkspace.logindata": "Zugangsdaten",
+  "darkspace.rights": "Berechtigung",
 
-  "darkspace.rooted": "Gerootet",
-
-  "darkspace.Attribut": "Attribut",
-  "darkspace.Attribute": "Attribute",
+  "darkspace.Attribut": "Begabung",
+  "darkspace.Attribute": "Begabungen",
   "darkspace.Fertigkeit": "Fertigkeit",
   "darkspace.Fertigkeiten": "Fertigkeiten",
 
@@ -56,9 +56,9 @@
   "darkspace.Modulklasse": "Modulklasse",
   "darkspace.Struktur": "Struktur",
 
-  "darkspace.sizemkbot": "Größe, Modulklasse und Bots",
+  "darkspace.sizemkbot": "Größe und Modulklasse",
 
-  "darkspace.Kompetenz": "Kompetenz",
+  "darkspace.competence": "Kompetenz",
 
   "darkspace.Aufrappeln": "Aufrappeln",
   "darkspace.Schutzprobe": "Schutzprobe",
@@ -150,11 +150,29 @@
   "darkspace.Geist": "Geist",
   "darkspace.Technik": "Technik",
   "darkspace.Navigation": "Navigation",
+  "darkspace.Agilität": "Agilität",
+  "darkspace.Geschwindigkeit": "Geschwindigkeit",
+  "darkspace.Körperkontrolle": "Körperkontrolle",
+  "darkspace.Präzision": "Präzision",
+
 
   "darkspace.props": "Eigenschaften",
   "darkspace.handicaps": "Handicap",
   "darkspace.techprops": "Technische Eigenschaften",
   "darkspace.techHandicaps": "Technische Handicap",
   "darkspace.combatProps": "Kampf-Eigenschaften",
-  "darkspace.combatHandicaps": "Kampf-Handicap"
+  "darkspace.combatHandicaps": "Kampf-Handicap",
+
+  "darkspace.noConsequence": "Keine Wirkung",
+  "darkspace.backlash": "Rückschlag",
+  "darkspace.increasedAe": "Erhöhte AE Kosten",
+  "darkspace.noActions": "Keine Aktionen",
+  "darkspace.outOfCombat": "Kampfunfähig",
+  "darkspace.dicepoollimit": "Limitierter Würfelpool",
+
+  "darkspace.condition": "Zustand",
+  "darkspace.conditions": "Zustände",
+  "darkspace.bodymon": "Gesundheitsmonitor",
+  "darkspace.techmon": "Technischer Monitor",
+  "darkspace.cortexmon": "Cortex-Monitor"
 }

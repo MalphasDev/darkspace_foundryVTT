@@ -5,13 +5,20 @@ import { DSCombatTracker } from "./DSCombatTracker.js";
  * @returns An object with the following properties:
  */
 export async function rollDice(inputData) {
+  const actor = game.actors.get(inputData.actorId);
+  
   let attrModLocal = parseInt(inputData.attrModLocal);
   let fertModLocal = parseInt(inputData.fertModLocal);
   let rollData = inputData.rollData;
   let removehighest = inputData.removehighest;
   let rollformular;
-  const actor = game.actors.get(inputData.actorId);
   const system = actor?.system;
+  let competence = actor?.system.effectiveCompetence
+  if (competence === undefined) {competence=0}
+
+  
+
+  console.log(inputData);
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
@@ -24,10 +31,13 @@ export async function rollDice(inputData) {
   let skill;
 
   if (inputData.type === "Custom") {
-    attr = inputData.attr;
+    attr = inputData.attr + competence;
     skill = inputData.skill;
+  } else if (actor.type === "Nebencharakter") {
+    attr = actor?.system.effectiveCompetence
+    skill = actor?.system.stats.competence.skill.Kompetenzbonus
   } else {
-    attr = system.stats[rollData.attribute].attribut;
+    attr = system.stats[rollData.attribute].attribut + competence;
     skill = system.stats[rollData.attribute].skill[rollData.skill];
   }
 
@@ -54,6 +64,10 @@ export async function rollDice(inputData) {
   const total_AC =
     sortedResult[0] +
     (sortedResult[2] === undefined ? 0 : sortedResult[2]) +
+    skill;
+  const total_CD =
+    (sortedResult[2] === undefined ? 0 : sortedResult[2]) +
+    (sortedResult[3] === undefined ? 0 : sortedResult[3]) +
     skill;
 
   // --------------------- //
@@ -177,6 +191,7 @@ export async function rollDice(inputData) {
     total_AB: total_AB,
     total_BC: total_BC,
     total_AC: total_AC,
+    total_CD: total_CD,
   };
 
   if (inputData.actorData != undefined) {
@@ -198,6 +213,7 @@ export async function rollDice(inputData) {
       total_AB: total_AB,
       total_BC: total_BC,
       total_AC: total_AC,
+      total_CD: total_CD,
       ...diceResult,
       ...resultMessage,
       ...disadvMessage,
@@ -300,6 +316,7 @@ export async function _resolveDice(inputData) {
   
   let diceB = cardData.evalDiceB ? cardData.evalDiceB : 0
   let diceC = cardData.evalDiceC ? cardData.evalDiceC : 0
+  let diceD = cardData.evalDiceD ? cardData.evalDiceD : 0
   let skill = cardData.skillValue
 
   const basedmg = cardData.system?.dmg

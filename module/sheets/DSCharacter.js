@@ -33,13 +33,11 @@ export class DSCharacter extends Actor {
 
   charakterData(actorData, system, attr, ress, config) {
     const primaryHit = this.getStat("Fitness").attr; // Konsti
-    const condName = game.i18n.translations.darkspace;
     const label = config.bodyConditionLabel;
     system.bodymon = getMonitor(
       label,
       primaryHit,
       system.size,
-      condName,
       system.armorBonus
     );
 
@@ -49,25 +47,21 @@ export class DSCharacter extends Actor {
     }
     system.wealth = system.stats.Ressourcen.attribut * 2;
     this.expCounter();
-    system.competence = Math.floor(
-      Math.sqrt(
-        (system.totalAttrXp + system.totalSkillXp + system.totalPropXp) / 100
-      )
-    );
 
     return { actorData, system, attr, ress, config };
   }
   npcData(actorData, system, attr, ress, config) {
-    const primaryHit = this.getStat("Fitness").attr; // Konsti
-    const condName = game.i18n.translations.darkspace;
+    const primaryHit = system.competence; // Konsti
     const label = config.bodyConditionLabel;
     system.bodymon = getMonitor(
       label,
       primaryHit,
       system.size,
-      condName,
       system.armorBonus
     );
+    
+    system.stats = {competence: {skill: {Kompetenzbonus: Math.floor(system.competence/2)}}}
+    console.log(system);
 
     return { actorData, system, attr, ress, config };
   }
@@ -87,17 +81,15 @@ export class DSCharacter extends Actor {
       system.stats[attribute].attrmax = system.structure - props.length;
     });
 
-    const condName = game.i18n.translations.darkspace;
     const label = config.techConditionLabel;
 
     system.bodymon = getMonitor(
       label,
       system.size,
       system.size,
-      condName,
       system.armorBonus
     );
-
+    this.expCounter();
     return { actorData, system, attr, ress, config };
   }
 
@@ -115,7 +107,7 @@ export class DSCharacter extends Actor {
     //   system.stats[prostetics.system.useAttr].attrmax =
     //     prostetics.system.attrMaxBonus;
     // }
-
+    this.expCounter();
     return { actorData, system, attr, ress, config };
   }
 
@@ -240,12 +232,22 @@ export class DSCharacter extends Actor {
 
     let currentAttrList;
     let cortexThreshold = [0, 0];
+    system.countCortexConditions = Object.values(system.cortexConditions).reduce((count, currentValue) => {
+      if (currentValue === true) {
+        return count + 1;
+      } else {
+        return count;
+      }
+    }, 0);
     switch (this.type) {
       case "Charakter":
         this.charakterData(actorData, system, attr, ress, config);
         currentAttrList = config.attrList;
-        system.firewall =
-          10 + this.getStat("Synthese").attr + this.getStat("Synthese").fert;
+
+        
+        
+        system.baseBuffer =
+          this.getStat("Synthese").attr + this.getStat("Synthese").fert;
         cortexThreshold = [
           this.getStat("Synthese").fert,
           this.getStat("Synthese").attr,
@@ -253,29 +255,31 @@ export class DSCharacter extends Actor {
         break;
       case "Nebencharakter":
         this.npcData(actorData, system, attr, ress, config);
-        currentAttrList = config.attrNpc;
-        system.firewall =
-          10 + this.getStat("Synthese").attr + this.getStat("Synthese").fert;
+        system.baseBuffer =
+          system.competence * 2;
         cortexThreshold = [
-          this.getStat("Synthese").fert,
-          this.getStat("Synthese").attr,
+          system.competence,
+          system.competence,
         ];
         break;
       case "Maschine":
         this.droneData(actorData, system, attr, ress, config);
         currentAttrList = config.attrVehicle;
-        system.firewall = 10 + system.mk + system.size;
+        system.baseBuffer = system.mk + system.size 
+        
         cortexThreshold = [system.size, system.mk];
         break;
       case "KI":
         this.aiData(actorData, system, attr, ress, config);
         currentAttrList = config.attrAi;
-        system.firewall = 10 + system.mk * 2;
+        system.baseBuffer = system.mk * 2
         cortexThreshold = [system.mk, system.mk];
         break;
       default:
         break;
     }
+    system.firewall = 10 + system.baseBuffer;
+    system.buffer = system.baseBuffer + 5 * system.countCortexConditions;
 
     // +++++++++++++++++++++++++
     // ++++ Attribut Maxima ++++
@@ -301,6 +305,12 @@ export class DSCharacter extends Actor {
     }
 
     // ++++++++++++++++++++++++
+    // ++++++++ Stress ++++++++
+    // ++++++++++++++++++++++++
+
+    system.effectiveCompetence = Math.min(system.competence, system.stress.max - system.stress.value)
+
+    // ++++++++++++++++++++++++
     // ++++ Cortex-Monitor ++++
     // ++++++++++++++++++++++++
 
@@ -322,42 +332,31 @@ export class DSCharacter extends Actor {
         
         console.log(sortedCortexArmorList);
       }
-      console.log(this.name,cortexThreshold);
 
     isNaN(system.cortexArmorBonus)
       ? (system.cortexArmorBonus = 0)
       : system.cortexArmorBonus;
 
-    const condName = game.i18n.translations.darkspace;
     const label = config.cortexConditionLabel;
     system.cortexmon = getMonitor(
       label,
       cortexThreshold[1],
       cortexThreshold[0],
-      condName,
       system.cortexArmorBonus + system.pan
     );
 
 
-    // ++++++++++++++++++++++++++++++
-    // ++++ Verbotene Handlungen ++++
-    // ++++++++++++++++++++++++++++++
-
-    if (this.type != "KI") {
-      system.forbiddenActions = Object.entries(system.bodyConditions)
-        .filter(([condition, isActive]) => isActive)
-        .flatMap(([condition, isActive]) => system.bodymon[condition].forbidden)
-        .reduce(
-          (unique, item) =>
-            unique.includes(item) ? unique : [...unique, item],
-          []
-        );
-    }
-
     // ++++ Prüfen, ob Fertigkeit vorhanden ++++
-
+console.log(this.name);
     items.forEach((item) => {
       // console.log(useWith,getStat(useWith,system.stats).fertName);
+      console.log(item.system.useWith);
+      if (this.type === "Nebencharakter") {
+        item.update({
+          "system.useWith": "Kompetenzbonus",
+        });
+        return
+      }
       if (
         item.system.useWith !=
         getStat(item.system.useWith, system.stats).fertName
@@ -371,7 +370,7 @@ export class DSCharacter extends Actor {
       }
     });
 
-    this.expCounter();
+    
   }
 
   expCounter() {
@@ -392,7 +391,6 @@ export class DSCharacter extends Actor {
       case "Nebencharakter":
         attrList = config.attrNpc;
         skillList = config.skillListNpc;
-        system.startEp = Math.pow(system.competence, 2) * 50 + 300;
         break;
       case "Maschine":
         attrList = config.attrVehicle;
@@ -406,12 +404,19 @@ export class DSCharacter extends Actor {
         break;
     }
 
+    /* EP-Multiplikatoren für Testzwecke */
+
+    const attrMod = 20;
+    const compMod = 10;
+    const skillMod = 5;
+
     attrList.forEach((attrIdent) => {
       let attributName = attr;
       let attrWert = attributName[attrIdent].attribut;
       let attrEp =
-        ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * 5 - 5;
+      ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * attrMod;
       system.totalAttrXp += attrEp;
+      system.compXp = ((system.competence * (system.competence + 1) * (2 * system.competence + 1)) / 6) * compMod - 5 * compMod;
 
       let skillSet = attributName[attrIdent].skill;
 
@@ -419,7 +424,7 @@ export class DSCharacter extends Actor {
         if (skillSet[skillIdent] !== undefined) {
           let skillWert = skillSet[skillIdent];
           let skillEp =
-            ((skillWert * (skillWert + 1) * (2 * skillWert + 1)) / 6) * 4;
+            ((skillWert * (skillWert + 1) * (2 * skillWert + 1)) / 6) * skillMod;
           system.totalSkillXp += skillEp;
         }
       });
@@ -440,6 +445,7 @@ export class DSCharacter extends Actor {
     system.totalXp =
       system.totalAttrXp +
       system.totalSkillXp +
+      system.compXp +
       system.totalPropXp -
       system.startEp;
 

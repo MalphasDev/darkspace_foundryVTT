@@ -8,14 +8,14 @@ export function getHealth(primary, size) {
   return Array.from(armorMultiplier, (x) => x * 5 + realSize + primary);
 }
 
-export function getMonitor(label,primary,insize,condName,armor) {
+export function getMonitor(label,primary,insize,armor) {
   let basesize = insize === undefined ? 5 : insize
   let monitor
   Object.keys(label).forEach((element, index) => {
     monitor = {
       ...monitor,
       [element]: {
-        name: condName[element],
+        name: game.i18n.translations.darkspace[element],
         fontsymbol: label[element].symbol,
         hitBase: getHealth(primary, basesize)[index],
         hit: getHealth(

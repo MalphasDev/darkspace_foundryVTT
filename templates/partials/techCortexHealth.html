@@ -1,6 +1,10 @@
 <!-- Tech Health -->
 <div class="health-monitor">
+  <h4>
+    {{localize "darkspace.techmon"}}
+  </h4>
   <ul class="flex start">
+
     <li>
       <i class="fa-solid fa-cogs health-icon"></i>
     </li>
@@ -29,15 +33,22 @@
     </li>
     {{/each}}
   </ul>
-
+<hr>
   <!-- Cortex Health -->
 
+  <h4>
+    {{localize "darkspace.cortexmon"}}
+  </h4>
   <ul class="flex start">
-    <li>
-      <div class="flex column">
-        <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_hack.svg" alt="">
-        <span><i class="fa-solid fa-shield"></i>{{this.system.firewall}}</span>
-      </div>
+    <li class="flex wrap">
+      <div class="flex between miniinfobox">
+        <span ><i class="fa-solid fa-shield"></i></span><span>{{this.system.firewall}}</span></div>
+
+        <div class="flex between miniinfobox">
+
+          <span ><i class="fa-brands fa-buffer" ></i></span><span>{{this.system.buffer}}</span>
+        </div>
+      
     </li>
     {{#each system.cortexConditions as |value key|}}
 
@@ -56,9 +67,6 @@
           {{#with (lookup ../system.cortexmon key)}}
           <i class="{{this.fontsymbol}}"></i>
           <span class="tooltiptext top">{{this.name}}</span>
-          <div style="height: 15px;">
-            {{hit}}
-          </div>
           {{/with}}
         </div>
       </label>

@@ -7,11 +7,17 @@
         "notes": "",
         "props": {},
         "gameversion": 0,
+        "competence": 2,
+        "stress": {
+          "value": 0,
+          "max": 5
+        },
         "sheetui": {
           "itemlist": true,
           "weaponlist": true,
           "armorlist": true
         }
+        
       },
       "bodyConditions": {
         "bodyConditions": {
@@ -24,11 +30,11 @@
       },
       "cortexConditions": {
         "cortexConditions": {
-          "overflow": false,
-          "crash": false,
-          "dos": false,
-          "offline": false,
-          "rooted": false
+          "interface": false,
+          "logindata": false,
+          "ram": false,
+          "rights": false,
+          "cpu": false
         }
       }
       
@@ -50,7 +56,7 @@
 
       "stats": {
         "Aufmerksamkeit": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Fokus": 0,
@@ -60,7 +66,7 @@
           }
         },
         "Ausstrahlung": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Charisma": 0,
@@ -70,27 +76,27 @@
           }
         },
         "Geschick": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
-            "Heimlichkeit": 0,
-            "Motorik": 0,
-            "Kampftechnik": 0,
-            "Schusswaffen": 0
+            "Agilität": 0,
+            "Geschwindigkeit": 0,
+            "Körperkontrolle": 0,
+            "Präzision": 0
           }
         },
         "Konstitution": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Athletik": 0,
             "Fitness": 0,
             "Kraft": 0,
-            "Nahkampfwaffen": 0
+            "Nanogen": 0
           }
         },
         "Intelligenz": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Bildung": 0,
@@ -100,7 +106,7 @@
           }
         },
         "Intuition": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Cortex": 0,
@@ -110,35 +116,35 @@
           }
         },
         "Anomalie": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Glück": 0
           }
         },
         "Konzentration": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Willenskraft": 0
           }
         },
         "Kybernese": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Synthese": 0
           }
         },
         "Netzwerk": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Kontakte": 0
           }
         },
         "Ressourcen": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Finanzen": 0
@@ -146,9 +152,7 @@
         }
       },
       "ressources": {
-        "Vorteile": 0,
-        "Disziplinen": 0,
-        "Protokolle": 0,
+        "Routinen": 0,
         "Gefallen": 0,
         "Materialien": 0
       }
@@ -156,43 +160,10 @@
 
     "Nebencharakter": {
       "templates": ["commonStats", "bodyConditions", "cortexConditions"],
-      "competence": 1,
-      "stats": {
-        
-        "Aufmerksamkeit": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Fokus": 0, "Wahrnehmung": 0 }
-        },
-        "Ausstrahlung": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Charisma": 0, "Manipulieren": 0 }
-        },
-        "Geist": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Logik": 0, "Technik": 0 }
-        },
-        "Körper": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Fitness": 0, "Kampftechnik": 0 }
-        },
-        "Kybernese": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Cortex": 0, "Synthese": 0 }
-        },
-        "Waffen": {
-          "attribut": 1,
-          "attrmaxmod": 0,
-          "skill": { "Schusswaffen": 0, "Nahkampfwaffen": 0 }
-        }
-      },
+
       "ressources": {
-        "Disziplinen": 0,
-        "Protokolle": 0
+        "Routinen": 0,
+        "Stärke": 0
       }
     },
     "Maschine": {
@@ -209,12 +180,12 @@
       },
       "stats": {
         "Leistung": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
-          "skill": { "Beschleunigung": 0, "Servos": 0 }
+          "skill": { "Beschleunigung": 0, "Geschwindigkeit": 0 }
         },
         "Kybernese": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Synthese": 0,
@@ -222,14 +193,14 @@
           }
         },
         "Sensoren": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": { "Fokus": 0, "Wahrnehmung": 0 }
         },
-        "Kampf": {
-          "attribut": 1,
+        "Servos": {
+          "attribut": 0,
           "attrmaxmod": 0,
-          "skill": { "Schusswaffen": 0, "Nahkampfwaffen": 0 }
+          "skill": { "Kraft": 0, "Präzision": 0 }
         }
       },
         
@@ -246,7 +217,7 @@
       "templates": ["commonStats", "cortexConditions"],
       "stats": {
         "Aufmerksamkeit": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Fokus": 0,
@@ -255,7 +226,7 @@
           }
         },
         "Ausstrahlung": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Einschüchtern": 0,
@@ -264,7 +235,7 @@
           }
         },
         "Coding": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Backup": 0,
@@ -273,25 +244,25 @@
           }
         },
         "Kontrolle": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
+            "Agilität": 0,
             "Manövrieren": 0,
-            "Nahkampfwaffen": 0,
-            "Schusswaffen": 0
+            "Präzision": 0
           }
         },
         "Intelligenz": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
-            "Raumfahrt": 0
+            "Navigation": 0
           }
         },
         "Intuition": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Kreativität": 0,
@@ -300,35 +271,35 @@
           }
         },
         "Anomalie": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Glück": 0
           }
         },
         "Konzentration": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Willenskraft": 0
           }
         },
         "Kybernese": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Synthese": 0
           }
         },
         "Netzwerk": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Kontakte": 0
           }
         },
         "Ressourcen": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": {
             "Finanzen": 0
@@ -347,7 +318,7 @@
       "isCyborg": false,
       "cyborgStats": {
         "Leistung": {
-          "attribut": 1,
+          "attribut": 0,
           "attrmaxmod": 0,
           "skill": { "Beschleunigung": 0, "Servos": 0 }
         }
@@ -388,21 +359,21 @@
           "destroyed": false
         },
         "cortexConditions": {
-          "overflow": false,
-          "crash": false,
-          "dos": false,
-          "offline": false,
-          "rooted": false
+          "interface": false,
+          "logindata": false,
+          "ram": false,
+          "rights": false,
+          "cpu": false
         }
       }
     },
     "Schusswaffe": {
-      "useWith": "Schusswaffen",
+      "useWith": "Körperkontrolle",
       "weapon": true,
       "templates": ["itemBase"]
     },
     "Nahkampfwaffe": {
-      "useWith": "Nahkampfwaffen",
+      "useWith": "Kraft",
       "weapon": true,
       "templates": ["itemBase"]
     },

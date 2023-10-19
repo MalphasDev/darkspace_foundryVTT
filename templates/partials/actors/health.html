@@ -1,13 +1,21 @@
 <div>
-  <ul class="flex healthsymbols">
-    {{#each system.forbiddenActions}}
-    <li><img width="32px" src="systems/darkspace/icons/ui/f_{{this}}.svg" alt="{{this}}"></li>
-  {{/each}}
-  </ul>
   <div class="health-monitor">
     <!-- Health -->
 
-    
+    <h2>Stress
+
+      <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
+      <span class="counter-container" style="margin-left: 10px;">
+        {{#times system.stress.value}}
+        <i class="counter fa-solid fa-square darkred" data-set=full data-address="system.stress.value"></i>
+        {{/times}}
+        {{#times (math system.stress.max "-" system.stress.value)}}
+        <i class="counter fa-regular fa-square darkred" data-set=false data-address="system.stress.value"></i>
+        {{/times}}
+      </span>
+
+      
+    </h2>
 
     <ul class="flex start">
       {{#ifCond this.actor.type "!=" "Maschine"}} {{#ifCond
@@ -58,14 +66,19 @@
 
 
     <ul class="flex start">
-      <li>
-        <div class="flex column">
-          <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_hack.svg" alt="">
-          <span><i class="fa-solid fa-shield"></i>{{this.system.firewall}}</span>
-        </div>
+      <li class="flex wrap">
+        <div class="flex between miniinfobox">
+          <span ><i class="fa-solid fa-shield"></i></span><span>{{this.system.firewall}}</span></div>
+  
+          <div class="flex between miniinfobox">
+  
+            <span ><i class="fa-brands fa-buffer" ></i></span><span>{{this.system.buffer}}</span>
+          </div>
+        
       </li>
       {{#each system.cortexConditions as |value key|}}
-      <li class="flex borderbox round" style="height: 45px;">
+  
+      <li class="flex borderbox round">
         <input
           type="checkbox"
           class="noDisplay"
@@ -74,20 +87,15 @@
           name="system.cortexConditions.{{key}}"
           id="{{../actor.id}}_cortexConditions_{{key}}"
         />
-
-        <label
-          class="flex center borderbox"
-          for="{{../actor.id}}_cortexConditions_{{key}}"
-        >
-        <div class="tooltip">
-          {{#with (lookup ../system.cortexmon key)}}
-          <i class="{{this.fontsymbol}}"></i>
-          <span class="tooltiptext top">{{this.name}} ({{hit}}=10+2x)</span>
-          <div style="height: 15px;">
-            {{hit}}
+  
+        <label class="flex center" for="{{../actor.id}}_cortexConditions_{{key}}">
+          <div class="tooltip">
+            {{#with (lookup ../system.cortexmon key)}}
+            <i class="{{this.fontsymbol}}"></i>
+            <span class="tooltiptext top">{{this.name}}</span>
+            {{/with}}
           </div>
-          {{/with}}
-        </div>
+        </label>
       </li>
       {{/each}}
     </ul>

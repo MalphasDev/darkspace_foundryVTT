@@ -14,13 +14,14 @@
             ></span
           >
         </a>
-
+<!--
         <a class="item" data-tab="items">
           <span class="tooltip"
             ><i class="fa-solid fa-suitcase"></i
             ><span class="tooltiptext bottom">{{localize "darkspace.Inventar"}}</span></span
           >
         </a>
+      -->
         <a class="item" data-tab="notes"
           ><span class="tooltip"
             ><i class="fa-solid fa-book"></i
@@ -31,17 +32,65 @@
     </section>
 
     <!--Statblock-->
-    <section class="tab stats" data-group="primary" data-tab="stats">
-      {{> "systems/darkspace/templates/partials/character-sheet-stats.html"}}
+    <section class="tab stats items" data-group="primary" data-tab="stats">
+      <h2 class="flex between">Kompetenz
+
+        <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
+        <span class="counter-container" style="margin-left: 10px;">
+          {{#times system.effectiveCompetence}}
+          <i class="counter fa-solid fa-square" data-set=full data-address="system.competence"></i>
+          {{/times}}
+          {{#times (math system.competence "-" system.effectiveCompetence)}}
+          <i class="counter fa-solid fa-square darkred" data-set=part data-address="system.competence"></i>
+          {{/times}}
+          {{#times (math 4 "-" system.competence)}}
+          <i class="counter fa-regular fa-square" data-set=false data-address="system.competence"></i>
+          {{/times}}
+        </span>
+        {{#ifCond actor.type "===" "Nebencharakter"}}
+        <span>+{{system.stats.competence.skill.Kompetenzbonus}}</span>
+        {{/ifCond}}
+        
+
+        
+              <div class="customDiceBox">
+                <div class="flex" style="flex: 1;">
+                    <button 
+                        class="rollSkill"
+                        data-skill="Kompetenzbonus"          
+                        data-disadv="false">
+                        <span class="tooltip">
+                            <i class="fa-solid fa-reply"></i>
+                            <span class="tooltiptext top">Würfeln</span>
+                        </span>
+                    </button>
+                    <button 
+                        class="rollSkill d10disadv"
+                        data-skill="Kompetenzbonus"           
+                        data-disadv="true">
+                        <span class="tooltip">
+                            <i class="fa-solid fa-exclamation-triangle"></i>
+                            <span class="tooltiptext top">Würfeln mit Erschwernis</span>
+                        </span>
+                        
+                    </button>
+                </div>
+      </h2>
+        
+    </div>
+
       {{>"systems/darkspace/templates/partials/character-sheet-props.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}}
+      {{> "systems/darkspace/templates/partials/actors/combat-armor.html"}}
+      {{> "systems/darkspace/templates/partials/character-sheet-items.html"}}
     </section>
 
     <!--Items-->
+    <!--
     <section class="tab items" data-group="primary" data-tab="items">
-      {{> "systems/darkspace/templates/partials/actors/combat-weapons.html"}}
-      {{> "systems/darkspace/templates/partials/actors/combat-armor.html"}}
-      {{>"systems/darkspace/templates/partials/character-sheet-items.html"}}
+      
     </section>
+  -->
 
     <!--Notizen-->
 

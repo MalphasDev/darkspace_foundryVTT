@@ -14,11 +14,11 @@ darkspace.props = {
 // Zustände erfassen
 
 darkspace.bodyConditionLabel = {
-  struck: { symbol: "fa-solid fa-dizzy", forbidden: [] },
+  struck: { symbol: "fa-solid fa-dizzy" },
   wounded: {
     symbol: "fa-solid fa-band-aid",
   },
-  ko: { symbol: "fa-solid fa-times-circle", forbidden: ["action"] },
+  ko: { symbol: "fa-solid fa-times-circle" },
   crippled: {
     symbol: "fa-solid fa-user-injured",
   },
@@ -27,9 +27,9 @@ darkspace.bodyConditionLabel = {
   },
 };
 darkspace.techConditionLabel = {
-  scratched: { symbol: "fa-solid fa-exclamation-triangle", forbidden: [] },
-  unstable: { symbol: "fa-solid fa-times-circle", forbidden: ["long"] },
-  offline: { symbol: "fa-solid fa-battery-quarter", forbidden: ["long","action"] },
+  scratched: { symbol: "fa-solid fa-exclamation-triangle"},
+  unstable: { symbol: "fa-solid fa-times-circle" },
+  offline: { symbol: "fa-solid fa-battery-quarter" },
   defect: {
     symbol: "fa-solid fa-car-crash",
   },
@@ -38,11 +38,11 @@ darkspace.techConditionLabel = {
   },
 };
 darkspace.cortexConditionLabel = {
-  overflow: { symbol: "fa-solid fa-stream", hack: [] },
-  crash: { symbol: "fa-solid fa-bug", hack: [] },
-  dos: { symbol: "fa-solid fa-terminal", hack: [] },
-  offline: { symbol: "fa-solid fa-power-off", hack: [] },
-  rooted: { symbol: "fa-solid fa-network-wired", hack: [] },
+  ram: { symbol: "fa-solid fa-memory" },
+  cpu: { symbol: "fa-solid fa-microchip" },
+  interface: { symbol: "fa-solid fa-address-card" },
+  logindata: { symbol: "fa-solid fa-terminal"},
+  rights: {symbol: "fa-solid fa-list-check"},
 };
 
 // Stellt Liste mit Attributen und Fertigkeiten zusammen
@@ -66,18 +66,18 @@ const accessTempTree = () => {
     darkspace.skillList = skillList.sort();
   });
 
-  tempTree.then((a) => {
-    let attrListNpc = Object.keys(a.Actor.Nebencharakter.stats);
-    let skillListNpc = [];
-    darkspace.attrNpc = attrListNpc;
+  // tempTree.then((a) => {
+  //   let attrListNpc = Object.keys(a.Actor.Nebencharakter.stats);
+  //   let skillListNpc = [];
+  //   darkspace.attrNpc = attrListNpc;
 
-    attrListNpc.forEach((attr) => {
-      skillListNpc = skillListNpc.concat(
-        Object.keys(a.Actor.Nebencharakter.stats[attr].skill)
-      );
-    });
-    darkspace.skillListNpc = skillListNpc.sort();
-  });
+  //   attrListNpc.forEach((attr) => {
+  //     skillListNpc = skillListNpc.concat(
+  //       Object.keys(a.Actor.Nebencharakter.stats[attr].skill)
+  //     );
+  //   });
+  //   darkspace.skillListNpc = skillListNpc.sort();
+  // });
 
   tempTree.then((a) => {
     let attrListAi = Object.keys(a.Actor.KI.stats);

@@ -29,6 +29,7 @@ async function preloadHandlebarsTemplates() {
     //Buttons
     partialAddress + "actors/actionBtn.html",
     partialAddress + "actors/protectionBtn.html",
+    partialAddress + "actors/counter.html",
 
     //NPCs
     sheetsAddress + "actors/Nebencharakter-sheet.html",
@@ -151,13 +152,13 @@ Hooks.once("init", function () {
     name: "Start-Erfahrung für Charaktere",
     config: true,
     type: Number,
-    default: 2000,
+    default: 1000,
   });
   game.settings.register("darkspace", "startxpai", {
     name: "Start-Erfahrung für KI-Charaktere",
     config: true,
     type: Number,
-    default: 2000,
+    default: 1000,
   });
   // game.settings.register("darkspace", "propListSetting", {
   //   scope: "global",
@@ -192,12 +193,27 @@ Handlebars.registerHelper("disabled", function (condition) {
   }
   return d;
 });
+Handlebars.registerHelper("math", function (a,op,b) {
+  switch (op) {
+    case "+":
+      return a + b;
+    case "-":
+      return a - b;
+    case "*":
+      return a * b;
+    case "/":
+      return a / b;
+    
+    default:
+      return "ERR";
+  }
+});
 Handlebars.registerHelper("times", function (n, content) {
   let result = "";
   for (var i = 0; i < n; ++i) {
     let htmlString = content.fn(n);
-    let dataIndexString = "data-index=" + (i + 1) + ">";
-    htmlString = htmlString.replace(">", dataIndexString);
+    let dataIndexString = " data-index=" + (i + 1) + ">";
+    htmlString = htmlString.replace(">", dataIndexString) ;
     result += htmlString;
   }
   return result;
@@ -246,6 +262,8 @@ Handlebars.registerHelper({
     return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
   },
 });
+
+
 
 Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to

@@ -22,12 +22,22 @@
 </div>
 
 <hr />
-<div class="flexResult" {{#if crit}} style="background: linear-gradient( 
+{{log this}}
+<div class="flex">
+  <div class="flexResult" {{#if crit}} style="background: linear-gradient( 
   90deg, transparent 0%, #00ff7e 50%, transparent 100% );" {{/if}}
   {{#if fumble}} style="color: var(--effect); background: linear-gradient(90deg, transparent 0%, red 50%, transparent 100%);" {{/if}}>
   {{#if disadv}}
   {{this.total_BC}}{{else}}{{this.total_AB}}
   {{/if}}
+</div>
+<div class="flexResult" {{#if crit}} style="background: linear-gradient( 
+  90deg, transparent 0%, #00ff7e 50%, transparent 100% );" {{/if}}
+  {{#if fumble}} style="color: var(--effect); background: linear-gradient(90deg, transparent 0%, red 50%, transparent 100%);" {{/if}}>
+  {{#if disadv}}
+  {{this.total_CD}}{{else}}{{this.total_BC}}
+  {{/if}}
+</div>
 </div>
 
 

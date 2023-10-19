@@ -128,6 +128,7 @@ export class DSCharacterSheet extends ActorSheet {
       ".propEdit",
       ".showtodialog",
       ".spendbot",
+      ".counter",
       ".renderapp",
       ".decattr",
     ];
@@ -160,6 +161,22 @@ export class DSCharacterSheet extends ActorSheet {
     });
   }
 
+  objValueFromString(context, string) {
+    var path = string;
+    var pathArray = path.split(".");
+    var value = context;
+
+    for (var i = 0; i < pathArray.length; i++) {
+      if (value[pathArray[i]] !== undefined) {
+        value = value[pathArray[i]];
+      } else {
+        value = null;
+        break;
+      }
+    }
+    return value;
+  }
+
   createInputData(event, option) {
     event.preventDefault();
     !option ? (option = {}) : option;
@@ -169,10 +186,7 @@ export class DSCharacterSheet extends ActorSheet {
 
     let attrVal = DSMechanics.getStat(dataset.skill, system.stats).attr;
     let skillVal = DSMechanics.getStat(dataset.skill, system.stats).fert;
-    let attrName = DSMechanics.getStat(
-      dataset.skill,
-      system.stats
-    ).attrName;
+    let attrName = DSMechanics.getStat(dataset.skill, system.stats).attrName;
 
     if (dataset.skill === "MK" || dataset.skill === "Modulklasse") {
       attrVal = system.size;
@@ -227,7 +241,7 @@ export class DSCharacterSheet extends ActorSheet {
     let usedSkill;
 
     if (dataset.ua === "true") {
-      usedSkill = "Kampftechnik";
+      usedSkill = "Präzision";
     } else {
       usedSkill = item.system.useWith;
     }
@@ -237,7 +251,10 @@ export class DSCharacterSheet extends ActorSheet {
     const preCreatedInput = this.createInputData(event, option);
     const inputData = {
       ...preCreatedInput,
-      rollData: { attribute: stat.attrName, skill: stat.fertName },
+      rollData: {
+        attribute: stat.attrName,
+        skill: stat.fertName,
+      },
       modroll: option.rightClick,
       item: item,
       type: item ? item.type : "Nahkampfwaffe",
@@ -284,13 +301,12 @@ export class DSCharacterSheet extends ActorSheet {
     const targetClass = event.currentTarget.className;
     const attrKey = "system.ressources." + ress;
 
-    
     let ressMod = targetClass.includes("decRess")
-    ? -1
-    : targetClass.includes("incRess")
-    ? 1
-    : 0;
-    
+      ? -1
+      : targetClass.includes("incRess")
+      ? 1
+      : 0;
+
     this.actor.update({
       id: this.actor.id,
       [attrKey]: this.actor.system.ressources[ress] + ressMod,
@@ -312,7 +328,7 @@ export class DSCharacterSheet extends ActorSheet {
     setProperty(item, target, targetValue);
     this.actor.updateEmbeddedDocuments("Item", [item]);
   }
-  
+
   _inlineItemEdit(event) {
     const element = event.currentTarget;
     const itemList = this.object.items;
@@ -336,25 +352,27 @@ export class DSCharacterSheet extends ActorSheet {
     // Neue Slotbezeichnung
     const slot = "slot" + Object.keys(props).length;
 
-    let newProp
+    let newProp;
 
     // Checken, ob ein Eigenschaften-Template vorliegt.
     if (template) {
       if (template.handicap === "true") {
         template.handicap = true;
       }
-      
+
       newProp = {
         ...props,
-      [slot]: template,
+        [slot]: template,
       };
     } else {
       newProp = {
         ...props,
-        [slot]: {prop: "Neue Eigenschaft",
-        skill: "Automation",
-        desc: "Regeln",
-        handicap: false,}
+        [slot]: {
+          prop: "Neue Eigenschaft",
+          skill: "Automation",
+          desc: "Regeln",
+          handicap: false,
+        },
       };
     }
 
@@ -400,12 +418,17 @@ export class DSCharacterSheet extends ActorSheet {
           icon: '<i class="fas fa-save"></i>',
           label: "Speichern",
           callback: (html) => {
-            let fullList = propData.templates
+            let fullList = propData.templates;
             if (this.actor.type === "Maschine") {
-              fullList = propData.templates.concat(propData.templatesTech)
+              fullList = propData.templates.concat(propData.templatesTech);
             }
-            const prop = fullList.filter((p) =>{ return p.prop === html.find("[name='propTemplate']")[0].value})[0]
-            const skill = typeof html.find("[name='propTemplateSkill']")[0] !== "undefined" ? html.find("[name='propTemplateSkill']")[0].value : undefined;
+            const prop = fullList.filter((p) => {
+              return p.prop === html.find("[name='propTemplate']")[0].value;
+            })[0];
+            const skill =
+              typeof html.find("[name='propTemplateSkill']")[0] !== "undefined"
+                ? html.find("[name='propTemplateSkill']")[0].value
+                : undefined;
 
             const template = {
               ...prop,
@@ -576,6 +599,44 @@ export class DSCharacterSheet extends ActorSheet {
       ui.notifications.warn("Keine Bots verfügbar.");
     }
   }
+  async _counter(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const actor = this.actor;
+    const address = dataset.address;
+    const addressVal = this.objValueFromString(actor, address);
+    let newVal;
+
+    switch (dataset.set) {
+      case "zero":
+        newVal = 0;
+        break;
+      case "minus":
+        if (addressVal === 0) {break}
+        newVal = addressVal - 1;
+        break;
+      case "plus":
+        newVal = addressVal + 1;
+        break;
+      case "full":
+        if(addressVal === parseInt(dataset.index)) {newVal = parseInt(dataset.index) - 1; break}
+        newVal = parseInt(dataset.index);
+        break;
+      case "part":
+        newVal = addressVal - parseInt(dataset.index);
+        break;
+      case "false":
+        newVal = addressVal + parseInt(dataset.index);
+        break;
+
+      default:
+        break;
+    }
+
+    actor.update({
+      [address]: newVal,
+    });
+  }
   async _renderapp(event) {
     const element = event.currentTarget;
     const dataset = element.dataset;
@@ -592,8 +653,7 @@ export class DSCharacterSheet extends ActorSheet {
     const dataset = element.dataset;
     const actor = this.actor;
     const attr = actor.system.stats;
-    const currentAttrModAdress =
-      "system.stats." + dataset.attr + ".attrmaxmod";
+    const currentAttrModAdress = "system.stats." + dataset.attr + ".attrmaxmod";
     const currentAttrMod = attr[dataset.attr].attrmaxmod;
 
     new Dialog({

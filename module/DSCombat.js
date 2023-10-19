@@ -74,9 +74,10 @@ export class DSCombat extends Combat {
       ids.forEach(async (id, index) => {
         // Wenn was kaputt genagen ist, dann hier!
         var currentCombatant = actorData.get(id);
+        const system =  currentCombatant.actor.system;
         const ini = DSMechanics.getStat(
           "Fokus",
-          currentCombatant.actor.system.stats
+          system.stats
         );
         let inputData = {
           eventData: {},

@@ -1,0 +1,8 @@
+<span class="counter-container" style="margin-left: 10px;">
+  {{#times 2  }}
+  <i class="counter fa-solid fa-square" data-set=true data-address={{this.address}}></i>
+  {{/times}}
+  {{#times (math 5 "-" 2)}}
+  <i class="counter fa-regular fa-square" data-set=false data-address={{this.address}}></i>
+  {{/times}}
+</span>

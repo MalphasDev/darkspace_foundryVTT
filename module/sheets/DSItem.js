@@ -23,6 +23,7 @@ export class DSItem extends Item {
       Math.pow(system.size, 2) * 10,
     ];
     system.range = rangeArray[0] + "-" + rangeArray[1] + "/" + rangeArray[2];
+    
   }
   // closeCombatWeaponData() {}
   // armorData() {}
@@ -55,6 +56,7 @@ export class DSItem extends Item {
   }
 
   prepareData() {
+   
     super.prepareData();
 
     const { itemData, system, config } = this.getObjLocation();
@@ -97,11 +99,21 @@ export class DSItem extends Item {
       techLabel,
       system.size,
       system.size,
-      condName,
       0
     );
 
     system.firewall = system.mk * 2 + 10
+    
+system.countCortexConditions = Object.values(system.cortexConditions).reduce((count, currentValue) => {
+  if (currentValue === true) {
+    return count + 1;
+  } else {
+    return count;
+  }
+}, 0);
+system.buffer = system.mk + system.size + 5 * system.countCortexConditions
+
+
     system.hitArrayCortex = getHealth(
       system.mk,
       system.size
