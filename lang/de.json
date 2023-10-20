@@ -58,7 +58,7 @@
 
   "darkspace.sizemkbot": "Größe und Modulklasse",
 
-  "darkspace.competence": "Kompetenz",
+  "darkspace.baseDicepool": "Kompetenz",
 
   "darkspace.Aufrappeln": "Aufrappeln",
   "darkspace.Schutzprobe": "Schutzprobe",
@@ -105,7 +105,7 @@
   "darkspace.Sensoren": "Sensoren",
   "darkspace.Firewall": "Firewall",
 
-  "darkspace.Athletik": "Athletik",
+  "darkspace.Ausdauer": "Ausdauer",
   "darkspace.Ausdruck": "Ausdruck",
   "darkspace.Beschleunigung": "Beschleunigung",
   "darkspace.Beweglichkeit": "Beweglichkeit",
@@ -154,6 +154,7 @@
   "darkspace.Geschwindigkeit": "Geschwindigkeit",
   "darkspace.Körperkontrolle": "Körperkontrolle",
   "darkspace.Präzision": "Präzision",
+  "darkspace.Nanogen": "Nanogen",
 
 
   "darkspace.props": "Eigenschaften",

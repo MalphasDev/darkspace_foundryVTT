@@ -27,7 +27,7 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
       </h2>
       {{#ifCond actor.type "===" "Charakter"}}
       <span class="anmerkung">{{localize "darkspace.Kompetenz"}}-{{localize "darkspace.Stufe"}}</span>
-      <span>{{system.competence}}</span>{{/ifCond}}
+      <span>{{system.baseDicepool}}</span>{{/ifCond}}
       {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
         "Nebencharakter"}}
         <div class="borderbox bigsize flex around">
@@ -37,7 +37,7 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
         <div class="flex borderbox round">
           <div>
             <span>{{localize "darkspace.Kompetenz"}}</span>
-            <input type="number" name="system.competence" value="{{system.competence}}" min="1" />
+            <input type="number" name="system.baseDicepool" value="{{system.baseDicepool}}" min="1" />
           </div>
         </div>
         {{/ifCond}}

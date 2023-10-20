@@ -13,8 +13,8 @@ export async function rollDice(inputData) {
   let removehighest = inputData.removehighest;
   let rollformular;
   const system = actor?.system;
-  let competence = actor?.system.effectiveCompetence
-  if (competence === undefined) {competence=0}
+  let baseDicepool = actor?.system.effectiveCompetence
+  if (baseDicepool === undefined) {baseDicepool=0}
 
   
 
@@ -31,13 +31,13 @@ export async function rollDice(inputData) {
   let skill;
 
   if (inputData.type === "Custom") {
-    attr = inputData.attr + competence;
+    attr = inputData.attr + baseDicepool;
     skill = inputData.skill;
   } else if (actor.type === "Nebencharakter") {
     attr = actor?.system.effectiveCompetence
-    skill = actor?.system.stats.competence.skill.Kompetenzbonus
+    skill = actor?.system.stats.baseDicepool.skill.Kompetenzbonus
   } else {
-    attr = system.stats[rollData.attribute].attribut + competence;
+    attr = system.stats[rollData.attribute].attribut + baseDicepool;
     skill = system.stats[rollData.attribute].skill[rollData.skill];
   }
 

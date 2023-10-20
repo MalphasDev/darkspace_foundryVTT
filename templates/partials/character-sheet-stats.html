@@ -3,7 +3,7 @@
     <span></span>
       <ul class="flex">
         <li class="pill padding">
-          <span>{{localize "darkspace.competence"}}</span>
+          <span>{{localize "darkspace.baseDicepool"}}</span>
           <span>{{system.compXp}} EP</span>
         </li>
         <li class="pill padding">
@@ -43,13 +43,13 @@
       <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
       <span class="counter-container" style="margin-left: 10px;">
         {{#times system.effectiveCompetence}}
-        <i class="counter fa-solid fa-square" data-set=full data-address="system.competence"></i>
+        <i class="counter fa-solid fa-square" data-set=full data-address="system.baseDicepool"></i>
         {{/times}}
-        {{#times (math system.competence "-" system.effectiveCompetence)}}
-        <i class="counter fa-solid fa-square darkred" data-set=part data-address="system.competence"></i>
+        {{#times (math system.baseDicepool "-" system.effectiveCompetence)}}
+        <i class="counter fa-solid fa-square darkred" data-set=part data-address="system.baseDicepool"></i>
         {{/times}}
-        {{#times (math 4 "-" system.competence)}}
-        <i class="counter fa-regular fa-square" data-set=false data-address="system.competence"></i>
+        {{#times (math 4 "-" system.baseDicepool)}}
+        <i class="counter fa-regular fa-square" data-set=false data-address="system.baseDicepool"></i>
         {{/times}}
       </span>
       {{#ifCond actor.type "===" "Nebencharakter"}}

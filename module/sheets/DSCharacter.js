@@ -45,13 +45,13 @@ export class DSCharacter extends Actor {
     for (let [k, v] of Object.entries(system.upkeep)) {
       system.upkeepTotal = v + system.upkeepTotal;
     }
-    system.wealth = system.stats.Ressourcen.attribut * 2;
+    system.wealth = (system.baseDicepool + system.stats.Ressourcen.attribut) * 2;
     this.expCounter();
 
     return { actorData, system, attr, ress, config };
   }
   npcData(actorData, system, attr, ress, config) {
-    const primaryHit = system.competence; // Konsti
+    const primaryHit = system.baseDicepool; // Konsti
     const label = config.bodyConditionLabel;
     system.bodymon = getMonitor(
       label,
@@ -60,7 +60,7 @@ export class DSCharacter extends Actor {
       system.armorBonus
     );
     
-    system.stats = {competence: {skill: {Kompetenzbonus: Math.floor(system.competence/2)}}}
+    system.stats = {baseDicepool: {skill: {Kompetenzbonus: Math.floor(system.baseDicepool/2)}}}
     console.log(system);
 
     return { actorData, system, attr, ress, config };
@@ -256,10 +256,10 @@ export class DSCharacter extends Actor {
       case "Nebencharakter":
         this.npcData(actorData, system, attr, ress, config);
         system.baseBuffer =
-          system.competence * 2;
+          system.baseDicepool * 2;
         cortexThreshold = [
-          system.competence,
-          system.competence,
+          system.baseDicepool,
+          system.baseDicepool,
         ];
         break;
       case "Maschine":
@@ -308,7 +308,7 @@ export class DSCharacter extends Actor {
     // ++++++++ Stress ++++++++
     // ++++++++++++++++++++++++
 
-    system.effectiveCompetence = Math.min(system.competence, system.stress.max - system.stress.value)
+    system.effectiveCompetence = Math.min(system.baseDicepool, system.stress.max - system.stress.value)
 
     // ++++++++++++++++++++++++
     // ++++ Cortex-Monitor ++++
@@ -416,7 +416,7 @@ console.log(this.name);
       let attrEp =
       ((attrWert * (attrWert + 1) * (2 * attrWert + 1)) / 6) * attrMod;
       system.totalAttrXp += attrEp;
-      system.compXp = ((system.competence * (system.competence + 1) * (2 * system.competence + 1)) / 6) * compMod - 5 * compMod;
+      system.compXp = ((system.baseDicepool * (system.baseDicepool + 1) * (2 * system.baseDicepool + 1)) / 6) * compMod - 5 * compMod;
 
       let skillSet = attributName[attrIdent].skill;
 
