@@ -15,7 +15,7 @@
     "verified": "11.300",
     "maximum": 11
   },
-  "version": "MC0.1",
+  "version": "MC0.11",
   "esmodules": ["/module/darkspace.js"],
   "styles": ["/styles/fvtt-ds-style.css"],
   "packs": [],
