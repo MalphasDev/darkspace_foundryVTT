@@ -30,5 +30,5 @@
   "gridUnits": "m",
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/darkspace_fvtt11_ModdedCore/system.json",
-  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/MC0-1.zip"
+  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/MC0-11.zip"
 }
