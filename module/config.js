@@ -65,6 +65,19 @@ const accessTempTree = () => {
     });
     darkspace.skillList = skillList.sort();
   });
+  tempTree.then((a) => {
+    console.log(a);
+    let attrListCyborg = Object.keys(a.Actor.Cyborg.stats);
+    let skillListCyborg = [];
+    darkspace.attrListCyborg = attrListCyborg;
+
+    attrListCyborg.forEach((attr) => {
+      skillListCyborg = skillListCyborg.concat(
+        Object.keys(a.Actor.Cyborg.stats[attr].skill)
+      );
+    });
+    darkspace.skillListCyborg = skillListCyborg.sort();
+  });
 
   // tempTree.then((a) => {
   //   let attrListNpc = Object.keys(a.Actor.Nebencharakter.stats);

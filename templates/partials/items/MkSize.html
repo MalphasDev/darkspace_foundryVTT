@@ -15,13 +15,3 @@
     <span class="tooltiptext top">{{localize "darkspace.Modulklasse"}}</span>
   </span>
 </div>
-
-{{#ifCond actor.type "===" "KI"}}
-<input class="hidden" id="isCyborgBtn{{actor.id}}" type="checkbox" name="system.isCyborg" value="system.isCyborg"
-  {{checked system.isCyborg}}>
-<label style="
-flex: 0 1 50%;
-width: auto;
-font-size: 1rem;" 
-for="isCyborgBtn{{actor.id}}">Cyborg</label>
-{{/ifCond}}

@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["Charakter", "Nebencharakter", "Maschine", "KI"],
+    "types": ["Charakter","Cyborg","KI", "Nebencharakter", "Maschine"],
     "templates": {
       "commonStats": {
         "initMod": 0,
@@ -157,7 +157,116 @@
         "Materialien": 0
       }
     },
+    "Cyborg": {
+      "templates": ["commonStats", "cortexConditions"],
 
+      "bodyConditions": {
+        "scratched": false,
+        "unstable": false,
+        "offline": false,
+        "defect": false,
+        "destroyed": false
+      },
+      "mk": 1,
+      "size": 5,
+
+      "upkeep": {
+        "Versorgung": 0,
+        "Unterkunft": 0,
+        "Unterhaltung": 0,
+        "Sonstiges": 0
+      },
+
+      "stats": {
+        "Leistung": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": { "Beschleunigung": 0, "Geschwindigkeit": 0 }
+        },
+        "Sensoren": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": { "Fokus": 0, "Wahrnehmung": 0 }
+        },
+        "Servos": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": { "Kraft": 0, "Präzision": 0 }
+        },
+        "Ausstrahlung": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Charisma": 0,
+            "Einschüchtern": 0,
+            "Überzeugen": 0,
+            "Verhandeln": 0
+          }
+        },
+        "Intelligenz": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Bildung": 0,
+            "Logik": 0,
+            "Medizin": 0,
+            "Polytronik": 0
+          }
+        },
+        "Intuition": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Cortex": 0,
+            "Kreativität": 0,
+            "Kultur": 0,
+            "Navigation": 0
+          }
+        },
+        "Anomalie": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Glück": 0
+          }
+        },
+        "Konzentration": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Willenskraft": 0
+          }
+        },
+        "Kybernese": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Synthese": 0
+          }
+        },
+        "Netzwerk": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Kontakte": 0
+          }
+        },
+        "Ressourcen": {
+          "attribut": 0,
+          "attrmaxmod": 0,
+          "skill": {
+            "Finanzen": 0
+          }
+        }
+      },
+
+      "ressources": {
+        "Routinen": 0,
+        "Energie": 0,
+        "Gefallen": 0,
+        "Materialien": 0
+      }
+    },
     "Nebencharakter": {
       "templates": ["commonStats", "bodyConditions", "cortexConditions"],
 
@@ -205,8 +314,6 @@
       },
         
       "ressources": {
-        "Protokolle": 0,
-        "Bots": 0,
         "Energie": 0
       }
     },
@@ -308,20 +415,11 @@
         
       },
       "ressources": {
-        "Vorteile": 0,
-        "Disziplinen": 0,
-        "Protokolle": 0,
+        "Routinen": 0,
+        "Bots": 0,
         "Gefallen": 0,
-        "Materialien": 0,
-        "Bots": 0
-      },
-      "isCyborg": false,
-      "cyborgStats": {
-        "Leistung": {
-          "attribut": 0,
-          "attrmaxmod": 0,
-          "skill": { "Beschleunigung": 0, "Servos": 0 }
-        }
+        "Materialien": 0
+        
       }
     }
   },

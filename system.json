@@ -1,5 +1,5 @@
 {
-  "id": "darkspace_mc",
+  "id": "darkspace",
   "title": "Dark Space",
   "description": "Ein Hard-Sci-Fi Rollenspiel von André Busch.",
   "authors": [
@@ -10,15 +10,22 @@
       "discord": "Malphas#9269"
     }
   ],
+  "url": "https://dark-space-rpg.de",
   "compatibility": {
     "minimum": 10,
     "verified": "11.300",
     "maximum": 11
   },
-  "version": "MC0.1",
+  "version": "MC0.13",
   "esmodules": ["/module/darkspace.js"],
   "styles": ["/styles/fvtt-ds-style.css"],
-  "packs": [],
+  "packs": [
+    {
+      "name": "tabellen",
+      "label": "Tabellen",
+      "type": "RollTable"
+    }
+  ],
   "languages": [
     {
       "lang": "de",
@@ -26,9 +33,10 @@
       "path": "lang/de.json"
     }
   ],
+  
   "gridDistance:": 1,
   "gridUnits": "m",
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/MalphasDev/darkspace_foundryVTT/darkspace_fvtt11_ModdedCore/system.json",
-  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/MC0-11.zip"
+  "download": "https://github.com/MalphasDev/darkspace_foundryVTT/archive/refs/tags/MC0-13.zip"
 }

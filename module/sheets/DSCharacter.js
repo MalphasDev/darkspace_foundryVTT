@@ -50,6 +50,24 @@ export class DSCharacter extends Actor {
 
     return { actorData, system, attr, ress, config };
   }
+  cyborgData(actorData, system, attr, ress, config) {
+    const label = config.techConditionLabel;
+    system.bodymon = getMonitor(
+      label,
+      system.size,
+      system.size,
+      system.armorBonus
+    );
+
+    system.upkeepTotal = 0;
+    for (let [k, v] of Object.entries(system.upkeep)) {
+      system.upkeepTotal = v + system.upkeepTotal;
+    }
+    system.wealth = (system.baseDicepool + system.stats.Ressourcen.attribut) * 2;
+    this.expCounter();
+
+    return { actorData, system, attr, ress, config };
+  }
   npcData(actorData, system, attr, ress, config) {
     const primaryHit = system.baseDicepool; // Konsti
     const label = config.bodyConditionLabel;
@@ -61,7 +79,6 @@ export class DSCharacter extends Actor {
     );
     
     system.stats = {baseDicepool: {skill: {Kompetenzbonus: Math.floor(system.baseDicepool/2)}}}
-    console.log(system);
 
     return { actorData, system, attr, ress, config };
   }
@@ -80,9 +97,7 @@ export class DSCharacter extends Actor {
     config.attrVehicle.forEach((attribute) => {
       system.stats[attribute].attrmax = system.structure - props.length;
     });
-
     const label = config.techConditionLabel;
-
     system.bodymon = getMonitor(
       label,
       system.size,
@@ -119,18 +134,7 @@ export class DSCharacter extends Actor {
     super.prepareData();
     const items = this.items;
     const { actorData, system, attr, ress, config } = this.getObjLocation();
-
-    // Delete old template-Data
-    if (system.gameversion <= 0.9831 && this.type ==="Charakter") {
-      if (system.stats.Konstitution.skill.Unterstützungswaffen === null || system.stats.Konstitution.skill.Unterstützungswaffen != undefined) {
-        console.log("Muss gelöscht werden");
-        actorData.update({
-          "system.stats.Konstitution.skill.-=Unterstützungswaffen": null,
-          "system.gameversion": 0.9832,
-        });
-      }
-    }
-    
+    console.log(this.name + " ("+ this.type + ") geladen.");
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
@@ -243,9 +247,16 @@ export class DSCharacter extends Actor {
       case "Charakter":
         this.charakterData(actorData, system, attr, ress, config);
         currentAttrList = config.attrList;
-
-        
-        
+        system.baseBuffer =
+          this.getStat("Synthese").attr + this.getStat("Synthese").fert;
+        cortexThreshold = [
+          this.getStat("Synthese").fert,
+          this.getStat("Synthese").attr,
+        ];
+        break;
+      case "Cyborg":
+        this.cyborgData(actorData, system, attr, ress, config);
+        currentAttrList = config.attrListCyborg;      
         system.baseBuffer =
           this.getStat("Synthese").attr + this.getStat("Synthese").fert;
         cortexThreshold = [
@@ -329,8 +340,6 @@ export class DSCharacter extends Actor {
       sortedCortexArmorList[0] + sortedCortexArmorList.length - 1;
 
       if (sortedCortexArmorList.length > 0) {
-        
-        console.log(sortedCortexArmorList);
       }
 
     isNaN(system.cortexArmorBonus)
@@ -346,11 +355,9 @@ export class DSCharacter extends Actor {
     );
 
 
-    // ++++ Prüfen, ob Fertigkeit vorhanden ++++
-console.log(this.name);
+    // ++++ Prüfen, ob Fertigkeit vorhanden wenn Items angelegt werden ++++
     items.forEach((item) => {
       // console.log(useWith,getStat(useWith,system.stats).fertName);
-      console.log(item.system.useWith);
       if (this.type === "Nebencharakter") {
         item.update({
           "system.useWith": "Kompetenzbonus",
@@ -388,6 +395,11 @@ console.log(this.name);
         skillList = config.skillList;
         system.startEp = game.settings.get("darkspace", "startxp");
         break;
+      case "Cyborg":
+        attrList = config.attrListCyborg;
+        skillList = config.skillListCyborg;
+        system.startEp = game.settings.get("darkspace", "startxp");
+        break;
       case "Nebencharakter":
         attrList = config.attrNpc;
         skillList = config.skillListNpc;
@@ -406,8 +418,8 @@ console.log(this.name);
 
     /* EP-Multiplikatoren für Testzwecke */
 
+    const compMod = 50;
     const attrMod = 20;
-    const compMod = 10;
     const skillMod = 5;
 
     attrList.forEach((attrIdent) => {

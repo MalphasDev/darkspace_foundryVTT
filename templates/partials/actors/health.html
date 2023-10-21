@@ -19,17 +19,20 @@
 
     <ul class="flex start">
       {{#ifCond this.actor.type "!=" "Maschine"}} {{#ifCond
-      this.actor.type "!=" "KI"}}
+      this.actor.type "!=" "KI"}} {{#ifCond
+        this.actor.type "!=" "Cyborg"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_body.svg" alt="">
       </li>
-      {{/ifCond}} {{/ifCond}}
-      {{#ifCond this.actor.type "===" "Maschine"}}
+      {{/ifCond}} {{/ifCond}}{{/ifCond}}
+      {{#ifCond this.actor.type "!=" "Charakter"}} {{#ifCond
+        this.actor.type "!=" "Nebencharakter"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_tech.svg" alt="">
       </li>
-      {{/ifCond}}
+      {{/ifCond}}{{/ifCond}}
        {{#each system.bodyConditions as |value key|}}
+
       <li  i class="flex borderbox round" style="height: 55px;">
         <input
           type="checkbox"
@@ -46,6 +49,7 @@
         >
           <div class="tooltip">
             {{#with (lookup ../system.bodymon key)}}
+          
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
             <div style="height: 15px;">

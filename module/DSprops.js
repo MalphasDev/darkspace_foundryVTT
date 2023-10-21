@@ -68,6 +68,11 @@ export function getProps() {
       handicap: false,
     },
     {
+      prop: "Überkompensieren",
+      desc: "Durch eine Aktivierung addiert der Charakter seinen doppelten aktuellen Stress auf das Ergebnis der Probe.",
+      handicap: false,
+    },
+    {
       prop: "Versiert",
       desc: "Übersteigt das Ergebnis den Schwierigkeitsgrad um 5 oder mehr, kann die Probe durch eine Aktivierung als kritischen Erfolg gewertet werden.",
       handicap: false,
@@ -105,7 +110,12 @@ export function getHandicaps() {
     {
       prop: "Zögerlich",
       desc: "Langfristige Aktionen erhöhen ihre Zeitstufe um 1, wenn keine Aktivierung durchgeführt wird.",
-      handicap: "ture",
+      handicap: "true",
+    },
+    {
+      prop: "Zwangshandlung",
+      desc: "Jedesmal wenn der Charakter Stress erhält, muss er innerhalb von 15min eine Handlung mit der verbundenen Fertigkeit ausführen. Ist dies nicht möglich, darf er nur eine einzelne Betätigung während der nächsten Ruhephase durchführen.",
+      handicap: "true",
     },
   ];
   return props;
@@ -119,7 +129,7 @@ export function getTechProps() {
     },
     {
       prop: "Erhöhte Reichweite",
-      desc: "Verbundene Aktionen haben eine Reichweite von MK² x 5 Metern. Die Reichweite wird durch eine Aktivierung verdoppelt.",
+      desc: "Handlungen haben eine Reichweite von MK² x 5 Metern. Angriffe verschieben dabei ihren Ausgangspunkt um bis zu MK² x 5 Meter. Die Reichweite wird durch eine Aktivierung verdoppelt.",
       handicap: false,
     },
     {
@@ -134,7 +144,7 @@ export function getTechProps() {
     },
     {
       prop: "Hochtechnologie",
-      desc: "Die Modulklasse des Gegenstands gilt als um 1 pro Aktivierung höher, als sie eigentlich ist. Dies wirkt sich insbesondere auf Aktionen, Proben und Zeitstufen, aber nicht auf die Anzahl der verfügbaren Bots oder verwendbare Eigenschaften aus.",
+      desc: "Die Modulklasse des Gegenstands gilt als um 1 pro Aktivierung höher, als sie eigentlich ist.",
       handicap: false,
     },
     {
@@ -159,12 +169,12 @@ export function getTechProps() {
     },
     {
       prop: "Vektorschub",
-      desc: "Der Gegenstand kann sich durch 15min (ZS 1) in der Luft halten und mit [Leistung ³ x MK x 4]m pro Bewegung fliegen. Pro Aktivierung erhöht sich die Zeitstufe, in der der Gegenstand fliegen kann, um 1.",
+      desc: "Der Gegenstand kann sich 15min (ZS 1) in der Luft halten und mit [Leistung ³ x MK x 4]m pro Bewegung fliegen. Pro Aktivierung erhöht sich die Zeitstufe, in der der Gegenstand fliegen kann, um 1.",
       handicap: false,
     },
     {
       prop: "Synchronisiert",
-      desc: "Durch eine Aktivierung wird der Effekt der verbundenen Aktion auf einem weiteren Gerät im gleichen Netzwerk durchgeführt.",
+      desc: "Durch eine Aktivierung wird die Wirkung einer Handlung auf einem weiteren Gerät im gleichen Netzwerk durchgeführt.",
       handicap: false,
     },
   ];
@@ -174,12 +184,12 @@ export function getTechhandicaps() {
   const props = [
     {
       prop: "Einseitig",
-      desc: "Mit dem Gegenstand kann nur die verbundene Aktion durchgeführt werden.",
+      desc: "Mit dem Gegenstand kann nur eine einzige Handlung ausführen. Die Handlung wird beim erhalt dieses Handicaps festgelegt.",
       handicap: "true",
     },
     {
       prop: "Fehleranfällig",
-      desc: "Der Würfelpool wird durch die Modulklasse des Gegenstandes begrenzt.",
+      desc: "Der Würfelpool, der mit diesem Gegenstand möglich ist, wird durch die Modulklasse des Gegenstandes begrenzt.",
       handicap: "true",
     },
     {
@@ -234,7 +244,7 @@ export function getCombatProps() {
     },
     {
       prop: "Lädieren",
-      desc: "Erleidet das Ziel einen Zustand durch die verbundene Aktion, kann eine Aktivierung durchgeführt werden. Alle Schwierigkeitsgrade, um Zustände zu entfernen werden auf 20 gesetzt. ",
+      desc: "Erleidet das Ziel einen Zustand durch den Gegenstand, kann eine Aktivierung durchgeführt werden, um einen weiteren Zustand anzurichten, dessen Schwelle erreicht wurde.",
       handicap: false,
     },
     {
@@ -254,7 +264,7 @@ export function getCombatProps() {
     },
     {
       prop: "Schock",
-      desc: "Das Ziel verliert bei einer misslungenen Schutzprobe [2 + Aktivierungen] AE.",
+      desc: "Das Ziel verliert [2 + Aktivierungen] AE.",
       handicap: false,
     },
     {
@@ -279,7 +289,7 @@ export function getCombatHandicaps() {
     },
     {
       prop: "Nicht-Tödlich",
-      desc: 'Ein Angriff mit der Waffe kann nur die ermittelten Zustände erzeugen und keine Zustände stapeln.',
+      desc: 'Ein Angriff mit der Waffe kann nur Zustände verursachen, deren Stufe gleich oder kleiner sind, als die Größe der Waffe',
       handicap: "true",
     },
     {
