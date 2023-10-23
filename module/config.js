@@ -66,7 +66,6 @@ const accessTempTree = () => {
     darkspace.skillList = skillList.sort();
   });
   tempTree.then((a) => {
-    console.log(a);
     let attrListCyborg = Object.keys(a.Actor.Cyborg.stats);
     let skillListCyborg = [];
     darkspace.attrListCyborg = attrListCyborg;

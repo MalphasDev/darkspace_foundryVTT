@@ -39,10 +39,10 @@ export class DSItem extends Item {
   artData() {
     const { itemData, system, config } = this.getObjLocation();
     let artStat;
-    if (itemData.actor != null)
-      artStat =
-        getStat(itemData.system.useWith, itemData.actor.system.stats).attrmax ??
-        5;
+    // if (itemData.actor != null)
+    //   artStat =
+    //     getStat(itemData.system.useWith, itemData.actor.system.stats).attrmax ??
+    //     5;
 
     system.attrMaxBonus =
       system.mk + artStat - Object.entries(system.props).length;

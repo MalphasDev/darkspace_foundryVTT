@@ -16,10 +16,6 @@ export async function rollDice(inputData) {
   let baseDicepool = actor?.system.effectiveCompetence
   if (baseDicepool === undefined) {baseDicepool=0}
 
-  
-
-  console.log(inputData);
-
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
   // ------------------------------------- //
@@ -31,11 +27,11 @@ export async function rollDice(inputData) {
   let skill;
 
   if (inputData.type === "Custom") {
-    attr = inputData.attr + baseDicepool;
-    skill = inputData.skill;
+    attr = inputData.rollData.attribute;
+    skill = inputData.rollData.skill;
   } else if (actor.type === "Nebencharakter") {
-    attr = actor?.system.effectiveCompetence
-    skill = actor?.system.stats.baseDicepool.skill.Kompetenzbonus
+    attr = actor?.system.effectiveCompetence;
+    skill = actor?.system.stats.baseDicepool.skill.Kompetenzbonus;
   } else {
     attr = system.stats[rollData.attribute].attribut + baseDicepool;
     skill = system.stats[rollData.attribute].skill[rollData.skill];

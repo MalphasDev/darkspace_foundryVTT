@@ -44,7 +44,7 @@ export class DSCharacterSheet extends ActorSheet {
     const context = super.getData();
     const actorData = this.actor.toObject(false);
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
-
+console.log("Starte getData()");
     let weapons = {};
     let armor = {};
     let utilities = {};
@@ -120,6 +120,7 @@ export class DSCharacterSheet extends ActorSheet {
       ".itemEdit",
       ".itemDelete",
       ".rollSkill",
+      ".rollCustom",
       ".rollItem",
       ".inlineItemEdit",
       ".addProp",
@@ -162,6 +163,7 @@ export class DSCharacterSheet extends ActorSheet {
   }
 
   objValueFromString(context, string) {
+
     var path = string;
     var pathArray = path.split(".");
     var value = context;
@@ -224,6 +226,46 @@ export class DSCharacterSheet extends ActorSheet {
       ...preCreatedInput,
       type: "Skill",
     };
+    DSMechanics.modRolls(inputData);
+  }
+  async _rollCustom(event, option) {
+    event.preventDefault();
+
+    !option ? (option = {}) : option;
+    const element = option.rightClick ? event.target : event.currentTarget;
+    const system = this.object.system;
+    const dataset = element.dataset;
+
+    let dicepool
+    let bonus
+
+    if (isNaN(parseInt(dataset.dicepool))) {
+      dicepool = this.objValueFromString(this.object,dataset.dicepool)
+    } else {
+      dicepool= parseInt(dataset.dicepool)
+    }
+    if (isNaN(parseInt(dataset.dicepool))) {
+      bonus = this.objValueFromString(this.object,dataset.bonus)
+    } else {
+      bonus= parseInt(dataset.bonus)
+    }
+
+    const inputData = {
+      type: "Custom",
+      eventData: element,
+      actorId: this.actor.id,
+      rollname: dataset.rollname,
+      rollData: {
+        attribute: dicepool,
+        skill: bonus,
+        rollname: dataset.rollname,
+      },
+      removehighest: element.className.includes("disadv"),
+      modroll: option.rightClick,
+      object: this.object,
+    };
+    
+
     DSMechanics.modRolls(inputData);
   }
 
@@ -682,5 +724,49 @@ export class DSCharacterSheet extends ActorSheet {
       },
       default: "abort",
     }).render(true);
+  }
+
+  _onDropItem(event, data) {
+
+    // Diese Funktion weiter ausbauen, damit Fertigkeiten automatisch erkannt und zugeteilt werden.
+    // Problem: Fertigkeit wird zwar richtig erkannt, aber muss noch in die Item-Instanz kopiert werden.
+
+    super._onDropItem(event, data);
+    const itemId = data.uuid.split(".")[1]
+    const useWith = game.items.get(itemId).system.useWith
+    
+    const actor = this.actor;
+    const stats = actor.system.stats;
+
+    const statMap = Object.entries(stats);
+
+    const items = actor.items
+    const itemList = items.map((itemlist) => {return itemlist})
+
+
+    // for (let index = 0; index < statMap.length; index++) {
+    //   const skill = Object.entries(statMap[index][1].skill)
+    //   for (let index = 0; index < skill.length; index++) {
+    //     const skillname = skill[index][0];
+    //     useWith.forEach(element => {
+    //       if (element === skillname) {
+    //         // Hier muss irgendwie in Item Instanz geschrieben werden.
+    //         primaryUseWith = element;
+    //         return
+    //       }
+    //     });
+    //   }
+
+      // game.items.get(itemId).update({
+      //   "system.useWith": primaryUseWith
+      // })
+      
+      // console.log(skill.hasOwnProperty(useWith));
+    //}
+
+    
+
+
+
   }
 }

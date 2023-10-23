@@ -53,9 +53,36 @@
         {{/times}}
       </span>
       {{#ifCond actor.type "===" "Nebencharakter"}}
-      <span>+{{system.stats.competence.skill.Kompetenzbonus}}</span>
+      <span>+{{system.mk}}</span>
       {{/ifCond}}
-      
+      <!--
+      <div class="customDiceBox">
+        <div class="flex" style="flex: 1;">
+            <button 
+                class="rollCustom"
+                data-skill="MK"
+                data-dicepool="system.baseDicepool"
+                data-bonus="system.mk"
+                data-disadv="false">
+                <span class="tooltip">
+                    <i class="fa-solid fa-reply"></i>
+                    <span class="tooltiptext top">Würfeln</span>
+                </span>
+            </button>
+            <button 
+                class="rollCustom d10disadv"
+                data-skill="MK"
+                data-dicepool="system.baseDicepool"
+                data-bonus="system.mk"         
+                data-disadv="true">
+                <span class="tooltip">
+                    <i class="fa-solid fa-exclamation-triangle"></i>
+                    <span class="tooltiptext top">Würfeln mit Erschwernis</span>
+                </span>
+                
+            </button>
+        </div>
+      -->
     </h2>
     <hr />
 

@@ -331,8 +331,6 @@ function rollItemMacro(itemUuid) {
   const actor = game.actors.get(actorId);
   const item = actor ? actor.items.find((i) => i.uuid === itemUuid) : null;
 
-  
-  console.log(item);
   const dbAttr = actor.system.stats;
   const stat = DSMechanics.getStat(item.system.useWith, dbAttr);
 
@@ -381,10 +379,8 @@ class PropListSetting extends FormApplication {
 
   async _updateObject(event) {
     const element = event.currentTarget;
-    console.log(event);
     let props = {};
 
-    console.log(document.querySelectorAll("textarea"));
     const textareas = document.querySelectorAll("textarea");
     const filteredTextareas = Array.from(textareas).filter((textarea) =>
       textarea.classList.contains("desc")
@@ -398,8 +394,6 @@ class PropListSetting extends FormApplication {
         },
       };
     });
-    console.log(darkspace.props);
-    console.log(props);
 
     // const items = [];
 

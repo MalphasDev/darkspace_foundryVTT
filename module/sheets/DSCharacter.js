@@ -3,13 +3,49 @@ import { getStat } from "../DSMechanics.js";
 import { getHealth, getMonitor } from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
+
+
+  actorMigration(actorData, system) {
+    // console.log("Starte Migration");
+
+    // if (this.type === "Cyborg") {
+
+    //   const oldSkillset = system.stats.Servos.skill;
+    //   const newSkillset = {
+    //     Agilität: 0,
+    //     Kraft: 0,
+    //     Körperkontrolle: 0,
+    //     Präzision: 0
+    //   }
+
+    //   console.log(oldSkillset, newSkillset);
+
+    //   const currentSkill = Object.keys(oldSkillset)
+      
+    //   const removeSkill = "Test"
+
+    //   const removeSkillPosition = currentSkill.indexOf(removeSkill)
+
+    //   if (removeSkillPosition>-1) {
+    //   console.log("Lösche", removeSkill);
+
+    //   this.update({
+    //     "system.stats.Servos.skill": null
+    //   });
+    //   this.update({
+    //     "system.stats.Servos.skill": newSkillset
+    //   });
+    //   }
+
+      
+      
+        
+    //   }
+  }
+
   getStat(fert) {
     // Kann rausgenommen werden, wenn alle Spiele einmal aktiv waren.
-    if (this.type === "DrohneFahrzeug") {
-      this.update({
-        type: "Maschine",
-      });
-    }
+    
 
     let dbAttr;
 
@@ -32,7 +68,7 @@ export class DSCharacter extends Actor {
   }
 
   charakterData(actorData, system, attr, ress, config) {
-    const primaryHit = this.getStat("Fitness").attr; // Konsti
+    const primaryHit = this.getStat("Fitness").attr;
     const label = config.bodyConditionLabel;
     system.bodymon = getMonitor(
       label,
@@ -136,6 +172,12 @@ export class DSCharacter extends Actor {
     const { actorData, system, attr, ress, config } = this.getObjLocation();
     console.log(this.name + " ("+ this.type + ") geladen.");
 
+    
+
+    if (true) {
+      this.actorMigration(actorData, system)
+    }
+
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
 
@@ -161,6 +203,7 @@ export class DSCharacter extends Actor {
       return i.type === "Terminals";
     });
 
+
     let itemSizeArray = items.map((item) => {
       return item.system.size;
     });
@@ -174,27 +217,15 @@ export class DSCharacter extends Actor {
     itemSizeArray = correctSize.sort((a, b) => {
       return a - b;
     });
-    itemSizeArray.forEach((size, i) => {
-      switch (size) {
-        case 1:
-          itemSizeArray[i] = 0.0625;
-          break;
-        case 2:
-          itemSizeArray[i] = 0.125;
-          break;
-        case 3:
-          itemSizeArray[i] = 0.25;
-          break;
-        case 4:
-          itemSizeArray[i] = 0.5;
-          break;
-        case 5:
-          itemSizeArray[i] = 1;
-          break;
-        default:
-          break;
-      }
-    });
+    const sizeMap = new Map([
+      [1, 0.0625],
+      [2, 0.125],
+      [3, 0.25],
+      [4, 0.5],
+      [5, 1]
+    ]);
+    itemSizeArray = itemSizeArray.map(size => sizeMap.get(size) || size);
+
     if (itemSizeArray.length > 0) {
       system.carriage = Math.ceil(
         itemSizeArray.reduce((a, b) => {
@@ -354,20 +385,40 @@ export class DSCharacter extends Actor {
       system.cortexArmorBonus + system.pan
     );
 
+    // ++++++++++++++++++++++++++++++
+    // ++++ Inventar Korrigieren ++++
+    // ++++++++++++++++++++++++++++++
 
     // ++++ Prüfen, ob Fertigkeit vorhanden wenn Items angelegt werden ++++
     items.forEach((item) => {
-      // console.log(useWith,getStat(useWith,system.stats).fertName);
+
+      // Nebencharaktere haben keine Fertigkeiten, sondern würfeln alles mit Kompetenz
       if (this.type === "Nebencharakter") {
         item.update({
           "system.useWith": "Kompetenzbonus",
         });
         return
       }
+
+      // Cyborgs haben keine Körperkontrolle und verwenden stattdessen Manövrieren
+      if (this.type === "Cyborg") {
+
+        if (item.type ===  "Schusswaffe") {
+          item.system.useWith = "Manövrieren"
+        }
+        if (item.type ===  "Panzerung") {
+          item.system.useWith = "Kraft"
+        }
+        
+      }
+
+      // Falls nichts gefunden wird, wird Logik als useWith eingesetzt.
+      // Sollte man eventuell auch nochmal überdenken. Fenster mit Fertigkeit auswählen evtl?
       if (
         item.system.useWith !=
         getStat(item.system.useWith, system.stats).fertName
       ) {
+
         item.update({
           "system.useWith": "Logik",
         });
