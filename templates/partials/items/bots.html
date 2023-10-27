@@ -1,17 +1,17 @@
 {{#with system.ress.Bots}}
-<div class="attrfeld">
+<div class="dicepoolfeld">
   <!--Bots-->
 
   <div class="flex between">
-    <span>{{localize "darkspace.Bots"}} <span class="anmerkung">(max. {{max}})</span></span>
+    <span>{{localize "darkspace.bots"}} <span class="anmerkung">(max. {{max}})</span></span>
     <span class="flex">
       <i class="fa-solid fa-minus-square decRess bigsize {{#ifCond value "<=" " 0" }}opacity50{{/ifCond}}"
-        data-attr="bots.value"></i>
+        data-dicepool="bots.value"></i>
       <input style="font-size: 1.2rem" type="number" name="system.bots" id="{{actor.id}}_botpkt" value="{{value}}"
         min="0" max="{{max}}" disabled/>
 
       <i class="fa-solid fa-plus-square incRess bigsize {{#ifCond value ">=" max}}opacity50{{/ifCond}}"
-        data-attr="bots.value"></i>
+        data-dicepool="bots.value"></i>
     </span>
   </div>
 </div>

@@ -1,19 +1,26 @@
 import * as DSMechanics from "./DSMechanics.js";
 export class DSCombat extends Combat {
-  _sortCombatants(a, b) {
-    let aeA = parseInt(a.initiative) || 99999;
-    let aeB = parseInt(b.initiative) || 99999;
+  _sortCombatants(combatantA, combatantB) {
+    // console.log("_sortCombatants",combatantA,combatantB);
+    let aeA = parseInt(combatantA.initiative) || 99999;
+    let aeB = parseInt(combatantB.initiative) || 99999;
 
     // Combatants ohne Initiative nach hinten sortieren.
-    if (parseInt(a.initiative) === null) {
+    if (parseInt(combatantA.initiative) === null) {
       aeA = 99999;
     }
-    if (parseInt(b.initiative) === null) {
+    if (parseInt(combatantB.initiative) === null) {
       aeB = 99999;
     }
-    var isCombatStarted = a.parent.getFlag("darkspace", "isCombatStarted")
+    var isCombatStarted = combatantA.parent.getFlag("darkspace", "isCombatStarted")
       ? 1
       : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.
+//       console.log("############ START OF SORTING ############");
+// console.log(combatantA.name,aeA);
+// console.log(combatantB.name,aeB);
+// console.log(aeA - aeB);
+// console.log("############ END OF SORTING ############");
+
 
     return (aeA - aeB) * isCombatStarted;
   }
@@ -72,35 +79,35 @@ export class DSCombat extends Combat {
       }
     } else {
       ids.forEach(async (id, index) => {
-        // Wenn was kaputt genagen ist, dann hier!
+        // Ermitteln der Initiative
         var currentCombatant = actorData.get(id);
         const system =  currentCombatant.actor.system;
-        const ini = DSMechanics.getStat(
-          "Fokus",
-          system.stats
-        );
+        
         let inputData = {
           eventData: {},
           actorId: currentCombatant.actor.id,
           actorData: actorData,
           removehighest: false,
           object: {},
-          rollData: { attribute: ini.attrName, skill: ini.fertName },
+          type: "Custom",
+          rollData: { dicepool: system.initiative, skill: 0 },
+          effectOff: true,
         };
+
 
         let outputData = await DSMechanics.rollDice(inputData).then(
           (result) => {
             return result;
           }
         );
-
+        
         this.setInitiative(id, outputData.cardData.total_AB);
-
+        
         // Chatausgabe
-
-        let cardData = outputData.cardData;
+        
+        let cardData = {...outputData.cardData, name: game.actors.get(outputData.actorId).name};
         let messageData = outputData.messageData;
-
+        
         messageData.content = await renderTemplate(
           "systems/darkspace/templates/dice/chatInitiative.html",
           cardData
@@ -118,6 +125,8 @@ export class DSCombat extends Combat {
   }
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
+
+    console.log("Startet _onUpdate");
 
     this.setupTurns(); // Damit die Reiehnfolge beim Start bei GM und Spielern gleich bleibt
 

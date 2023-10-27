@@ -30,7 +30,7 @@ export function edit(event, context) {
   return propData;
 }
 export function getProps() {
-  // Hier sollen die fertigen Eigenschaften mit Name und Regeln rein, damit sie später per Dropdown(?) auswählen kann.
+  // Hier sollen die skilligen Eigenschaften mit Name und Regeln rein, damit sie später per Dropdown(?) auswählen kann.
   const props = [
     {
       prop: "Ausgleichen",

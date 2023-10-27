@@ -110,17 +110,17 @@
   
     <!-- Aufrappeln 
     <div>
-      <h3><i class="fa-solid fa-running"></i>{{localize "darkspace.Aufrappeln"}}</h3>
+      <h3><i class="fa-solid fa-running"></i>{{localize "darkspace.rewind"}}</h3>
       <div>
         {{#ifCond actor.type "===" "Charakter"}}
         
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
-        skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
+        skillname="Fitness" skillAttr=system.stats.Konstitution.dicepool
         skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
         {{#ifCond actor.type "===" "Nebencharakter"}}
        
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
-        skillname="Fitness" skillAttr=system.stats.Körper.attribut
+        skillname="Fitness" skillAttr=system.stats.Körper.dicepool
         skillVal=system.stats.Körper.skill.Fitness}} {{/ifCond}} {{#ifCond
         actor.type "===" "Maschine"}}
        
@@ -131,13 +131,13 @@
   
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
         skillname="Willenskraft"
-        skillAttr=system.stats.Konzentration.attribut
+        skillAttr=system.stats.Konzentration.dicepool
         skillVal=system.stats.Konzentration.skill.Willenskraft}}
         {{/ifCond}}
         {{/ifCond}}
     
         {{>"systems/darkspace/templates/partials/actors/actionBtn.html"
-        skillname="Synthese" skillAttr=system.stats.Kybernese.attribut
+        skillname="Synthese" skillAttr=system.stats.Kybernese.dicepool
         skillVal=system.stats.Kybernese.skill.Synthese}}
       </div>
     </div>-->
@@ -146,31 +146,31 @@
     <div>
       
     
-    <h3><i class="fa-solid fa-shield-alt"></i>{{localize "darkspace.Schutzprobe"}}</h3>
+    <h3><i class="fa-solid fa-shield-alt"></i>{{localize "darkspace.savecheck"}}</h3>
     <div class="grid col3">
 
       {{#ifCond actor.type "===" "Charakter"}}
 
       
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Motorik" skillAttr=system.stats.Geschick.attribut
+      skillname="Motorik" skillAttr=system.stats.Geschick.dicepool
       skillVal=system.stats.Geschick.skill.Motorik}}
 
      
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Fitness" skillAttr=system.stats.Konstitution.attribut
+      skillname="Fitness" skillAttr=system.stats.Konstitution.dicepool
       skillVal=system.stats.Konstitution.skill.Fitness}} {{/ifCond}}
       
       
       {{#ifCond actor.type "===" "Nebencharakter"}}
 
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Fitness" skillAttr=system.stats.Körper.attribut
+      skillname="Fitness" skillAttr=system.stats.Körper.dicepool
       skillVal=system.stats.Körper.skill.Fitness}}
 
 
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Kampftechnik" skillAttr=system.stats.Körper.attribut
+      skillname="Kampftechnik" skillAttr=system.stats.Körper.dicepool
       skillVal=system.stats.Körper.skill.Kampftechnik}} {{/ifCond}}
 
       
@@ -182,11 +182,11 @@
 
 
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Beschleunigung" skillAttr=system.stats.Leistung.attribut
+      skillname="Beschleunigung" skillAttr=system.stats.Leistung.dicepool
       skillVal=system.stats.Leistung.skill.Beschleunigung}} {{/ifCond}}
 
       {{>"systems/darkspace/templates/partials/actors/protectionBtn.html"
-      skillname="Synthese" skillAttr=system.stats.Kybernese.attribut
+      skillname="Synthese" skillAttr=system.stats.Kybernese.dicepool
       skillVal=system.stats.Kybernese.skill.Synthese}}
     </div>
   </div>  -->

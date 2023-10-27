@@ -1,5 +1,5 @@
-<h2 style="margin: 0">{{actor.name}}</h2>
-<h3>Initiative: {{skill}}-Probe</h3>
+<h2 style="margin: 0">{{name}}</h2>
+<h3>Initiative: {{localize "darkspace.baseDicepool"}}-Probe</h3>
 <div>
   <div>
     {{#if this.disadv}}
@@ -7,6 +7,6 @@
     <p class="red text_c">{{this.disadv}}</p>
     {{/if}}
     <hr />
-    {{> "systems/darkspace/templates/dice/dice-msg.html"}}
+    {{> "systems/darkspace/templates/dice/chatBase.html"}}
   </div>
 </div>

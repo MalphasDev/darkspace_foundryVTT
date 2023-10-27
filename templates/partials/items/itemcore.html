@@ -11,7 +11,7 @@
 
     {{#ifCond item.type "!=" "Artifizierung"}}
     <div class="flex between borderarea">
-      <span>{{localize "darkspace.Fertigkeit"}}</span>
+      <span>{{localize "darkspace.skill"}}</span>
 
       <select name="system.useWith" id="{{id}}_useWith">
         {{> "systems/darkspace/templates/partials/skillOptions.html" @root
@@ -26,10 +26,10 @@
   </div>
   <div>
     <div class="borderarea">
-      <h3>{{localize "darkspace.Zustände"}}</h3>
+      <h3>{{localize "darkspace.conditions"}}</h3>
       {{> "systems/darkspace/templates/partials/techCortexHealth.html"}}
     </div>
-    <h2>{{localize "darkspace.Notizen"}}</h2>
+    <h2>{{localize "darkspace.notes"}}</h2>
     {{editor system.description target="system.description" button=true
     owner=owner editable=editable rollData=rollData}}
   </div>

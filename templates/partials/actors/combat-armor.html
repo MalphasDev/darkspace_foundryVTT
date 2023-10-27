@@ -1,13 +1,13 @@
 <!-- combat-armor.html -->
 <section class="relative">
-  <h2>{{localize "darkspace.Panzerung"}}</h2>
+  <h2>{{localize "darkspace.armor"}}</h2>
 
   <input type="checkbox" id="armorlistcheckbox" class="hidden itemlistdetails" name="system.sheetui.armorlist" {{checked system.sheetui.armorlist}}/>
   <label class="compactlabel pointer" for="armorlistcheckbox">{{#if system.sheetui.armorlist}}
-    {{localize "darkspace.Übersicht"}}
+    {{localize "darkspace.overview"}}
     {{/if}}
     {{#unless system.sheetui.armorlist}}
-    {{localize "darkspace.Details"}}
+    {{localize "darkspace.details"}}
     
     {{/unless}}<i class="fa-solid fa-eye"></i></label>
 
@@ -66,8 +66,8 @@
             <label for="{{this._id}}_equipped" class="{{#unless system.equipped}}opacity50 {{/unless}}inline">
               <i
                 class="fa-solid fa-shield-alt"></i>
-              {{#if system.equipped}}{{localize "darkspace.Ausgerüstet"}}{{/if}}
-              {{#unless system.equipped}}{{localize "darkspace.Abgelegt"}}{{/unless}}
+              {{#if system.equipped}}{{localize "darkspace.equipped"}}{{/if}}
+              {{#unless system.equipped}}{{localize "darkspace.unequipped"}}{{/unless}}
             </label>
           </span>
           <span class="text_c">{{>

@@ -131,7 +131,7 @@ console.log("Starte getData()");
       ".spendbot",
       ".counter",
       ".renderapp",
-      ".decattr",
+      ".decdicepool",
     ];
     window.oncontextmenu = (e) => {
       e.preventDefault();
@@ -156,7 +156,7 @@ console.log("Starte getData()");
     html.find("li.item").each((i, li) => {
       // Ignore for the header row.
       if (li.classList.contains("item-header")) return;
-      // Add draggable attribute and dragstart listener.
+      // Add draggable dicepool and dragstart listener.
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", handler, false);
     });
@@ -186,28 +186,22 @@ console.log("Starte getData()");
     const system = this.object.system;
     const dataset = element.dataset;
 
-    let attrVal = DSMechanics.getStat(dataset.skill, system.stats).attr;
-    let skillVal = DSMechanics.getStat(dataset.skill, system.stats).fert;
-    let attrName = DSMechanics.getStat(dataset.skill, system.stats).attrName;
+    let dicepoolVal 
+    if (this.object.type != "Nebencharakter") {
+      dicepoolVal = DSMechanics.getStat(dataset.skill, system.stats).dicepoolName
+    } else {
+      dicepoolVal = system.comptence
+    }
 
-    if (dataset.skill === "MK" || dataset.skill === "Modulklasse") {
-      attrVal = system.size;
-      skillVal = system.mk;
-      attrName = "Größe";
-    }
-    if (dataset.skill === "Größe") {
-      attrVal = system.mk;
-      skillVal = system.size;
-      attrName = "Modulklasse";
-    }
+
 
     const inputData = {
       eventData: element,
       actorId: this.actor.id,
       rollname: dataset.rollname,
       rollData: {
-        attribute: attrName,
-        skill: dataset.skill,
+        dicepoolVal: dicepoolVal,
+        skillName: dataset.skill,
         rollname: false,
       },
       removehighest: element.className.includes("disadv"),
@@ -256,7 +250,7 @@ console.log("Starte getData()");
       actorId: this.actor.id,
       rollname: dataset.rollname,
       rollData: {
-        attribute: dicepool,
+        dicepool: dicepool,
         skill: bonus,
         rollname: dataset.rollname,
       },
@@ -294,8 +288,8 @@ console.log("Starte getData()");
     const inputData = {
       ...preCreatedInput,
       rollData: {
-        attribute: stat.attrName,
-        skill: stat.fertName,
+        dicepool: stat.dicepoolName,
+        skill: stat.skillName,
       },
       modroll: option.rightClick,
       item: item,
@@ -341,7 +335,7 @@ console.log("Starte getData()");
   async _modRess(event) {
     const ress = event.currentTarget.dataset.ress;
     const targetClass = event.currentTarget.className;
-    const attrKey = "system.ressources." + ress;
+    const dicepoolKey = "system.ressources." + ress;
 
     let ressMod = targetClass.includes("decRess")
       ? -1
@@ -351,13 +345,13 @@ console.log("Starte getData()");
 
     this.actor.update({
       id: this.actor.id,
-      [attrKey]: this.actor.system.ressources[ress] + ressMod,
+      [dicepoolKey]: this.actor.system.ressources[ress] + ressMod,
     });
   }
 
   async _itemQuickEdit(event) {
-    const id = $(event.currentTarget).parents(".item").attr("data-itemid");
-    const target = $(event.currentTarget).attr("data-target");
+    const id = $(event.currentTarget).parents(".item").dicepool("data-itemid");
+    const target = $(event.currentTarget).dicepool("data-target");
     const item = duplicate(this.actor.getEmbeddedDocument("Item", id));
     let targetValue;
 
@@ -690,13 +684,13 @@ console.log("Starte getData()");
     if (sheet._minimized) return sheet.maximize();
     else return sheet.render(true);
   }
-  _decattr(event) {
+  _decdicepool(event) {
     const element = event.currentTarget;
     const dataset = element.dataset;
     const actor = this.actor;
-    const attr = actor.system.stats;
-    const currentAttrModAdress = "system.stats." + dataset.attr + ".attrmaxmod";
-    const currentAttrMod = attr[dataset.attr].attrmaxmod;
+    const dicepool = actor.system.stats;
+    const currentAttrModAdress = "system.stats." + dataset.dicepool + ".dicepoolmaxmod";
+    const currentAttrMod = dicepool[dataset.dicepool].dicepoolmaxmod;
 
     new Dialog({
       title: "Entstellungen",

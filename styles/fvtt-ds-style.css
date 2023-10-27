@@ -562,22 +562,22 @@ option {
 
 /* ------ Attribute und Fertigkeiten ------*/
 
-.attrfeld {
+.dicepoolfeld {
   outline: 1px solid var(--main);
   border-radius: 5px;
 }
 
-.attrvalue {
+.dicepoolvalue {
   justify-self: end;
   display: flex;
   align-items: center;
   background: var(--main);
 }
-.attrvalue input {
+.dicepoolvalue input {
   color: #fff;
   font-weight: bold;
 }
-.attrname {
+.dicepoolname {
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -586,7 +586,7 @@ option {
   color: #fff;
   background: linear-gradient(90deg, var(--main), transparent);
 }
-.fertfeld li {
+.skillfeld li {
   padding-left: 5px;
   background: linear-gradient(90deg, var(--effect) 0%, var(--effect-a) 0%);
 }
@@ -596,14 +596,14 @@ a.rollSkill {
 .pointer:hover *,
 .rollItem:hover,
 .rollItem:hover *,
-.fertfeld li:hover * {
+.skillfeld li:hover * {
   color: var(--clickable);
   transition: 0.2s ease;
 }
-.fertfeld li:hover .fa-circle {
+.skillfeld li:hover .fa-circle {
   color: var(--secondary);
 }
-.fertfeld li:hover .far.fa-circle {
+.skillfeld li:hover .far.fa-circle {
   opacity: 60%;
 }
 
@@ -895,7 +895,7 @@ input[type="checkbox"] + label[for="ranged"]:hover {
   margin: 0 0 0 1ch;
   font-size: 1rem;
 }
-.ressbox .attrfeld {
+.ressbox .dicepoolfeld {
   margin-bottom: 1ch;
 }
 .inlinebutton {

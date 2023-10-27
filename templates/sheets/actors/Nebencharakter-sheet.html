@@ -10,7 +10,7 @@
           <span class="tooltip"
             ><i class="fa-solid fa-dna"></i
             ><span class="tooltiptext bottom"
-              >{{localize "darkspace.Attribute"}}, {{localize "darkspace.Fertigkeiten"}} & {{localize "darkspace.Eigenschaften"}}</span
+              >{{localize "darkspace.aptitudes"}}, {{localize "darkspace.skills"}} & {{localize "darkspace.boons"}}</span
             ></span
           >
         </a>
@@ -18,14 +18,14 @@
         <a class="item" data-tab="items">
           <span class="tooltip"
             ><i class="fa-solid fa-suitcase"></i
-            ><span class="tooltiptext bottom">{{localize "darkspace.Inventar"}}</span></span
+            ><span class="tooltiptext bottom">{{localize "darkspace.inventory"}}</span></span
           >
         </a>
       -->
         <a class="item" data-tab="notes"
           ><span class="tooltip"
             ><i class="fa-solid fa-book"></i
-            ><span class="tooltiptext bottom">{{localize "darkspace.Notizen"}}</span></span
+            ><span class="tooltiptext bottom">{{localize "darkspace.notes"}}</span></span
           ></a
         >
       </nav>
@@ -47,17 +47,13 @@
           <i class="counter fa-regular fa-square" data-set=false data-address="system.baseDicepool"></i>
           {{/times}}
         </span>
-        {{#ifCond actor.type "===" "Nebencharakter"}}
-        <span>+{{system.stats.competence.skill.Kompetenzbonus}}</span>
-        {{/ifCond}}
         
 
         
               <div class="customDiceBox">
                 <div class="flex" style="flex: 1;">
                     <button 
-                        class="rollSkill"
-                        data-skill="Kompetenzbonus"          
+                        class="rollSkill"       
                         data-disadv="false">
                         <span class="tooltip">
                             <i class="fa-solid fa-reply"></i>
@@ -65,8 +61,7 @@
                         </span>
                     </button>
                     <button 
-                        class="rollSkill d10disadv"
-                        data-skill="Kompetenzbonus"           
+                        class="rollSkill d10disadv"       
                         data-disadv="true">
                         <span class="tooltip">
                             <i class="fa-solid fa-exclamation-triangle"></i>

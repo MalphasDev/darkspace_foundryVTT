@@ -76,7 +76,7 @@ export class DSItemSheet extends ItemSheet {
 
     const currentIndex = parseInt(element.dataset.index);
     const currentActive = parseInt(element.dataset.active);
-    const ressAttr = element.dataset.thisattr;
+    const ressAttr = element.dataset.thisdicepool;
     const ressAttrData = system.ress[ressAttr];
     const ValueAdress = "system.ress." + ressAttr;
 
@@ -93,7 +93,7 @@ export class DSItemSheet extends ItemSheet {
     }
   }
   async _onModRess(event) {
-    let ressAttr = event.currentTarget.dataset.attr;
+    let ressAttr = event.currentTarget.dataset.dicepool;
     const ValueAdress = "system.ress." + ressAttr;
 
     const arr = ("object.system.ress." + ressAttr).split(".");

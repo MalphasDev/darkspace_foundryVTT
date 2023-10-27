@@ -18,13 +18,13 @@ export class DSChatlog extends ChatLog {
     const dicePool = parseInt(dicePoolInput[0].value);
     const diceBonus = parseInt(diceBonusInput[0].value);
     const inputData = {
-      attr: dicePool,
+      dicepool: dicePool,
       skill: diceBonus,
-      attrModLocal: 0,
-      fertModLocal: 0,
+      dicepoolModLocal: 0,
+      skillModLocal: 0,
       eventData: element,
 
-      rollData: {attribute: "", skill: "" },
+      rollData: {dicepool: "", skill: "" },
       removehighest: element.dataset.disadv === "true",
       type: "Custom",
     };

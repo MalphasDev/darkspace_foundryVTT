@@ -1,15 +1,15 @@
 <!-- character-sheet-items.html -->
 
 <section class="relative">
-  <h2>{{localize "darkspace.Gegenstände"}}</h2>
+  <h2>{{localize "darkspace.items"}}</h2>
 
   <input type="checkbox" id="itemlistcheckbox" class="hidden itemlistdetails" name="system.sheetui.itemlist" {{checked
     system.sheetui.itemlist}} />
   <label class="compactlabel pointer" for="itemlistcheckbox"> {{#if system.sheetui.itemlist}}
-    {{localize "darkspace.Übersicht"}}
+    {{localize "darkspace.overview"}}
     {{/if}}
     {{#unless system.sheetui.itemlist}}
-    {{localize "darkspace.Details"}}
+    {{localize "darkspace.details"}}
     {{/unless}} <i class="fa-solid fa-eye"></i></label>
 
 
@@ -54,7 +54,7 @@
 </section>
 
 <section class="relative">
-  <h2>{{localize "darkspace.Maschinen"}}</h2>
+  <h2>{{localize "darkspace.machines"}}</h2>
 
   <ul class="item-list">
     {{#each items.drone}}

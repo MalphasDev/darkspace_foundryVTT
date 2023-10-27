@@ -7,8 +7,8 @@ import { DSCombatTracker } from "./DSCombatTracker.js";
 export async function rollDice(inputData) {
   const actor = game.actors.get(inputData.actorId);
   
-  let attrModLocal = parseInt(inputData.attrModLocal);
-  let fertModLocal = parseInt(inputData.fertModLocal);
+  let dicepoolModLocal = parseInt(inputData.dicepoolModLocal);
+  let skillModLocal = parseInt(inputData.skillModLocal);
   let rollData = inputData.rollData;
   let removehighest = inputData.removehighest;
   let rollformular;
@@ -20,24 +20,27 @@ export async function rollDice(inputData) {
   // Custom Roll und globale Modifikatoren //
   // ------------------------------------- //
 
-  attrModLocal++ ? attrModLocal-- : (attrModLocal = 0);
-  fertModLocal++ ? fertModLocal-- : (fertModLocal = 0);
+  dicepoolModLocal++ ? dicepoolModLocal-- : (dicepoolModLocal = 0);
+  skillModLocal++ ? skillModLocal-- : (skillModLocal = 0);
 
-  let attr;
+  let dicepool;
   let skill;
 
+  
+
   if (inputData.type === "Custom") {
-    attr = inputData.rollData.attribute;
+    dicepool = inputData.rollData.dicepoolVal;
     skill = inputData.rollData.skill;
   } else if (actor.type === "Nebencharakter") {
-    attr = actor?.system.effectiveCompetence;
-    skill = actor?.system.stats.baseDicepool.skill.Kompetenzbonus;
+    dicepool = actor?.system.effectiveCompetence;
+    skill = actor?.system.effectiveCompetence;
   } else {
-    attr = system.stats[rollData.attribute].attribut + baseDicepool;
-    skill = system.stats[rollData.attribute].skill[rollData.skill];
+    dicepool = baseDicepool + this.getStat(inputData.rollData.skillName,system.stats).dicepool;
+    skill = this.getStat(inputData.rollData.skillName,system.stats).skill;
   }
 
-  rollformular = attr + "d10x";
+  console.log(this.getStat(inputData.rollData.skillName,system.stats));
+  rollformular = dicepool + "d10x";
 
   var rollResult = new Roll(rollformular);
 
@@ -104,10 +107,10 @@ export async function rollDice(inputData) {
   let unEvalDice = sortedResult.splice(4, 100);
 
   let diceResult = {
-    attr: attr,
+    dicepool: dicepool,
     skillValue: skill,
-    attrModLocal: attrModLocal,
-    fertModLocal: fertModLocal,
+    dicepoolModLocal: dicepoolModLocal,
+    skillModLocal: skillModLocal,
     evalDiceA: evalDiceA,
     evalDiceB: evalDiceB,
     evalDiceC: evalDiceC,
@@ -188,6 +191,7 @@ export async function rollDice(inputData) {
     total_BC: total_BC,
     total_AC: total_AC,
     total_CD: total_CD,
+    effectOff: inputData.effectOff,
   };
 
   if (inputData.actorData != undefined) {
@@ -225,8 +229,8 @@ export async function rollDice(inputData) {
 }
 
 export async function modRolls(inputData) {
-  let attrModLocal;
-  let fertModLocal;
+  let dicepoolModLocal;
+  let skillModLocal;
 
   const dialogModRolls = await renderTemplate(
     "systems/darkspace/templates/dice/dialogModRolls.html"
@@ -240,14 +244,14 @@ export async function modRolls(inputData) {
         button1: {
           label: "Normal",
           callback: (html) => {
-            attrModLocal = parseInt(html.find("[name=attrmod]")[0].value);
-            fertModLocal = parseInt(html.find("[name=fertmod]")[0].value);
+            dicepoolModLocal = parseInt(html.find("[name=dicepoolmod]")[0].value);
+            skillModLocal = parseInt(html.find("[name=skillmod]")[0].value);
             let ifRemoveHighest = false;
 
             inputData = {
               ...inputData,
-              attrModLocal: attrModLocal,
-              fertModLocal: fertModLocal,
+              dicepoolModLocal: dicepoolModLocal,
+              skillModLocal: skillModLocal,
               removehighest: ifRemoveHighest,
             };
 
@@ -258,14 +262,14 @@ export async function modRolls(inputData) {
         button2: {
           label: "Erschwert",
           callback: (html) => {
-            attrModLocal = parseInt(html.find("[name=attrmod]")[0].value);
-            fertModLocal = parseInt(html.find("[name=fertmod]")[0].value);
+            dicepoolModLocal = parseInt(html.find("[name=dicepoolmod]")[0].value);
+            skillModLocal = parseInt(html.find("[name=skillmod]")[0].value);
             let ifRemoveHighest = true;
 
             inputData = {
               ...inputData,
-              attrModLocal: attrModLocal,
-              fertModLocal: fertModLocal,
+              dicepoolModLocal: dicepoolModLocal,
+              skillModLocal: skillModLocal,
               removehighest: ifRemoveHighest,
             };
 
@@ -279,8 +283,8 @@ export async function modRolls(inputData) {
   } else {
     inputData = {
       ...inputData,
-      attrModLocal: 0,
-      fertModLocal: 0,
+      dicepoolModLocal: 0,
+      skillModLocal: 0,
     };
     this._resolveDice(inputData);
   }
@@ -292,7 +296,7 @@ export async function modRolls(inputData) {
  * @returns an object with the following properties:
  */
 export async function _resolveDice(inputData) {
-  const combatTracker = new DSCombatTracker();
+  
 
   let outputData = this.rollDice(inputData);
   let actorId;
@@ -331,9 +335,9 @@ export async function _resolveDice(inputData) {
     cardData = {
       ...cardData,
       currentActor,
-      basedmg: stats[inputData.rollData.attribute].attribut,
+      basedmg: stats[inputData.rollData.dicepool].dicepool,
       bonusdmg: bonusdmg,
-      dmg: stats[inputData.rollData.attribute].attribut + bonusdmg,
+      dmg: stats[inputData.rollData.dicepool].dicepool + bonusdmg,
 
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",
@@ -354,10 +358,13 @@ export async function _resolveDice(inputData) {
     };
   }
 
-  combatTracker.itemAe(
-    inputData.actorId,
-    cardData.system ? cardData.system.aeCost : 0
-  );
+  // Ist verbuggt, keine Ahnung warum. Nachdem itemAe aufgerufen wurde, wird der Tracker nicht mehr ordentlich aktuallisiert.
+
+  // const combatTracker = new DSCombatTracker();
+  // combatTracker.itemAe(
+  //   inputData.actorId,
+  //   cardData.system ? cardData.system.aeCost : 0
+  // );
 
   let chatTempPath = {
     Skill: "systems/darkspace/templates/dice/chatSkill.html",
@@ -379,17 +386,17 @@ export async function _resolveDice(inputData) {
   AudioHelper.play({ src: CONFIG.sounds.dice });
   return ChatMessage.create(messageData);
 }
-export function getStat(fert, dbAttr) {
-  const attrMap = new Map(Object.entries(dbAttr));
+export function getStat(skill, dbAttr) {
+  const dicepoolMap = new Map(Object.entries(dbAttr));
   let stat = [];
-  attrMap.forEach((value, key) => {
-    if (value.skill[fert] != undefined) {
+  dicepoolMap.forEach((value, key) => {
+    if (value.skill[skill] != undefined) {
       stat = {
-        attr: dbAttr[key].attribut,
-        fert: value.skill[fert],
-        attrName: key,
-        fertName: fert,
-        attrmax: value.attrmax,
+        dicepool: dbAttr[key].dicepool,
+        skill: value.skill[skill],
+        dicepoolName: key,
+        skillName: skill,
+        dicepoolmax: value.dicepoolmax,
       };
     }
   });

@@ -26,7 +26,7 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
         <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername" />
       </h2>
       {{#ifCond actor.type "===" "Charakter"}}
-      <span class="anmerkung">{{localize "darkspace.Kompetenz"}}-{{localize "darkspace.Stufe"}}</span>
+      <span class="anmerkung">{{localize "darkspace.Kompetenz"}}-{{localize "darkspace.level"}}</span>
       <span>{{system.baseDicepool}}</span>{{/ifCond}}
       {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
         "Nebencharakter"}}
@@ -53,7 +53,7 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
         <!-- Ressourcen -->
         <ul>
           {{#each system.ressources as |ressvalue ressname|}}
-          <li class="attrfeld">
+          <li class="dicepoolfeld">
             <div class="flex between">
               <h4>{{ressname}}</h4>
               <span class="flex" style="margin-right: 1ch">
@@ -72,6 +72,35 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
 
         </ul>
       </div>
+      {{#ifCond actor.type "!=" "Nebencharakter"}}
+      {{#ifCond actor.type "!=" "Maschine"}}
+      <div class="dicepoolfeld">
+        <div class="flex between">
+          <span class="dicepoolname">{{localize "darkspace.Unterhalt"}}</span>
+          <span class="dicepoolvalue">
+            <input class="value_box" name="system.upkeepTotal" value="{{system.upkeepTotal}}" type="number"
+              disabled />
+            / <input class="value_box" name="system.wealth" value="{{system.wealth}}" type="number" disabled />
+          </span>
+        </div>
+
+        <ul class="skillfeld">
+          {{#each system.upkeep as |key name|}}
+          <li>
+          <li class="gridleftcenter skillname grid col2-21">
+            <p>{{localize (lookup (concat "darkspace." name) "string")}}</p>
+            <div class="skillbox">
+              <input class="value_box" name="system.upkeep.{{name}}" value="{{this}}" type="number" min="0"
+                max="10" />
+            </div>
+          </li>
+
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/ifCond}}
+      {{/ifCond}}
     </div>
   </div>
 </section>

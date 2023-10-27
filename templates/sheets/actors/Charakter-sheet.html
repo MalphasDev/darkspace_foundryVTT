@@ -8,19 +8,19 @@
     <section id="navbar">
       <nav class="sheet-tabs tabs flex" data-group="primary">
         <a class="item" data-tab="stats">
-          <span class="tooltip"><i class="fa-solid fa-dna"></i><span class="tooltiptext bottom">{{localize "darkspace.Attribute"}} &
-            {{localize "darkspace.Fertigkeiten"}}</span></span>
+          <span class="tooltip"><i class="fa-solid fa-dna"></i><span class="tooltiptext bottom">{{localize "darkspace.aptitudes"}} &
+            {{localize "darkspace.skills"}}</span></span>
         </a>
         <a class="item" data-tab="props">
-          <span class="tooltip"><i class="fa-solid fa-users-cog"></i><span class="tooltiptext bottom">{{localize "darkspace.Eigenschaften"}} &
-            {{localize "darkspace.Artifzierungen"}}</span></span>
+          <span class="tooltip"><i class="fa-solid fa-users-cog"></i><span class="tooltiptext bottom">{{localize "darkspace.boons"}} &
+            {{localize "darkspace.artware"}}</span></span>
         </a>
         <a class="item" data-tab="items">
           <span class="tooltip"><i class="fa-solid fa-suitcase"></i><span
               class="tooltiptext bottom">{{system.carriage}}</span></span>
         </a>
         <a class="item" data-tab="notes"><span class="tooltip"><i class="fa-solid fa-book"></i><span
-              class="tooltiptext bottom">{{localize "darkspace.Notizen"}}</span></span></a>
+              class="tooltiptext bottom">{{localize "darkspace.notes"}}</span></span></a>
       </nav>
     </section>
 
@@ -51,31 +51,7 @@
           <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
         </div>
 
-        <div class="attrfeld">
-          <div class="flex between">
-            <span class="attrname">{{localize "darkspace.Unterhalt"}}</span>
-            <span class="attrvalue">
-              <input class="value_box" name="system.upkeepTotal" value="{{system.upkeepTotal}}" type="number"
-                disabled />
-              / <input class="value_box" name="system.wealth" value="{{system.wealth}}" type="number" disabled />
-            </span>
-          </div>
 
-          <ul class="fertfeld">
-            {{#each system.upkeep as |key name|}}
-            <li>
-            <li class="gridleftcenter fertname grid col2-21">
-              <p>{{localize (lookup (concat "darkspace." name) "string")}}</p>
-              <div class="skillbox">
-                <input class="value_box" name="system.upkeep.{{name}}" value="{{this}}" type="number" min="0"
-                  max="10" />
-              </div>
-            </li>
-
-            </li>
-            {{/each}}
-          </ul>
-        </div>
 
         {{>"systems/darkspace/templates/partials/notes.html"}}
       </div>

@@ -1,3 +1,4 @@
+import * as DSCombat from "./DSCombat.js"
 export class DSCombatTracker extends CombatTracker {
   get template() {
     return "systems/darkspace/templates/sidebar/combat-tracker.html";
@@ -57,6 +58,7 @@ export class DSCombatTracker extends CombatTracker {
 
     combat.sendAE = 0;
 
+    console.log("combat.setInitiative",currentTargetId,combat.newIni);
     combat.setInitiative(currentTargetId, combat.newIni);
 
     // Es wird bei jedem Combat-Update ein Test gemacht, ob turn = 0. Wenn nein, wird der turn auf 0 gesetzt = erster Charakter
@@ -171,6 +173,7 @@ export class DSCombatTracker extends CombatTracker {
         // this._increaseAE({}, { aeCost: aeCost, hitTarget: rollingActor.id });
         combat.sendAE += parseInt(aeCost);
         combat.targetCombatant = rollingActor.id;
+        console.log(combat.sendAE,combat.newIni);
         this._getNewField();
         this.render(true);
       }

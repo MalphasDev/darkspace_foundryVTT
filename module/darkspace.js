@@ -340,7 +340,7 @@ function rollItemMacro(itemUuid) {
     modroll: false,
     type: item.type,
     item: item,
-    rollData: { attribute: stat.attrName, skill: stat.fertName },
+    rollData: { dicepool: stat.dicepoolName, skill: stat.skillName },
     removehighest: false,
     system: actor.system,
   };

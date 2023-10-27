@@ -6,7 +6,7 @@
     </h2>
 
     <span class="flex center"
-      ><label for="prop{{slot}}handicap"> {{localize "darkspace.Handicap"}} </label>
+      ><label for="prop{{slot}}handicap"> {{localize "darkspace.handicap"}} </label>
 
       <input
         type="checkbox"
@@ -17,16 +17,16 @@
   ></span>
   <hr />
   <div class="flex between">
-    <span>{{localize "darkspace.Fertigkeiten"}}</span>
+    <span>{{localize "darkspace.skills"}}</span>
     <select name="system.props.{{slot}}.skill" class="skill">
-      <option value="Automatismus" type="text">{{localize "darkspace.Automatismus"}}</option>
+      <option value="Automatismus" type="text">{{localize "darkspace.automatism"}}</option>
       {{> "systems/darkspace/templates/partials/skillOptions.html" @root
       skill=skill type=ownertype}}
     </select>
   </div>
   {{#unless charakterProp}}
   <div class="flex between">
-    <span>{{localize "darkspace.Aktion"}}</span>
+    <span>{{localize "darkspace.action"}}</span>
     <input
       type="text"
       class="actionName"
@@ -37,7 +37,7 @@
   {{/unless}}
   <hr />
   <div>
-    <h3>{{localize "darkspace.Regeln"}}</h3>
+    <h3>{{localize "darkspace.rules"}}</h3>
     <textarea class="propRules" cols="30" rows="10">{{desc}}</textarea>
   </div>
 </div>

@@ -41,10 +41,10 @@ export class DSItem extends Item {
     let artStat;
     // if (itemData.actor != null)
     //   artStat =
-    //     getStat(itemData.system.useWith, itemData.actor.system.stats).attrmax ??
+    //     getStat(itemData.system.useWith, itemData.actor.system.stats).dicepoolmax ??
     //     5;
 
-    system.attrMaxBonus =
+    system.dicepoolMaxBonus =
       system.mk + artStat - Object.entries(system.props).length;
   }
   droneData() {

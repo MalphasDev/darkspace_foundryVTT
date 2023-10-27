@@ -11,6 +11,7 @@ export function getHealth(primary, size) {
 export function getMonitor(label,primary,insize,armor) {
   let basesize = insize === undefined ? 5 : insize
   let monitor
+ 
   Object.keys(label).forEach((element, index) => {
     monitor = {
       ...monitor,

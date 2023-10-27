@@ -41,13 +41,22 @@
           "rights": false,
           "cpu": false
         }
+      },
+      "playerCharacterStat": {
+        "upkeep": {
+          "Versorgung": 0,
+          "Unterkunft": 0,
+          "Unterhaltung": 0,
+          "Sonstiges": 0
+        }
       }
     },
     "Charakter": {
       "templates": [
         "commonStats",
         "bodyConditions",
-        "cortexConditions"
+        "cortexConditions",
+        "playerCharacterStat"
       ],
       "description": "",
       "quote": "",
@@ -55,16 +64,11 @@
         "value": 0,
         "max": 0
       },
-      "upkeep": {
-        "Versorgung": 0,
-        "Unterkunft": 0,
-        "Unterhaltung": 0,
-        "Sonstiges": 0
-      },
+
       "stats": {
         "Aufmerksamkeit": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Fokus": 0,
             "Manövrieren": 0,
@@ -73,8 +77,8 @@
           }
         },
         "Ausstrahlung": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Charisma": 0,
             "Einschüchtern": 0,
@@ -83,8 +87,8 @@
           }
         },
         "Geschick": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Agilität": 0,
             "Geschwindigkeit": 0,
@@ -93,8 +97,8 @@
           }
         },
         "Konstitution": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Ausdauer": 0,
             "Fitness": 0,
@@ -103,8 +107,8 @@
           }
         },
         "Intelligenz": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
@@ -113,8 +117,8 @@
           }
         },
         "Intuition": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Cortex": 0,
             "Kreativität": 0,
@@ -123,36 +127,36 @@
           }
         },
         "Anomalie": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Glück": 0
           }
         },
         "Konzentration": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Willenskraft": 0
           }
         },
         "Kybernese": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Synthese": 0
           }
         },
         "Netzwerk": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Kontakte": 0
           }
         },
         "Ressourcen": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Finanzen": 0
           }
@@ -167,7 +171,8 @@
     "Cyborg": {
       "templates": [
         "commonStats",
-        "cortexConditions"
+        "cortexConditions",
+        "playerCharacterStat"
       ],
       "bodyConditions": {
         "scratched": false,
@@ -178,16 +183,10 @@
       },
       "mk": 1,
       "size": 5,
-      "upkeep": {
-        "Versorgung": 0,
-        "Unterkunft": 0,
-        "Unterhaltung": 0,
-        "Sonstiges": 0
-      },
       "stats": {
         "Aufmerksamkeit": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Fokus": 0,
             "Manövrieren": 0,
@@ -196,8 +195,8 @@
           }
         },
         "Ausstrahlung": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Charisma": 0,
             "Einschüchtern": 0,
@@ -206,8 +205,8 @@
           }
         },
         "Intelligenz": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
@@ -216,8 +215,8 @@
           }
         },
         "Intuition": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Cortex": 0,
             "Kreativität": 0,
@@ -226,52 +225,52 @@
           }
         },
         "Leistung": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Beschleunigung": 0,
             "Geschwindigkeit": 0
           }
         },
         "Servos": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Kraft": 0,
             "Präzision": 0
           }
         },
         "Anomalie": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Glück": 0
           }
         },
         "Konzentration": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Willenskraft": 0
           }
         },
         "Kybernese": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Synthese": 0
           }
         },
         "Netzwerk": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Kontakte": 0
           }
         },
         "Ressourcen": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Finanzen": 0
           }
@@ -311,32 +310,32 @@
       },
       "stats": {
         "Leistung": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Beschleunigung": 0,
             "Geschwindigkeit": 0
           }
         },
         "Kybernese": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Synthese": 0,
             "Cortex": 0
           }
         },
         "Sensoren": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Fokus": 0,
             "Wahrnehmung": 0
           }
         },
         "Servos": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Kraft": 0,
             "Präzision": 0
@@ -352,12 +351,14 @@
       "size": 1,
       "templates": [
         "commonStats",
-        "cortexConditions"
+        "cortexConditions",
+        "playerCharacterStat"
       ],
+
       "stats": {
         "Aufmerksamkeit": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Fokus": 0,
             "Manövrieren": 0,
@@ -366,8 +367,8 @@
           }
         },
         "Ausstrahlung": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Charisma": 0,
             "Einschüchtern": 0,
@@ -376,8 +377,8 @@
           }
         },
         "Intelligenz": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Bildung": 0,
             "Logik": 0,
@@ -386,8 +387,8 @@
           }
         },
         "Intuition": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Cortex": 0,
             "Kreativität": 0,
@@ -396,36 +397,36 @@
           }
         },
         "Anomalie": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Glück": 0
           }
         },
         "Konzentration": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Willenskraft": 0
           }
         },
         "Kybernese": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Synthese": 0
           }
         },
         "Netzwerk": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Kontakte": 0
           }
         },
         "Ressourcen": {
-          "attribut": 0,
-          "attrmaxmod": 0,
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
           "skill": {
             "Finanzen": 0
           }

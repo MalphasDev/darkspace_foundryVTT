@@ -7,9 +7,9 @@ border-radius: 5px;"
 
 >
   {{#if system.prosthetic}}
-  <span><i class="fa-regular fa-circle-left"></i></span><span>{{localize "darkspace.Prothese"}}</span><span><i class="fa-solid fa-circle-right"></i></span>
+  <span><i class="fa-regular fa-circle-left"></i></span><span>{{localize "darkspace.prosthetics"}}</span><span><i class="fa-solid fa-circle-right"></i></span>
   {{else}}
-  <span><i class="fa-solid fa-circle-left"></i></span><span>{{localize "darkspace.Implantat"}}</span><span><i class="fa-regular fa-circle-right"></i></span>
+  <span><i class="fa-solid fa-circle-left"></i></span><span>{{localize "darkspace.implant"}}</span><span><i class="fa-regular fa-circle-right"></i></span>
   
   
   {{/if}} </label
@@ -27,29 +27,29 @@ border-radius: 5px;"
   <select name="system.useAttr">
     <!--Charaktere-->
     {{#select system.useAttr}} {{#ifCond this.item.parent.type "==="
-    "Charakter"}} {{#each config.attrList}}
+    "Charakter"}} {{#each config.dicepoolList}}
     <option value="{{this}}" type="text">{{this}}</option>
     {{/each}} {{/ifCond}}
     <!--NPCs-->
     {{#ifCond this.item.parent.type "===" "Nebencharakter"}}{{#each
-    config.attrNpc}}
+    config.dicepoolNpc}}
     <option value="{{this}}" type="text">{{this}}</option>
     {{/each}} {{/ifCond}}
 
     <!--Fahrzeuge-->
     {{#ifCond this.item.parent.type "===" "Maschine"}} {{#each
-    config.attrVehicle}}
+    config.dicepoolVehicle}}
     <option value="{{this}}" type="text">{{this}}</option>
     {{/each}} {{/ifCond}}
 
     <!--KIs-->
-    {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.attrAi}}
+    {{#ifCond this.item.parent.type "===" "KI"}} {{#each config.dicepoolAi}}
     <option value="{{this}}" type="text">{{this}}</option>
     {{/each}} {{/ifCond}} {{/select}}
   </select>
 
   <div
-    >{{localize "darkspace.Attribut"}}-Max  {{system.attrMaxBonus}}</div>
+    >{{localize "darkspace.aptitude"}}-Max  {{system.dicepoolMaxBonus}}</div>
 </div>
 {{else}}
 <span class="anmerkung">
@@ -60,7 +60,7 @@ border-radius: 5px;"
 <div>
   <div>
     <h3 class="flex between">
-      {{localize "darkspace.Eigenschaften"}}
+      {{localize "darkspace.boons"}}
       <span>
         <span class="tooltip">
           <i class="fa-solid fa-circle-plus addProp pointer bigsize"></i>
