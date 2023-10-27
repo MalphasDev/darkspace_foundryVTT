@@ -144,7 +144,7 @@ export class DSCharacter extends Actor {
           this.getStat("Synthese").dicepool,
         ],
         bodymon: getMonitor(config.label.body, this.getStat("Fitness").dicepool, system.size, system.armorBonus),
-
+        startXp: game.settings.get("darkspace", "startxp"),
       },
       Cyborg: {
         effectiveCompetence: Math.min(
@@ -163,6 +163,7 @@ export class DSCharacter extends Actor {
           system.size,
           system.armorBonus
         ),
+        startXp: game.settings.get("darkspace", "startxp"),
       },
       Nebencharakter: {
         effectiveCompetence: system.baseDicepool,
@@ -175,8 +176,6 @@ export class DSCharacter extends Actor {
           system.armorBonus
         )
       },
-
-
       Maschine: {
         effectiveCompetence: system.baseDicepool,
         baseBuffer: system.mk + system.size,
@@ -186,9 +185,9 @@ export class DSCharacter extends Actor {
           system.size,
           system.size,
           system.armorBonus
-        )
+        ),
+        startXp: (system.mk + system.size) * 100,
       },
-
       KI: {
         effectiveCompetence: Math.min(
           system.baseDicepool,
@@ -197,6 +196,7 @@ export class DSCharacter extends Actor {
         baseBuffer: system.mk * 2,
         cortexThreshold: [system.size, system.mk],
       },
+      startXp: game.settings.get("darkspace", "startxpai"),
     };
 
     const actorType = actorTypeObj[this.type];
@@ -206,6 +206,7 @@ export class DSCharacter extends Actor {
     const currentAttrList = config.statLists[this.type]?.dicepoolList;
     const cortexThreshold = actorType.cortexThreshold;
     system.bodymon = actorType.bodymon
+    system.startXp = actorType.startXp
 
     if(this.type != "Nebencharakter" && this.type != "Maschine") {
       system.wealth = (system.baseDicepool + system.stats.Ressourcen.dicepool) * 2
@@ -216,7 +217,6 @@ export class DSCharacter extends Actor {
       }
     }
 
-console.log(system);
 
     system.firewall = 10 + system.baseBuffer;
     system.buffer = system.baseBuffer + 5 * system.countCortexConditions;
@@ -320,33 +320,18 @@ console.log(system);
         );
       }
     });
+    this.expCounter()
   }
 
   expCounter() {
     const { system, dicepool, config } = this.getObjLocation();
+    const statLists = config.statLists[this.type]
 
-    let dicepoolList = config.statLists[this.type].dicepoolList;
-    let skillList = config.statLists[this.type].skillList;
+    const dicepoolList = statLists.dicepoolList;
+    const skillList = statLists.skillList;
     system.totalAttrXp = 0;
     system.totalSkillXp = 0;
     system.totalPropXp = 0;
-
-    switch (this.type) {
-      case "Charakter":
-        system.startEp = game.settings.get("darkspace", "startxp");
-        break;
-      case "Cyborg":
-        system.startEp = game.settings.get("darkspace", "startxp");
-        break;
-      case "Nebencharakter":
-        break;
-      case "Maschine":
-        system.startEp = (system.mk + system.size) * 100;
-        break;
-      case "KI":
-        system.startEp = game.settings.get("darkspace", "startxpai");
-        break;
-    }
 
     /* EP-Multiplikatoren für Testzwecke */
 
@@ -398,7 +383,7 @@ console.log(system);
       system.totalSkillXp +
       system.compXp +
       system.totalPropXp -
-      system.startEp;
+      system.startXp;
 
     system.xpAvailable = system.xp.max - system.totalXp;
   }

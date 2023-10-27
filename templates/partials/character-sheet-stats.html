@@ -1,26 +1,27 @@
 <div>
+  {{#if system.playable}}
   <div class="anmerkung flex between">
     <span></span>
-      <ul class="flex">
-        <li class="pill padding">
-          <span>{{localize "darkspace.baseDicepool"}}</span>
-          <span>{{system.compXp}} EP</span>
-        </li>
-        <li class="pill padding">
-          <span>{{localize "darkspace.aptitudes"}}</span>
-          <span>{{system.totalAttrXp}} EP</span>
-        </li>
-        <li class="pill padding">
-          <span>{{localize "darkspace.skills"}}</span>
-          <span>{{system.totalSkillXp}} EP</span>
-        </li>
-        <li class="pill padding">
-          <span>{{localize "darkspace.boons"}}</span>
-          <span>{{system.totalPropXp}} EP</span>
-        </li>
-      </ul>
+    <ul class="flex">
+      <li class="pill padding">
+        <span>{{localize "darkspace.baseDicepool"}}</span>
+        <span>{{system.compXp}} EP</span>
+      </li>
+      <li class="pill padding">
+        <span>{{localize "darkspace.aptitudes"}}</span>
+        <span>{{system.totalAttrXp}} EP</span>
+      </li>
+      <li class="pill padding">
+        <span>{{localize "darkspace.skills"}}</span>
+        <span>{{system.totalSkillXp}} EP</span>
+      </li>
+      <li class="pill padding">
+        <span>{{localize "darkspace.boons"}}</span>
+        <span>{{system.totalPropXp}} EP</span>
+      </li>
+    </ul>
 
-      <!--
+    <!--
       <div class="flex between pill padding" style="width: 100%">
         <span>Start EP</span><span>{{system.startEp}}</span>
       </div>
@@ -36,10 +37,30 @@
     </span>
   </div>
   <hr />
-  <div>
+  {{/if}}
+  
+  <div class="grid col2">
 
-    <h2>Kompetenz
+    {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
+    "Nebencharakter"}}
 
+    {{#ifCond actor.type "!=" "KI"}}
+
+    <h2 class="flex between"><span>{{localize "darkspace.size"}}</span>
+      <span><i class="fa-solid fa-expand-arrows-alt"></i>
+        <input class="cell_c" name="system.size" type="number" min="0" max="20" value="{{system.size}}" />
+      </span>
+    </h2>
+    <h2 class="flex between"><span>{{localize "darkspace.mk"}}</span>
+      <span><i class="fa-solid fa-microchip"></i>
+        <input class="cell_c" name="system.mk" type="number" min="0" max="20" value="{{system.mk}}" />
+      </span>
+    </h2>
+    {{/ifCond}}
+
+    {{/ifCond}} {{/ifCond}}
+
+    <h2 class="flex between"><span>Kompetenz</span>
       <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
       <span class="counter-container" style="margin-left: 10px;">
         {{#times system.effectiveCompetence}}
@@ -52,11 +73,22 @@
         <i class="counter fa-regular fa-square" data-set=false data-address="system.baseDicepool"></i>
         {{/times}}
       </span>
-      {{#ifCond actor.type "===" "Nebencharakter"}}
-      <span>+{{system.mk}}</span>
-      {{/ifCond}}
-
     </h2>
+
+    <h2 class="flex between"><span>Stress</span>
+      <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
+      <span class="counter-container" style="margin-left: 10px;">
+        {{#times system.stress.value}}
+        <i class="counter fa-solid fa-square darkred" data-set=full data-address="system.stress.value"></i>
+        {{/times}}
+        {{#times (math system.stress.max "-" system.stress.value)}}
+        <i class="counter fa-regular fa-square darkred" data-set=false data-address="system.stress.value"></i>
+        {{/times}}
+      </span>
+    </h2>
+
+
+
     <hr />
 
   </div>
@@ -83,7 +115,7 @@
             <span class="counter-container" style="margin-left: 10px;">
               <i class="counter fa-regular fa-minus pointer" data-set="minus"
                 data-address="system.stats.{{dicepoolname}}.dicepool"></i>
-              
+
               <span>
                 {{#times dicepoolobj.dicepool}}
                 <i class="counter fa-solid fa-square pointer" data-set="true"
@@ -95,8 +127,8 @@
                 {{/times}}
               </span>
               <i class="counter fa-regular fa-plus pointer" data-set="plus"
-              data-address="system.stats.{{dicepoolname}}.dicepool"></i>
-              
+                data-address="system.stats.{{dicepoolname}}.dicepool"></i>
+
             </span>
 
 
@@ -138,8 +170,8 @@
             </span>
           </a>
           <div class="skillbox">
-            <input class="value_box" name="system.stats.{{dicepoolname}}.skill.{{skillname}}" value="{{this}}" type="number"
-              min="0" max="10" />
+            <input class="value_box" name="system.stats.{{dicepoolname}}.skill.{{skillname}}" value="{{this}}"
+              type="number" min="0" max="10" />
           </div>
         </li>
         {{/each}}

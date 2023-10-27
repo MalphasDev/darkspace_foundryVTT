@@ -2,20 +2,7 @@
   <div class="health-monitor">
     <!-- Health -->
 
-    <h2>Stress
-
-      <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
-      <span class="counter-container" style="margin-left: 10px;">
-        {{#times system.stress.value}}
-        <i class="counter fa-solid fa-square darkred" data-set=full data-address="system.stress.value"></i>
-        {{/times}}
-        {{#times (math system.stress.max "-" system.stress.value)}}
-        <i class="counter fa-regular fa-square darkred" data-set=false data-address="system.stress.value"></i>
-        {{/times}}
-      </span>
-
-      
-    </h2>
+    
 
     <ul class="flex start">
       {{#ifCond this.actor.type "!=" "Maschine"}} {{#ifCond

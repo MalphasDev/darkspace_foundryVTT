@@ -38,8 +38,6 @@ export async function rollDice(inputData) {
     dicepool = baseDicepool + this.getStat(inputData.rollData.skillName,system.stats).dicepool;
     skill = this.getStat(inputData.rollData.skillName,system.stats).skill;
   }
-
-  console.log(this.getStat(inputData.rollData.skillName,system.stats));
   rollformular = dicepool + "d10x";
 
   var rollResult = new Roll(rollformular);

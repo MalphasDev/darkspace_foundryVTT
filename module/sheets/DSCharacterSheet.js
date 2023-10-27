@@ -44,7 +44,7 @@ export class DSCharacterSheet extends ActorSheet {
     const context = super.getData();
     const actorData = this.actor.toObject(false);
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
-console.log("Starte getData()");
+    console.log("Starte getData()");
     let weapons = {};
     let armor = {};
     let utilities = {};

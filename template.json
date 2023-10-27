@@ -58,6 +58,7 @@
         "cortexConditions",
         "playerCharacterStat"
       ],
+      "playable": true,
       "description": "",
       "quote": "",
       "xp": {
@@ -174,6 +175,7 @@
         "cortexConditions",
         "playerCharacterStat"
       ],
+      "playable": true,
       "bodyConditions": {
         "scratched": false,
         "unstable": false,
@@ -289,6 +291,7 @@
         "bodyConditions",
         "cortexConditions"
       ],
+      "playable": false,
       "ressources": {
         "Routinen": 0,
         "Stärke": 0
@@ -301,6 +304,7 @@
         "commonStats",
         "cortexConditions"
       ],
+      "playable": false,
       "bodyConditions": {
         "scratched": false,
         "unstable": false,
@@ -354,7 +358,7 @@
         "cortexConditions",
         "playerCharacterStat"
       ],
-
+      "playable": true,
       "stats": {
         "Aufmerksamkeit": {
           "dicepool": 0,

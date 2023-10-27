@@ -25,22 +25,6 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
       <h2 class="charname" style="margin-bottom: 0">
         <input name="name" type="text" value="{{actor.name}}" placeholder="Charaktername" />
       </h2>
-      {{#ifCond actor.type "===" "Charakter"}}
-      <span class="anmerkung">{{localize "darkspace.Kompetenz"}}-{{localize "darkspace.level"}}</span>
-      <span>{{system.baseDicepool}}</span>{{/ifCond}}
-      {{#ifCond actor.type "!=" "Charakter"}} {{#ifCond actor.type "!="
-        "Nebencharakter"}}
-        <div class="borderbox bigsize flex around">
-          {{>"systems/darkspace/templates/partials/items/MkSize.html"}}
-        </div>
-        {{/ifCond}} {{/ifCond}} {{#ifCond actor.type "===" "Nebencharakter"}}
-        <div class="flex borderbox round">
-          <div>
-            <span>{{localize "darkspace.Kompetenz"}}</span>
-            <input type="number" name="system.baseDicepool" value="{{system.baseDicepool}}" min="1" />
-          </div>
-        </div>
-        {{/ifCond}}
     </div>
     <!-- Unterer Bereich -->
     <div>

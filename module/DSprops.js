@@ -39,7 +39,7 @@ export function getProps() {
     },
     {
       prop: "Bollwerk",
-      desc: "Verteidigungen, Schutzproben mit der verbundenen Fertigkeit und Handlungen zum entfernen von Zuständen haben durch eine Aktivierung automatisch einen Erfolg. Konkurrierende Proben gegen die verbundene Fertigkeit bzw. die verbundene Aktion verlieren bei einer Aktivierung den höchsten Würfel aus ihrer Probe.",
+      desc: "Unterbrechungen, Schutzproben mit der verbundenen Fertigkeit und Handlungen zum entfernen von Zuständen haben durch eine Aktivierung automatisch einen Erfolg. Konkurrierende Proben gegen die verbundene Fertigkeit bzw. die verbundene Aktion verlieren bei einer Aktivierung den höchsten Würfel aus ihrer Probe.",
       handicap: false,
     },
     {
@@ -59,7 +59,7 @@ export function getProps() {
     },
     {
       prop: "Reflexartig",
-      desc: "Durch eine Aktivierung können Aktionen der verbundenen Fertigkeit als Verteidigungen (S. 39) eingesetzt werden. Die AE-Kosten sinken dadurch (wie bei allen Verteidigungen) auf 1 AE.",
+      desc: "Durch eine Aktivierung können Aktionen der verbundenen Fertigkeit als Unterbrechungen (S. 39) eingesetzt werden. Die AE-Kosten sinken dadurch (wie bei allen Unterbrechungen) auf 1 AE.",
       handicap: false,
     },
     {
@@ -89,7 +89,7 @@ export function getHandicaps() {
   const props = [
     {
       prop: "Berechenbar",
-      desc: "Konkurrierende Proben gegen die verbundene Fertigkeiten addieren +2 auf ihr Ergebnis. Verteidigungen werden vom Gegner ignoriert, wenn dieser die verbundene Fertigkeit benutzt.",
+      desc: "Konkurrierende Proben gegen die verbundene Fertigkeiten addieren +2 auf ihr Ergebnis. Unterbrechungen werden vom Gegner ignoriert, wenn dieser die verbundene Fertigkeit benutzt.",
       handicap: "true",
     },
     {
@@ -234,7 +234,7 @@ export function getCombatProps() {
     },
     {
       prop: "Dauerangriff",
-      desc: "Nach einem Treffer darf der Charakter eine Aktivierung ausführen. Bis der Charakter Schaden nimmt oder eine andere Verteidigung durchführt, darf er einen Angriff gegen das Ziel durchführen, sobald dessen Handlungsphase beginnt. Sobald er seinen Dauerangriff einstellen möchte, wird der Charakter ans Ende der Initiativ-Reihenfolge gesetzt. Ziele außerhalb von Deckung dürfen nicht “Warten”.",
+      desc: "Nach einem Treffer darf der Charakter eine Aktivierung ausführen. Bis der Charakter Schaden nimmt oder eine andere Unterbrechung durchführt, darf er einen Angriff gegen das Ziel durchführen, sobald dessen Handlungsphase beginnt. Sobald er seinen Dauerangriff einstellen möchte, wird der Charakter ans Ende der Initiativ-Reihenfolge gesetzt. Ziele außerhalb von Deckung dürfen nicht “Warten”.",
       handicap: false,
     },
     {
