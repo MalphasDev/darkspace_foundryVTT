@@ -1,12 +1,13 @@
+
 <div>
   <div>
     <div class="grid col3-231">
       <span class="anmerkung">Würfelpool:</span>
-      <span class="anmerkung">{{dicepool}}W</span>
-      <span class="anmerkung">+ {{dicepoolModLocal}}W</span>
+      <span class="anmerkung">{{this.terms.[0].number}}W</span>
+      <span class="anmerkung">+ {{this.data.dicepoolModLocal}}W</span>
       <span class="anmerkung">Fertigkeit:</span>
       <span class="anmerkung">+{{skillValue}}</span>
-      <span class="anmerkung">+ {{skillModLocal}}</span>
+      <span class="anmerkung">+ {{this.data.skillModLocal}}</span>
     </div>
 
     <hr />

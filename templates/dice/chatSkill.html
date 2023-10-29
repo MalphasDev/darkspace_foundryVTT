@@ -1,3 +1,4 @@
 <h2 style="margin: 0">{{actor.name}}</h2>
-<h3>{{#if this.rollname}}{{this.rollname}}: {{/if}}{{skillName}}-Probe</h3>
+{{log this}}
+<h3>{{#if this.rollname}}{{this.rollname}}: {{/if}}{{data.skillName}}-Probe</h3>
 {{> "systems/darkspace/templates/dice/chatBase.html"}}

@@ -6,15 +6,14 @@ import { DSCombatTracker } from "./DSCombatTracker.js";
  */
 export async function rollDice(inputData) {
   const actor = game.actors.get(inputData.actorId);
-  
+  const system = actor?.system;
+
   let dicepoolModLocal = parseInt(inputData.dicepoolModLocal);
   let skillModLocal = parseInt(inputData.skillModLocal);
-  let rollData = inputData.rollData;
+  const rollData = inputData.rollData;
   let removehighest = inputData.removehighest;
-  let rollformular;
-  const system = actor?.system;
-  let baseDicepool = actor?.system.effectiveCompetence
-  if (baseDicepool === undefined) {baseDicepool=0}
+  const competence = actor?.system.effectiveCompetence ?? 0;
+  const skillData = this.getStat(inputData.rollData.skillName, inputData.actorId)
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
@@ -23,208 +22,123 @@ export async function rollDice(inputData) {
   dicepoolModLocal++ ? dicepoolModLocal-- : (dicepoolModLocal = 0);
   skillModLocal++ ? skillModLocal-- : (skillModLocal = 0);
 
-  let dicepool;
-  let skill;
-
-  
 
   if (inputData.type === "Custom") {
-    dicepool = inputData.rollData.dicepoolVal;
-    skill = inputData.rollData.skill;
+    rollData.dicepool = inputData.rollData.dicepoolVal + dicepoolModLocal;
+    rollData.skill = inputData.rollData.skill + skillModLocal;
   } else if (actor.type === "Nebencharakter") {
-    dicepool = actor?.system.effectiveCompetence;
-    skill = actor?.system.effectiveCompetence;
+    rollData.dicepool = competence + dicepoolModLocal;
+    rollData.skill = competence + skillModLocal;
   } else {
-    dicepool = baseDicepool + this.getStat(inputData.rollData.skillName,system.stats).dicepool;
-    skill = this.getStat(inputData.rollData.skillName,system.stats).skill;
+    const aptitude = this.getStat(inputData.rollData.skillName, inputData.actorId).dicepool
+    rollData.dicepool = (competence + aptitude + dicepoolModLocal);
+    rollData.skill = skillData.skill + skillModLocal;
   }
-  
-  rollformular = dicepool + "d10x";
 
-  var rollResult = new Roll(rollformular);
+  const rollResult = new Roll(rollData.dicepool + "d10x");
 
   await rollResult.evaluate({ async: true });
 
-  const sortedResult = rollResult.terms[0].results
-    .map((c) => {
-      return c.result;
-    })
-    .sort((a, b) => b - a);
 
-  const total_AB =
-    sortedResult[0] +
-    (sortedResult[1] === undefined ? 0 : sortedResult[1]) +
-    skill;
-  const total_BC =
-    (sortedResult[1] === undefined ? 0 : sortedResult[1]) +
-    (sortedResult[2] === undefined ? 0 : sortedResult[2]) +
-    skill;
-  const total_AC =
-    sortedResult[0] +
-    (sortedResult[2] === undefined ? 0 : sortedResult[2]) +
-    skill;
-  const total_CD =
-    (sortedResult[2] === undefined ? 0 : sortedResult[2]) +
-    (sortedResult[3] === undefined ? 0 : sortedResult[3]) +
-    skill;
+  rollResult.terms[0].results.sort(
+    (a, b) => b.result - a.result
+  );
+  const rollTerms = rollResult.terms[0]
+  const diceData = rollTerms.results
+  const diceResults = rollTerms.values
+  const dicepoolUsed = rollTerms.number
 
-  // --------------------- //
-  // Krit und Patzer Logik //
-  // --------------------- //
+  rollResult.resultPair = "prime"
+  rollResult.effectPair = "secondary"
 
-  let resultMessage = "";
-  let disadvMessage = "";
-
-  if (sortedResult[2] >= 9) {
-    resultMessage = { crit: true };
-  }
-  if (rollResult.total <= 5) {
-    resultMessage = { fumble: true };
-  }
+  
   if (removehighest) {
-    disadvMessage = { disadv: true };
+    rollResult.resultPair = "secondary"
+    rollResult.effectPair = "tertiary"
+    rollResult.disadv = true ;
   }
-
-  let messageData = {
-    user: game.user.id,
-    speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+  
+  // ++++ Paare bilden ++++ //
+  rollResult.partResults = {
+    prime: diceResults[0] + (diceResults[1] ?? 0),
+    secondary: (diceResults[1] ?? 0) + (diceResults[2] ?? 0),
+    tertiary: (diceResults[2] ?? 0) + (diceResults[3] ?? 0),
   };
 
-  let dices = [];
-  rollResult.terms[0].results.forEach((rollResult) => {
-    dices.push(rollResult.result);
-  });
+  // ++++ Zu beachtende Würfel, wichtig fürs CSS ++++ //
+
+  switch (rollResult.resultPair) {
+    case "prime":
+      for (let index = 0; index < Math.min(diceData.length,2); index++) {
+        diceData[index].evaluated = true
+      }
+      break;
+    case "secondary":
+      for (let index = 1; index < Math.min(diceData.length,3); index++) {
+        diceData[index].evaluated = true
+      }
+      break;
+  
+    default:
+      break;
+  }
+
+
+
+  rollResult.finalResults = {
+    prime: rollResult.partResults.prime + rollData.skill,
+    secondary: rollResult.partResults.secondary + rollData.skill,
+    tertiary: rollResult.partResults.tertiary + rollData.skill,
+  }
+
 
   // ------------------------------ //
   // Zusammenstellen der Chat-Daten //
   // ------------------------------ //
 
-  let evalDiceA = sortedResult[0];
-  let evalDiceB = sortedResult[1];
-  let evalDiceC = sortedResult[2];
-  let evalDiceD = sortedResult[3];
-  let unEvalDice = sortedResult.splice(4, 100);
-
-  let diceResult = {
-    dicepool: dicepool,
-    skillValue: skill,
-    dicepoolModLocal: dicepoolModLocal,
-    skillModLocal: skillModLocal,
-    evalDiceA: evalDiceA,
-    evalDiceB: evalDiceB,
-    evalDiceC: evalDiceC,
-    evalDiceD: evalDiceD,
-    unEvalDice: unEvalDice,
+rollResult.data = {
+  message: {
+    user: game.user.id,
+    speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+    },
+  dicepoolModLocal: dicepoolModLocal,
+  skillModLocal: skillModLocal,
+  rollname: inputData.rollname,
+  actor: actor,
+  effectOff: inputData.effectOff,
+  item: inputData.item,
+  crit: diceResults[2] >=9,
+  fumble: rollResult.partResults[rollResult.resultPair] <= 5,
+  skillName: skillData.skillName
   };
 
   if (
     inputData.object != undefined &&
     Object.keys(inputData.object).length != 0
   ) {
-    var merits = [];
-    var meritList = Object.entries(system.props)
-      .filter((hc) => {
-        return hc[1].handicap === false;
-      })
-      .filter((skill) => {
-        return skill[1].skill === rollData.skill;
-      });
-    meritList.forEach((merit) => {
-      merits.push(merit[1]);
-    });
-    var handicaps = [];
-    var handicapList = Object.entries(system.props)
-      .filter((hc) => {
-        return hc[1].handicap === true;
-      })
-      .filter((skill) => {
-        return skill[1].skill === rollData.skill;
-      });
-
-    handicapList.forEach((handicap) => {
-      handicaps.push(handicap[1]);
-    });
-
-    // Artfizierungen zusammenstellen
-    var cyberwareProps = {};
-    var cybernetics = inputData.object.items
+    
+    rollResult.data = {
+      ...rollResult.data,
+      props: {
+        mertis: Object.entries(system.props).filter((hc) => {
+          return hc[1].handicap === false;
+        }).filter((prop) => {
+          return prop[1].skill === skillData.skillName}),
+        handicaps: Object.entries(system.props).filter((hc) => {
+          return hc[1].handicap === true;
+        }).filter((prop) => {return prop[1].skill === skillData.skillName}),
+      },
+      cybernetics: inputData.object.items
       .filter((i) => {
         return i.type === "Artifizierung";
       })
-      .filter((k) => {
-        let cyberwareProps = [];
-        Object.entries(k.system.props).forEach((cyberware) => {
-          cyberwareProps.push(cyberware[1].skill);
-        });
-        return cyberwareProps.includes(rollData.skill);
-      });
-    cybernetics.forEach((cyberware) => {
-      Object.entries(cyberware.system.props).forEach((cyberslot) => {
-        if (cyberslot[1].skill === rollData.skill) {
-          cyberwareProps = {
-            ...cyberwareProps,
-            ["slot" + Object.keys(cyberwareProps).length]: {
-              name: cyberware.name,
-              skill: cyberslot[1].skill,
-              prop: cyberslot[1].prop,
-              action: cyberslot[1].action,
-              desc: cyberslot[1].desc,
-            },
-          };
-        }
-      });
-    });
+    }
+
   }
 
-  let cardData = {
-    ...rollData,
-    ...diceResult,
-    ...resultMessage,
-    ...disadvMessage,
-    merits: merits,
-    handicaps: handicaps,
-    cybernetics: cyberwareProps,
-    rollname: inputData.rollname,
-    actorData: inputData.actorData,
-    total_AB: total_AB,
-    total_BC: total_BC,
-    total_AC: total_AC,
-    total_CD: total_CD,
-    effectOff: inputData.effectOff,
-  };
 
-  if (inputData.actorData != undefined) {
-    cardData = {
-      ...cardData,
-      actor: inputData.actorData,
-    };
-  }
-  if (inputData.actorData === undefined) {
-    cardData = {
-      ...cardData,
-      // Actorname
-    };
-  }
-
-  if (inputData.item != undefined) {
-    cardData = {
-      ...rollData,
-      total_AB: total_AB,
-      total_BC: total_BC,
-      total_AC: total_AC,
-      total_CD: total_CD,
-      ...diceResult,
-      ...resultMessage,
-      ...disadvMessage,
-      ...inputData.item,
-    };
-  }
-  let outputData = {
-    messageData: messageData,
-    cardData: cardData,
-    actorId: inputData.actorId,
-  };
-  return outputData;
+  
+  return rollResult;
 }
 
 export async function modRolls(inputData) {
@@ -243,7 +157,9 @@ export async function modRolls(inputData) {
         button1: {
           label: "Normal",
           callback: (html) => {
-            dicepoolModLocal = parseInt(html.find("[name=dicepoolmod]")[0].value);
+            dicepoolModLocal = parseInt(
+              html.find("[name=dicepoolmod]")[0].value
+            );
             skillModLocal = parseInt(html.find("[name=skillmod]")[0].value);
             let ifRemoveHighest = false;
 
@@ -261,7 +177,9 @@ export async function modRolls(inputData) {
         button2: {
           label: "Erschwert",
           callback: (html) => {
-            dicepoolModLocal = parseInt(html.find("[name=dicepoolmod]")[0].value);
+            dicepoolModLocal = parseInt(
+              html.find("[name=dicepoolmod]")[0].value
+            );
             skillModLocal = parseInt(html.find("[name=skillmod]")[0].value);
             let ifRemoveHighest = true;
 
@@ -295,52 +213,36 @@ export async function modRolls(inputData) {
  * @returns an object with the following properties:
  */
 export async function _resolveDice(inputData) {
-  
-  let outputData = this.rollDice(inputData);
-  let actorId;
-  let messageData = {};
-  let cardData = {};
 
-  await outputData.then((a) => {
-    messageData = a.messageData;
-    cardData = a.cardData;
-    actorId = a.actorId;
+  
+  const rollResult = await this.rollDice(inputData).then((resultedRoll) => {
+    return resultedRoll
   });
   
-  if (actorId === "" || actorId === undefined)
-    actorId = messageData.speaker.actor;
-  const currentActor = game.actors.get(actorId);
-  const stats = currentActor?.system.stats;
-  
-  let diceB = cardData.evalDiceB ? cardData.evalDiceB : 0
-  let diceC = cardData.evalDiceC ? cardData.evalDiceC : 0
-  let diceD = cardData.evalDiceD ? cardData.evalDiceD : 0
-  let skill = cardData.skillValue
+  const stats = rollResult.actor?.system.stats;
 
-  const basedmg = cardData.system?.dmg
-  const bonusdmg = diceB + diceC;
 
   if (inputData.item != undefined) {
-    cardData = {
-      ...cardData,
-      currentActor,
-      basedmg: basedmg,
-      bonusdmg: bonusdmg,
-      dmg: basedmg + bonusdmg,
-    };
+    rollResult.combatData = {
+      basedmg: rollResult.item.system.dmg,
+      bonusdmg: rollResult.finalResults[rollResult.effectPair],
+      dmg: rollResult.item.system.dmg + rollResult.finalResults[rollResult.effectPair],
+      img: rollResult.item.img,
+      name: rollResult.item.name,
+      type: rollResult.item.type,
+    }
   }
   if (inputData.eventData?.dataset.ua) {
-    cardData = {
-      ...cardData,
-      currentActor,
-      basedmg: stats[inputData.rollData.dicepool].dicepool,
-      bonusdmg: bonusdmg,
-      dmg: stats[inputData.rollData.dicepool].dicepool + bonusdmg,
 
+    rollResult.combatData = {
+      basedmg: stats[inputData.rollData.dicepool].dicepool,
+      bonusdmg: rollResult.finalResults[rollResult.effectPair],
+      dmg: stats[inputData.rollData.dicepool].dicepool + rollResult.finalResults[rollResult.effectPair],
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",
       type: "Waffenlos",
-    };
+    }
+
   }
   const targetTokens = canvas.tokens.placeables
     .filter((token) => token.isTargeted)
@@ -376,19 +278,22 @@ export async function _resolveDice(inputData) {
     Medkit: "systems/darkspace/templates/dice/chatItem.html",
     Gegenstand: "systems/darkspace/templates/dice/chatItem.html",
   };
+
+  const messageData = {}
   messageData.content = await renderTemplate(
     chatTempPath[inputData.type],
-    cardData
+    rollResult
   );
-
   AudioHelper.play({ src: CONFIG.sounds.dice });
   return ChatMessage.create(messageData);
 }
+
 export function getStat(skill, actorId) {
   let stat = [];
-  const actor = game.actors.get(actorId)
-  const dbAttr = actor.system.stats
-  if(actor.type === "Nebencharakter") {
+
+  const actor = game.actors.get(actorId);
+  const dbAttr = actor.system.stats;
+  if (actor.type === "Nebencharakter") {
     stat = {
       dicepool: actor.system.baseDicepool,
       skill: actor.system.baseDicepool,
@@ -397,20 +302,19 @@ export function getStat(skill, actorId) {
       dicepoolmax: 5,
     };
   } else {
-  const dicepoolMap = new Map(Object.entries(dbAttr));
-  
-  dicepoolMap.forEach((value, key) => {
-    if (value.skill[skill] != undefined) {
-      stat = {
-        dicepool: dbAttr[key].dicepool,
-        skill: value.skill[skill],
-        dicepoolName: key,
-        skillName: skill,
-        dicepoolmax: value.dicepoolmax,
-      };
-    }
-  });
+    const dicepoolMap = new Map(Object.entries(dbAttr));
 
-}
-return stat;
+    dicepoolMap.forEach((value, key) => {
+      if (value.skill[skill] != undefined) {
+        stat = {
+          dicepool: dbAttr[key].dicepool,
+          skill: value.skill[skill],
+          dicepoolName: key,
+          skillName: skill,
+          dicepoolmax: value.dicepoolmax,
+        };
+      }
+    });
+  }
+  return stat;
 }

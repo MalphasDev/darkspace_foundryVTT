@@ -1,60 +1,54 @@
 <!-- DICE-MSG.HTML -->
 
+
+{{#with this.terms.[0]}}
 <div class="flexDice">
-  <span class="{{#if disadv}}unEvalDice{{else}}evalDice{{/if}}"
-    >{{evalDiceA}}</span
-  >
-  <span class="evalDice">{{evalDiceB}}</span>
-
-  <span
-    class="{{#unless disadv}}unEvalDice{{else}}evalDice {{/unless}} {{#unless disadv}}{{#if crit}}kritDice{{/if}}{{/unless}}"
-    >{{evalDiceC}}</span
-  >
-  <span class="{{#if disadv}}{{#if crit}}kritDice{{/if}}{{/if}} unEvalDice"
-    >{{evalDiceD}}</span
-  >
-
-  {{#each unEvalDice}}
-  <span class="unEvalDice">{{this}}</span>
+  {{#each results}}
+  <span class="{{#if evaluated}}evalDice{{else}}unEvalDice{{/if}}">
+    {{result}}
+  </span>
   {{/each}}
-
   <span>( + {{this.skillValue}})</span>
 </div>
+{{/with}}
 
 <hr />
 <div class="flex">
-  <div class="flexResult" {{#if crit}} style="background: linear-gradient( 
+  <div class="flexResult" {{#if data.crit}} style="background: linear-gradient( 
   90deg, transparent 0%, #00ff7e 50%, transparent 100% );" {{/if}}
   {{#if fumble}} style="color: var(--effect); background: linear-gradient(90deg, transparent 0%, red 50%, transparent 100%);" {{/if}}>
-  {{#if disadv}}
-  {{this.total_BC}}{{else}}{{this.total_AB}}
-  {{/if}}
+  {{lookup finalResults resultPair}}
 </div>
 {{#unless effectOff}}
-<div class="flexResult" {{#if crit}} style="background: linear-gradient( 
+<div class="flexResult" {{#if data.crit}} style="background: linear-gradient( 
   90deg, transparent 0%, #00ff7e 50%, transparent 100% );" {{/if}}
-  {{#if fumble}} style="color: var(--effect); background: linear-gradient(90deg, transparent 0%, red 50%, transparent 100%);" {{/if}}>
-  {{#if disadv}}
-  {{this.total_CD}}{{else}}{{this.total_BC}}
-  {{/if}}
+  {{#if data.fumble}} style="color: var(--effect); background: linear-gradient(90deg, transparent 0%, red 50%, transparent 100%);" {{/if}}>
+  {{lookup finalResults effectPair}}
 </div>
 {{/unless}}
 </div>
 
 
 <ul class="meritbox">
-  
-  {{#each merits}}
-  
+  {{#with data.props}}
+
+
+  {{#each mertis}}
+  {{#with this.[1]}}
+
   <li class="inline_block pill padding" style="width: 100%;">
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname"><i class="fa-solid fa-dna"></i> {{prop}}</p><hr>
       <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
-  {{/each}} 
+
+  {{/with}}
+  {{/each}}
   
+
   {{#each handicaps}}
+  {{#with this.[1]}}
   <li class="inline_block pill padding" style="width: 100%;">
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname handicap">
@@ -63,23 +57,36 @@
       <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
+  {{/with}}
+  {{/each}}
+  
+  {{/with}}
+  
 
-  {{/each}}{{#each cybernetics}}
+  {{#each data.cybernetics}}
   <li class="inline_block pill padding" style="width: 100%;">
     <div class="item" data-item-id="{{this._id}}">
       <p class="Eigenschaftname artifizierung">
         <i class="fa-solid fa-user-cog"></i> 
-        {{name}}
-        <span>
-          <i class="fa-solid fa-caret-right"></i>
-          {{prop}} ({{skill}} <i class="fa-solid fa-caret-right"></i> {{action}})
-        </span>
+        {{name}} (MK {{system.mk}} / Größe {{system.size}})
+        {{#each system.props}}
+        
+        <hr>
+        <div>
+          <div>
+            {{prop}}  <i class="fa-solid fa-caret-right"></i> {{skill}}
+          </div>
+          {{{desc}}}
+        </div>
+        {{/each}}
       </p>
       <hr>
       <div style="max-width: 267px">{{{desc}}}</div>
     </div>
   </li>
   {{/each}}
+
+
 </ul>
 
 
