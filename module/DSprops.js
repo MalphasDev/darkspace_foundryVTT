@@ -69,7 +69,7 @@ export function getProps() {
     },
     {
       prop: "Überkompensieren",
-      desc: "Durch eine Aktivierung addiert der Charakter seinen doppelten aktuellen Stress auf das Ergebnis der Probe.",
+      desc: "Durch eine Aktivierung addiert der Charakter die doppelte aktueller Belastungspunkte auf das Ergebnis der Probe.",
       handicap: false,
     },
     {
@@ -114,7 +114,7 @@ export function getHandicaps() {
     },
     {
       prop: "Zwangshandlung",
-      desc: "Jedesmal wenn der Charakter Stress erhält, muss er innerhalb von 15min eine Handlung mit der verbundenen Fertigkeit ausführen. Ist dies nicht möglich, darf er nur eine einzelne Betätigung während der nächsten Ruhephase durchführen.",
+      desc: "Jedesmal wenn der Charakter Belastung erhält, muss er innerhalb von 15min eine Handlung mit der verbundenen Fertigkeit ausführen. Ist dies nicht möglich, darf er nur eine einzelne Betätigung während der nächsten Ruhephase durchführen.",
       handicap: "true",
     },
   ];

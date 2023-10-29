@@ -69,13 +69,13 @@
         {{#times (math system.baseDicepool "-" system.effectiveCompetence)}}
         <i class="counter fa-solid fa-square darkred" data-set=part data-address="system.baseDicepool"></i>
         {{/times}}
-        {{#times (math 4 "-" system.baseDicepool)}}
+        {{#times (math 5 "-" system.baseDicepool)}}
         <i class="counter fa-regular fa-square" data-set=false data-address="system.baseDicepool"></i>
         {{/times}}
       </span>
     </h2>
 
-    <h2 class="flex between"><span>Stress</span>
+    <h2 class="flex between"><span>Belastung</span>
       <!-- Diesen Bereich zu einem Partial (siehe actor/counter.html) machen-->
       <span class="counter-container" style="margin-left: 10px;">
         {{#times system.stress.value}}

@@ -44,7 +44,7 @@ export class DSCharacterSheet extends ActorSheet {
     const context = super.getData();
     const actorData = this.actor.toObject(false);
     // Zusammenstellen aller Gegenstände für die EACH Schleifen auf dem Charakterbogen.
-    console.log("Starte getData()");
+
     let weapons = {};
     let armor = {};
     let utilities = {};
@@ -188,7 +188,7 @@ export class DSCharacterSheet extends ActorSheet {
 
     let dicepoolVal 
     if (this.object.type != "Nebencharakter") {
-      dicepoolVal = DSMechanics.getStat(dataset.skill, system.stats).dicepoolName
+      dicepoolVal = DSMechanics.getStat(dataset.skill, this.object.id).dicepoolName
     } else {
       dicepoolVal = system.comptence
     }
@@ -251,7 +251,7 @@ export class DSCharacterSheet extends ActorSheet {
       rollname: dataset.rollname,
       rollData: {
         dicepool: dicepool,
-        skill: bonus,
+        skillName: bonus,
         rollname: dataset.rollname,
       },
       removehighest: element.className.includes("disadv"),
@@ -277,25 +277,30 @@ export class DSCharacterSheet extends ActorSheet {
     let usedSkill;
 
     if (dataset.ua === "true") {
-      usedSkill = "Präzision";
+      usedSkill = dataset.skillname;
+      
     } else {
       usedSkill = item.system.useWith;
     }
 
-    const stat = DSMechanics.getStat(usedSkill, system.stats);
+    const stat = DSMechanics.getStat(usedSkill, this.object.id);
+
 
     const preCreatedInput = this.createInputData(event, option);
     const inputData = {
       ...preCreatedInput,
       rollData: {
         dicepool: stat.dicepoolName,
-        skill: stat.skillName,
+        skillName: stat.skillName,
       },
       modroll: option.rightClick,
       item: item,
       type: item ? item.type : "Nahkampfwaffe",
       system: system,
     };
+
+    
+
     DSMechanics.modRolls(inputData);
   }
 
@@ -405,7 +410,7 @@ export class DSCharacterSheet extends ActorSheet {
         ...props,
         [slot]: {
           prop: "Neue Eigenschaft",
-          skill: "Automation",
+          skillName: "Automation",
           desc: "Regeln",
           handicap: false,
         },
@@ -468,7 +473,7 @@ export class DSCharacterSheet extends ActorSheet {
 
             const template = {
               ...prop,
-              skill: skill,
+              skillName: skill,
             };
             this._addProp(event, template);
           },

@@ -5,14 +5,7 @@ export class DSCharacter extends Actor {
   getStat(skill) {
     // Kann rausgenommen werden, wenn alle Spiele einmal aktiv waren.
 
-    let dbAttr;
-
-    if (this.system.stats === undefined || this.system.stats === null) {
-      dbAttr = {};
-    } else {
-      dbAttr = this.system.stats;
-    }
-    return getStat(skill, dbAttr);
+    return getStat(skill, this.id);
   }
 
   getObjLocation() {
@@ -20,7 +13,10 @@ export class DSCharacter extends Actor {
     const dicepool = system.stats;
     const config = CONFIG.darkspace;
 
-    return { system, dicepool, config };
+    return { system, /* In this code, `dicepool` is an object that stores the dicepool values for
+    different skills or attributes of a character. It is used to calculate various
+    values and experience points for the character. */
+    dicepool, config };
   }
 
   // +++++++++++++++++++++++++++++++++++++++++++++
@@ -310,7 +306,7 @@ export class DSCharacter extends Actor {
       // Sollte man eventuell auch nochmal überdenken. Fenster mit Fertigkeit auswählen evtl?
       if (
         item.system.useWith !=
-        getStat(item.system.useWith, system.stats).skillName
+        this.getStat(item.system.useWith).skillName
       ) {
         item.update({
           "system.useWith": "Logik",

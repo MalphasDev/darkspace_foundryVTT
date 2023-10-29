@@ -15,15 +15,17 @@ export class DSItem extends Item {
 
     const { itemData, system, config } = this.getObjLocation();
 
+    const rangeMultplier = [1,20,50]
+
     const itemTypeObj = {
       Schusswaffe: {
         aeCost: system.size,
         range:
-          Math.pow(system.size, 2) +
+          Math.pow(system.size, 2) * rangeMultplier[0] +
           "-" +
-          Math.pow(system.size, 2) * 5 +
+          Math.pow(system.size, 2) * rangeMultplier[1] +
           "/" +
-          Math.pow(system.size, 2) * 10,
+          Math.pow(system.size, 2) * rangeMultplier[2],
       },
       Nahkampfwaffe: {
         aeCost: system.size,
@@ -52,7 +54,7 @@ export class DSItem extends Item {
     const actorType = itemTypeObj[this.type];
     system.aeCost = actorType.aeCost;
     system.range = actorType.range;
-    system.dmg = system.size * 2 + system.mk;
+    system.dmg = system.size * 2 + system.mk * 2;
     system.structure = parseInt(system.size) + parseInt(system.mk);
 
     // Zustände

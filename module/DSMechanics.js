@@ -38,6 +38,7 @@ export async function rollDice(inputData) {
     dicepool = baseDicepool + this.getStat(inputData.rollData.skillName,system.stats).dicepool;
     skill = this.getStat(inputData.rollData.skillName,system.stats).skill;
   }
+  
   rollformular = dicepool + "d10x";
 
   var rollResult = new Roll(rollformular);
@@ -295,7 +296,6 @@ export async function modRolls(inputData) {
  */
 export async function _resolveDice(inputData) {
   
-
   let outputData = this.rollDice(inputData);
   let actorId;
   let messageData = {};
@@ -384,9 +384,21 @@ export async function _resolveDice(inputData) {
   AudioHelper.play({ src: CONFIG.sounds.dice });
   return ChatMessage.create(messageData);
 }
-export function getStat(skill, dbAttr) {
-  const dicepoolMap = new Map(Object.entries(dbAttr));
+export function getStat(skill, actorId) {
   let stat = [];
+  const actor = game.actors.get(actorId)
+  const dbAttr = actor.system.stats
+  if(actor.type === "Nebencharakter") {
+    stat = {
+      dicepool: actor.system.baseDicepool,
+      skill: actor.system.baseDicepool,
+      dicepoolName: "baseDicepool",
+      skillName: "baseDicepoolSkill",
+      dicepoolmax: 5,
+    };
+  } else {
+  const dicepoolMap = new Map(Object.entries(dbAttr));
+  
   dicepoolMap.forEach((value, key) => {
     if (value.skill[skill] != undefined) {
       stat = {
@@ -399,5 +411,6 @@ export function getStat(skill, dbAttr) {
     }
   });
 
-  return stat;
+}
+return stat;
 }
