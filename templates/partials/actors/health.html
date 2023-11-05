@@ -2,41 +2,32 @@
   <div class="health-monitor">
     <!-- Health -->
 
-    
+
 
     <ul class="flex start">
       {{#ifCond this.actor.type "!=" "Maschine"}} {{#ifCond
       this.actor.type "!=" "KI"}} {{#ifCond
-        this.actor.type "!=" "Cyborg"}}
+      this.actor.type "!=" "Cyborg"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_body.svg" alt="">
       </li>
       {{/ifCond}} {{/ifCond}}{{/ifCond}}
       {{#ifCond this.actor.type "!=" "Charakter"}} {{#ifCond
-        this.actor.type "!=" "Nebencharakter"}}
+      this.actor.type "!=" "Nebencharakter"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_tech.svg" alt="">
       </li>
       {{/ifCond}}{{/ifCond}}
-       {{#each system.bodyConditions as |value key|}}
+      {{#each system.bodyConditions as |value key|}}
 
-      <li  i class="flex borderbox round" style="height: 55px;">
-        <input
-          type="checkbox"
-          class="noDisplay"
-          {{checked
-          value}}
-          name="system.bodyConditions.{{key}}"
-          id="{{../actor.id}}_bodyConditions_{{key}}"
-        />
+      <li i class="flex borderbox round" style="height: 55px;">
+        <input type="checkbox" class="noDisplay" {{checked value}} name="system.bodyConditions.{{key}}"
+          id="{{../actor.id}}_bodyConditions_{{key}}" />
 
-        <label
-          class="flex center borderbox"
-          for="{{../actor.id}}_bodyConditions_{{key}}"
-        >
+        <label class="flex center borderbox" for="{{../actor.id}}_bodyConditions_{{key}}">
           <div class="tooltip">
             {{#with (lookup ../system.bodymon key)}}
-          
+
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
             <div style="height: 15px;">
@@ -55,30 +46,29 @@
 
     <!-- Cortex Health -->
 
-
     <ul class="flex start">
       <li class="flex wrap">
         <div class="flex between miniinfobox">
-          <span ><i class="fa-solid fa-shield"></i></span><span>{{this.system.firewall}}</span></div>
-  
-          <div class="flex between miniinfobox">
-  
-            <span ><i class="fa-brands fa-buffer" ></i></span><span>{{this.system.buffer}}</span>
+          <div class="tooltip">
+            <span><i class="fa-solid fa-shield"></i> {{this.system.firewall}}</span>
+            <span class="tooltiptext top">{{localize "darkspace.firewall"}}</span>
           </div>
-        
+        </div>
+
+        <div class="flex between miniinfobox">
+          <div class="tooltip">
+            <span><i class="fa-brands fa-buffer"></i> {{this.system.buffer}}</span>
+            <span class="tooltiptext top">{{localize "darkspace.buffer"}}</span>
+          </div>
+        </div>
       </li>
+      
       {{#each system.cortexConditions as |value key|}}
-  
+
       <li class="flex borderbox round">
-        <input
-          type="checkbox"
-          class="noDisplay"
-          {{checked
-          value}}
-          name="system.cortexConditions.{{key}}"
-          id="{{../actor.id}}_cortexConditions_{{key}}"
-        />
-  
+        <input type="checkbox" class="noDisplay" {{checked value}} name="system.cortexConditions.{{key}}"
+          id="{{../actor.id}}_cortexConditions_{{key}}" />
+
         <label class="flex center" for="{{../actor.id}}_cortexConditions_{{key}}">
           <div class="tooltip">
             {{#with (lookup ../system.cortexmon key)}}
@@ -90,12 +80,12 @@
       </li>
       {{/each}}
     </ul>
-    
+
   </div>
   <hr />
   <!-- AKTIONEN -->
-  
-    <!-- Aufrappeln 
+
+  <!-- Aufrappeln 
     <div>
       <h3><i class="fa-solid fa-running"></i>{{localize "darkspace.rewind"}}</h3>
       <div>
@@ -129,7 +119,7 @@
       </div>
     </div>-->
 
-    <!-- Schutz
+  <!-- Schutz
     <div>
       
     

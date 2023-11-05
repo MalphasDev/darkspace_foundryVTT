@@ -29,6 +29,7 @@ export class DSItem extends Item {
       },
       Nahkampfwaffe: {
         aeCost: system.size,
+        range: "Nahkampf"
       },
       Panzerung: {
         aeCost: system.size,

@@ -2,20 +2,30 @@
 
 <section class="relative">
   <h2>Waffenloser Angriff</h2>
+{{log system.stats}}
+
+
+
 
   <ul class="item-list">
     <li>
-      <div class="item weapon"> <span class="itemname rollItem" draggable="false" data-ua="true" data-skillname="Präzision"
+      <div class="item weapon customItemList grid col-weapons"> <span class="itemname rollItem" draggable="false" data-ua="true" data-skillname="Präzision"
           data-item-id="{{actor.id}}">
-          Waffenloser Angriff ({{localize "darkspace.Präzision"}})
+          Waffenloser Angriff ({{localize "darkspace.Präzision"}}) 
         </span>
+        <span class="derivedValue"><i class="fa-solid fa-bolt"></i> {{math system.baseDicepool "+" system.stats.Geschick.dicepool}}</span>
+        <span class="derivedValue"><i class="fa-solid fa-arrows-alt-h"></i>
+          Nahkampf</span>
       </div>
     </li>
     <li>
-      <div class="item weapon"> <span class="itemname rollItem" draggable="false" data-ua="true" data-skillname="Kraft"
+      <div class="item weapon customItemList grid col-weapons"> <span class="itemname rollItem" draggable="false" data-ua="true" data-skillname="Kraft"
         data-item-id="{{actor.id}}">
         Waffenloser Angriff ({{localize "darkspace.Kraft"}})
       </span>
+      <span class="derivedValue"><i class="fa-solid fa-bolt"></i> {{math system.baseDicepool "+" system.stats.Konstitution.dicepool}}</span>
+      <span class="derivedValue"><i class="fa-solid fa-arrows-alt-h"></i>
+        Nahkampf</span>
     </div>
     </li>
   </ul>

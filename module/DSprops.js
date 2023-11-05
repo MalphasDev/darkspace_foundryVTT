@@ -19,7 +19,6 @@ export function edit(event, context) {
     ...context.object,
     ...system.props[slotIdent],
     prop: system.props[slotIdent].prop,
-    action: system.props[slotIdent].action,
     descAdresse: propAdresse + ".desc",
     handicapAdresse: propAdresse + ".handicap",
     slot: slotIdent,

@@ -141,7 +141,7 @@
         <li class="skillname flex between">
           <a class="rollSkill" data-skill="{{skillname}}">
             {{localize (lookup (concat "darkspace." skillname) "string")}}
-            <span>{{#each ../../system.props}} {{#ifCond skill "===" skillname}}
+            <span>{{#each ../../system.props}} {{#ifCond skillName "===" skillname}}
               {{#unless handicap}}
               <span class="tooltip">
                 <i class="fa-solid fa-dna"></i>
@@ -151,7 +151,7 @@
 
               {{/unless}} {{/ifCond}} {{/each}}</span>
             <span>
-              {{#each ../../system.props}} {{#ifCond skill "===" skillname}}
+              {{#each ../../system.props}} {{#ifCond skillName "===" skillname}}
               {{#if handicap}}<span class="tooltip">
                 <i class="fa-solid fa-minus-circle handicap"></i>
 

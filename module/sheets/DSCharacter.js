@@ -134,9 +134,9 @@ export class DSCharacter extends Actor {
           system.stress.max - system.stress.value
         ),
         baseBuffer:
-          this.getStat("Synthese").dicepool + this.getStat("Synthese").skill,
+          this.getStat("Synthese").dicepool * 2 + system.baseDicepool,
         cortexThreshold: [
-          this.getStat("Synthese").skill,
+          system.baseDicepool,
           this.getStat("Synthese").dicepool,
         ],
         bodymon: getMonitor(config.label.body, this.getStat("Fitness").dicepool, system.size, system.armorBonus),
@@ -148,9 +148,9 @@ export class DSCharacter extends Actor {
           system.stress.max - system.stress.value
         ),
         baseBuffer:
-          this.getStat("Synthese").dicepool + this.getStat("Synthese").skill,
+          this.getStat("Synthese").dicepool * 2 + system.baseDicepool,
         cortexThreshold: [
-          this.getStat("Synthese").skill,
+          system.baseDicepool,
           this.getStat("Synthese").dicepool,
         ],
         bodymon: getMonitor(
@@ -163,7 +163,7 @@ export class DSCharacter extends Actor {
       },
       Nebencharakter: {
         effectiveCompetence: system.baseDicepool,
-        baseBuffer: system.baseDicepool * 2,
+        baseBuffer: system.baseDicepool * 3,
         cortexThreshold: [system.baseDicepool, system.baseDicepool],
         bodymon: getMonitor(
           config.label.body,
@@ -174,7 +174,7 @@ export class DSCharacter extends Actor {
       },
       Maschine: {
         effectiveCompetence: system.baseDicepool,
-        baseBuffer: system.mk + system.size,
+        baseBuffer: system.mk * 2 + system.size,
         cortexThreshold: [system.size, system.mk],
         bodymon: getMonitor(
           config.label.tech,
@@ -189,13 +189,15 @@ export class DSCharacter extends Actor {
           system.baseDicepool,
           system.stress.max - system.stress.value
         ),
-        baseBuffer: system.mk * 2,
+        baseBuffer: system.mk * 3,
         cortexThreshold: [system.size, system.mk],
       },
       startXp: game.settings.get("darkspace", "startxpai"),
     };
 
     const actorType = actorTypeObj[this.type];
+
+    console.log(this.getStat("Synthese"));
 
     system.effectiveCompetence = actorType.effectiveCompetence;
     system.baseBuffer = actorType.baseBuffer;
@@ -316,7 +318,15 @@ export class DSCharacter extends Actor {
         );
       }
     });
-    this.expCounter()
+
+    // ++++ EP für alle Spielbaren Actor-Varianten berrechnen ++++ //
+
+    if (system.playable) {
+      this.expCounter()
+    }
+
+    console.log(system);
+    
   }
 
   expCounter() {

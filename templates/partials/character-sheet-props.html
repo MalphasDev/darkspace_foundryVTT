@@ -1,4 +1,7 @@
+<!-- character-sheet-props.html -->
 <section class="relative">
+
+  <!-- Eigenschaften -->
   <div>
     <h2 class="flex between"><span><i class="fa-solid fa-dna"></i> {{localize "darkspace.boons"}}</span>
 
@@ -21,7 +24,7 @@
           <i class="fa-solid fa-minus-circle handicap"></i>
           {{/if}}{{prop}} <i
             class="fa-solid fa-caret-right"></i>
-          <span class="anmerkung">{{skill}}</span></span>
+          <span class="anmerkung">{{skillName}}</span></span>
 
         <span><a class="propEdit" title="Eigenschaft bearbeiten" data-index="{{@index}}">
             <i class="fa-solid fa-edit"></i>
@@ -32,6 +35,7 @@
     </ul>
 
   </div>
+  <!-- Artifizierungen -->
   <div>
     <h2><i class="fa-solid fa-microchip"></i> {{localize "darkspace.artware"}}</h2>
     <ul class="item-list">

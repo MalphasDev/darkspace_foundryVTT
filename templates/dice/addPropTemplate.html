@@ -1,4 +1,5 @@
-<div>
+<div class="grid col2">
+    <span>Eigenschaft:</span>
     <select name="propTemplate">
         {{#each templates as |entry key|}}
         <option value="{{prop}}">{{prop}}{{#if handicap}} (Handicap){{/if}}</option>
@@ -6,25 +7,26 @@
 
         {{#if itemProp}}
         {{#each templatesTech as |entry key|}}
-        <option value="{{prop}}">Tech: {{prop}}{{#if handicap}} (Handicap){{/if}}</option></option>
+        <option value="{{prop}}">Tech: {{prop}}{{#if handicap}} (Handicap){{/if}}</option>
         {{/each}}
         {{/if}}
 
         {{#if combatProp}}
         {{#each templatesCombat as |entry key|}}
-        <option value="{{prop}}">Kampf: {{prop}}{{#if handicap}} (Handicap){{/if}}</option></option>
+        <option value="{{prop}}">Kampf: {{prop}}{{#if handicap}} (Handicap){{/if}}</option>
         {{/each}}
         {{/if}}
     </select>
     
-    {{#if skillListType}}
+    {{#if actorType}}
+    <span>Fertigkeit</span>
     <select name="propTemplateSkill">
-        {{#each (lookup config skillListType)}}
+        {{#with (lookup config.statLists actorType)}}
+        {{#each skillList}}
         <option value="{{this}}">{{this}}</option>
         {{/each}}
+        {{/with}}
+        
     </select>
-    {{/if}}
-    {{#if itemProp}}
-    <input type="text" name="propAction">
     {{/if}}
 </div>

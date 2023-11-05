@@ -10,54 +10,58 @@ export async function rollDice(inputData) {
 
   let dicepoolModLocal = parseInt(inputData.dicepoolModLocal);
   let skillModLocal = parseInt(inputData.skillModLocal);
+
   const rollData = inputData.rollData;
-  let removehighest = inputData.removehighest;
+  const removehighest = inputData.removehighest;
   const competence = actor?.system.effectiveCompetence ?? 0;
-  const skillData = this.getStat(inputData.rollData.skillName, inputData.actorId)
+  const skillData = this.getStat(
+    inputData.rollData.skillName,
+    inputData.actorId
+  );
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
   // ------------------------------------- //
-
+  console.log(inputData);
   dicepoolModLocal++ ? dicepoolModLocal-- : (dicepoolModLocal = 0);
   skillModLocal++ ? skillModLocal-- : (skillModLocal = 0);
 
-
   if (inputData.type === "Custom") {
-    rollData.dicepool = inputData.rollData.dicepoolVal + dicepoolModLocal;
-    rollData.skill = inputData.rollData.skill + skillModLocal;
+    console.log("Custom Würfelwurf");
+    rollData.dicepool = rollData.dicepoolVal + dicepoolModLocal;
+    rollData.skillValue = rollData.skillValue + skillModLocal;
   } else if (actor.type === "Nebencharakter") {
+    console.log("Nebencharakter würfelt");
     rollData.dicepool = competence + dicepoolModLocal;
-    rollData.skill = competence + skillModLocal;
+    rollData.skillValue = competence + skillModLocal;
   } else {
-    const aptitude = this.getStat(inputData.rollData.skillName, inputData.actorId).dicepool
-    rollData.dicepool = (competence + aptitude + dicepoolModLocal);
-    rollData.skill = skillData.skill + skillModLocal;
+    console.log("Skillcheck");
+    const aptitude = this.getStat(
+      rollData.skillName,
+      inputData.actorId
+    ).dicepool;
+    rollData.dicepool = competence + aptitude + dicepoolModLocal;
+    rollData.skillValue = skillData.skillValue + skillModLocal;
   }
-
   const rollResult = new Roll(rollData.dicepool + "d10x");
 
   await rollResult.evaluate({ async: true });
 
+  rollResult.terms[0].results.sort((a, b) => b.result - a.result);
+  const rollTerms = rollResult.terms[0];
+  const diceData = rollTerms.results;
+  const diceResults = rollTerms.values;
+  const dicepoolUsed = rollTerms.number;
 
-  rollResult.terms[0].results.sort(
-    (a, b) => b.result - a.result
-  );
-  const rollTerms = rollResult.terms[0]
-  const diceData = rollTerms.results
-  const diceResults = rollTerms.values
-  const dicepoolUsed = rollTerms.number
+  rollResult.resultPair = "prime";
+  rollResult.effectPair = "secondary";
 
-  rollResult.resultPair = "prime"
-  rollResult.effectPair = "secondary"
-
-  
   if (removehighest) {
-    rollResult.resultPair = "secondary"
-    rollResult.effectPair = "tertiary"
-    rollResult.disadv = true ;
+    rollResult.resultPair = "secondary";
+    rollResult.effectPair = "tertiary";
+    rollResult.disadv = true;
   }
-  
+
   // ++++ Paare bilden ++++ //
   rollResult.partResults = {
     prime: diceResults[0] + (diceResults[1] ?? 0),
@@ -69,75 +73,79 @@ export async function rollDice(inputData) {
 
   switch (rollResult.resultPair) {
     case "prime":
-      for (let index = 0; index < Math.min(diceData.length,2); index++) {
-        diceData[index].evaluated = true
+      for (let index = 0; index < Math.min(diceData.length, 2); index++) {
+        diceData[index].evaluated = true;
       }
       break;
     case "secondary":
-      for (let index = 1; index < Math.min(diceData.length,3); index++) {
-        diceData[index].evaluated = true
+      for (let index = 1; index < Math.min(diceData.length, 3); index++) {
+        diceData[index].evaluated = true;
       }
       break;
-  
+
     default:
       break;
   }
 
-
-
   rollResult.finalResults = {
-    prime: rollResult.partResults.prime + rollData.skill,
-    secondary: rollResult.partResults.secondary + rollData.skill,
-    tertiary: rollResult.partResults.tertiary + rollData.skill,
-  }
-
+    prime: rollResult.partResults.prime + rollData.skillValue,
+    secondary: rollResult.partResults.secondary + rollData.skillValue,
+    tertiary: rollResult.partResults.tertiary + rollData.skillValue,
+  };
 
   // ------------------------------ //
   // Zusammenstellen der Chat-Daten //
   // ------------------------------ //
 
-rollResult.data = {
-  message: {
-    user: game.user.id,
-    speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+  if (!skillData.skillValue) {
+    skillData.skillValue = 0;
+  }
+
+  rollResult.data = {
+    message: {
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
     },
-  dicepoolModLocal: dicepoolModLocal,
-  skillModLocal: skillModLocal,
-  rollname: inputData.rollname,
-  actor: actor,
-  effectOff: inputData.effectOff,
-  item: inputData.item,
-  crit: diceResults[2] >=9,
-  fumble: rollResult.partResults[rollResult.resultPair] <= 5,
-  skillName: skillData.skillName
+    dicepoolModLocal: dicepoolModLocal,
+    skillModLocal: skillModLocal,
+    rollname: inputData.rollname,
+    actor: actor,
+    effectOff: inputData.effectOff,
+    item: inputData.item,
+    crit: diceResults[2] >= 9,
+    fumble: rollResult.partResults[rollResult.resultPair] <= 5,
+    skillName: skillData.skillName,
+    skill: skillData.skillValue,
   };
 
   if (
     inputData.object != undefined &&
     Object.keys(inputData.object).length != 0
   ) {
-    
     rollResult.data = {
       ...rollResult.data,
       props: {
-        mertis: Object.entries(system.props).filter((hc) => {
-          return hc[1].handicap === false;
-        }).filter((prop) => {
-          return prop[1].skill === skillData.skillName}),
-        handicaps: Object.entries(system.props).filter((hc) => {
-          return hc[1].handicap === true;
-        }).filter((prop) => {return prop[1].skill === skillData.skillName}),
+        mertis: Object.entries(system.props)
+          .filter((hc) => {
+            return hc[1].handicap === false;
+          })
+          .filter((prop) => {
+            return prop[1].skill === skillData.value;
+          }),
+        handicaps: Object.entries(system.props)
+          .filter((hc) => {
+            return hc[1].handicap === true;
+          })
+          .filter((prop) => {
+            return prop[1].skill === skillData.value;
+          }),
       },
-      cybernetics: inputData.object.items
-      .filter((i) => {
+      cybernetics: inputData.object.items.filter((i) => {
         return i.type === "Artifizierung";
-      })
-    }
-
+      }),
+    };
   }
 
-
-  
   return rollResult;
 }
 
@@ -213,36 +221,38 @@ export async function modRolls(inputData) {
  * @returns an object with the following properties:
  */
 export async function _resolveDice(inputData) {
-
-  
   const rollResult = await this.rollDice(inputData).then((resultedRoll) => {
-    return resultedRoll
+    return resultedRoll;
   });
-  
-  const stats = rollResult.actor?.system.stats;
-
 
   if (inputData.item != undefined) {
-    rollResult.combatData = {
-      basedmg: rollResult.item.system.dmg,
+    const item = rollResult.data.item
+    rollResult.itemData = {
+      basedmg: item.system.dmg,
       bonusdmg: rollResult.finalResults[rollResult.effectPair],
-      dmg: rollResult.item.system.dmg + rollResult.finalResults[rollResult.effectPair],
-      img: rollResult.item.img,
-      name: rollResult.item.name,
-      type: rollResult.item.type,
-    }
+      dmg:
+      item.system.dmg +
+        rollResult.finalResults[rollResult.effectPair],
+      img: item.img,
+      name: item.name,
+      type: item.type,
+      aeCost: item.system.size,
+      system: item.system,
+    };
   }
+  
   if (inputData.eventData?.dataset.ua) {
-
-    rollResult.combatData = {
-      basedmg: stats[inputData.rollData.dicepool].dicepool,
+    rollResult.itemData = {
+      basedmg: inputData.rollData.dicepool + this.getStat(rollResult.data.skillName,inputData.actorId).dicepool,
       bonusdmg: rollResult.finalResults[rollResult.effectPair],
-      dmg: stats[inputData.rollData.dicepool].dicepool + rollResult.finalResults[rollResult.effectPair],
+      dmg:
+      inputData.rollData.dicepool + this.getStat(rollResult.data.skillName,inputData.actorId).dicepool +
+        rollResult.finalResults[rollResult.effectPair],
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",
       type: "Waffenlos",
-    }
-
+      aeCost: 2,
+    };
   }
   const targetTokens = canvas.tokens.placeables
     .filter((token) => token.isTargeted)
@@ -257,6 +267,8 @@ export async function _resolveDice(inputData) {
       targetData: targetData,
     };
   }
+
+  console.log(rollResult.data.skillName);
 
   // Ist verbuggt, keine Ahnung warum. Nachdem itemAe aufgerufen wurde, wird der Tracker nicht mehr ordentlich aktuallisiert.
 
@@ -279,7 +291,7 @@ export async function _resolveDice(inputData) {
     Gegenstand: "systems/darkspace/templates/dice/chatItem.html",
   };
 
-  const messageData = {}
+  const messageData = {};
   messageData.content = await renderTemplate(
     chatTempPath[inputData.type],
     rollResult
@@ -296,9 +308,9 @@ export function getStat(skill, actorId) {
   if (actor.type === "Nebencharakter") {
     stat = {
       dicepool: actor.system.baseDicepool,
-      skill: actor.system.baseDicepool,
+      skillValue: actor.system.baseDicepool,
       dicepoolName: "baseDicepool",
-      skillName: "baseDicepoolSkill",
+      skillName: "Fähigkeit",
       dicepoolmax: 5,
     };
   } else {
@@ -308,7 +320,7 @@ export function getStat(skill, actorId) {
       if (value.skill[skill] != undefined) {
         stat = {
           dicepool: dbAttr[key].dicepool,
-          skill: value.skill[skill],
+          skillValue: value.skill[skill],
           dicepoolName: key,
           skillName: skill,
           dicepoolmax: value.dicepoolmax,

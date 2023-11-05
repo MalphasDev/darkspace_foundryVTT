@@ -1,7 +1,6 @@
 import * as DSMechanics from "./DSMechanics.js";
 export class DSCombat extends Combat {
   _sortCombatants(combatantA, combatantB) {
-    // console.log("_sortCombatants",combatantA,combatantB);
     let aeA = parseInt(combatantA.initiative) || 99999;
     let aeB = parseInt(combatantB.initiative) || 99999;
 
@@ -15,11 +14,6 @@ export class DSCombat extends Combat {
     var isCombatStarted = combatantA.parent.getFlag("darkspace", "isCombatStarted")
       ? 1
       : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.
-//       console.log("############ START OF SORTING ############");
-// console.log(combatantA.name,aeA);
-// console.log(combatantB.name,aeB);
-// console.log(aeA - aeB);
-// console.log("############ END OF SORTING ############");
 
 
     return (aeA - aeB) * isCombatStarted;
@@ -83,34 +77,34 @@ export class DSCombat extends Combat {
         var currentCombatant = actorData.get(id);
         const system =  currentCombatant.actor.system;
         
-        let inputData = {
-          eventData: {},
-          actorId: currentCombatant.actor.id,
+        console.log("Ini Würfeln");
+
+        const inputData = {
           actorData: actorData,
-          removehighest: false,
-          object: {},
-          type: "Custom",
-          rollData: { dicepool: system.initiative, skill: 0 },
+          actorId: currentCombatant.actor.id,
           effectOff: true,
+          eventData: {},
+          object: {},
+          removehighest: false,
+          rollData: { dicepoolVal: system.initiative, skillValue: 0 },
+          type: "Custom",
         };
 
+        
 
-        let outputData = await DSMechanics.rollDice(inputData).then(
+        const resultData = await DSMechanics.rollDice(inputData).then(
           (result) => {
             return result;
           }
         );
         
-        this.setInitiative(id, outputData.cardData.total_AB);
+        this.setInitiative(id, resultData.finalResults.prime);
         
-        // Chatausgabe
-        
-        let cardData = {...outputData.cardData, name: game.actors.get(outputData.actorId).name};
-        let messageData = outputData.messageData;
-        
+        // Chatausgabe   
+        const messageData = {}
         messageData.content = await renderTemplate(
           "systems/darkspace/templates/dice/chatInitiative.html",
-          cardData
+          resultData
         );
         AudioHelper.play({ src: CONFIG.sounds.dice });
         return ChatMessage.create(messageData);
@@ -125,8 +119,6 @@ export class DSCombat extends Combat {
   }
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
-
-    console.log("Startet _onUpdate");
 
     this.setupTurns(); // Damit die Reiehnfolge beim Start bei GM und Spielern gleich bleibt
 

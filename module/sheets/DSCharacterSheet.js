@@ -427,25 +427,9 @@ export class DSCharacterSheet extends ActorSheet {
       templates: getProps().concat(getHandicaps()),
       config: darkspace,
     };
-    switch (this.actor.type) {
-      case "Charakter":
-        propData.skillListType = "skillList";
-        break;
-      case "Nebencharakter":
-        propData.skillListType = "skillListNpc";
-        break;
-      case "Maschine":
-        propData.skillListType = "skillListVehicle";
-        propData.templatesTech = getTechProps().concat(getTechhandicaps());
-        propData.itemProp = true;
-        break;
-      case "KI":
-        propData.skillListType = "skillListAi";
-        break;
 
-      default:
-        break;
-    }
+    propData.actorType = this.actor.type
+
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/addPropTemplate.html",
       propData
@@ -470,7 +454,6 @@ export class DSCharacterSheet extends ActorSheet {
               typeof html.find("[name='propTemplateSkill']")[0] !== "undefined"
                 ? html.find("[name='propTemplateSkill']")[0].value
                 : undefined;
-
             const template = {
               ...prop,
               skillName: skill,
@@ -510,7 +493,7 @@ export class DSCharacterSheet extends ActorSheet {
             const handicapAdresse = propAdresse + ".handicap";
             const descAdresse = propAdresse + ".desc";
             const propNameAdresse = propAdresse + ".prop";
-            const propSkillAdresse = propAdresse + ".skill";
+            const propSkillAdresse = propAdresse + ".skillName";
 
             const newHandicapStatus = html.find(".handicapCheck")[0].checked;
             const newDesc = html.find(".propRules")[0].value;

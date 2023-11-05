@@ -1,10 +1,11 @@
-<div>
-  <h3>{{this.name}} <span class="anmerkung"> ({{this.type}}) </span></h3>
+<div>{{log this}}
+  <h3>{{itemData.name}} <span class="anmerkung"> ({{itemData.type}}) </span></h3>
 
   {{> "systems/darkspace/templates/partials/items/MkSize_display.html"}}
   <hr />
   {{> "systems/darkspace/templates/dice/chatBase.html"}}
   <hr />
+  {{#with itemData}}
   <div class="grid col3-121 grid center">
     <i class="fa-solid fa-bolt cell_c doublesize"></i>
     <span>
@@ -33,6 +34,7 @@
 
     <span class="chatStats bigsize bold">{{system.aeCost}} AE</span>
   </div>
+  {{/with}}
   <hr />
   <div>
     <ul>

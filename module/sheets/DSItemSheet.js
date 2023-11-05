@@ -141,7 +141,6 @@ export class DSItemSheet extends ItemSheet {
         prop: "Neue Eigenschaft",
         skill: "Automation",
         desc: "Regeln",
-        action: "Neue Aktion",
         handicap: false,
       };
     }
@@ -166,32 +165,11 @@ export class DSItemSheet extends ItemSheet {
       templatesCombat: getCombatProps().concat(getCombatHandicaps()),
       config: darkspace,
       itemProp: true,
+      actorType: this.actor?.type,
       combatProp:
         this.object.type === "Schusswaffe" ||
         this.object.type === "Nahkampfwaffe",
     };
-
-    if (!!this.actor) {
-      switch (this.actor.type) {
-        case "Charakter":
-          propData.skillListType = "skillList";
-          break;
-        case "Nebencharakter":
-          propData.skillListType = "skillListNpc";
-          break;
-        case "Maschine":
-          propData.skillListType = "skillListVehicle";
-          break;
-        case "KI":
-          propData.skillListType = "skillListAi";
-          break;
-
-        default:
-          break;
-      }
-    } else {
-      propData.skillListType = false;
-    }
 
     propData.propEditTemplate = await renderTemplate(
       "systems/darkspace/templates/dice/addPropTemplate.html",
@@ -209,11 +187,10 @@ export class DSItemSheet extends ItemSheet {
             const fullList = propData.templates.concat(propData.templatesTech).concat(propData.templatesCombat)
             const prop = fullList.filter((p) =>{ return p.prop === html.find("[name='propTemplate']")[0].value})[0]
             const skill = typeof html.find("[name='propTemplateSkill']")[0] !== "undefined" ? html.find("[name='propTemplateSkill']")[0].value : undefined;
-            const action = html.find("[name='propAction']")[0].value;
+
             const template = {
               ...prop,
               skill: skill,
-              action: action,
             };
             this._addProp(event, template);
           },
@@ -253,21 +230,18 @@ export class DSItemSheet extends ItemSheet {
             const handicapAdresse = propAdresse + ".handicap";
             const descAdresse = propAdresse + ".desc";
             const propNameAdresse = propAdresse + ".prop";
-            const actionNameAdresse = propAdresse + ".action";
             const propSkillAdresse = propAdresse + ".skill";
 
             const newHandicapStatus = html.find(".handicapCheck")[0].checked;
             const newDesc = html.find(".propRules")[0].value;
             const propName = html.find(".propName")[0].value;
             const skill = html.find(".skill")[0].value;
-            const actionName = html.find(".actionName")[0].value;
 
             this.object.update({
               id: this.object.id,
               [descAdresse]: newDesc.toString(),
               [handicapAdresse]: newHandicapStatus,
               [propNameAdresse]: propName,
-              [actionNameAdresse]: actionName,
               [propSkillAdresse]: skill,
             });
           },

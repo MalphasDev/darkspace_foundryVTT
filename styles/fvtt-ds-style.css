@@ -163,9 +163,7 @@ input:disabled {
 #module-management .package-list .package-description {
   color: var(--effect);
 }
-.jump-to-bottom {
-  bottom: 194px;
-}
+
 .prosemirror menu .pm-dropdown, .prosemirror menu .pm-dropdown ul,.prosemirror.menu-dialog form, .chat-message.whisper, #chat-controls .roll-type-select {
   background: var(--secondary);
 }
@@ -675,6 +673,7 @@ a.rollSkill {
 .kritDice {
   color: #00ff7e;
 }
+.customItemList,
 .tab.props li.item,
 .tab.items li.item {
   border: 1px solid;
