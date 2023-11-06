@@ -16,33 +16,30 @@ export async function rollDice(inputData) {
   const competence = actor?.system.effectiveCompetence ?? 0;
   const skillData = this.getStat(
     inputData.rollData.skillName,
-    inputData.actorId
+    actor
   );
 
   // ------------------------------------- //
   // Custom Roll und globale Modifikatoren //
   // ------------------------------------- //
-  console.log(inputData);
   dicepoolModLocal++ ? dicepoolModLocal-- : (dicepoolModLocal = 0);
   skillModLocal++ ? skillModLocal-- : (skillModLocal = 0);
 
   if (inputData.type === "Custom") {
-    console.log("Custom Würfelwurf");
     rollData.dicepool = rollData.dicepoolVal + dicepoolModLocal;
     rollData.skillValue = rollData.skillValue + skillModLocal;
   } else if (actor.type === "Nebencharakter") {
-    console.log("Nebencharakter würfelt");
     rollData.dicepool = competence + dicepoolModLocal;
     rollData.skillValue = competence + skillModLocal;
   } else {
-    console.log("Skillcheck");
     const aptitude = this.getStat(
       rollData.skillName,
-      inputData.actorId
+      actor
     ).dicepool;
     rollData.dicepool = competence + aptitude + dicepoolModLocal;
     rollData.skillValue = skillData.skillValue + skillModLocal;
   }
+
   const rollResult = new Roll(rollData.dicepool + "d10x");
 
   await rollResult.evaluate({ async: true });
@@ -86,7 +83,6 @@ export async function rollDice(inputData) {
     default:
       break;
   }
-
   rollResult.finalResults = {
     prime: rollResult.partResults.prime + rollData.skillValue,
     secondary: rollResult.partResults.secondary + rollData.skillValue,
@@ -215,16 +211,12 @@ export async function modRolls(inputData) {
   }
 }
 
-/**
- * It takes an inputData object, rolls dice, and returns a chat message.
- * @param inputData - {
- * @returns an object with the following properties:
- */
 export async function _resolveDice(inputData) {
+
+  const actor = game.actors.get(inputData.actorId);
   const rollResult = await this.rollDice(inputData).then((resultedRoll) => {
     return resultedRoll;
   });
-
   if (inputData.item != undefined) {
     const item = rollResult.data.item
     rollResult.itemData = {
@@ -243,10 +235,10 @@ export async function _resolveDice(inputData) {
   
   if (inputData.eventData?.dataset.ua) {
     rollResult.itemData = {
-      basedmg: inputData.rollData.dicepool + this.getStat(rollResult.data.skillName,inputData.actorId).dicepool,
+      basedmg: inputData.rollData.dicepool + this.getStat(rollResult.data.skillName,actor).dicepool,
       bonusdmg: rollResult.finalResults[rollResult.effectPair],
       dmg:
-      inputData.rollData.dicepool + this.getStat(rollResult.data.skillName,inputData.actorId).dicepool +
+      inputData.rollData.dicepool + this.getStat(rollResult.data.skillName,actor).dicepool +
         rollResult.finalResults[rollResult.effectPair],
       img: "systems/darkspace/icons/itemDefault/itemIcon_Nahkampfwaffe.svg",
       name: "Waffenloser Angriff",
@@ -267,8 +259,6 @@ export async function _resolveDice(inputData) {
       targetData: targetData,
     };
   }
-
-  console.log(rollResult.data.skillName);
 
   // Ist verbuggt, keine Ahnung warum. Nachdem itemAe aufgerufen wurde, wird der Tracker nicht mehr ordentlich aktuallisiert.
 
@@ -300,33 +290,41 @@ export async function _resolveDice(inputData) {
   return ChatMessage.create(messageData);
 }
 
-export function getStat(skill, actorId) {
-  let stat = [];
+export function getStat(skillName, actorData) {
+  const actor = actorData
 
-  const actor = game.actors.get(actorId);
-  const dbAttr = actor.system.stats;
-  if (actor.type === "Nebencharakter") {
-    stat = {
-      dicepool: actor.system.baseDicepool,
-      skillValue: actor.system.baseDicepool,
-      dicepoolName: "baseDicepool",
-      skillName: "Fähigkeit",
-      dicepoolmax: 5,
-    };
-  } else {
-    const dicepoolMap = new Map(Object.entries(dbAttr));
-
-    dicepoolMap.forEach((value, key) => {
-      if (value.skill[skill] != undefined) {
-        stat = {
-          dicepool: dbAttr[key].dicepool,
-          skillValue: value.skill[skill],
-          dicepoolName: key,
-          skillName: skill,
-          dicepoolmax: value.dicepoolmax,
-        };
-      }
+    let result = null;
+    if (actor.type === "Nebencharakter") {
+      result = {
+        dicepool: actor.system.baseDicepool,
+        skillValue: actor.system.baseDicepool,
+        aptitude: "Kompetenz",
+        skillName: "Fähigkeit",
+      };
+    } else {
+      Object.entries(actor.system.stats).some(([aptitude, aptSet]) => { 
+        // aptitude entspricht Key
+        // aptSet entspricht Value
+        if (aptSet.skill.hasOwnProperty(skillName)) {
+            result = {
+                aptitude: aptitude,
+                dicepool: actor.system.stats[aptitude].dicepool,
+                skillValue: aptSet.skill[skillName],
+                skillName: skillName,
+            };
+            return true; // Beende die Schleife, wenn der Skill gefunden wurde
+        }
     });
+    }
+    if (result === null) {
+      result = {
+        aptitude: "",
+        dicepool: 0,
+        skillValue: 0,
+        skillName: skillName,
+    };
+    }
+
+    return result
   }
-  return stat;
-}
+

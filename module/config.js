@@ -1,7 +1,6 @@
 import * as props from "./DSprops.js";
 
 export const darkspace = {};
-console.log(darkspace);
 
 darkspace.props = {
   props: props.getProps(),

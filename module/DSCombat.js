@@ -76,8 +76,6 @@ export class DSCombat extends Combat {
         // Ermitteln der Initiative
         var currentCombatant = actorData.get(id);
         const system =  currentCombatant.actor.system;
-        
-        console.log("Ini Würfeln");
 
         const inputData = {
           actorData: actorData,
@@ -89,8 +87,6 @@ export class DSCombat extends Combat {
           rollData: { dicepoolVal: system.initiative, skillValue: 0 },
           type: "Custom",
         };
-
-        
 
         const resultData = await DSMechanics.rollDice(inputData).then(
           (result) => {
@@ -117,12 +113,14 @@ export class DSCombat extends Combat {
   _waitCombat(id) {
     this.setInitiative(id, null);
   }
+
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
 
     this.setupTurns(); // Damit die Reiehnfolge beim Start bei GM und Spielern gleich bleibt
 
-    // Es wird bei jedem Combat-Update ein Test gemacht, ob turn = 0. Wenn nein, wird der turn auf 0 gesetzt = erster Charakter
+    // Es wird bei jedem Combat-Update ein Test gemacht, ob turn = 0. 
+    // Wenn nein, wird der turn auf 0 gesetzt = erster Charakter
     if (this.turn !== 0) return this.update({ turn: 0 }, { diff: false });
   }
 }

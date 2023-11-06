@@ -2,10 +2,40 @@ import { getStat } from "../DSMechanics.js";
 import { getHealth, getMonitor } from "../DSHealth.js";
 
 export class DSCharacter extends Actor {
-  getStat(skill) {
-    // Kann rausgenommen werden, wenn alle Spiele einmal aktiv waren.
+  getStat(skillName) {
 
-    return getStat(skill, this.id);
+    let result = null;
+    if (this.type === "Nebencharakter") {
+      result = {
+        dicepool: this.system.baseDicepool,
+        skillValue: this.system.baseDicepool,
+        aptitude: "Kompetenz",
+        skillName: "Fähigkeit",
+      };
+    } else {
+      Object.entries(this.system.stats).some(([aptitude, aptSet]) => { 
+        // aptitude entspricht Key
+        // aptSet entspricht Value
+        if (aptSet.skill.hasOwnProperty(skillName)) {
+            result = {
+                aptitude: aptitude,
+                dicepool: this.system.stats[aptitude].dicepool,
+                skillValue: aptSet.skill[skillName],
+                skillName: skillName,
+            };
+            return true; // Beende die Schleife, wenn der Skill gefunden wurde
+        }
+    });
+    }
+    if (result === null) {
+      result = {
+        aptitude: "",
+        dicepool: 0,
+        skillValue: 0,
+        skillName: skillName,
+    };
+    }
+    return result
   }
 
   getObjLocation() {
@@ -13,10 +43,7 @@ export class DSCharacter extends Actor {
     const dicepool = system.stats;
     const config = CONFIG.darkspace;
 
-    return { system, /* In this code, `dicepool` is an object that stores the dicepool values for
-    different skills or attributes of a character. It is used to calculate various
-    values and experience points for the character. */
-    dicepool, config };
+    return { system, dicepool, config };
   }
 
   // +++++++++++++++++++++++++++++++++++++++++++++
@@ -28,31 +55,6 @@ export class DSCharacter extends Actor {
     const items = this.items;
     const { system, dicepool, config } = this.getObjLocation();
     console.log(this.name + " (" + this.type + ") geladen.");
-
-    // Make separate methods for each Actor type (character, npc, etc.) to keep
-    // things organized.
-
-    items.gunList = this.items.filter((f) => {
-      return f.type === "Schusswaffe";
-    });
-    items.meleeList = this.items.filter((f) => {
-      return f.type === "Nahkampfwaffe";
-    });
-    items.weapon = this.items.filter((f) => {
-      return f.type === "Waffe";
-    });
-    items.eigenschaft = this.items.filter((f) => {
-      return f.type === "Eigenschaft";
-    });
-    items.armorList = this.items.filter((i) => {
-      return i.type === "Panzerung";
-    });
-    items.artList = this.items.filter((i) => {
-      return i.type === "Artifizierung";
-    });
-    items.terminalList = this.items.filter((i) => {
-      return i.type === "Terminals";
-    });
 
     let itemSizeArray = items.map((item) => {
       return item.system.size;
@@ -85,7 +87,7 @@ export class DSCharacter extends Actor {
       );
     }
 
-    const sortedArmorStructureList = items.armorList
+    const sortedArmorStructureList = this.itemTypes.Panzerung
       .filter((a) => {
         return a.system.equipped === true;
       })
@@ -126,7 +128,7 @@ export class DSCharacter extends Actor {
     // ++++++++++++++++++++++++++++++++++++++++
     // ++++ Fallunterscheidung Actor Types ++++
     // ++++++++++++++++++++++++++++++++++++++++
-    
+
     const actorTypeObj = {
       Charakter: {
         effectiveCompetence: Math.min(
@@ -141,6 +143,12 @@ export class DSCharacter extends Actor {
         ],
         bodymon: getMonitor(config.label.body, this.getStat("Fitness").dicepool, system.size, system.armorBonus),
         startXp: game.settings.get("darkspace", "startxp"),
+        unarmedDmg: {
+          [this.getStat("Kraft").aptitude]: system.baseDicepool + this.getStat("Kraft").dicepool,
+          [this.getStat("Präzision").aptitude]: system.baseDicepool + this.getStat("Präzision").dicepool,
+        },
+        targetValue: 10 + this.getStat("Fokus").dicepool + this.getStat("Geschwindigkeit").dicepool,
+        
       },
       Cyborg: {
         effectiveCompetence: Math.min(
@@ -160,6 +168,11 @@ export class DSCharacter extends Actor {
           system.armorBonus
         ),
         startXp: game.settings.get("darkspace", "startxp"),
+        unarmedDmg: {
+          [this.getStat("Kraft").aptitude]: system.baseDicepool + this.getStat("Kraft").dicepool,
+          [this.getStat("Präzision").aptitude]: system.baseDicepool + this.getStat("Präzision").dicepool,
+        },
+        targetValue: 15 + this.getStat("Fokus").dicepool + this.getStat("Geschwindigkeit").dicepool - system.size, 
       },
       Nebencharakter: {
         effectiveCompetence: system.baseDicepool,
@@ -170,7 +183,11 @@ export class DSCharacter extends Actor {
           system.baseDicepool,
           system.size,
           system.armorBonus
-        )
+        ),
+        unarmedDmg: {
+          "baseDicepool": system.baseDicepool * 2,
+        },
+        targetValue: 10 + system.baseDicepool * 2
       },
       Maschine: {
         effectiveCompetence: system.baseDicepool,
@@ -183,6 +200,11 @@ export class DSCharacter extends Actor {
           system.armorBonus
         ),
         startXp: (system.mk + system.size) * 100,
+        unarmedDmg: {
+          [this.getStat("Kraft").aptitude]: system.baseDicepool + this.getStat("Kraft").dicepool,
+          [this.getStat("Präzision").aptitude]: system.baseDicepool + this.getStat("Präzision").dicepool,
+        },
+        targetValue: 15 + this.getStat("Fokus").dicepool + this.getStat("Geschwindigkeit").dicepool - system.size, 
       },
       KI: {
         effectiveCompetence: Math.min(
@@ -195,16 +217,17 @@ export class DSCharacter extends Actor {
       startXp: game.settings.get("darkspace", "startxpai"),
     };
 
+    console.log(this.getStat("Kraft"));
+
     const actorType = actorTypeObj[this.type];
-
-    console.log(this.getStat("Synthese"));
-
     system.effectiveCompetence = actorType.effectiveCompetence;
     system.baseBuffer = actorType.baseBuffer;
     const currentAttrList = config.statLists[this.type]?.dicepoolList;
     const cortexThreshold = actorType.cortexThreshold;
     system.bodymon = actorType.bodymon
     system.startXp = actorType.startXp
+    system.unarmedDmg = actorType.unarmedDmg
+    system.targetValue = actorType.targetValue
 
     if(this.type != "Nebencharakter" && this.type != "Maschine") {
       system.wealth = (system.baseDicepool + system.stats.Ressourcen.dicepool) * 2
@@ -216,31 +239,8 @@ export class DSCharacter extends Actor {
     }
 
 
-    system.firewall = 10 + system.baseBuffer;
+    system.firewall = 10 + this.itemTypes.Terminals.map((item) => {return item.system.mk}).concat(system.baseBuffer).sort((a,b) => b - a)[0];
     system.buffer = system.baseBuffer + 5 * system.countCortexConditions;
-
-    // +++++++++++++++++++++++++
-    // ++++ Attribut Maxima ++++
-    // +++++++++++++++++++++++++
-
-    if (currentAttrList != undefined) {
-      currentAttrList.forEach((element) => {
-        if (dicepool[element].dicepoolmaxmod === undefined) {
-          dicepool[element].dicepoolmaxmod = 0;
-        }
-
-        const prostetics = items.artList.filter((a) => {
-          return a.system.prosthetic === true;
-        })[0];
-
-        if (prostetics != undefined && prostetics.system.useAttr === dicepool) {
-          dicepool[element].dicepoolmax =
-            dicepool[element].dicepoolmaxmod + prostetics.system.dicepoolMaxBonus;
-        } else {
-          dicepool[element].dicepoolmax = 5 + dicepool[element].dicepoolmaxmod;
-        }
-      });
-    }
 
     // ++++++++++++++++++++++++++++
     // ++++++++ Initiative ++++++++
@@ -254,7 +254,7 @@ export class DSCharacter extends Actor {
 
     system.armorCortex = "Synthese";
 
-    const sortedCortexArmorList = items.terminalList
+    const sortedCortexArmorList = this.itemTypes.Artifizierung
       .filter((a) => {
         return a.system.equipped === true;
       })
@@ -279,6 +279,8 @@ export class DSCharacter extends Actor {
       cortexThreshold[0],
       system.cortexArmorBonus + system.pan
     );
+
+    
 
     // ++++++++++++++++++++++++++++++
     // ++++ Inventar Korrigieren ++++
@@ -310,9 +312,9 @@ export class DSCharacter extends Actor {
         item.system.useWith !=
         this.getStat(item.system.useWith).skillName
       ) {
-        item.update({
-          "system.useWith": "Logik",
-        });
+        // item.update({
+        //   "system.useWith": "Logik",
+        // });
         ui.notifications.warn(
           `Fertigkeit ${item.system.useWith} im ${this.name} nicht gefunden. Ersetzt durch: Logik`
         );
@@ -324,8 +326,6 @@ export class DSCharacter extends Actor {
     if (system.playable) {
       this.expCounter()
     }
-
-    console.log(system);
     
   }
 
@@ -346,8 +346,8 @@ export class DSCharacter extends Actor {
     const skillMod = 5;
 
     dicepoolList.forEach((dicepoolIdent) => {
-      let dicepoolName = dicepool;
-      let dicepoolWert = dicepoolName[dicepoolIdent].dicepool;
+      let aptitude = dicepool;
+      let dicepoolWert = aptitude[dicepoolIdent].dicepool;
       let dicepoolEp =
         ((dicepoolWert * (dicepoolWert + 1) * (2 * dicepoolWert + 1)) / 6) * dicepoolMod;
       system.totalAttrXp += dicepoolEp;
@@ -359,7 +359,7 @@ export class DSCharacter extends Actor {
           compMod -
         5 * compMod;
 
-      let skillSet = dicepoolName[dicepoolIdent].skill;
+      let skillSet = aptitude[dicepoolIdent].skill;
 
       skillList.forEach((skillIdent) => {
         if (skillSet[skillIdent] !== undefined) {

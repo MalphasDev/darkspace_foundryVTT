@@ -69,7 +69,7 @@ export class DSItem extends Item {
 
     system.bodymon = getMonitor(techLabel, system.size, system.size, 0);
 
-    system.firewall = system.mk * 2 + 10;
+    system.firewall = 10 + system.mk + system.size;
 
     system.countCortexConditions = Object.values(
       system.cortexConditions

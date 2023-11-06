@@ -98,7 +98,6 @@ Hooks.once("init", function () {
   const iconFolder = "systems/darkspace/icons/";
 
   /* Defining the status effects that can be applied to tokens. */
-  console.log(CONFIG);
   CONFIG.statusEffects = [
     {
       icon: iconFolder + "dizzy-solid.svg",

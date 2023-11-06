@@ -10,12 +10,14 @@
       this.actor.type "!=" "Cyborg"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_body.svg" alt="">
+        <p class="miniinfobox"><i class="fa-regular fa-circle-dot"></i> {{this.system.targetValue}}</p>
       </li>
       {{/ifCond}} {{/ifCond}}{{/ifCond}}
       {{#ifCond this.actor.type "!=" "Charakter"}} {{#ifCond
       this.actor.type "!=" "Nebencharakter"}}
       <li style="align-items: center; height: 55px">
         <img style="width: 30px;" src="/systems/darkspace/icons/ui/mon_tech.svg" alt="">
+        <p class="miniinfobox"><i class="fa-regular fa-circle-dot"></i> {{this.system.targetValue}}</p>
       </li>
       {{/ifCond}}{{/ifCond}}
       {{#each system.bodyConditions as |value key|}}
@@ -43,7 +45,7 @@
       {{/each}}
     </ul>
 
-
+<hr>
     <!-- Cortex Health -->
 
     <ul class="flex start">

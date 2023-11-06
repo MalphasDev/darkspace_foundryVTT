@@ -131,7 +131,6 @@ export class DSCharacterSheet extends ActorSheet {
       ".spendbot",
       ".counter",
       ".renderapp",
-      ".decdicepool",
     ];
     window.oncontextmenu = (e) => {
       e.preventDefault();
@@ -188,7 +187,7 @@ export class DSCharacterSheet extends ActorSheet {
 
     let dicepoolVal 
     if (this.object.type != "Nebencharakter") {
-      dicepoolVal = DSMechanics.getStat(dataset.skill, this.object.id).dicepoolName
+      dicepoolVal = DSMechanics.getStat(dataset.skill, this.object).dicepoolName
     } else {
       dicepoolVal = system.comptence
     }
@@ -283,7 +282,7 @@ export class DSCharacterSheet extends ActorSheet {
       usedSkill = item.system.useWith;
     }
 
-    const stat = DSMechanics.getStat(usedSkill, this.object.id);
+    const stat = DSMechanics.getStat(usedSkill, this.object);
 
 
     const preCreatedInput = this.createInputData(event, option);
@@ -671,41 +670,6 @@ export class DSCharacterSheet extends ActorSheet {
     const sheet = document.sheet;
     if (sheet._minimized) return sheet.maximize();
     else return sheet.render(true);
-  }
-  _decdicepool(event) {
-    const element = event.currentTarget;
-    const dataset = element.dataset;
-    const actor = this.actor;
-    const dicepool = actor.system.stats;
-    const currentAttrModAdress = "system.stats." + dataset.dicepool + ".dicepoolmaxmod";
-    const currentAttrMod = dicepool[dataset.dicepool].dicepoolmaxmod;
-
-    new Dialog({
-      title: "Entstellungen",
-      buttons: {
-        disfigurement: {
-          icon: '<i class="fa-solid fa-user-injured"></i>',
-          callback: () => {
-            actor.update({
-              [currentAttrModAdress]: currentAttrMod - 1,
-            });
-          },
-        },
-        regain: {
-          icon: '<i class="fa-solid fa-notes-medical"></i>',
-          callback: () => {
-            actor.update({
-              [currentAttrModAdress]: currentAttrMod + 1,
-            });
-          },
-        },
-        abort: {
-          icon: '<i class="fas fa-times"></i>',
-          callback: () => {},
-        },
-      },
-      default: "abort",
-    }).render(true);
   }
 
   _onDropItem(event, data) {
