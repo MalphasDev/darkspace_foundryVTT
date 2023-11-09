@@ -2,15 +2,12 @@ import {getStat} from "./DSMechanics.js";
 import {darkspace as config} from "./config.js"
 
 export function getHealth(primary, size) {
-  const armorMultiplier = [0, 1, 2, 3, 4];
-  const realSize = size === undefined ? 5 : size
-
-  return Array.from(armorMultiplier, (x) => x * 5 + realSize + primary);
+  return Array.from([0, 1, 2, 3, 4], (x) => x * 5 + size?? 5 + primary);
 }
 
 export function getMonitor(label,primary,insize,armor) {
-  let basesize = insize === undefined ? 5 : insize
-  let monitor
+  let basesize = insize?? 5;
+  let monitor;
  
   Object.keys(label).forEach((element, index) => {
     monitor = {

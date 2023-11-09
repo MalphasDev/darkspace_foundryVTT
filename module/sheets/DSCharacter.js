@@ -128,8 +128,7 @@ export class DSCharacter extends Actor {
     // ++++++++++++++++++++++++++++++++++++++++
     // ++++ Fallunterscheidung Actor Types ++++
     // ++++++++++++++++++++++++++++++++++++++++
-
-    const actorTypeObj = {
+   const actorTypeObj = {
       Charakter: {
         effectiveCompetence: Math.min(
           system.baseDicepool,
@@ -148,7 +147,7 @@ export class DSCharacter extends Actor {
           [this.getStat("Präzision").aptitude]: system.baseDicepool + this.getStat("Präzision").dicepool,
         },
         targetValue: 10 + this.getStat("Fokus").dicepool + this.getStat("Geschwindigkeit").dicepool,
-        
+        mobile: true,
       },
       Cyborg: {
         effectiveCompetence: Math.min(
@@ -173,6 +172,7 @@ export class DSCharacter extends Actor {
           [this.getStat("Präzision").aptitude]: system.baseDicepool + this.getStat("Präzision").dicepool,
         },
         targetValue: 15 + this.getStat("Fokus").dicepool + this.getStat("Geschwindigkeit").dicepool - system.size, 
+        mobile: true,
       },
       Nebencharakter: {
         effectiveCompetence: system.baseDicepool,
@@ -187,7 +187,8 @@ export class DSCharacter extends Actor {
         unarmedDmg: {
           "baseDicepool": system.baseDicepool * 2,
         },
-        targetValue: 10 + system.baseDicepool * 2
+        targetValue: 10 + system.baseDicepool * 2,
+        mobile: true,
       },
       Maschine: {
         effectiveCompetence: system.baseDicepool,
@@ -205,6 +206,7 @@ export class DSCharacter extends Actor {
           [this.getStat("Präzision").aptitude]: system.baseDicepool + this.getStat("Präzision").dicepool,
         },
         targetValue: 15 + this.getStat("Fokus").dicepool + this.getStat("Geschwindigkeit").dicepool - system.size, 
+        mobile: true,
       },
       KI: {
         effectiveCompetence: Math.min(
@@ -215,6 +217,7 @@ export class DSCharacter extends Actor {
         cortexThreshold: [system.size, system.mk],
       },
       startXp: game.settings.get("darkspace", "startxpai"),
+      mobile: false,
     };
 
     console.log(this.getStat("Kraft"));
@@ -228,6 +231,7 @@ export class DSCharacter extends Actor {
     system.startXp = actorType.startXp
     system.unarmedDmg = actorType.unarmedDmg
     system.targetValue = actorType.targetValue
+    actorType.mobile ? system.speed = Math.max(this.getStat("Geschwindigkeit").dicepool * this.getStat("Geschwindigkeit").skillValue * parseInt(system.mk??1),5) : null
 
     if(this.type != "Nebencharakter" && this.type != "Maschine") {
       system.wealth = (system.baseDicepool + system.stats.Ressourcen.dicepool) * 2

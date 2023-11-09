@@ -85,6 +85,17 @@ box-shadow: inset 0px -60px 40px 0px #23252a;"></div>
       </div>
       {{/ifCond}}
       {{/ifCond}}
+      
+      {{#if system.speed}}
+      <div class="ressbox">
+        <ul>
+          <li class="dicepoolfeld">
+
+            <h4 class="flex between"><span>Bewegungsrate</span> <span style="margin-right: 1ch;">{{system.speed}}m</span></h4>
+          </li>
+        </ul>
+      </div>
+      {{/if}}
     </div>
   </div>
 </section>
