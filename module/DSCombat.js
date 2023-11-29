@@ -21,14 +21,11 @@ export class DSCombat extends Combat {
   async startCombat() {
     const ids = Array.from(this.combatants.values())
       .filter((c) => {
-        console.log(c.initiative);
         return c.initiative === undefined || c.initiative === null;
       })
       .map((c) => {
         return c._id;
       });
-
-      console.log(ids);
 
     if (ids.length === 0) {
       this.setupTurns().forEach((combatant) => {

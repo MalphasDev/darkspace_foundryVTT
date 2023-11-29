@@ -329,7 +329,7 @@ export class DSCharacter extends Actor {
     if (system.playable) {
       this.expCounter()
     }
-    
+    console.log(this.system.stats);
   }
 
   expCounter() {
