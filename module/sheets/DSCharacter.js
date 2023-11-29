@@ -55,6 +55,7 @@ export class DSCharacter extends Actor {
     const items = this.items;
     const { system, dicepool, config } = this.getObjLocation();
     console.log(this.name + " (" + this.type + ") geladen.");
+    console.log(this.system.stats);
 
     let itemSizeArray = items.map((item) => {
       return item.system.size;
@@ -146,7 +147,7 @@ export class DSCharacter extends Actor {
           [this.getStat("Kraft").aptitude]: system.baseDicepool + this.getStat("Kraft").dicepool,
           [this.getStat("Präzision").aptitude]: system.baseDicepool + this.getStat("Präzision").dicepool,
         },
-        targetValue: 10 + this.getStat("Fokus").dicepool + this.getStat("Geschwindigkeit").dicepool,
+        targetValue: 10 + system.baseDicepool * 2,
         mobile: true,
       },
       Cyborg: {
@@ -220,7 +221,6 @@ export class DSCharacter extends Actor {
       mobile: false,
     };
 
-    console.log(this.getStat("Kraft"));
 
     const actorType = actorTypeObj[this.type];
     system.effectiveCompetence = actorType.effectiveCompetence;

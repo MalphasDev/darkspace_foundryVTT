@@ -2,9 +2,13 @@
     {{#each system.props}}
     <li>
         {{#if handicap}}
-            <i class="fa-solid fa-minus-circle handicap"></i>
-            {{/if}}
-        {{prop}} <i class="cyberprops fa-solid fa-caret-right" data-title="{{prop}}" data-content="{{desc}}"></i>
-        {{skill}}</li>
+        <i class="fa-solid fa-minus-circle handicap"></i>
+        {{/if}}
+        {{prop}} 
+        {{#ifCond ../type "!==" "Artifizierung"}}
+        <i class="cyberprops fa-solid fa-caret-right" data-title="{{prop}}" data-content="{{desc}}"></i>
+        {{skill}}
+        {{/ifCond}}
+    </li>
     {{/each}}
 </ul>
