@@ -125,15 +125,24 @@ Hooks.once("init", function () {
       label: "Tod",
     },
   ];
-  CONFIG.Actor.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.Cards.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.Item.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.JournalEntry.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.Macro.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.Playlist.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.RollTable.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.Scene.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner.png"
-  CONFIG.Adventure.compendiumBanner = "/systems/darkspace/icons/banner/compendiumBanner_maschine.png"
+  CONFIG.Actor.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.Cards.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.Item.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.JournalEntry.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.Macro.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.Playlist.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.RollTable.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.Scene.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner.png";
+  CONFIG.Adventure.compendiumBanner =
+    "/systems/darkspace/icons/banner/compendiumBanner_maschine.png";
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("darkspace", DSItemSheet, { makeDefault: true });
@@ -180,6 +189,13 @@ Hooks.once("ready", function () {
   console.log("Dark Space Version " + gameVersion + " loaded.", game);
 });
 
+Hooks.on("ready", () => {
+  const tokens = canvas.tokens.objects.children
+  const actorId = tokens.map((token) => {return token.document.actorId})
+  const targetValue = actorId.map((actor) => {return game.actors.get(actor).system.targetValue})
+  
+});
+
 Handlebars.registerHelper("disabled", function (condition) {
   let d = "";
   if (condition != null || undefined) {
@@ -189,7 +205,7 @@ Handlebars.registerHelper("disabled", function (condition) {
   }
   return d;
 });
-Handlebars.registerHelper("math", function (a,op,b) {
+Handlebars.registerHelper("math", function (a, op, b) {
   switch (op) {
     case "+":
       return a + b;
@@ -199,7 +215,7 @@ Handlebars.registerHelper("math", function (a,op,b) {
       return a * b;
     case "/":
       return a / b;
-    
+
     default:
       return "ERR";
   }
@@ -209,7 +225,7 @@ Handlebars.registerHelper("times", function (n, content) {
   for (var i = 0; i < n; ++i) {
     let htmlString = content.fn(n);
     let dataIndexString = " data-index=" + (i + 1) + ">";
-    htmlString = htmlString.replace(">", dataIndexString) ;
+    htmlString = htmlString.replace(">", dataIndexString);
     result += htmlString;
   }
   return result;
@@ -217,6 +233,9 @@ Handlebars.registerHelper("times", function (n, content) {
 
 Handlebars.registerHelper("ifGE", function (arg1, arg2, options) {
   return arg1 >= arg2 ? options.fn(this) : options.inverse(this);
+});
+Handlebars.registerHelper("floor", function (arg) {
+  return Math.floor(arg);
 });
 Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
   switch (operator) {
@@ -258,8 +277,6 @@ Handlebars.registerHelper({
     return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
   },
 });
-
-
 
 Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
@@ -322,7 +339,7 @@ function rollItemMacro(itemUuid) {
   the actor has an item with the name of the itemUuid, it is returning a warning that the actor does
   not have an item with the name of the itemUuid. */
 
-  let idIndex = itemUuid.split(".").indexOf("Actor")+1
+  let idIndex = itemUuid.split(".").indexOf("Actor") + 1;
   const actorId = itemUuid.split(".")[idIndex];
   // const itemId = itemUuid.split(".")[3];
 

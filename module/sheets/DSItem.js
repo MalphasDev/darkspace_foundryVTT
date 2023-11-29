@@ -19,7 +19,7 @@ export class DSItem extends Item {
 
     const itemTypeObj = {
       Schusswaffe: {
-        aeCost: system.size,
+        aeCost: Math.ceil(system.size/2),
         range:
           Math.pow(system.size, 2) * rangeMultplier[0] +
           "-" +
@@ -28,34 +28,34 @@ export class DSItem extends Item {
           Math.pow(system.size, 2) * rangeMultplier[2],
       },
       Nahkampfwaffe: {
-        aeCost: system.size,
+        aeCost: Math.ceil(system.size/2),
         range: "Nahkampf"
       },
       Panzerung: {
-        aeCost: system.size,
+        aeCost: Math.ceil(system.size/2),
       },
       Werkzeug: {
-        aeCost: system.mk,
+        aeCost: Math.ceil(system.mk/2),
       },
       Terminals: {
-        aeCost: "MK des Ziels",
+        aeCost: "MK/2 des Ziels",
         range: Math.pow(system.mk * 2, 2) * 10,
       },
       Medkit: {
-        aeCost: system.mk,
+        aeCost: Math.ceil(system.mk/2),
       },
       Artifizierung: {
-        aeCost: system.mk,
+        aeCost: Math.ceil(system.mk/2),
       },
       Gegenstand: {
         aeCost: "MK oder Größe",
       },
     };
 
-    const actorType = itemTypeObj[this.type];
-    system.aeCost = actorType.aeCost;
-    system.range = actorType.range;
-    system.dmg = system.size * 2 + system.mk * 2;
+    const itemType = itemTypeObj[this.type];
+    system.aeCost = itemType.aeCost;
+    system.range = itemType.range;
+    system.dmg = system.size * 2 + system.mk;
     system.structure = parseInt(system.size) + parseInt(system.mk);
 
     // Zustände

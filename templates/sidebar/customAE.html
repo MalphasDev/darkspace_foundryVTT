@@ -21,9 +21,9 @@
 
 <hr />
 <div class="flex evenly doublesize {{#ifCond combat.sendAE ">
-  =" 5}}target{{/ifCond}}"> <span>{{combat.sendAE}} AE</span> {{#if
+  =" 5}}target{{/ifCond}}"> <span>{{floor combat.sendAE}} AE</span> {{#if
   combat.newIni}}<span class="anmerkung" style="font-size: 0.75em"
-    ><i class="fa-solid fa-arrow-right"></i> {{combat.newIni}} AE</span
+    ><i class="fa-solid fa-arrow-right"></i> {{floor combat.newIni}} AE</span
   >{{/if}}
 </div>
 <hr />

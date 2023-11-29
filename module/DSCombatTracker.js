@@ -133,7 +133,7 @@ export class DSCombatTracker extends CombatTracker {
     combat.legalFields = nextAe.filter((x) => !iniList.includes(x));
 
     // Hier wird das neue Feld anhand der ausgegeben AE als Index ermittelt.
-    combat.newIni = combat.legalFields[combat.sendAE - 1];
+    combat.newIni = currentCombatantIni + combat.sendAE;
   }
 
   async _preWaitCombat(event) {

@@ -313,20 +313,20 @@
         "destroyed": false
       },
       "stats": {
+        "Bots": {
+          "dicepool": 0,
+          "dicepoolmaxmod": 0,
+          "skill": {
+            "Cortex": 0,
+            "Manövrieren": 0
+          }
+        },
         "Leistung": {
           "dicepool": 0,
           "dicepoolmaxmod": 0,
           "skill": {
-            "Beschleunigung": 0,
+            "Agilität": 0,
             "Geschwindigkeit": 0
-          }
-        },
-        "Kybernese": {
-          "dicepool": 0,
-          "dicepoolmaxmod": 0,
-          "skill": {
-            "Synthese": 0,
-            "Cortex": 0
           }
         },
         "Sensoren": {

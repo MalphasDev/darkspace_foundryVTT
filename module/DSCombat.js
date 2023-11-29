@@ -1,20 +1,19 @@
 import * as DSMechanics from "./DSMechanics.js";
 export class DSCombat extends Combat {
   _sortCombatants(combatantA, combatantB) {
-    let aeA = parseInt(combatantA.initiative) || 99999;
-    let aeB = parseInt(combatantB.initiative) || 99999;
+    let aeA = parseFloat(combatantA.initiative) || 99999;
+    let aeB = parseFloat(combatantB.initiative) || 99999;
 
     // Combatants ohne Initiative nach hinten sortieren.
-    if (parseInt(combatantA.initiative) === null) {
+    if (parseFloat(combatantA.initiative) === null) {
       aeA = 99999;
     }
-    if (parseInt(combatantB.initiative) === null) {
+    if (parseFloat(combatantB.initiative) === null) {
       aeB = 99999;
     }
     var isCombatStarted = combatantA.parent.getFlag("darkspace", "isCombatStarted")
       ? 1
       : -1; //holt sich vom parent (=combat) die info ob er begonnen hat, wird in startCombat gesetzt.
-
 
     return (aeA - aeB) * isCombatStarted;
   }
@@ -22,15 +21,18 @@ export class DSCombat extends Combat {
   async startCombat() {
     const ids = Array.from(this.combatants.values())
       .filter((c) => {
-        return c.initiative === undefined;
+        console.log(c.initiative);
+        return c.initiative === undefined || c.initiative === null;
       })
       .map((c) => {
         return c._id;
       });
 
+      console.log(ids);
+
     if (ids.length === 0) {
-      this.setupTurns().forEach((combatant, index, combatantList) => {
-        this.setInitiative(combatant.id, index + 1);
+      this.setupTurns().forEach((combatant) => {
+        this.setInitiative(combatant.id, 2 - combatant.initiative/100);
       });
       this.sendAE = 0;
       await this.setFlag("darkspace", "isCombatStarted", true);
@@ -42,8 +44,7 @@ export class DSCombat extends Combat {
         { started: true }
       );
     } else {
-      this.rollAll();
-      ui.notifications.warn("Offene Initiativen wurden automatisch gewürfelt.");
+      ui.notifications.warn("Offene Initiativen würfeln.");
     }
   }
 
