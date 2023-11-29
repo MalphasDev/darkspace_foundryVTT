@@ -55,7 +55,6 @@ export class DSCharacter extends Actor {
     const items = this.items;
     const { system, dicepool, config } = this.getObjLocation();
     console.log(this.name + " (" + this.type + ") geladen.");
-    console.log(this.system.stats);
 
     let itemSizeArray = items.map((item) => {
       return item.system.size;

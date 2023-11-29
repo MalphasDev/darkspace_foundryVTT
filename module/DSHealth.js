@@ -2,7 +2,9 @@ import {getStat} from "./DSMechanics.js";
 import {darkspace as config} from "./config.js"
 
 export function getHealth(primary, size) {
-  return Array.from([0, 1, 2, 3, 4], (x) => x * 5 + size?? 5 + primary);
+  // return Array.from([0, 1, 2, 3, 4], (x) => x * 5 + size?? 5 + primary);
+  console.log(primary);
+  return Array.from([0, 1, 2, 3, 4], (x) => (x * 5) + primary + size?? 5);
 }
 
 export function getMonitor(label,primary,insize,armor) {
@@ -21,11 +23,12 @@ export function getMonitor(label,primary,insize,armor) {
           basesize
         )[index],
         hitHeal: getHealth(
-          primary - armor,
+          primary,
           basesize
         )[index],
       },
     };
   });
+
   return monitor
 }

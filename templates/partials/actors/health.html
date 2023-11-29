@@ -29,6 +29,7 @@
         <label class="flex center borderbox" for="{{../actor.id}}_bodyConditions_{{key}}">
           <div class="tooltip">
             {{#with (lookup ../system.bodymon key)}}
+            {{log this}}
 
             <i class="{{this.fontsymbol}}"></i>
             <span class="tooltiptext top">{{this.name}}</span>
